@@ -53,7 +53,7 @@ class UsersTableSeeder extends Seeder
     		'slug'              => 'admin',
             'description'       => 'Rol de la plataforma al que se le asignan TODOS los permisos.',
     		'special'           => 'all-access',
-            //'user_id'           => 1,
+            'user_id'           => 1,
 
     	]);
 
@@ -63,7 +63,7 @@ class UsersTableSeeder extends Seeder
             'slug'              => 'siscom.usuario',
             'description'       => 'Rol de la plataforma al que se le permite generar Solicitudes Generales y/o de Actividad',
             'special'           => null,
-            //'user_id'           => 1,
+            'user_id'           => 1,
 
         ]);
 
@@ -73,7 +73,7 @@ class UsersTableSeeder extends Seeder
             'slug'              => 'siscom.profesional',
             'description'       => 'Rol de la plataforma al que se le autoriza a gestionar las Solicitudes generadas por los Usuarios SisCoM',
             'special'           => null,
-            //'user_id'           => 1,
+            'user_id'           => 1,
 
         ]);
 
