@@ -640,7 +640,7 @@
             </div>
 
 
-            <form method="POST" action="/siscom/solicitud" class="was-validated" id="updateForm">
+            <form method="POST" action="{{ url('/siscom/solicitud') }}" class="was-validated" id="updateForm">
 
                 @csrf
                 @method('PUT')
@@ -798,7 +798,7 @@
             </div>
 
 
-            <form method="POST" action="/siscom/solicitud" class="was-validated" id="deleteForm">
+            <form method="POST" action="{{ url('/siscom/solicitud') }}" class="was-validated" id="deleteForm">
 
                 @csrf
                 @method('PUT')
