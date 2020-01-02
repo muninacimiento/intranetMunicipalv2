@@ -881,11 +881,11 @@
             </div>
 
 
-            <form method="POST" action="{{ action('SCM_SolicitudController@store') }}" class="was-validated" id="createForm">
+            <form method="POST" action="{{ action('ProductController@store') }}" class="was-validated" id="createForm">
 
                 @csrf
 
-                <input type="hidden" name="flag" value="Solicitud">
+                
 
                 <div class="modal-body">
 
@@ -893,7 +893,7 @@
                                                 
                         <label for="Product">Producto</label>
                         
-                        <input type="text" name="Product" class="form-control" required>
+                        <input type="text" name="name" class="form-control" required>
 
                         <div class="invalid-feedback">
                                                                                                     

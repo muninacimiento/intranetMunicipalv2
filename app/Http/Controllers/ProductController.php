@@ -35,7 +35,16 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
-        // Realizar lógica para el form SHOW de SISCOM
+        //Guardamos un Rol
+        $product = new Product;
+        
+        $product->name = $request->name;
+        
+        
+        $product->save();
+        
+
+        return back();        
     }
 
     /**

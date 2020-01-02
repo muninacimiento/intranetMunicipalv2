@@ -104,6 +104,10 @@ Route::middleware(['auth'])->group( function() {
 	Route::post('/siscom/ordenCompra/{oc}', 'OrdenCompraController@update')->name('ordenCompra.update')->middleware('can:ordenCompra.update');
 
 
+	//Productos
+	Route::resource('/siscom/productos', 'ProductController');
+
+
 	//Proveedores
 	Route::resource('/siscom/proveedores', 'ProveedoresController');
 	Route::post('/siscom/proveedores/{proveedor}', 'ProveedoresController@show')->name('proveedor.show')->middleware('can:proveedor.show');
