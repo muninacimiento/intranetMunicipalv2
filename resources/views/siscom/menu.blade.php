@@ -22,6 +22,8 @@
 
 	<li class="nav-item dropdown">
 
+		@can('siscom.index')
+
 	    <a class="nav-link text-white dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
 	    	
 	    	<i class="fas fa-cart-plus px-1"></i>
@@ -30,8 +32,11 @@
 
 	    </a>
 
+	    @endcan
+
 		<div class="dropdown-menu">
 
+			@can('siscom.index')
 
 		    <a class="dropdown-item text-primary" href="{{action('SCM_SolicitudController@index')}}">
 
@@ -40,6 +45,10 @@
 		    	Crear Solicitud
 
 		    </a>
+
+		    @endcan
+
+		    @can('admin.index')
 
 		   	<div class="dropdown-divider"></div>
 
@@ -61,11 +70,15 @@
 
 		    </a>
 
+		    @endcan
+
 		</div>
 
   	</li>
 
   	<li class="nav-item dropdown">
+
+  		@can('ordenCompra.index')
 
 	    <a class="nav-link text-white dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
 	    		
@@ -77,37 +90,41 @@
 
 		<div class="dropdown-menu">
 
-		    <a class="dropdown-item text-primary" href="{{ action('OrdenCompraController@index') }}">
+			<a class="dropdown-item text-primary" href="{{ action('OrdenCompraController@index') }}">
 
-		    	<i class="fas fa-cash-register px-1"></i>
+			    <i class="fas fa-cash-register px-1"></i>
 
-		    	Gestionar Órdenes de Compra
+			    Gestionar Órdenes de Compra
 
-		    </a>
+			</a>
 
-		    <div class="dropdown-divider"></div>
+			<div class="dropdown-divider"></div>
 
-		    <a class="dropdown-item text-primary" href="#">
+			<a class="dropdown-item text-primary" href="#">
 
-		    	<i class="fas fa-check-circle px-1"></i>
+			    <i class="fas fa-check-circle px-1"></i>
 
-		    	Recepción de Productos OC
+			    Recepción de Productos OC
 
-		   	</a>
+			</a>
 
-		    <div class="dropdown-divider"></div>
+			    <div class="dropdown-divider"></div>
 
-		    <a class="dropdown-item text-primary" href="{{ action('ProveedoresController@index') }}">
+			<a class="dropdown-item text-primary" href="{{ action('ProveedoresController@index') }}">
 
-		    	<i class="fas fa-clipboard-list px-1"></i>
+			    <i class="fas fa-clipboard-list px-1"></i>
 
-		    	Gestionar Proveedores
+			    Gestionar Proveedores
 
-		    </a>
+			</a>
 
 		</div>
 
+		@endcan
+
   	</li>
+
+  	@can('licitaciones.index')
   	
   	<li class="nav-item">
     
@@ -120,6 +137,10 @@
     	</a>
   	
   	</li>
+
+  	@endcan
+
+  	@can('factura.index')
   	
   	<li class="nav-item">
     
@@ -132,5 +153,7 @@
     	</a>
   	
   	</li>
+
+  	@endcan
 
 </ul>
