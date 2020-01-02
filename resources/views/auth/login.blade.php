@@ -64,7 +64,7 @@
 
                 transform: translate(-50%, -50%);
 
-                width: 800px;
+                width: 400px;
 
                 height: 430px;
 
@@ -125,14 +125,7 @@
 
                                     <a href="{{ url('/home') }}" class="text-secondary mr-3 text-decoration-none">Inicio</a>
 
-                                @else
-
-                                    @if (Route::has('register'))
-
-                                        <a href="{{ route('register') }}" class="text-secondary mr-5 text-decoration-none">Formulario de Registro</a>
-
-                                    @endif
-
+                               
                                 @endauth
 
                             </div>
@@ -148,22 +141,7 @@
             <div class="container form-area p-3">
 
                 <div class="row">
-                    
-                    <div class="col">
-                        
-                        <blockquote class="blockquote text-center mt-5">
-                                        
-                            <p class="mb-0" >Promover ser la comuna con la <em>mejor cálidad de vida de Chile</em>, y de alta integración social.<br /> Esto prodrá llevarse a cabo gracias a nuestro equipo de <em>funcionarios</em> capacitados y competentes...</p>
-                                                        
-                            <br>
-
-                            <footer class="blockquote-footer text-white">Visión Municipalidad de Nacimiento <br><cite title="Source Title">(versión <strong>no oficial</strong>) <em>#jfuentealba</em></cite></footer>
-
-                        </blockquote> 
-
-                    </div>
-
-                    <div class="vl p-3 mt-5"></div>
+                
 
                     <div class="col">
                         
@@ -242,18 +220,14 @@
                             
                             </div>
 
-                            <div class="form-group row mb-0">
+                            <div class="form-group row mb-3">
                             
                                 <div class="col-md-12 text-center">
 
-                                    @if (Route::has('password.request'))
-                                    
-                                        <a class="btn btn-link text-decoration-none text-white" href="{{ route('password.request') }}">
-                                    
-                                            {{ __('Ha olvidado su contraseña?') }}
+                                    @if (Route::has('register'))
 
-                                        </a>
-                                    
+                                        <a href="{{ route('register') }}" class="btn btn-primary btn-block mr-5 text-decoration-none">Formulario de Registro</a>
+
                                     @endif
                             
                                 </div>

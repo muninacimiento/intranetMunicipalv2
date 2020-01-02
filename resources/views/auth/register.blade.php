@@ -65,9 +65,9 @@
 
                 transform: translate(-50%, -50%);
 
-                width: 800px;
+                width: 400px;
 
-                height: 610px;
+                height: 660px;
 
                 background : rgba(0,0,0,0.7);
 
@@ -126,9 +126,7 @@
 
                                     <a href="{{ url('/home') }}" class="text-secondary mr-3 text-decoration-none">Inicio</a>
 
-                                @else
-
-                                    <a href="{{ route('login') }}" class="text-secondary mr-5 text-decoration-none">Acceder a la Intranet</a>
+                                
 
                                 @endauth
 
@@ -145,26 +143,6 @@
             <div class="container form-area p-3">
 
                 <div class="row">
-
-                    <div class="col">
-                        
-                        <blockquote class="blockquote text-center py-5">
-                                        
-                            <p class="mb-2" >Satisfacer las necesidades de la comunidad local de Nacimiento, en cuanto a <em>infraestructura, seguridad y esparcimiento,</em> con especial cuidado del aseo y ornato, asegurando su <strong>progreso económico, solcial y cultural</strong></p>
-
-                            <footer class="blockquote-footer text-white mb-2">Misión<br><cite title="Source Title"><em>#Municipalidad de Nacimiento </em></cite></footer>
-
-                            <hr style="background-color: #fff">
-
-                            <p class="mb-2 mt-3" >Promover ser la comuna con la <em>mejor cálidad de vida de Chile</em>, y de alta integración social.<br /> Esto prodrá llevarse a cabo gracias a nuestro equipo de <em>funcionarios</em> capacitados y competentes...</p>
-
-                            <footer class="blockquote-footer text-white">Visión<br><cite title="Source Title"> Municipalidad de Nacimiento (versión <strong>no oficial</strong>) <em>#jfuentealba</em></cite></footer>
-
-                        </blockquote> 
-
-                    </div>
-
-                    <div class="vl p-3 mt-5"></div>
 
                     <div class="col">
                         
@@ -280,7 +258,7 @@
                         
                             </div>
 
-                            <div class="form-group row mb-0">
+                            <div class="form-group row mb-2">
                          
                                 <div class="col-md-12">
                          
@@ -292,6 +270,17 @@
                          
                                 </div>
                          
+                            </div>
+
+                            <div class="form-group row mb-3">
+                            
+                                <div class="col-md-12 text-center">
+
+                                        <a href="{{ route('login') }}" class="btn btn-primary btn-block mr-5 text-decoration-none">Login</a>
+
+                            
+                                </div>
+                            
                             </div>
                         
                         </form>

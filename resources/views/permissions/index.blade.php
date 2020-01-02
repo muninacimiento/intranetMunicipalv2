@@ -57,17 +57,11 @@
                     @endcan
                     
 
-                    {!! Form::open(array('url'=>'permissions', 'method'=>'GET', 'autocomplete'=>'off', 'role'=>'search')) !!}
-
-                        <!--Creamos una vista para el formulario de búsqueda
-                        más que nada para un código ordenado y fácil de mantener-->
-                        @include('search')
-
-                    {{ Form::close() }}
+                    
 
                     <div class="col-md-2 col-md-4 col-md-6 col-md-8 col-md-10 col-md-12">
 
-                        <table class="table table-striped table-hover table-responsive font-weight-light">
+                        <table id="permissionTable" class="display">
 
                         <thead>
 
@@ -194,5 +188,65 @@
 </div>
 
 @endsection
+
+@push('scripts')
+
+    <!-- JQuery DataTable -->
+    <script type="text/javascript" src="https://code.jquery.com/jquery-3.3.1.js" ></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js" defer></script>
+
+<!-- JQuery DatePicker -->
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
+<script type="text/javascript">
+        
+        $(document).ready(function () {
+
+        // Start Configuration DataTable
+            var table = $('#permissionTable').DataTable({
+
+                "paginate"  : true,
+
+                "order"     : ([0, 'desc']),
+
+                "language"  : {
+                            "sProcessing":     "Procesando...",
+                            "sLengthMenu":     "Mostrar _MENU_ registros",
+                            "sZeroRecords":    "No se encontraron resultados",
+                            "sEmptyTable":     "No existen solicitudes generadas por su unidad, aún...",
+                            "sInfo":           "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+                            "sInfoEmpty":      "Mostrando registros del 0 al 0 de un total de 0 registros",
+                            "sInfoFiltered":   "(filtrado de un total de _MAX_ registros)",
+                            "sInfoPostFix":    "",
+                            "sSearch":         "Buscar:",
+                            "sUrl":            "",
+                            "sInfoThousands":  ",",
+                            "sLoadingRecords": "Cargando...",
+                            "oPaginate": {
+                                "sFirst":    "Primero",
+                                "sLast":     "Último",
+                                "sNext":     ">>",
+                                "sPrevious": "<<"
+                            },
+                            "oAria": {
+                                "sSortAscending":  ": Activar para ordenar la columna de manera ascendente",
+                                "sSortDescending": ": Activar para ordenar la columna de manera descendente"
+                            },
+                            "buttons": {
+                                "copy": "Copiar",
+                                "colvis": "Visibilidad"
+                            }
+                        }
+
+            });
+            //End Configuration DataTable
+
+    });    
+
+</script>
+
+@endpush
+
 
 

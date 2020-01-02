@@ -40,21 +40,12 @@
                    
                     @endif
 
-                    {!! Form::open(array('url'=>'users', 'method'=>'GET', 'autocomplete'=>'off', 'role'=>'search')) !!}
 
-                        <!--Creamos una vista para el formulario de búsqueda
-                        más que nada para un código ordenado y fácil de mantener-->
-                        @include('search')
-
-                    {{ Form::close() }}
-
-                    <div>
-
-                        <table class="table table-striped table-hover table-responsive font-weight-light">
+                        <table class="display" style="font-size: 0.9em;" width="100%" id="usersTable">
 
                         <thead>
 
-                            <tr class="table-active">
+                            <tr>
 
                                 <th width="5%">ID</th>
 
@@ -161,3 +152,62 @@
 </div>
 
 @endsection
+
+@push('scripts')
+
+    <!-- JQuery DataTable -->
+    <script type="text/javascript" src="https://code.jquery.com/jquery-3.3.1.js" ></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js" defer></script>
+
+<!-- JQuery DatePicker -->
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
+<script type="text/javascript">
+        
+        $(document).ready(function () {
+
+        // Start Configuration DataTable
+            var table = $('#usersTable').DataTable({
+
+                "paginate"  : true,
+
+                "order"     : ([0, 'desc']),
+
+                "language"  : {
+                            "sProcessing":     "Procesando...",
+                            "sLengthMenu":     "Mostrar _MENU_ registros",
+                            "sZeroRecords":    "No se encontraron resultados",
+                            "sEmptyTable":     "No existen solicitudes generadas por su unidad, aún...",
+                            "sInfo":           "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+                            "sInfoEmpty":      "Mostrando registros del 0 al 0 de un total de 0 registros",
+                            "sInfoFiltered":   "(filtrado de un total de _MAX_ registros)",
+                            "sInfoPostFix":    "",
+                            "sSearch":         "Buscar:",
+                            "sUrl":            "",
+                            "sInfoThousands":  ",",
+                            "sLoadingRecords": "Cargando...",
+                            "oPaginate": {
+                                "sFirst":    "Primero",
+                                "sLast":     "Último",
+                                "sNext":     ">>",
+                                "sPrevious": "<<"
+                            },
+                            "oAria": {
+                                "sSortAscending":  ": Activar para ordenar la columna de manera ascendente",
+                                "sSortDescending": ": Activar para ordenar la columna de manera descendente"
+                            },
+                            "buttons": {
+                                "copy": "Copiar",
+                                "colvis": "Visibilidad"
+                            }
+                        }
+
+            });
+            //End Configuration DataTable
+
+    });    
+
+</script>
+
+@endpush
