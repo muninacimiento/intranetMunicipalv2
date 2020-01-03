@@ -10,136 +10,131 @@
 
             <div class="card border-secondary shadow">
 
-                <div class="card-header text-center text-white bg-secondary">
+                <div class="card-header text-center text-white bg-secondary mb-3">
 
-                    <h3 class="font-weight-lighter">
-                    
-                        Administración - 
+                    <div class="col text-center">
+                            
+                            <h3 class="font-weight-lighter">Administración de Usuarios de la Intranet Municipal</h3>
 
-                        <small>Usuarios de la Intranet Municipal</small>
+                            <div class="text-white">
 
-                    </h3>
+                                {{ $dateCarbon }}
+
+                            </div>
+
+                        </div>
 
                 </div>
+
 
                 <div class="card-body">
 
                     @if (session('info'))
 
-                    <div class="alert alert-success alert-dismissible fade show shadow" role="alert">
-                          
-                        <strong> {{ session('info') }} </strong>
-                        
-                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                        
-                            <span aria-hidden="true">&times;</span>
-                          
-                        </button>
+                        <div class="alert alert-success alert-dismissible fade show shadow mb-3" role="alert">
+                              
+                            <i class="fas fa-check-circle"></i>
+                             
+                            <strong> {{ session('info') }} </strong>
+                            
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            
+                                <span aria-hidden="true">&times;</span>
+                              
+                            </button>
 
-                    </div>
+                        </div>
                    
                     @endif
 
+                    
+                    <div>
 
-                        <table class="display" style="font-size: 0.9em;" width="100%" id="usersTable">
+                        <table class="display" id="userTable" style="font-size: 0.9em;" width="100%">
 
-                        <thead>
+                            <thead>
 
-                            <tr>
+                                <tr>
 
-                                <th width="5%">ID</th>
+                                    <th width="5%">ID</th>
 
-                                <th>Nombre</th>
+                                    <th>Nombre</th>
 
-                                <th>Correo</th>
+                                    <th>Correo</th>
 
-                                <th>Dependencia</th>
+                                    <th>Dependencia</th>
 
-                                <th colspan="3">&nbsp;</th>
+                                    <th>Acciones</th>
 
-                            </tr>
+                                </tr>
 
-                        </thead>
+                            </thead>
 
-                        <tbody>
+                            <tbody>
 
-                            @foreach($users as $user)
+                                @foreach($users as $user)
 
-                            <tr>
+                                <tr>
 
-                                <td>{{ $user->id }}</td>
+                                    <td>{{ $user->id }}</td>
 
-                                <td>{{ $user->name }}</td>
+                                    <td>{{ $user->name }}</td>
 
-                                <td>{{ $user->email }}</td>
+                                    <td>{{ $user->email }}</td>
 
-                                <!-- <td>{{ date('d-m-Y H:i:s', strtotime($user->created_at)) }}</td>
+                                    <td>{{ $user->dependencia }}</td>
 
-                                <td>{{ date('d-m-Y H:i:s', strtotime($user->updated_at)) }}</td> -->
-
-                                <td>{{ $user->dependencia }}</td>
-
-                                @can('users.show')
-
-                                <td>
-
-                                    <a href="{{ route('users.show', $user->id) }}" class="btn btn-outline-secondary" data-toggle="tooltip" data-placement="bottom" title="Ver Detalle de este Permiso" style="font-size: 90%;">
-
-                                        <i class="fas fa-eye"></i>
-
-                                        Ver
-
-                                    </a>
-
-                                </td>
-
-                                @endcan
-
-                                @can('users.edit')
-
-                                <td>
+                                    <td>
                                         
-                                        <a href="{{ route('users.edit', $user->id) }}" class="btn btn-outline-primary" data-toggle="tooltip" data-placement="bottom" title="Editar este Permiso del Sistema" style="font-size: 90%;">
+                                        <div class="btn-group" role="group" aria-label="Basic example">
 
-                                            <i class="fas fa-edit"></i>
+                                            <a href="{{ route('users.show', $user->id) }}">
 
-                                            Editar
+                                                <button class="btn btn-outline-secondary mx-1" data-toggle="tooltip" data-placement="bottom" title="Ver Detalle de este Permiso">
+                                                
+                                                    <i class="fas fa-eye"></i>
 
-                                        </a>
+                                                </button>
 
-                                </td>
+                                                
 
-                                @endcan
+                                            </a>
 
-                                @can('users.destroy')
+                                            <a href="{{ route('users.edit', $user->id) }}" >
 
-                                <td>
+                                                <button class="btn btn-outline-primary mx-1" data-toggle="tooltip" data-placement="bottom" title="Editar este Permiso del Sistema">
+                                                    
+                                                    <i class="fas fa-edit"></i>
 
-                                   {!! Form::open(['route'=> ['users.destroy', $user->id], 'method' => 'DELETE']) !!}
+                                                </button>
 
-                                        <button class="btn btn-outline-danger" style="font-size: 90%;">
+                                                
 
-                                            <i class="fas fa-trash"></i>
+                                            </a>
 
-                                            Eliminar
+                                            {!! Form::open(['route'=> ['users.destroy', $user->id], 'method' => 'DELETE']) !!}
 
-                                        </button>
+                                                <button class="btn btn-outline-danger">
 
-                                   {!! Form::close() !!}
+                                                    <i class="fas fa-trash"></i>
 
-                                </td>
+                                                </button>
 
-                                @endcan
+                                            {!! Form::close() !!}
 
-                            </tr>
+                                        </div>
 
-                            @endforeach
+                                    </td>
 
-                        </tbody>
+                                </tr>
 
-                    </table>
-                        
-                    {{ $users->render() }}
+                                @endforeach
+
+                            </tbody>
+
+                        </table>
+
+                    </div>
 
                 </div>
 
@@ -159,18 +154,13 @@
     <script type="text/javascript" src="https://code.jquery.com/jquery-3.3.1.js" ></script>
     <script type="text/javascript" src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js" defer></script>
 
-<!-- JQuery DatePicker -->
-<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
-<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-
-<script type="text/javascript">
+<script>
         
-        $(document).ready(function () {
+    $(document).ready(function() {
 
-        // Start Configuration DataTable
-            var table = $('#usersTable').DataTable({
+        $('#userTable').DataTable({
 
-                "paginate"  : true,
+            "paginate"  : true,
 
                 "order"     : ([0, 'desc']),
 
@@ -178,7 +168,7 @@
                             "sProcessing":     "Procesando...",
                             "sLengthMenu":     "Mostrar _MENU_ registros",
                             "sZeroRecords":    "No se encontraron resultados",
-                            "sEmptyTable":     "No existen solicitudes generadas por su unidad, aún...",
+                            "sEmptyTable":     "No existen usuarios registrados en la Intranet, aún...",
                             "sInfo":           "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
                             "sInfoEmpty":      "Mostrando registros del 0 al 0 de un total de 0 registros",
                             "sInfoFiltered":   "(filtrado de un total de _MAX_ registros)",
@@ -201,12 +191,11 @@
                                 "copy": "Copiar",
                                 "colvis": "Visibilidad"
                             }
-                        }
+                }
 
-            });
-            //End Configuration DataTable
+        });
 
-    });    
+    } );
 
 </script>
 

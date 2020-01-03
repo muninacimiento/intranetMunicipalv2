@@ -42,7 +42,7 @@
 
 		    	<i class="fas fa-pencil-alt px-1"></i>
 
-		    	Crear Solicitud
+		    	Gestionar Solicitud
 
 		    </a>
 
@@ -56,7 +56,7 @@
 
 		    	<i class="fas fa-cogs px-1"></i>
 
-		    	Gestionar Solicitudes
+		    	Administrar Solicitudes
 
 		    </a>
 

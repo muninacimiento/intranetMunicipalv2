@@ -17,10 +17,9 @@
 				bottom: -60px; 
 				left: 0px; 
 				right: 0px; 
-				color:white;
+				color:gray;
 				text-align: center;
 				font-size: 0.7em;
-				background-color: indigo; 
 				height: 70px; }
 
 		</style>
@@ -62,7 +61,7 @@
 		</div>
 
 {{-- INICIO ENCABEZADO SOLICITUD DEL PDF --}}
-		<table class="w3-table-all w3-small">
+		<table class="w3-table-all w3-medium">
 			
 			<tr>
 				

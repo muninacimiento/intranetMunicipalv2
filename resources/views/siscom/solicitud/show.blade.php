@@ -309,7 +309,7 @@
 
                                 </form>
 
-                                <div class="form-row mb-5 col-md-12">
+                                <div>
 
                                     <table class="display" id="detalleSolicitud" width="100%">
 
@@ -891,7 +891,7 @@
 
                     <div class="col-md-12 mb-3">
                                                 
-                        <label for="Product">Producto</label>
+                        <label for="Product">Nuevo Producto</label>
                         
                         <input type="text" name="name" class="form-control" required>
 
@@ -909,7 +909,7 @@
 
                             <i class="fas fa-save"></i>
 
-                            Guardar Solicitud
+                            Guardar Nuevo Producto
 
                         </button>
 
