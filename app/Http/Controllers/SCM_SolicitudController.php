@@ -57,7 +57,8 @@ class SCM_SolicitudController extends Controller
                     ->join('status_solicituds', 'solicituds.estado_id', '=', 'status_solicituds.id')
                     ->select('solicituds.*', 'status_solicituds.estado')
                     ->orderBy('solicituds.id', 'desc')
-                    ->where('solicitud.user_id', '=', Auth::user()->id)
+                    ->where('solicituds.user_id', '=', Auth::user()->dependency_id)
+                    ->orWhere('solicituds.user_id', '=', Auth::user()->id)
                     ->get();
 
         /* Retornamos a la vista los resultados psanadolos por parametros */

@@ -84,7 +84,7 @@ Route::middleware(['auth'])->group( function() {
 
 	//Solicitudes
 	Route::get('siscom', 'SiscomController@index')->name('siscom.index')->middleware('can:siscom.index');
-	Route::resource('/siscom/solicitud', 'SCM_SolicitudController');
+	Route::resource('/siscom/solicitud', 'SCM_SolicitudController')->middleware('can:siscom.index');
 	Route::get('/siscom/solicitud/{solicitud}', 'SCM_SolicitudController@show')->name('solicitud.show')->middleware('can:solicitud.show');
 	Route::post('/siscom/solicitud/{solicitud}', 'SCM_SolicitudController@update')->name('solicitud.update')->middleware('can:solicitud.update');
 

@@ -67,7 +67,7 @@
 
                 width: 400px;
 
-                height: 660px;
+                height: 680px;
 
                 background : rgba(0,0,0,0.7);
 
