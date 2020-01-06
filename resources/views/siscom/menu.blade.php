@@ -48,7 +48,7 @@
 
 		    @endcan
 
-		    @can('admin.index')
+		    @can('admin.show')
 
 		   	<div class="dropdown-divider"></div>
 
@@ -60,17 +60,7 @@
 
 		    </a>
 
-		    <div class="dropdown-divider"></div>
-
-		    <a class="dropdown-item text-primary" href="#">
-
-		    	<i class="fas fa-dolly px-1"></i>
-
-		    	Entrega de Productos en Stock
-
-		    </a>
-
-		    @endcan
+		    @endcan		    	
 
 		</div>
 

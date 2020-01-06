@@ -48,6 +48,8 @@ class SCM_AdminSolicitudController extends Controller
         $solicituds = DB::table('solicituds')
                     ->join('status_solicituds', 'solicituds.estado_id', '=', 'status_solicituds.id')
                     ->select('solicituds.*', 'status_solicituds.estado')
+                    ->where('solicituds.compradorTitular', '=', Auth::user()->name)
+                    ->orWhere('solicituds.compradorSuplencia', '=', Auth::user()->name)
                     ->orderBy('solicituds.id', 'desc')
                     ->get();
 
@@ -57,7 +59,7 @@ class SCM_AdminSolicitudController extends Controller
         return view('siscom.admin.index', ['solicituds' => $solicituds, 'dateCarbon' => $dateCarbon]);
     }
 
-     public function show($id)
+    public function show($id)
     {
          /*
          * Declaramos un Objeto para obtener acceso a los datos de la tabla DetalleSolicitud
@@ -90,6 +92,43 @@ class SCM_AdminSolicitudController extends Controller
         //dd($move);
 
         return view('siscom.admin.show', compact('solicitud', 'products', 'detalleSolicitud', 'move'));
+
+    }
+
+    public function entregaStock($id)
+    {
+        
+         /*
+         * Declaramos un Objeto para obtener acceso a los datos de la tabla DetalleSolicitud
+         */
+        $detalleSolicitud = DB::table('detail_solicituds')
+                    ->join('products', 'detail_solicituds.product_id', 'products.id')
+                    ->join('solicituds', 'detail_solicituds.solicitud_id', '=', 'solicituds.id')
+                    ->select('detail_solicituds.*', 'products.name as Producto', DB::raw('(detail_solicituds.cantidad * detail_solicituds.valorUnitario) as SubTotal'))
+                     ->where('solicituds.id', '=', $id) //Revisar la vista y el envio de los datos a la tabla de Detalle de la Solicitud
+                    ->get();
+
+        $products = DB::table('products as productos')
+                    ->select(DB::raw('CONCAT(productos.id, " ) ", productos.name) as Producto'), 'productos.id')
+                    ->get();
+
+        $solicitud = DB::table('solicituds')
+                   ->join('users', 'solicituds.user_id', '=', 'users.id')
+                   ->join('status_solicituds', 'solicituds.estado_id', '=', 'status_solicituds.id')
+                   ->select('solicituds.*', 'users.name as nameUser', 'status_solicituds.estado')
+                   ->where('solicituds.id', '=', $id)
+                   ->first();
+
+        $move = DB::table('move_solicituds') 
+                ->join('status_solicituds', 'move_solicituds.estadoSolicitud_id', 'status_solicituds.id')               
+                ->join('users', 'move_solicituds.user_id', 'users.id')
+                ->select('status_solicituds.estado as status', 'users.name as name', 'move_solicituds.created_at as date')
+                ->where('move_solicituds.solicitud_id', '=', $id)
+                ->get();
+
+        //dd($move);
+
+        return view('siscom.admin.entregaStock.show', compact('solicitud', 'products', 'detalleSolicitud', 'move'));
 
     }
 
@@ -163,12 +202,46 @@ class SCM_AdminSolicitudController extends Controller
             return redirect('/siscom/admin')->with('info', 'Solicitud Asignada con éxito !');
         }    
 
+        // Asignar Solicitud
+        else if ($request->flag == 'ReAsignar') {
+
+            try {
+
+                DB::beginTransaction();
+
+                    $solicitud = Solicitud::findOrFail($id);
+                    $solicitud->compradorSuplencia            = $request->compradorSuplencia;
+                    $solicitud->estado_id                   = 5;
+
+                    //dd($solicitud);
+
+                    $solicitud->save(); //Guardamos la Solicitud
+
+                     //Guardamos los datos de Movimientos de la Solicitud
+                    $move = new MoveSolicitud;
+                    $move->solicitud_id                     = $solicitud->id;
+                    $move->estadoSolicitud_id               = 5;
+                    $move->fecha                            = $solicitud->updated_at;
+                    $move->user_id                          = Auth::user()->id;
+
+                    $move->save(); //Guardamos el Movimiento de la Solicitud    
+
+                DB::commit();
+                
+            } catch (Exception $e) {
+
+                DB::rollback();
+                
+            }
+
+            return redirect('/siscom/admin')->with('info', 'Solicitud ReAsignada con éxito !');
+        }    
+
         // Confirmar Solicitud
         else if ($request->flag == 'Confirmar') {
 
             $solicitud = Solicitud::findOrFail($id);
 
-            $solicitud->user_id                     = Auth::user()->id;
             $solicitud->estado_id                   = 2;
             $solicitud->total                       = $request->totalSolicitud;
 
@@ -221,7 +294,6 @@ class SCM_AdminSolicitudController extends Controller
                 DB::beginTransaction();
 
                     $solicitud = Solicitud::findOrFail($id);
-                    $solicitud->user_id                     = Auth::user()->id;
                     $solicitud->motivoAnulacion            = $request->motivoAnulacion;
                     $solicitud->estado_id                  = 11;
 
@@ -242,7 +314,7 @@ class SCM_AdminSolicitudController extends Controller
                 
             } catch (Exception $e) {
 
-                db::rollback();
+                DB::rollback();
                 
             }
 
@@ -276,7 +348,97 @@ class SCM_AdminSolicitudController extends Controller
 
             return back();
 
-        }    
+        }
+
+        //Confirmamos la Entrega de Productos de la Solicitud
+        else if ($request->flag == 'EntregarSolicitud'){
+
+            try {
+
+                DB::beginTransaction();
+
+                    $solicitud = Solicitud::findOrFail($id);
+                    $solicitud->estado_id                   = 7;
+
+                    $solicitud->save();
+
+
+                    //Guardamos los datos de Movimientos de la Solicitud
+                    $move = new MoveSolicitud;
+                    $move->solicitud_id                     = $solicitud->id;
+                    $move->estadoSolicitud_id               = 7;
+                    $move->fecha                            = $solicitud->updated_at;
+                    $move->user_id                          = Auth::user()->id;
+
+                    $move->save(); //Guardamos el Movimiento de la Solicitud    
+
+                DB::commit();
+
+                return redirect('/siscom/admin')->with('info', 'Solicitud En Proceso de Entrega!');
+                
+            } catch (Exception $e) {
+
+                DB::rollback();
+                
+            }
+        }
+
+        // Ingresamos la Cantidad Entregada de un Producto
+        else if ($request->flag == 'EntregarProductos') {
+
+
+            $detalleSolicitud = DetailSolicitud::findOrFail($id);
+
+            if ($detalleSolicitud->cantidad >= $request->cantidadEntregada) {
+                        
+                $detalleSolicitud->cantidadEntregada    = $request->cantidadEntregada;
+                $detalleSolicitud->userDeliver_id       = Auth::user()->id;
+                $detalleSolicitud->fechaEntrega         = $detalleSolicitud->updated_at;
+                $detalleSolicitud->obsEntrega           = $request->observacion;
+
+                $detalleSolicitud->save(); //Guardamos la solicitud
+
+                return back();
+
+            }else{
+
+                return back()->with('danger', 'La Cantidad Entregada No puede ser mayor a la Solicitada');
+            }
+
+        }
+
+        //Cerramos la Solicitud de Entrega de Productos
+        else if ($request->flag == 'Cerrar'){
+
+            try {
+
+                DB::beginTransaction();
+
+                    $solicitud = Solicitud::findOrFail($id);
+                    $solicitud->estado_id                   = 10;
+
+                    $solicitud->save();
+
+
+                    //Guardamos los datos de Movimientos de la Solicitud
+                    $move = new MoveSolicitud;
+                    $move->solicitud_id                     = $solicitud->id;
+                    $move->estadoSolicitud_id               = 10;
+                    $move->fecha                            = $solicitud->updated_at;
+                    $move->user_id                          = Auth::user()->id;
+
+                    $move->save(); //Guardamos el Movimiento de la Solicitud    
+
+                DB::commit();
+
+                return redirect('/siscom/admin')->with('info', 'Solicitud Entregada Completamente!');
+                
+            } catch (Exception $e) {
+
+                DB::rollback();
+                
+            }
+        }
 
     }
 

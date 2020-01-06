@@ -27,7 +27,7 @@
 
                 <div class="card-body">
 
-                    <div class="row mt-5">
+                    <div class="row">
 
                         <div class="col-md-12 text-center">
                             
@@ -142,15 +142,29 @@
 
                                             <div class="btn-group" role="group">
 
-                                                <a href="{{ route('admin.show', $solicitud->id) }}" class="btn btn-secondary btn-sm mr-1" data-toggle="tooltip" data-placement="bottom" title="Ver el Detalle de la Solicitud">
+                                                {{-- Visualizar Solicitud--}}
 
-                                                    <i class="fas fa-eye"></i>
+                                                @if($solicitud->estado === 'En Proceso de Entrega' || $solicitud->estado === 'Solicitud Entregada Completamente')
 
-                                                </a>
+                                                    <a href="{{ route('admin.stock', $solicitud->id) }}" class="btn btn-secondary btn-sm mr-1" data-toggle="tooltip" data-placement="bottom" title="Ver el Detalle de la Solicitud">
+
+                                                        <i class="fas fa-eye"></i>
+
+                                                    </a>
+
+                                                @else
+
+                                                    <a href="{{ route('admin.show', $solicitud->id) }}" class="btn btn-secondary btn-sm mr-1" data-toggle="tooltip" data-placement="bottom" title="Ver el Detalle de la Solicitud">
+
+                                                        <i class="fas fa-eye"></i>
+
+                                                    </a>
+
+                                                @endif
 
                                                 {{--Habilitar Recepcion--}}
 
-                                                @if($solicitud->estado == 'Pendiente')
+                                                @if($solicitud->estado === 'Pendiente')
 
                                                     <a href="#" class="btn btn-success btn-sm mr-1 recepcionar" data-toggle="tooltip" data-placement="bottom" title="Recepcionar Solicitud">
                                             
@@ -161,9 +175,23 @@
 
                                                 @endif
 
+                                                {{--Habilitar Entrega Stock--}}
+
+                                                @if($solicitud->estado === 'Asignada a Comprador' && ($solicitud->categoriaSolicitud === 'Stock de Oficina' || $solicitud->categoriaSolicitud === 'Stock de Aseo' || $solicitud->categoriaSolicitud === 'Stock de Gas'))
+                                                    
+                                                    <a href="#" class="btn btn-primary btn-sm mr-1 entregar" data-toggle="tooltip" data-placement="bottom" title="Entregar Productos Stock">
+                                            
+                                                        <i class="fas fa-dolly"></i>
+
+                                                    </a>
+
+                                                @else
+
+                                                @endif
+
                                                 {{--Habilitar Asignacion--}}
 
-                                                @if($solicitud->estado == 'Recepcionada')
+                                                @if($solicitud->estado === 'Recepcionada')
 
                                                     <a href="#" class="btn btn-warning btn-sm mr-1 asignar" data-toggle="tooltip" data-placement="bottom" title="Asignar Solicitud">
                                             
@@ -175,13 +203,21 @@
 
                                                 @endif
 
-                                                {{--Habilitar ReAsignacion--}}
 
-                                                <a href="#" class="btn btn-info btn-sm mr-1 edit" data-toggle="tooltip" data-placement="bottom" title="ReAsignar Solicitud">
-                                        
-                                                    <i class="fas fa-inbox"></i>
+                                                    {{--Habilitar ReAsignacion--}}
 
-                                                </a>
+                                                @if($solicitud->estado === 'Solicitud Entregada Completamente' || $solicitud->estado === 'Solicitud Gestionada Completamente')
+
+                                                @else
+
+                                                    <a href="#" class="btn btn-dark btn-sm mr-1 reasignar" data-toggle="tooltip" data-placement="bottom" title="ReAsignar Solicitud">
+                                            
+                                                        <i class="fas fa-inbox"></i>
+
+                                                    </a>
+
+                                                @endif
+
 
                                                 <!-- HABILITAR PERMISO PARA CAROLINA <a href="#" class="btn btn-outline-primary btn-sm mr-1 edit" data-toggle="tooltip" data-placement="bottom" title="Modificar la Solicitud">
                                         
@@ -189,12 +225,18 @@
 
                                                 </a> -->
 
-                                                <a href="#" class="btn btn-danger btn-sm anular" data-toggle="tooltip" data-placement="bottom" title="Anular Solicitud">
+                                                @if($solicitud->estado === 'Solicitud Entregada Completamente' || $solicitud->estado === 'Solicitud Gestionada Completamente')
+
+                                                @else
+
+                                                    <a href="#" class="btn btn-danger btn-sm anular" data-toggle="tooltip" data-placement="bottom" title="Anular Solicitud">
 
                                                     <i class="fas fa-trash"></i>
 
                                                 </a>
 
+
+                                                @endif
                                             </div>
 
                                         </td>
@@ -222,6 +264,79 @@
     </div>
 
 </div>
+
+<!-- Confirmar Entrega de Productos Solicitud -->
+<div class="modal fade" id="confirmarEntregaModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        
+        <div class="modal-content">
+            
+            <div class="modal-header bg-primary text-white">
+                
+                <p class="modal-title" id="exampleModalLabel" style="font-size: 1.2em"><i class="fas fa-check-circle"></i> Confirmar Entrega</p>
+                    
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        
+                    <span aria-hidden="true">&times;</span>
+                
+                </button>
+
+            </div>
+        
+            <form method="POST" action="{{ url('/siscom/admin') }}" class="was-validated" id="entregarForm">
+
+                @csrf
+                @method('PUT')
+
+                <input type="hidden" name="flag" value="EntregarSolicitud">
+            
+            <div class="modal-body">
+                
+                <label class="text-muted">Está ud. segur@ de comenzar el Proceso de Entrega ?</label>
+
+                <div class="form-row mb-5">
+
+                    <label for="ID" class="col-sm-3 col-form-label text-muted">No. Solicitud</label>
+
+                    <div class="col-sm-9">
+                             
+                        <input type="" name="solicitud_id_Entrega" id="solicitud_id_Entrega" readonly class="form-control-plaintext">
+                                 
+                    </div>
+
+                </div>
+
+                <div class="form-row">
+
+                    <button type="submit" class="btn btn-primary btn-block">
+
+                        <i class="fas fa-check-circle"></i>
+
+                        Si, entregar!
+
+                    </button>
+                
+                    <button type="button" class="btn btn-block btn-secondary" data-dismiss="modal" aria-label="Close">
+
+                        <i class="fas fa-arrow-left"></i>
+
+                        Cancelar
+
+                    </button>
+
+                </div>
+            
+            </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</div>
+<!-- END Confirmar Entrega de Productos Solicitud -->
 
 <!-- Recepcionar Solicitud MODAL -->
 <div class="modal fade" id="recepcionarModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -282,7 +397,7 @@
 
                             <div class="invalid-feedback">
 
-                                Por favor seleccione el Tipo de Solicitud
+                                Por favor Ingrese el IDDOC del Sistema de Gestión Documental
 
                             </div>
 
@@ -384,7 +499,7 @@
                                 <option>Fabiola Macaya</option>
                                 <option>Marcela Torres</option>
                                 <option>Marcos Mella</option>
-                                <option>Cecilia Castro</option>
+                                <option>Cecilia Castro S</option>
                                 <option>Mónica Alvarez</option>
 
                             </select>
@@ -404,6 +519,112 @@
                         <button class="btn btn-success btn-block" type="submit">
 
                             <i class="fas fa-check-circle"></i> Asignar Solicitud
+
+                        </button>
+
+                        <button type="button" class="btn btn-block btn-secondary" data-dismiss="modal" aria-label="Close">
+
+                            <i class="fas fa-arrow-left"></i>
+
+                            Cancelar
+
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</div>
+<!-- End Asignar Solicitud Modal -->
+
+<!-- REAsignar Solicitud Modal -->
+<div class="modal fade" id="reasignarSolicitudModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+
+    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+
+        <div class="modal-content">
+
+            <div class="modal-header bg-warning">
+
+                <p class="modal-title" id="exampleModalLabel" style="font-size: 1.2em"> Re-Asignar Solicitud <i class="fas fa-inbox"></i></p>
+
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+
+                    <span aria-hidden="true" class="text-white">&times;</span>
+
+                </button>
+
+            </div>
+
+
+            <form method="POST" action="{{ url('/siscom/admin') }}" class="was-validated" id="reasignarForm">
+
+                @csrf
+                @method('PUT')
+
+                <input type="hidden" name="flag" value="ReAsignar">
+
+                <div class="modal-body">
+
+                    <div class="form-row">
+                        
+                        <label for="fechaRecepcion" class="col-sm-3 col-form-label text-muted">Fecha Recepción</label>
+
+                        <label for="fechaRecepcion" class="col-sm-9 col-form-label">{{ $dateCarbon }}</label>
+
+                    </div>
+
+                    <div class="form-row">
+
+                        <label for="ID" class="col-sm-3 col-form-label text-muted">No. Solicitud</label>
+
+                        <div class="col-sm-9">
+                             
+                            <input type="" name="solicitud_id" id="solicitud_id_reasignar" readonly class="form-control-plaintext">
+                                 
+                        </div>
+                        
+                    </div>
+
+                    <div class="form-row mb-5">
+
+                        <label for="ID" class="col-sm-3 col-form-label text-muted">Compador</label>
+
+                        <div class="col-sm-9">
+
+                            <select name="compradorSuplencia" id="compradorSuplencia" class="custom-select" required>
+
+                                <option value="">Seleccione al Comprador...</option>
+
+                                <option>Fabiola Macaya</option>
+                                <option>Marcela Torres</option>
+                                <option>Marcos Mella</option>
+                                <option>Cecilia Castro S</option>
+                                <option>Mónica Alvarez</option>
+
+                            </select>
+
+                             <div class="invalid-feedback">
+
+                                Por favor seleccione al Comprador aquien le asignará esta Solicitud
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    <div class="mb-3 form-row">
+
+                        <button class="btn btn-success btn-block" type="submit">
+
+                            <i class="fas fa-check-circle"></i> ReAsignar Solicitud
 
                         </button>
 
@@ -616,6 +837,29 @@
             });
             //End Configuration DataTable
 
+            //Comienzo de Confirmar Entrega Productos de la Solicitud
+            table.on('click', '.entregar', function () {
+
+                $tr = $(this).closest('tr');
+
+                if ($($tr).hasClass('child')) {
+
+                    $tr = $tr.prev('.parent');
+
+                }
+
+                var data = table.row($tr).data();
+
+                console.log(data);
+
+                $('#solicitud_id_Entrega').val(data[0]);
+
+                $('#entregarForm').attr('action', '/siscom/admin/' + data[0]);
+                $('#confirmarEntregaModal').modal('show');
+
+            });
+            //Fin Confirmar Entrega Productos de la Solicitud
+
             //Comienzo de Recepción de la Solicitud
             table.on('click', '.recepcionar', function () {
 
@@ -658,6 +902,29 @@
                 
                 $('#asignarForm').attr('action', '/siscom/admin/' + data[0]);
                 $('#asignarSolicitudModal').modal('show');
+
+            });
+            //Fin Asignación de la Solicitud
+
+            //Comienzo de Asignación de la Solicitud
+            table.on('click', '.reasignar', function () {
+
+                $tr = $(this).closest('tr');
+
+                if ($($tr).hasClass('child')) {
+
+                    $tr = $tr.prev('.parent');
+
+                }
+
+                var data = table.row($tr).data();
+
+                console.log(data);
+
+                $('#solicitud_id_reasignar').val(data[0]);
+                
+                $('#reasignarForm').attr('action', '/siscom/admin/' + data[0]);
+                $('#reasignarSolicitudModal').modal('show');
 
             });
             //Fin Asignación de la Solicitud

@@ -161,7 +161,7 @@
                                             
                                             <th>Fecha</th>
                                             <th>Estado</th>
-                                            <th>Profesional C&S</th>
+                                            <th>Responsable</th>
                                             <th>Comprador Asignado</th>
                                             <th>Comprador Suplencia</th>
                                             
@@ -243,7 +243,6 @@
                                             <label for="flagCantidad">Cantidad</label>
 
                                             <input type="number" name="flagCantidad" id="flagCantidad" class="form-control" required>
-
                                         </div>
 
                                         <div class="col-md-2 mb-3">
@@ -360,7 +359,7 @@
 
                                 <div class="col-md-12 mb-2">
                                 
-                                    <form method="POST" action="{{ action('SCM_SolicitudController@update', $solicitud->id) }}">
+                                    <form method="POST" action="{{ action('SCM_AdminSolicitudController@update', $solicitud->id) }}">
 
                                         @csrf
 
@@ -903,7 +902,7 @@
                 $('#cuentaComplementaria').val(data[10]);
                 $('#obsActividad').val(data[11]);
 
-                $('#updateForm').attr('action', '/siscom/solicitud/' + data[1]);
+                $('#updateForm').attr('action', '/siscom/admin/' + data[1]);
                 $('#exampleModal').modal('show');
 
             });
@@ -967,7 +966,7 @@
                 $('#Cantidad').val(dataDetalle[3]);
                 $('#ValorUnitario').val(dataDetalle[4]);
 
-                $('#updateDetalleForm').attr('action', '/siscom/solicitud/' + dataDetalle[0]);
+                $('#updateDetalleForm').attr('action', '/siscom/admin/' + dataDetalle[0]);
                 $('#updateDetalleModal').modal('show');
 
             });
@@ -990,7 +989,7 @@
 
                 document.getElementById('deleteProducto').innerHTML = dataDetalle[1];
                 
-                $('#deleteDetalleForm').attr('action', '/siscom/solicitud/' + dataDetalle[0]);
+                $('#deleteDetalleForm').attr('action', '/siscom/admin/' + dataDetalle[0]);
                 $('#deleteDetalleModal').modal('show');
 
             });

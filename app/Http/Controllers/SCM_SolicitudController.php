@@ -55,11 +55,14 @@ class SCM_SolicitudController extends Controller
         /* Declaramos la variable que contendrá todos los permisos existentes en la base de datos */
         $solicituds = DB::table('solicituds')
                     ->join('status_solicituds', 'solicituds.estado_id', '=', 'status_solicituds.id')
+                    ->join('users', 'solicituds.user_id', '=', 'users.id')
                     ->select('solicituds.*', 'status_solicituds.estado')
                     ->orderBy('solicituds.id', 'desc')
-                    ->where('solicituds.user_id', '=', Auth::user()->dependency_id)
-                    ->orWhere('solicituds.user_id', '=', Auth::user()->id)
+                    ->where('solicituds.user_id', '=', Auth::user()->id)
+                    ->orWhere('users.dependency_id', '=', Auth::user()->dependency_id)
                     ->get();
+
+                   // dd($solicituds);
 
         /* Retornamos a la vista los resultados psanadolos por parametros */
         return view('siscom.solicitud.index', ['solicituds' => $solicituds, 'dateCarbon' => $dateCarbon]);

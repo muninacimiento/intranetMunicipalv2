@@ -161,7 +161,7 @@
                                             
                                             <th>Fecha</th>
                                             <th>Estado</th>
-                                            <th>Profesional C&S</th>
+                                            <th>Responsable</th>
                                             <th>Comprador Asignado</th>
                                             <th>Comprador Suplencia</th>
                                             
@@ -411,7 +411,7 @@
 
                                         <input type="hidden" name="flag" value="Confirmar">
 
-                                        @if( $solicitud->estado_id == 1)
+                                        @if( $solicitud->estado_id == 1 || $solicitud->estado_id == 2)
 
                                             <button type="submit" class="btn btn-success btn-block"> 
 

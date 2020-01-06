@@ -91,7 +91,9 @@ Route::middleware(['auth'])->group( function() {
 	//Administrar Solicitudes
 	Route::resource('/siscom/admin', 'SCM_AdminSolicitudController');
 	Route::get('/siscom/admin/{solicitud}', 'SCM_AdminSolicitudController@show')->name('admin.show')->middleware('can:admin.show');
-	Route::post('/siscom/admin/{solicitud}', 'SCM_AdminSolicitudController@update')->name('admin.update')->middleware('can:solicitud.update');
+	Route::post('/siscom/admin/{solicitud}', 'SCM_AdminSolicitudController@update')->name('admin.update')->middleware('can:admin.update');
+	Route::get('/siscom/admin/entregaStock/{solicitud}', 'SCM_AdminSolicitudController@entregaStock')->name('admin.stock')->middleware('can:admin.stock');
+
 
 	//Vista PDF
 	Route::get('VerSolicitud/{solicitud}', 'SCM_SolicitudController@exportarPdf')->name('solicitud.pdf');
