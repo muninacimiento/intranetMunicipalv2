@@ -36,9 +36,9 @@
 
 		<div class="dropdown-menu">
 
-			@can('siscom.index')
+			@can('solicitud.index')
 
-		    <a class="dropdown-item text-primary" href="{{action('SCM_SolicitudController@index')}}">
+		    <a class="dropdown-item text-primary" href="{{ route('solicitud.index') }}">
 
 		    	<i class="fas fa-pencil-alt px-1"></i>
 
@@ -48,11 +48,11 @@
 
 		    @endcan
 
-		    @can('admin.show')
+		    @can('admin.index')
 
 		   	<div class="dropdown-divider"></div>
 
-		   	<a class="dropdown-item text-primary" href="{{ action('SCM_AdminSolicitudController@index') }}">
+		   	<a class="dropdown-item text-primary" href="{{ route('admin.index') }}">
 
 		    	<i class="fas fa-cogs px-1"></i>
 
@@ -60,7 +60,7 @@
 
 		    </a>
 
-		    @endcan		    	
+		    @endcan		
 
 		</div>
 
@@ -80,7 +80,7 @@
 
 		<div class="dropdown-menu">
 
-			<a class="dropdown-item text-primary" href="{{ action('OrdenCompraController@index') }}">
+			<a class="dropdown-item text-primary" href="{{ route('ordenCompra.index') }}">
 
 			    <i class="fas fa-cash-register px-1"></i>
 

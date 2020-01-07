@@ -84,12 +84,12 @@ Route::middleware(['auth'])->group( function() {
 
 	//Solicitudes
 	Route::get('siscom', 'SiscomController@index')->name('siscom.index')->middleware('can:siscom.index');
-	Route::resource('/siscom/solicitud', 'SCM_SolicitudController')->middleware('can:siscom.index');
+	Route::resource('/siscom/solicitud', 'SCM_SolicitudController')->middleware('can:solicitud.index');
 	Route::get('/siscom/solicitud/{solicitud}', 'SCM_SolicitudController@show')->name('solicitud.show')->middleware('can:solicitud.show');
 	Route::post('/siscom/solicitud/{solicitud}', 'SCM_SolicitudController@update')->name('solicitud.update')->middleware('can:solicitud.update');
 
 	//Administrar Solicitudes
-	Route::resource('/siscom/admin', 'SCM_AdminSolicitudController');
+	Route::resource('/siscom/admin', 'SCM_AdminSolicitudController')->middleware('can:admin.index');
 	Route::get('/siscom/admin/{solicitud}', 'SCM_AdminSolicitudController@show')->name('admin.show')->middleware('can:admin.show');
 	Route::post('/siscom/admin/{solicitud}', 'SCM_AdminSolicitudController@update')->name('admin.update')->middleware('can:admin.update');
 	Route::get('/siscom/admin/entregaStock/{solicitud}', 'SCM_AdminSolicitudController@entregaStock')->name('admin.stock')->middleware('can:admin.stock');

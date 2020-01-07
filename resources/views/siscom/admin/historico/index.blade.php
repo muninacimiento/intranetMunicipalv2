@@ -124,7 +124,7 @@
 
                                     <td style="display: none">{{ $solicitud->nombrePrograma }}</td>
 
-                                    @if( $solicitud->estado == 'Anulada' || $solicitud->estado == 'Creada')
+                                    @if( $solicitud->estado == 'Anulada')
 
                                         <td>
 
@@ -177,7 +177,7 @@
 
                                                 {{--Habilitar Entrega Stock--}}
 
-                                                @if($solicitud->estado === 'Asignada a Comprador' || $solicitud->estado === 'Recepcionada' && ($solicitud->categoriaSolicitud === 'Stock de Oficina' || $solicitud->categoriaSolicitud === 'Stock de Aseo' || $solicitud->categoriaSolicitud === 'Stock de Gas'))
+                                                @if($solicitud->estado === 'Asignada a Comprador' && ($solicitud->categoriaSolicitud === 'Stock de Oficina' || $solicitud->categoriaSolicitud === 'Stock de Aseo' || $solicitud->categoriaSolicitud === 'Stock de Gas'))
                                                     
                                                     <a href="#" class="btn btn-primary btn-sm mr-1 entregar" data-toggle="tooltip" data-placement="bottom" title="Entregar Productos Stock">
                                             
@@ -191,7 +191,7 @@
 
                                                 {{--Habilitar Asignacion--}}
 
-                                                @if($solicitud->estado === 'Recepcionada' && $solicitud->categoriaSolicitud != 'Stock de Aseo')
+                                                @if($solicitud->estado === 'Recepcionada')
 
                                                     <a href="#" class="btn btn-warning btn-sm mr-1 asignar" data-toggle="tooltip" data-placement="bottom" title="Asignar Solicitud">
                                             
@@ -206,7 +206,7 @@
 
                                                     {{--Habilitar ReAsignacion--}}
 
-                                                @if(($solicitud->estado === 'Solicitud Entregada Completamente' || $solicitud->estado === 'Solicitud Gestionada Completamente') || $solicitud->categoriaSolicitud === 'Stock de Aseo')
+                                                @if($solicitud->estado === 'Solicitud Entregada Completamente' || $solicitud->estado === 'Solicitud Gestionada Completamente')
 
                                                 @else
 
@@ -231,9 +231,9 @@
 
                                                     <a href="#" class="btn btn-danger btn-sm anular" data-toggle="tooltip" data-placement="bottom" title="Anular Solicitud">
 
-                                                        <i class="fas fa-trash"></i>
+                                                    <i class="fas fa-trash"></i>
 
-                                                    </a>
+                                                </a>
 
 
                                                 @endif

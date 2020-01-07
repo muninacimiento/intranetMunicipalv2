@@ -202,82 +202,6 @@ class PermissionsTableSeeder extends Seeder
         
         ]);
 
-        /********************************************************************************************************************************************
-         * ADMINISTRATION   *************************************************************************************************************************
-         ********************************************************************************************************************************************/
-
-        Permission::create([
-
-            'name'          => 'Administración de las Solicitudes Generales',
-            'slug'          => 'administration.solicitudGeneral.index',
-            'description'   => 'Permiso que da acceso al listado de las Solicitudes Generales.',
-            'user_id'      =>  1,
-
-        ]);
-
-        Permission::create([
-
-            'name'          => 'Muestra el Detalle de la Solicitud General',
-            'slug'          => 'administration.solicitudGeneral.show',
-            'description'   => 'Permiso que autoriza la visualización más completa de la Solicitud General',
-            'user_id'      =>  1,
-
-        ]);
-
-        Permission::create([
-
-            'name'          => 'Editar Solicitud General',
-            'slug'          => 'administration.solicitudGeneral.edit',
-            'description'   => 'Permiso que autoriza la modificación de la Solicitud General seleccionada',
-            'user_id'      =>  1,
-
-        ]);
-
-        Permission::create([
-
-            'name'          => 'Anular una Solicitud General',
-            'slug'          => 'administration.solicitudGeneral.destroy',
-            'description'   => 'Permiso que autoriza la anulación de la Solicitud General seleccionada',
-            'user_id'      =>  1,
-
-        ]);
-
-        Permission::create([
-
-            'name'          => 'Administración de las Solicitudes de Actividades',
-            'slug'          => 'administration.solicitudActividad.index',
-            'description'   => 'Permiso que da acceso al listado de las Solicitudes de Actividades.',
-            'user_id'      =>  1,
-
-        ]);
-
-        Permission::create([
-
-            'name'          => 'Muestra el Detalle de la Solicitud de Actividad',
-            'slug'          => 'administration.solicitudActividad.show',
-            'description'   => 'Permiso que autoriza la visualización más completa de la Solicitud Actividad',
-            'user_id'      =>  1,
-
-        ]);
-
-        Permission::create([
-
-            'name'          => 'Editar Solicitud de Actividad',
-            'slug'          => 'administration.solicitudActividad.edit',
-            'description'   => 'Permiso que autoriza la modificación de la Solicitud de Actividad seleccionada',
-            'user_id'      =>  1,
-
-        ]);
-
-        Permission::create([
-
-            'name'          => 'Anular una Solicitud de Actividad',
-            'slug'          => 'administration.solicitudActividad.destroy',
-            'description'   => 'Permiso que autoriza la anulación de la Solicitud de Actividad seleccionada',
-            'user_id'      =>  1,
-
-        ]);
-
     	/*
          * GESPRO
          */
@@ -305,7 +229,8 @@ class PermissionsTableSeeder extends Seeder
     	/********************************************************************************************************************************************
          * SISCOM   *********************************************************************************************************************************
          ********************************************************************************************************************************************/
-    	Permission::create([
+
+        Permission::create([
 
     		'name' 			=> 'Acceso al Sistema de Compras Públicas Municipales - SisCoM',
     		'slug' 			=> 'siscom.index',
@@ -316,72 +241,63 @@ class PermissionsTableSeeder extends Seeder
 
         Permission::create([
 
-            'name'          => 'Acceso a las Solicitudes Generales',
-            'slug'          => 'siscom.solicitudGeneral.index',
-            'description'   => 'Permiso que da acceso al listado de las Solicitudes Generales.',
+            'name'          => 'Permiso para Gestionar Solicitudes',
+            'slug'          => 'solicitud.index',
+            'description'   => 'Crear, Editar y Anular Solicitudes',
             'user_id'      =>  1,
 
         ]);
 
         Permission::create([
 
-            'name'          => 'Muestra el Detalle de la Solicitud General',
-            'slug'          => 'siscom.solicitudGeneral.show',
-            'description'   => 'Permiso que autoriza la visualización más completa de la Solicitud General',
+            'name'          => 'Permiso para Gestionar Solicitudes',
+            'slug'          => 'solicitud.show',
+            'description'   => 'Ver y Agregar Productos a la Solicitud',
             'user_id'      =>  1,
 
         ]);
 
         Permission::create([
 
-            'name'          => 'Editar Solicitud General',
-            'slug'          => 'siscom.solicitudGeneral.edit',
-            'description'   => 'Permiso que autoriza la modificación de la Solicitud General seleccionada',
+            'name'          => 'Permiso para Gestionar Solicitudes',
+            'slug'          => 'solicitud.update',
+            'description'   => 'Actualiza, Elimina Productos de la Solicitud y Confirma la Solicitud',
             'user_id'      =>  1,
 
         ]);
 
         Permission::create([
 
-            'name'          => 'Anular una Solicitud General',
-            'slug'          => 'siscom.solicitudGeneral.destroy',
-            'description'   => 'Permiso que autoriza la anulación de la Solicitud General seleccionada',
+            'name'          => 'Administración de las Solicitudes',
+            'slug'          => 'admin.index',
+            'description'   => 'Lista las Solicitudes y sus Acciones de Ver, Editar y Anular',
             'user_id'      =>  1,
 
         ]);
 
         Permission::create([
 
-            'name'          => 'Acceso a las Solicitudes de Actividades',
-            'slug'          => 'siscom.solicitudActividad.index',
-            'description'   => 'Permiso que da acceso al listado de las Solicitudes de Actividades.',
+            'name'          => 'Administración de las Solicitudes',
+            'slug'          => 'admin.show',
+            'description'   => 'Ver y Agregar Productos a la Solicitud',
             'user_id'      =>  1,
 
         ]);
 
         Permission::create([
 
-            'name'          => 'Muestra el Detalle de la Solicitud de Actividad',
-            'slug'          => 'siscom.solicitudActividad.show',
-            'description'   => 'Permiso que autoriza la visualización más completa de la Solicitud Actividad',
+            'name'          => 'Administración de las Solicitudes',
+            'slug'          => 'admin.update',
+            'description'   => 'Actualizar la Solicitud',
             'user_id'      =>  1,
 
         ]);
 
         Permission::create([
 
-            'name'          => 'Editar Solicitud de Actividad',
-            'slug'          => 'siscom.solicitudActividad.edit',
-            'description'   => 'Permiso que autoriza la modificación de la Solicitud de Actividad seleccionada',
-            'user_id'      =>  1,
-
-        ]);
-
-        Permission::create([
-
-            'name'          => 'Anular una Solicitud de Actividad',
-            'slug'          => 'siscom.solicitudActividad.destroy',
-            'description'   => 'Permiso que autoriza la anulación de la Solicitud de Actividad seleccionada',
+            'name'          => 'Administración de las Solicitudes',
+            'slug'          => 'admin.stock',
+            'description'   => 'Entrega Productos de Stock de la Solicitud',
             'user_id'      =>  1,
 
         ]);

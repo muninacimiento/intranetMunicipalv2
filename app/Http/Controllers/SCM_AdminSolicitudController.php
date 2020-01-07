@@ -39,7 +39,24 @@ class SCM_AdminSolicitudController extends Controller
 	public function index(Request $request)
     {
 
-         /*
+        if (Auth::user()->email == 'heraldo.medina@nacimiento.cl') {
+
+            /*
+         * Definimos variable que contendrá la fecha actual del sistema
+         */
+        $dateCarbon = Carbon::now()->locale('es')->isoFormat('dddd D, MMMM YYYY');
+
+        /* Declaramos la variable que contendrá todos los permisos existentes en la base de datos */
+        $solicituds = DB::table('solicituds')
+                    ->join('status_solicituds', 'solicituds.estado_id', '=', 'status_solicituds.id')
+                    ->select('solicituds.*', 'status_solicituds.estado')
+                    ->where('solicituds.categoriaSolicitud', '=', 'Stock de Aseo')
+                    ->orderBy('solicituds.id', 'desc')
+                    ->get();
+            
+        }else{
+
+            /*
          * Definimos variable que contendrá la fecha actual del sistema
          */
         $dateCarbon = Carbon::now()->locale('es')->isoFormat('dddd D, MMMM YYYY');
@@ -52,6 +69,8 @@ class SCM_AdminSolicitudController extends Controller
                     ->orWhere('solicituds.compradorSuplencia', '=', Auth::user()->name)
                     ->orderBy('solicituds.id', 'desc')
                     ->get();
+        }
+         
 
         //dd($solicituds);
 
@@ -91,7 +110,7 @@ class SCM_AdminSolicitudController extends Controller
 
         //dd($move);
 
-        return view('siscom.admin.show', compact('solicitud', 'products', 'detalleSolicitud', 'move'));
+        return view('siscom.admin.show', ['solicitud' => $solicitud, 'products' => $products, 'detalleSolicitud' => $detalleSolicitud, 'move' => $move]);
 
     }
 
