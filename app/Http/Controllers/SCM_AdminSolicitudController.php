@@ -56,7 +56,23 @@ class SCM_AdminSolicitudController extends Controller
                     ->orderBy('solicituds.id', 'desc')
                     ->get();
             
-        }else{
+        }else if (Auth::user()->email == 'caolina.medina@nacimiento.cl' || Auth::user()->email == 'heraldo.cecilia.castro@nacimiento.cl' || Auth::user()->email == 'juan.fuentealba@nacimiento.cl' || Auth::user()->email == 'fabiola.macaya@nacimiento.cl') {
+
+        /*
+         * Definimos variable que contendrá la fecha actual del sistema
+         */
+        $dateCarbon = Carbon::now()->locale('es')->isoFormat('dddd D, MMMM YYYY');
+
+        /* Declaramos la variable que contendrá todos los permisos existentes en la base de datos */
+        $solicituds = DB::table('solicituds')
+                    ->join('status_solicituds', 'solicituds.estado_id', '=', 'status_solicituds.id')
+                    ->join('users', 'solicituds.user_id', '=', 'users.id')
+                    ->join('dependencies', 'users.dependency_id', '=', 'dependencies.id')
+                    ->select('solicituds.*', 'status_solicituds.estado', 'dependencies.name')
+                    ->orderBy('solicituds.id', 'desc')
+                    ->get();
+
+        }else {
 
         /*
          * Definimos variable que contendrá la fecha actual del sistema
