@@ -89,24 +89,24 @@ class SCM_SolicitudController extends Controller
                 //Comenzamos a capturar desde la vista los datos a guardar de la SOLICITUD
                 $solicitud = new Solicitud;
                 $solicitud->user_id                     = Auth::user()->id;
-                $solicitud->motivo                      = $request->motivo;
+                $solicitud->motivo                      = strtoupper($request->motivo);
                 $solicitud->tipoSolicitud               = $request->tipoSolicitud;
                 $solicitud->categoriaSolicitud          = $request->categoriaSolicitud;
                 $solicitud->decretoPrograma             = $request->decretoPrograma;
-                $solicitud->nombrePrograma              = $request->nombrePrograma;
+                $solicitud->nombrePrograma              = strtoupper($request->nombrePrograma);
                 $solicitud->estado_id                   = 1;
 
                 //Actividad
-                $solicitud->nombreActividad             = $request->nombreActividad;
+                $solicitud->nombreActividad             = strtoupper($request->nombreActividad);
                 $solicitud->fechaActividad              = $request->fechaActividad;
                 $solicitud->horaActividad               = $request->horaActividad;
-                $solicitud->lugarActividad              = $request->lugarActividad;
-                $solicitud->objetivoActividad           = $request->objetivoActividad;
-                $solicitud->descripcionActividad        = $request->descripcionActividad;
-                $solicitud->participantesActividad      = $request->participantesActividad;
+                $solicitud->lugarActividad              = strtoupper($request->lugarActividad);
+                $solicitud->objetivoActividad           = strtoupper($request->objetivoActividad);
+                $solicitud->descripcionActividad        = strtoupper($request->descripcionActividad);
+                $solicitud->participantesActividad      = strtoupper($request->participantesActividad);
                 $solicitud->cuentaPresupuestaria        = $request->cuentaPresupuestaria;
                 $solicitud->cuentaComplementaria        = $request->cuentaComplementaria;
-                $solicitud->obsActividad                = $request->obsActividad;
+                $solicitud->obsActividad                = strtoupper($request->obsActividad);
 
                 $solicitud->save(); //Guardamos la Solicitud    
 
@@ -138,7 +138,7 @@ class SCM_SolicitudController extends Controller
             $detalleSolicitud->solicitud_id         = $request->solicitudID;
             $detalleSolicitud->product_id           = $request->flagIdProducto;
             $detalleSolicitud->cantidad             = $request->flagCantidad;
-            $detalleSolicitud->especificacion       = $request->flagEspecificacion;
+            $detalleSolicitud->especificacion       = strtoupper($request->flagEspecificacion);
             $detalleSolicitud->valorUnitario        = $request->flagValorUnitario;
 
             $detalleSolicitud->save();
@@ -206,11 +206,11 @@ class SCM_SolicitudController extends Controller
             $solicitud = Solicitud::findOrFail($id);
 
             $solicitud->user_id                     = Auth::user()->id;
-            $solicitud->motivo                      = $request->motivo;
+            $solicitud->motivo                      = strtoupper($request->motivo);
             $solicitud->tipoSolicitud               = $request->tipoSolicitud;
             $solicitud->categoriaSolicitud          = $request->categoriaSolicitud;
             $solicitud->decretoPrograma             = $request->decretoPrograma;
-            $solicitud->nombrePrograma              = $request->nombrePrograma;
+            $solicitud->nombrePrograma              = strtoupper($request->nombrePrograma);
             $solicitud->estado_id                   = 1;
 
             //dd($solicitud);
@@ -228,7 +228,7 @@ class SCM_SolicitudController extends Controller
 
                     $solicitud = Solicitud::findOrFail($id);
                     $solicitud->user_id                     = Auth::user()->id;
-                    $solicitud->motivoAnulacion            = $request->motivoAnulacion;
+                    $solicitud->motivoAnulacion            = strtoupper($request->motivoAnulacion);
                     $solicitud->estado_id                  = 11;
 
                     //dd($solicitud);
@@ -299,16 +299,16 @@ class SCM_SolicitudController extends Controller
             $solicitud = Solicitud::findOrFail($id);
 
             $solicitud->user_id                     = Auth::user()->id;
-            $solicitud->nombreActividad             = $request->nombreActividad;
+            $solicitud->nombreActividad             = strtoupper($request->nombreActividad);
             $solicitud->fechaActividad              = $request->fechaActividad;
             $solicitud->horaActividad               = $request->horaActividad;
-            $solicitud->lugarActividad              = $request->lugarActividad;
-            $solicitud->objetivoActividad           = $request->objetivoActividad;
-            $solicitud->descripcionActividad        = $request->descripcionActividad;
-            $solicitud->participantesActividad      = $request->participantesActividad;
+            $solicitud->lugarActividad              = strtoupper($request->lugarActividad);
+            $solicitud->objetivoActividad           = strtoupper($request->objetivoActividad);
+            $solicitud->descripcionActividad        = strtoupper($request->descripcionActividad);
+            $solicitud->participantesActividad      = strtoupper($request->participantesActividad);
             $solicitud->cuentaPresupuestaria        = $request->cuentaPresupuestaria;
             $solicitud->cuentaComplementaria        = $request->cuentaComplementaria;
-            $solicitud->obsActividad                = $request->obsActividad;
+            $solicitud->obsActividad                = strtoupper($request->obsActividad);
 
             //dd($solicitud);
 
@@ -323,7 +323,7 @@ class SCM_SolicitudController extends Controller
             $detalleSolicitud = DetailSolicitud::findOrFail($id);
 
             $detalleSolicitud->cantidad             = $request->Cantidad;
-            $detalleSolicitud->especificacion       = $request->Especificacion;
+            $detalleSolicitud->especificacion       = strtoupper($request->Especificacion);
             $detalleSolicitud->valorUnitario        = $request->ValorUnitario;        
 
             //dd($solicitud);

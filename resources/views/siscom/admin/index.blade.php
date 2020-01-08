@@ -88,6 +88,8 @@
                                     
                                     <th>Categoria</th>
 
+                                    <th>Dependencia</th>
+
                                     <th style="display: none">Decreto Programa</th>
 
                                     <th style="display: none">Nombre Programa</th>
@@ -119,6 +121,8 @@
                                     <td>{{ $solicitud->tipoSolicitud }}</td>
                                     
                                     <td>{{ $solicitud->categoriaSolicitud }}</td>
+
+                                    <td>{{ $solicitud->name }}</td>
 
                                     <td style="display: none">{{ $solicitud->decretoPrograma }}</td>
 

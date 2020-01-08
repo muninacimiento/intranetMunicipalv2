@@ -49,14 +49,16 @@ class SCM_AdminSolicitudController extends Controller
         /* Declaramos la variable que contendrá todos los permisos existentes en la base de datos */
         $solicituds = DB::table('solicituds')
                     ->join('status_solicituds', 'solicituds.estado_id', '=', 'status_solicituds.id')
-                    ->select('solicituds.*', 'status_solicituds.estado')
+                    ->join('users', 'solicituds.user_id', '=', 'users.id')
+                    ->join('dependencies', 'users.dependency_id', '=', 'dependencies.id')
+                    ->select('solicituds.*', 'status_solicituds.estado', 'dependencies.name')
                     ->where('solicituds.categoriaSolicitud', '=', 'Stock de Aseo')
                     ->orderBy('solicituds.id', 'desc')
                     ->get();
             
         }else{
 
-            /*
+        /*
          * Definimos variable que contendrá la fecha actual del sistema
          */
         $dateCarbon = Carbon::now()->locale('es')->isoFormat('dddd D, MMMM YYYY');
@@ -64,7 +66,9 @@ class SCM_AdminSolicitudController extends Controller
         /* Declaramos la variable que contendrá todos los permisos existentes en la base de datos */
         $solicituds = DB::table('solicituds')
                     ->join('status_solicituds', 'solicituds.estado_id', '=', 'status_solicituds.id')
-                    ->select('solicituds.*', 'status_solicituds.estado')
+                    ->join('users', 'solicituds.user_id', '=', 'users.id')
+                    ->join('dependencies', 'users.dependency_id', '=', 'dependencies.id')
+                    ->select('solicituds.*', 'status_solicituds.estado', 'dependencies.name')
                     ->where('solicituds.compradorTitular', '=', Auth::user()->name)
                     ->orWhere('solicituds.compradorSuplencia', '=', Auth::user()->name)
                     ->orderBy('solicituds.id', 'desc')
@@ -230,7 +234,7 @@ class SCM_AdminSolicitudController extends Controller
 
                     $solicitud = Solicitud::findOrFail($id);
                     $solicitud->compradorSuplencia            = $request->compradorSuplencia;
-                    $solicitud->estado_id                   = 5;
+                    $solicitud->estado_id                     = 5;
 
                     //dd($solicitud);
 
@@ -286,16 +290,16 @@ class SCM_AdminSolicitudController extends Controller
             $solicitud = Solicitud::findOrFail($id);
 
             $solicitud->user_id                     = Auth::user()->id;
-            $solicitud->nombreActividad             = $request->nombreActividad;
+            $solicitud->nombreActividad             = strtoupper($request->nombreActividad);
             $solicitud->fechaActividad              = $request->fechaActividad;
             $solicitud->horaActividad               = $request->horaActividad;
-            $solicitud->lugarActividad              = $request->lugarActividad;
-            $solicitud->objetivoActividad           = $request->objetivoActividad;
-            $solicitud->descripcionActividad        = $request->descripcionActividad;
-            $solicitud->participantesActividad      = $request->participantesActividad;
+            $solicitud->lugarActividad              = strtoupper($request->lugarActividad);
+            $solicitud->objetivoActividad           = strtoupper($request->objetivoActividad);
+            $solicitud->descripcionActividad        = strtoupper($request->descripcionActividad);
+            $solicitud->participantesActividad      = strtoupper($request->participantesActividad);
             $solicitud->cuentaPresupuestaria        = $request->cuentaPresupuestaria;
             $solicitud->cuentaComplementaria        = $request->cuentaComplementaria;
-            $solicitud->obsActividad                = $request->obsActividad;
+            $solicitud->obsActividad                = strtoupper($request->obsActividad);
 
             //dd($solicitud);
 
@@ -313,7 +317,7 @@ class SCM_AdminSolicitudController extends Controller
                 DB::beginTransaction();
 
                     $solicitud = Solicitud::findOrFail($id);
-                    $solicitud->motivoAnulacion            = $request->motivoAnulacion;
+                    $solicitud->motivoAnulacion            = strtoupper($request->motivoAnulacion);
                     $solicitud->estado_id                  = 11;
 
                     //dd($solicitud);
@@ -346,7 +350,7 @@ class SCM_AdminSolicitudController extends Controller
             $detalleSolicitud = DetailSolicitud::findOrFail($id);
 
             $detalleSolicitud->cantidad             = $request->Cantidad;
-            $detalleSolicitud->especificacion       = $request->Especificacion;
+            $detalleSolicitud->especificacion       = strtoupper($request->Especificacion);
             $detalleSolicitud->valorUnitario        = $request->ValorUnitario;        
 
             //dd($solicitud);
@@ -413,7 +417,7 @@ class SCM_AdminSolicitudController extends Controller
                 $detalleSolicitud->cantidadEntregada    = $request->cantidadEntregada;
                 $detalleSolicitud->userDeliver_id       = Auth::user()->id;
                 $detalleSolicitud->fechaEntrega         = $detalleSolicitud->updated_at;
-                $detalleSolicitud->obsEntrega           = $request->observacion;
+                $detalleSolicitud->obsEntrega           = strtoupper($request->observacion);
 
                 $detalleSolicitud->save(); //Guardamos la solicitud
 
@@ -459,6 +463,29 @@ class SCM_AdminSolicitudController extends Controller
             }
         }
 
+    }
+
+    public function consulta()
+    {
+
+        /*
+         * Definimos variable que contendrá la fecha actual del sistema
+         */
+        $dateCarbon = Carbon::now()->locale('es')->isoFormat('dddd D, MMMM YYYY');
+
+        /* Declaramos la variable que contendrá todos los permisos existentes en la base de datos */
+        $solicituds = DB::table('solicituds')
+                    ->join('status_solicituds', 'solicituds.estado_id', '=', 'status_solicituds.id')
+                    ->join('users', 'solicituds.user_id', '=', 'users.id')
+                    ->join('dependencies', 'users.dependency_id', '=', 'dependencies.id')
+                    ->select('solicituds.*', 'status_solicituds.estado', 'dependencies.name')
+                    ->orderBy('solicituds.id', 'desc')
+                    ->get();         
+
+        //dd($solicituds);
+
+        /* Retornamos a la vista los resultados psanadolos por parametros */
+        return view('siscom.consulta.index', compact('dateCarbon', 'solicituds'));
     }
 
 }

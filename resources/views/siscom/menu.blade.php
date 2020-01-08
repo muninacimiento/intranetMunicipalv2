@@ -62,6 +62,16 @@
 
 		    @endcan		
 
+		    <div class="dropdown-divider"></div>
+
+		   	<a class="dropdown-item text-primary" href="{{ route('admin.consulta') }}">
+
+		    	<i class="fas fa-cogs px-1"></i>
+
+		    	Consultar Solicitudes
+
+		    </a>
+
 		</div>
 
   	</li>

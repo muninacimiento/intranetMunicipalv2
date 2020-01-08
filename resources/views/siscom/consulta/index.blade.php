@@ -31,7 +31,7 @@
 
                         <div class="col-md-12 text-center">
                             
-                            <h3>Administración de las Solicitudes Realizadas</h3>
+                            <h3>Consulta de las Solicitudes Realizadas</h3>
 
                             <div class="text-secondary">
 
@@ -88,6 +88,8 @@
                                     
                                     <th>Categoria</th>
 
+                                    <th>Dependencia</th>
+
                                     <th style="display: none">Decreto Programa</th>
 
                                     <th style="display: none">Nombre Programa</th>
@@ -120,128 +122,21 @@
                                     
                                     <td>{{ $solicitud->categoriaSolicitud }}</td>
 
+                                    <td>{{ $solicitud->name }}</td>
+
                                     <td style="display: none">{{ $solicitud->decretoPrograma }}</td>
 
                                     <td style="display: none">{{ $solicitud->nombrePrograma }}</td>
 
-                                    @if( $solicitud->estado == 'Anulada')
+                                    <td>
 
-                                        <td>
+                                        <a href="{{ route('admin.show', $solicitud->id) }}" class="btn btn-outline-secondary btn-sm mr-1" data-toggle="tooltip" data-placement="bottom" title="Ver el Detalle de la Solicitud">
 
-                                                <a href="{{ route('admin.show', $solicitud->id) }}" class="btn btn-outline-secondary btn-sm mr-1" data-toggle="tooltip" data-placement="bottom" title="Ver el Detalle de la Solicitud">
+                                            <i class="fas fa-eye"></i>
 
-                                                    <i class="fas fa-eye"></i>
+                                        </a>
 
-                                                </a>
-
-                                        </td>
-
-                                    @else
-
-                                        <td>
-
-                                            <div class="btn-group" role="group">
-
-                                                {{-- Visualizar Solicitud--}}
-
-                                                @if($solicitud->estado === 'En Proceso de Entrega' || $solicitud->estado === 'Solicitud Entregada Completamente')
-
-                                                    <a href="{{ route('admin.stock', $solicitud->id) }}" class="btn btn-secondary btn-sm mr-1" data-toggle="tooltip" data-placement="bottom" title="Ver el Detalle de la Solicitud">
-
-                                                        <i class="fas fa-eye"></i>
-
-                                                    </a>
-
-                                                @else
-
-                                                    <a href="{{ route('admin.show', $solicitud->id) }}" class="btn btn-secondary btn-sm mr-1" data-toggle="tooltip" data-placement="bottom" title="Ver el Detalle de la Solicitud">
-
-                                                        <i class="fas fa-eye"></i>
-
-                                                    </a>
-
-                                                @endif
-
-                                                {{--Habilitar Recepcion--}}
-
-                                                @if($solicitud->estado === 'Pendiente')
-
-                                                    <a href="#" class="btn btn-success btn-sm mr-1 recepcionar" data-toggle="tooltip" data-placement="bottom" title="Recepcionar Solicitud">
-                                            
-                                                        <i class="fas fa-clipboard-check"></i>
-
-                                                    </a>
-                                                @else
-
-                                                @endif
-
-                                                {{--Habilitar Entrega Stock--}}
-
-                                                @if($solicitud->estado === 'Asignada a Comprador' && ($solicitud->categoriaSolicitud === 'Stock de Oficina' || $solicitud->categoriaSolicitud === 'Stock de Aseo' || $solicitud->categoriaSolicitud === 'Stock de Gas'))
-                                                    
-                                                    <a href="#" class="btn btn-primary btn-sm mr-1 entregar" data-toggle="tooltip" data-placement="bottom" title="Entregar Productos Stock">
-                                            
-                                                        <i class="fas fa-dolly"></i>
-
-                                                    </a>
-
-                                                @else
-
-                                                @endif
-
-                                                {{--Habilitar Asignacion--}}
-
-                                                @if($solicitud->estado === 'Recepcionada')
-
-                                                    <a href="#" class="btn btn-warning btn-sm mr-1 asignar" data-toggle="tooltip" data-placement="bottom" title="Asignar Solicitud">
-                                            
-                                                        <i class="fas fa-inbox"></i>
-
-                                                    </a>
-
-                                                @else
-
-                                                @endif
-
-
-                                                    {{--Habilitar ReAsignacion--}}
-
-                                                @if($solicitud->estado === 'Solicitud Entregada Completamente' || $solicitud->estado === 'Solicitud Gestionada Completamente')
-
-                                                @else
-
-                                                    <a href="#" class="btn btn-dark btn-sm mr-1 reasignar" data-toggle="tooltip" data-placement="bottom" title="ReAsignar Solicitud">
-                                            
-                                                        <i class="fas fa-inbox"></i>
-
-                                                    </a>
-
-                                                @endif
-
-
-                                                <!-- HABILITAR PERMISO PARA CAROLINA <a href="#" class="btn btn-outline-primary btn-sm mr-1 edit" data-toggle="tooltip" data-placement="bottom" title="Modificar la Solicitud">
-                                        
-                                                    <i class="fas fa-edit"></i>
-
-                                                </a> -->
-
-                                                @if($solicitud->estado === 'Solicitud Entregada Completamente' || $solicitud->estado === 'Solicitud Gestionada Completamente')
-
-                                                @else
-
-                                                    <a href="#" class="btn btn-danger btn-sm anular" data-toggle="tooltip" data-placement="bottom" title="Anular Solicitud">
-
-                                                    <i class="fas fa-trash"></i>
-
-                                                </a>
-
-
-                                                @endif
-                                            </div>
-
-                                        </td>
-
-                                    @endif
+                                    </td>
 
                                 </tr>
 
@@ -250,8 +145,6 @@
                             </tbody>
 
                         </table>
-
-
 
                     </div>
 
