@@ -309,7 +309,7 @@
 
 </div>
 
-<!-- Modal Órden de Compra Enviada con Excepcion -->
+<!-- Modal Órden de Compra Enviada con Excepcion 
 <div class="modal fade" id="enviarProveedor" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
 
     <div class="modal-dialog modal-dialog-centered" role="document">
@@ -385,7 +385,7 @@
     </div>
 
 </div>
-<!-- END Órden de Compra Enviada al Proveedor --> 
+<!-- END Órden de Compra Enviada al Proveedor --> -->
 
 <!-- CREATE Modal Órden de Compra -->
 <div class="modal fade" id="createModalOrdenCompra" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
