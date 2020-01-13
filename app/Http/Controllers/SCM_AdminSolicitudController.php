@@ -56,7 +56,7 @@ class SCM_AdminSolicitudController extends Controller
                     ->orderBy('solicituds.id', 'desc')
                     ->get();
             
-        }else if (Auth::user()->email == 'caolina.medina@nacimiento.cl' || Auth::user()->email == 'heraldo.cecilia.castro@nacimiento.cl' || Auth::user()->email == 'juan.fuentealba@nacimiento.cl' || Auth::user()->email == 'fabiola.macaya@nacimiento.cl') {
+        }else if (Auth::user()->email == 'carolina.medina@nacimiento.cl' || Auth::user()->email == 'cecilia.castro@nacimiento.cl' || Auth::user()->email == 'juan.fuentealba@nacimiento.cl') {
 
         /*
          * Definimos variable que contendrá la fecha actual del sistema
@@ -106,7 +106,8 @@ class SCM_AdminSolicitudController extends Controller
         $detalleSolicitud = DB::table('detail_solicituds')
                     ->join('products', 'detail_solicituds.product_id', 'products.id')
                     ->join('solicituds', 'detail_solicituds.solicitud_id', '=', 'solicituds.id')
-                    ->select('detail_solicituds.*', 'products.name as Producto', DB::raw('(detail_solicituds.cantidad * detail_solicituds.valorUnitario) as SubTotal'))
+                    ->leftjoin('orden_compras', 'detail_solicituds.ordenCompra_id', '=', 'orden_compras.id')
+                    ->select('detail_solicituds.*', 'products.name as Producto', DB::raw('(detail_solicituds.cantidad * detail_solicituds.valorUnitario) as SubTotal'), 'orden_compras.ordenCompra_id as NoOC')
                      ->where('solicituds.id', '=', $id) //Revisar la vista y el envio de los datos a la tabla de Detalle de la Solicitud
                     ->get();
 

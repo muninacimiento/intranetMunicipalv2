@@ -52,7 +52,7 @@
 
                                         <div class="form-row">
                                             
-                                            <label class=" col-sm-3 col-form-label text-muted">Estado</label>
+                                            <label class=" col-sm-3 col-form-label text-muted">Estado Actual</label>
                                                                         
                                             <label class=" col-sm-9 col-form-label">{{ $ordenCompra->Estado }}</label>     
 
@@ -123,11 +123,11 @@
 
                                     <div class="col">
 
-                                        @if($ordenCompra->Estado == 'Recpcionada por C&S')
+                                        @if(($ordenCompra->Estado == 'Recepcionada y en Revisión por C&S' || $ordenCompra->Estado == 'Revisión por C&S' || $ordenCompra->Estado == 'Enviada a Proveedor') || ($ordenCompra->excepcion === 'Si' && $ordenCompra->Estado == 'Enviada a Proveedor con Excepción'))
 
                                             <a href="#" class="text-decoration-none" data-toggle="modal" data-target="#aprobadaCS">
 
-                                                <button class="btn btn-info btn-block mb-1">
+                                                <button class="btn btn-success btn-block mb-1">
 
                                                     <i class="fas fa-check-double"></i> 
 
@@ -153,7 +153,7 @@
 
                                             <a href="#" class="text-decoration-none">
 
-                                                <button class="btn btn-info btn-block mb-1" disabled>
+                                                <button class="btn btn-secondary btn-block mb-1" disabled>
 
                                                     <i class="fas fa-check-double"></i> 
 
@@ -165,7 +165,7 @@
 
                                             <a href="#" class="text-decoration-none">
 
-                                                <button class="btn btn-danger btn-block mb-1" disabled>
+                                                <button class="btn btn-secondary btn-block mb-1" disabled>
 
                                                     <i class="fas fa-times"></i>
 
@@ -177,11 +177,11 @@
 
                                         @endif
 
-                                        @if($ordenCompra->Estado == 'En Revisión por C&S')
+                                        @if($ordenCompra->Estado == 'En Revisión por Profesional DAF')
 
                                             <a href="#" class="text-decoration-none" data-toggle="modal" data-target="#aprobadaProfDAF">
 
-                                                <button class="btn btn-info btn-block mb-1">
+                                                <button class="btn btn-success btn-block mb-1">
 
                                                     <i class="fas fa-check-double"></i> 
 
@@ -207,7 +207,7 @@
 
                                             <a href="#" class="text-decoration-none">
 
-                                                <button class="btn btn-info btn-block mb-1" disabled>
+                                                <button class="btn btn-secondary btn-block mb-1" disabled>
 
                                                     <i class="fas fa-check-double"></i> 
 
@@ -219,7 +219,7 @@
 
                                             <a href="#" class="text-decoration-none">
 
-                                                <button class="btn btn-danger btn-block mb-1" disabled>
+                                                <button class="btn btn-secondary btn-block mb-1" disabled>
 
                                                     <i class="fas fa-times"></i>
 
@@ -231,77 +231,177 @@
 
                                         @endif
 
-                                        <a href="#" class="text-decoration-none">
+                                        @if($ordenCompra->Estado == 'En Firma DAF')
 
-                                            <button class="btn btn-info btn-block mb-1" disabled>
+                                            <a href="#" class="text-decoration-none" data-toggle="modal" data-target="#firmaDAF">
 
-                                                <i class="fas fa-check-double"></i> 
+                                                <button class="btn btn-success btn-block mb-1" >
 
-                                                Firmada por D.A.F.
+                                                    <i class="fas fa-check-double"></i> 
 
-                                            </button>
+                                                    Firmada por D.A.F.
 
-                                        </a>
+                                                </button>
 
-                                        <a href="#" class="text-decoration-none">
+                                            </a>
 
-                                            <button class="btn btn-danger btn-block mb-1" disabled>
+                                            <a href="#" class="text-decoration-none" data-toggle="modal" data-target="#rechazadaDAF">
 
-                                                <i class="fas fa-times"></i>
+                                                <button class="btn btn-danger btn-block mb-1" >
 
-                                                Rechazada por D.A.F.
+                                                    <i class="fas fa-times"></i>
 
-                                            </button>
+                                                    Rechazada por D.A.F.
 
-                                        </a>
+                                                </button>
 
-                                        <a href="#" class="text-decoration-none">
+                                            </a>
 
-                                            <button class="btn btn-info btn-block mb-1" disabled>
+                                        @else
 
-                                                <i class="fas fa-check-double"></i> 
+                                            <a href="#" class="text-decoration-none">
 
-                                                Firmada por Alcaldía
+                                                <button class="btn btn-secondary btn-block mb-1" disabled>
 
-                                            </button>
+                                                    <i class="fas fa-check-double"></i> 
 
-                                        </a>
+                                                    Firmada por D.A.F.
 
-                                        <a href="#" class="text-decoration-none">
+                                                </button>
 
-                                            <button class="btn btn-info btn-block mb-1" disabled>
+                                            </a>
 
-                                                <i class="fas fa-check-double"></i> 
+                                            <a href="#" class="text-decoration-none">
 
-                                                Firmada por Administración
+                                                <button class="btn btn-secondary btn-block mb-1" disabled>
 
-                                            </button>
+                                                    <i class="fas fa-times"></i>
 
-                                        </a>
+                                                    Rechazada por D.A.F.
 
-                                        <a href="#" class="text-decoration-none">
+                                                </button>
 
-                                            <button class="btn btn-success btn-block mb-3" disabled>
+                                            </a>
 
-                                                <i class="fas fa-envelope-open-text"></i> 
+                                        @endif
 
-                                                Enviar al Proveedor
+                                        @if($ordenCompra->Estado == 'En Firma Alcaldía' && $ordenCompra->enviadaProveedor == 0)
 
-                                            </button>
+                                            <a href="#" class="text-decoration-none" data-toggle="modal" data-target="#firmaAlcaldia">
 
-                                        </a>
+                                                <button class="btn btn-success btn-block mb-1" >
 
-                                        <a href="#" class="text-decoration-none">
+                                                    <i class="fas fa-check-double"></i> 
 
-                                            <button class="btn btn-warning btn-block mb-1" disabled>
+                                                    Firmada por Alcaldía
 
-                                                <i class="fas fa-envelope-open-text"></i> 
+                                                </button>
 
-                                                Enviar al Proveedor con Excepción
+                                            </a>
 
-                                            </button>
+                                        @elseif ($ordenCompra->Estado == 'En Firma Alcaldía' && $ordenCompra->enviadaProveedor == 1)
 
-                                        </a>
+                                            <a href="#" class="text-decoration-none" data-toggle="modal" data-target="#firmaAlcaldia1">
+
+                                                <button class="btn btn-success btn-block mb-1" >
+
+                                                    <i class="fas fa-check-double"></i> 
+
+                                                    Firmada por Alcaldía
+
+                                                </button>
+
+                                            </a>
+
+                                        @else
+
+                                            <a href="#" class="text-decoration-none">
+
+                                                <button class="btn btn-secondary btn-block mb-1" disabled>
+
+                                                    <i class="fas fa-check-double"></i> 
+
+                                                    Firmada por Alcaldía
+
+                                                </button>
+
+                                            </a>
+
+                                        @endif
+
+                                        @if($ordenCompra->Estado == 'En Firma Administración' && $ordenCompra->enviadaProveedor == 0)
+
+                                            <a href="#" class="text-decoration-none" data-toggle="modal" data-target="#firmaAdministracion">
+
+                                                <button class="btn btn-success btn-block mb-1">
+
+                                                    <i class="fas fa-check-double"></i> 
+
+                                                    Firmada por Administración
+
+                                                </button>
+
+                                            </a>
+
+                                        @elseif($ordenCompra->Estado == 'En Firma Administración' && $ordenCompra->enviadaProveedor == 1)
+
+                                            <a href="#" class="text-decoration-none" data-toggle="modal" data-target="#firmaAdministracion1">
+
+                                                <button class="btn btn-success btn-block mb-1">
+
+                                                    <i class="fas fa-check-double"></i> 
+
+                                                    Firmada por Administración
+
+                                                </button>
+
+                                            </a>
+
+                                        @else
+
+                                            <a href="#" class="text-decoration-none">
+
+                                                <button class="btn btn-secondary btn-block mb-1" disabled>
+
+                                                    <i class="fas fa-check-double"></i> 
+
+                                                    Firmada por Administración
+
+                                                </button>
+
+                                            </a>
+
+                                        @endif
+
+                                        @if($ordenCompra->Estado === 'Lista para Enviar a Proveedor' &&  $ordenCompra->enviadaProveedor == 0)
+
+                                            <a href="#" class="text-decoration-none" data-toggle="modal" data-target="#enviarProveedor">
+
+                                                <button class="btn btn-success btn-block mb-3">
+
+                                                    <i class="fas fa-envelope-open-text"></i> 
+
+                                                    Enviar al Proveedor
+
+                                                </button>
+
+                                            </a>
+
+                                        @elseif($ordenCompra->Estado === 'Lista para Enviar a Proveedor' && $ordenCompra->enviadaProveedor == 1)
+
+                                            <a href="#" class="text-decoration-none">
+
+                                                <button class="btn btn-secondary btn-block mb-3" disabled>
+
+                                                    <i class="fas fa-envelope-open-text"></i> 
+
+                                                    Enviar al Proveedor
+
+                                                </button>
+
+                                            </a>
+
+                                        @endif
 
                                     </div>
 
@@ -339,8 +439,6 @@
 
                                             <th>Cantidad</th>
 
-                                            <th>Acciones</th>
-
                                         </tr>
 
                                     </thead>
@@ -360,27 +458,6 @@
                                             <td>{{ $ds->especificacion }}</td>
 
                                             <td>{{ $ds->cantidad }}</td>                                            
-
-                                            <td>
-
-                                                @if($ds->ordenCompra_id == null)
-                                                        
-                                                    <a href="#" class="btn btn-primary btn-sm asignarOC" data-toggle="tooltip" data-placement="bottom" title="Asignar Producto a la órden de Compra">
-                                                                
-                                                        <i class="fas fa-check"></i>
-
-                                                    </a>
-                                                @else
-
-                                                @endif
-
-                                                <a href="#" class="btn btn-danger btn-sm eliminarOC" data-toggle="tooltip" data-placement="bottom" title="Eliminar Producto">
-                                                                
-                                                    <i class="far fa-trash-alt"></i>
-
-                                                </a>
-
-                                            </td>
 
                                         </tr>
 
@@ -408,13 +485,13 @@
 <!-- Modal Estado 3 Órden de Compra -->
 <div class="modal fade" id="aprobadaCS" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
 
-    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+    <div class="modal-dialog modal-dialog-centered " role="document">
 
         <div class="modal-content">
 
             <div class="modal-header bg-success text-white">
 
-                <p class="modal-title" id="exampleModalLabel" style="font-size: 1.2em"><i class="fas fa-plus-circle"></i> Validar Órden de Compra: "Aprobada por C&S"</p>
+                <p class="modal-title" id="exampleModalLabel" style="font-size: 1.2em"><i class="fas fa-plus-circle"></i> Validar Órden de Compra</p>
 
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
 
@@ -436,11 +513,17 @@
 
                     <div class="form-row">
 
-                        <div class="col-md-6 mb-3">
+                        <div class="p-3">
                                                                               
-                            <label for="id">ID Órden de Compra</label>
+                            <label for="id" class="text-center">Órden de Compra Aprobada por C&S </label>
 
-                            <input type="text" value="{{ $ordenCompra->ordenCompra_id }}" readonly class="h4" style="border:0;" name="ordenCompraID" id="ordenCompraID">
+                            <div class="form-row">
+                                            
+                                <label class=" col-sm-6 col-form-label text-muted">Id Órden de Compra</label>
+                                                                        
+                                <label class=" col-sm-6 col-form-label"><input type="text" value="{{ $ordenCompra->ordenCompra_id }}" readonly style="border:0;" name="ordenCompraID" id="ordenCompraID"></label>     
+
+                            </div>
 
                         </div>
 
@@ -480,13 +563,13 @@
 <!-- Modal Estado 4 Órden de Compra -->
 <div class="modal fade" id="rechazadaCS" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
 
-    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+    <div class="modal-dialog modal-dialog-centered" role="document">
 
         <div class="modal-content">
 
             <div class="modal-header bg-danger text-white">
 
-                <p class="modal-title" id="exampleModalLabel" style="font-size: 1.2em"><i class="fas fa-plus-circle"></i> Validar Órden de Compra: "Rechazada por C&S"</p>
+                <p class="modal-title" id="exampleModalLabel" style="font-size: 1.2em"><i class="fas fa-plus-circle"></i> Validar Órden de Compra</p>
 
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
 
@@ -508,11 +591,17 @@
 
                     <div class="form-row">
 
-                        <div class="col-md-6 mb-3">
+                        <div class="p-3">
                                                                               
-                            <label for="id">ID Órden de Compra</label>
+                            <label for="id" class="text-center">Órden de Compra Rechazada por C&S </label>
 
-                            <input type="text" value="{{ $ordenCompra->ordenCompra_id }}" readonly class="h4" style="border:0;" name="ordenCompraID" id="ordenCompraID">
+                            <div class="form-row">
+                                            
+                                <label class=" col-sm-6 col-form-label text-muted">Id Órden de Compra</label>
+                                                                        
+                                <label class=" col-sm-6 col-form-label"><input type="text" value="{{ $ordenCompra->ordenCompra_id }}" readonly style="border:0;" name="ordenCompraID" id="ordenCompraID"></label>     
+
+                            </div>
 
                         </div>
 
@@ -570,13 +659,13 @@
 <!-- Modal Estado 3 Órden de Compra -->
 <div class="modal fade" id="aprobadaProfDAF" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
 
-    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+    <div class="modal-dialog modal-dialog-centered" role="document">
 
         <div class="modal-content">
 
             <div class="modal-header bg-success text-white">
 
-                <p class="modal-title" id="exampleModalLabel" style="font-size: 1.2em"><i class="fas fa-plus-circle"></i> Validar Órden de Compra: "Aprobada por Profesional D.A.F."</p>
+                <p class="modal-title" id="exampleModalLabel" style="font-size: 1.2em"><i class="fas fa-plus-circle"></i> Validar Órden de Compra</p>
 
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
 
@@ -598,11 +687,17 @@
 
                     <div class="form-row">
 
-                        <div class="col-md-6 mb-3">
+                        <div class="p-3">
                                                                               
-                            <label for="id">ID Órden de Compra</label>
+                            <label for="id" class="text-center">Órden de Compra Aprobada por Profesional D.A.F. </label>
 
-                            <input type="text" value="{{ $ordenCompra->ordenCompra_id }}" readonly class="h4" style="border:0;" name="ordenCompraID" id="ordenCompraID">
+                            <div class="form-row">
+                                            
+                                <label class=" col-sm-6 col-form-label text-muted">Id Órden de Compra</label>
+                                                                        
+                                <label class=" col-sm-6 col-form-label"><input type="text" value="{{ $ordenCompra->ordenCompra_id }}" readonly style="border:0;" name="ordenCompraID" id="ordenCompraID"></label>     
+
+                            </div>
 
                         </div>
 
@@ -642,13 +737,13 @@
 <!-- Modal Estado 4 Órden de Compra -->
 <div class="modal fade" id="rechazadaProfDAF" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
 
-    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+    <div class="modal-dialog modal-dialog-centered" role="document">
 
         <div class="modal-content">
 
             <div class="modal-header bg-danger text-white">
 
-                <p class="modal-title" id="exampleModalLabel" style="font-size: 1.2em"><i class="fas fa-plus-circle"></i> Validar Órden de Compra: "Rechazada por Profesional D.A.F."</p>
+                <p class="modal-title" id="exampleModalLabel" style="font-size: 1.2em"><i class="fas fa-plus-circle"></i> Validar Órden de Compra</p>
 
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
 
@@ -664,17 +759,23 @@
                 @csrf
                 @method('PUT')
 
-                <input type="hidden" name="flag" value="RechazadaC&S">
+                <input type="hidden" name="flag" value="RechazadaProfDAF">
 
                 <div class="modal-body">
 
                     <div class="form-row">
 
-                        <div class="col-md-6 mb-3">
+                        <div class="p-3">
                                                                               
-                            <label for="id">ID Órden de Compra</label>
+                            <label for="id" class="text-center">Órden de Compra Rechazada por Profesional D.A.F. </label>
 
-                            <input type="text" value="{{ $ordenCompra->ordenCompra_id }}" readonly class="h4" style="border:0;" name="ordenCompraID" id="ordenCompraID">
+                            <div class="form-row">
+                                            
+                                <label class=" col-sm-6 col-form-label text-muted">Id Órden de Compra</label>
+                                                                        
+                                <label class=" col-sm-6 col-form-label"><input type="text" value="{{ $ordenCompra->ordenCompra_id }}" readonly style="border:0;" name="ordenCompraID" id="ordenCompraID"></label>     
+
+                            </div>
 
                         </div>
 
@@ -728,6 +829,570 @@
 
 </div>
 <!-- End Modal Create Solicitud -->
+
+<!-- Modal Órden de Compra Firmada por DAF -->
+<div class="modal fade" id="firmaDAF" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+
+    <div class="modal-dialog modal-dialog-centered" role="document">
+
+        <div class="modal-content">
+
+            <div class="modal-header bg-success text-white">
+
+                <p class="modal-title" id="exampleModalLabel" style="font-size: 1.2em"><i class="fas fa-plus-circle"></i> Validar Órden de Compra</p>
+
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+
+                    <span aria-hidden="true" class="text-white">&times;</span>
+
+                </button>
+
+            </div>
+
+
+            <form method="POST" action="{{ route('ordenCompra.update', $ordenCompra->ordenCompra_id) }}" class="was-validated">
+
+                @csrf
+                @method('PUT')
+
+                <input type="hidden" name="flag" value="FirmadaPorDAF">
+
+                <div class="modal-body">
+
+                    <div class="form-row">
+
+                        <div class="p-3">
+                                                                              
+                            <label for="id" class="text-center">Órden de Compra Firmada por D.A.F.</label>
+
+                            <div class="form-row">
+                                            
+                                <label class=" col-sm-6 col-form-label text-muted">Id Órden de Compra</label>
+                                                                        
+                                <label class=" col-sm-6 col-form-label"><input type="text" value="{{ $ordenCompra->ordenCompra_id }}" readonly style="border:0;" name="ordenCompraID" id="ordenCompraID"></label>     
+
+                            </div>
+
+                        </div>
+
+                    </div>
+                    
+                    <div class="form-row">
+
+                        <button class="btn btn-success btn-block boton" type="submit">
+
+                            <i class="fas fa-save"></i>
+
+                            Firmar Órden De Compra por D.A.F.
+
+                        </button>
+
+                        <button type="button" class="btn btn-block btn-secondary" data-dismiss="modal" aria-label="Close">
+
+                            <i class="fas fa-arrow-left"></i>
+
+                            Cancelar
+
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</div>
+<!-- END Órden de Compra Firmada por DAF -->
+
+<!-- Modal Rechazada por DAF -->
+<div class="modal fade" id="rechazadaDAF" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+
+    <div class="modal-dialog modal-dialog-centered" role="document">
+
+        <div class="modal-content">
+
+            <div class="modal-header bg-danger text-white">
+
+                <p class="modal-title" id="exampleModalLabel" style="font-size: 1.2em"><i class="fas fa-plus-circle"></i> Validar Órden de Compra</p>
+
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+
+                    <span aria-hidden="true" class="text-white">&times;</span>
+
+                </button>
+
+            </div>
+
+
+            <form method="POST" action="{{ route('ordenCompra.update', $ordenCompra->ordenCompra_id) }}" class="was-validated">
+
+                @csrf
+                @method('PUT')
+
+                <input type="hidden" name="flag" value="RechazadaDAF">
+
+                <div class="modal-body">
+
+                    <div class="form-row">
+
+                        <div class="p-3">
+                                                                              
+                            <label for="id" class="text-center">Órden de Compra Rechazada por D.A.F.</label>
+
+                            <div class="form-row">
+                                            
+                                <label class=" col-sm-6 col-form-label text-muted">Id Órden de Compra</label>
+                                                                        
+                                <label class=" col-sm-6 col-form-label"><input type="text" value="{{ $ordenCompra->ordenCompra_id }}" readonly style="border:0;" name="ordenCompraID" id="ordenCompraID"></label>     
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    <div class="form-row">
+
+                        <div class="col-md-12 mb-3">
+                                                                                                              
+                            <label for="Motivo">Motivo Rechazo</label>
+
+                            <textarea type="text" class="form-control" id="motivoRechazo" name="motivoRechazo" placeholder="Ingrese el Motivo del porqué va a Rechazar la Órden de Compra" required></textarea>
+
+                            <div class="invalid-feedback">
+                                                                                                                            
+                                Por favor ingrese el Motivo del Rechazo de la Órden de Compra
+
+                            </div>
+
+                        </div>
+
+                    </div>
+                    
+                    <div class="form-row">
+
+                        <button class="btn btn-success btn-block boton" type="submit">
+
+                            <i class="fas fa-save"></i>
+
+                            Rechazar Órden De Compra
+
+                        </button>
+
+                        <button type="button" class="btn btn-block btn-secondary" data-dismiss="modal" aria-label="Close">
+
+                            <i class="fas fa-arrow-left"></i>
+
+                            Cancelar
+
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</div>
+<!-- End Órden de Compra Rechazada por DAF -->
+
+<!-- Modal Órden de Compra Firmada por Alcaldía -->
+<div class="modal fade" id="firmaAlcaldia" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+
+    <div class="modal-dialog modal-dialog-centered" role="document">
+
+        <div class="modal-content">
+
+            <div class="modal-header bg-success text-white">
+
+                <p class="modal-title" id="exampleModalLabel" style="font-size: 1.2em"><i class="fas fa-plus-circle"></i> Validar Órden de Compra</p>
+
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+
+                    <span aria-hidden="true" class="text-white">&times;</span>
+
+                </button>
+
+            </div>
+
+
+            <form method="POST" action="{{ route('ordenCompra.update', $ordenCompra->ordenCompra_id) }}" class="was-validated">
+
+                @csrf
+                @method('PUT')
+
+                <input type="hidden" name="flag" value="FirmadaPorAlcaldia">
+
+                <div class="modal-body">
+
+                    <div class="form-row">
+
+                        <div class="p-3">
+                                                                              
+                            <label for="id" class="text-center">Órden de Compra Firmada por Alcaldía</label>
+
+                            <div class="form-row">
+                                            
+                                <label class=" col-sm-6 col-form-label text-muted">Id Órden de Compra</label>
+                                                                        
+                                <label class=" col-sm-6 col-form-label"><input type="text" value="{{ $ordenCompra->ordenCompra_id }}" readonly style="border:0;" name="ordenCompraID" id="ordenCompraID"></label>     
+
+                            </div>
+
+                        </div>
+
+                    </div>
+                    
+                    <div class="form-row">
+
+                        <button class="btn btn-success btn-block boton" type="submit">
+
+                            <i class="fas fa-save"></i>
+
+                            Firmar Órden De Compra por Alcaldía
+
+                        </button>
+
+                        <button type="button" class="btn btn-block btn-secondary" data-dismiss="modal" aria-label="Close">
+
+                            <i class="fas fa-arrow-left"></i>
+
+                            Cancelar
+
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</div>
+<!-- END Órden de Compra Firmada Alcaldia -->
+
+<!-- Modal Órden de Compra Firmada por Alcaldía1 -->
+<div class="modal fade" id="firmaAlcaldia1" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+
+    <div class="modal-dialog modal-dialog-centered" role="document">
+
+        <div class="modal-content">
+
+            <div class="modal-header bg-success text-white">
+
+                <p class="modal-title" id="exampleModalLabel" style="font-size: 1.2em"><i class="fas fa-plus-circle"></i> Validar Órden de Compra</p>
+
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+
+                    <span aria-hidden="true" class="text-white">&times;</span>
+
+                </button>
+
+            </div>
+
+
+            <form method="POST" action="{{ route('ordenCompra.update', $ordenCompra->ordenCompra_id) }}" class="was-validated">
+
+                @csrf
+                @method('PUT')
+
+                <input type="hidden" name="flag" value="FirmadaPorAlcaldia1">
+
+                <div class="modal-body">
+
+                    <div class="form-row">
+
+                        <div class="p-3">
+                                                                              
+                            <label for="id" class="text-center">Órden de Compra Firmada por Alcaldía</label>
+
+                            <div class="form-row">
+                                            
+                                <label class=" col-sm-6 col-form-label text-muted">Id Órden de Compra</label>
+                                                                        
+                                <label class=" col-sm-6 col-form-label"><input type="text" value="{{ $ordenCompra->ordenCompra_id }}" readonly style="border:0;" name="ordenCompraID" id="ordenCompraID"></label>     
+
+                            </div>
+
+                        </div>
+
+                    </div>
+                    
+                    <div class="form-row">
+
+                        <button class="btn btn-success btn-block boton" type="submit">
+
+                            <i class="fas fa-save"></i>
+
+                            Firmar Órden De Compra por Alcaldía
+
+                        </button>
+
+                        <button type="button" class="btn btn-block btn-secondary" data-dismiss="modal" aria-label="Close">
+
+                            <i class="fas fa-arrow-left"></i>
+
+                            Cancelar
+
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</div>
+<!-- END Órden de Compra Firmada Alcaldia1 -->
+
+<!-- Modal Órden de Compra Firmada por Administracion -->
+<div class="modal fade" id="firmaAdministracion" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+
+    <div class="modal-dialog modal-dialog-centered" role="document">
+
+        <div class="modal-content">
+
+            <div class="modal-header bg-success text-white">
+
+                <p class="modal-title" id="exampleModalLabel" style="font-size: 1.2em"><i class="fas fa-plus-circle"></i> Validar Órden de Compra</p>
+
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+
+                    <span aria-hidden="true" class="text-white">&times;</span>
+
+                </button>
+
+            </div>
+
+
+            <form method="POST" action="{{ route('ordenCompra.update', $ordenCompra->ordenCompra_id) }}" class="was-validated">
+
+                @csrf
+                @method('PUT')
+
+                <input type="hidden" name="flag" value="FirmadaPorAdministracion">
+
+                <div class="modal-body">
+
+                    <div class="form-row">
+
+                        <div class="p-3">
+                                                                              
+                            <label for="id" class="text-center">Órden de Compra Firmada por Administración</label>
+
+                            <div class="form-row">
+                                            
+                                <label class=" col-sm-6 col-form-label text-muted">Id Órden de Compra</label>
+                                                                        
+                                <label class=" col-sm-6 col-form-label"><input type="text" value="{{ $ordenCompra->ordenCompra_id }}" readonly style="border:0;" name="ordenCompraID" id="ordenCompraID"></label>     
+
+                            </div>
+
+                        </div>
+
+                    </div>
+                    
+                    <div class="form-row">
+
+                        <button class="btn btn-success btn-block boton" type="submit">
+
+                            <i class="fas fa-save"></i>
+
+                            Firmar Órden De Compra por Administración
+
+                        </button>
+
+                        <button type="button" class="btn btn-block btn-secondary" data-dismiss="modal" aria-label="Close">
+
+                            <i class="fas fa-arrow-left"></i>
+
+                            Cancelar
+
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</div>
+<!-- END Órden de Compra Firmada por Administración -->
+
+<!-- Modal Órden de Compra Firmada por Administracion1 -->
+<div class="modal fade" id="firmaAdministracion1" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+
+    <div class="modal-dialog modal-dialog-centered" role="document">
+
+        <div class="modal-content">
+
+            <div class="modal-header bg-success text-white">
+
+                <p class="modal-title" id="exampleModalLabel" style="font-size: 1.2em"><i class="fas fa-plus-circle"></i> Validar Órden de Compra</p>
+
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+
+                    <span aria-hidden="true" class="text-white">&times;</span>
+
+                </button>
+
+            </div>
+
+
+            <form method="POST" action="{{ route('ordenCompra.update', $ordenCompra->ordenCompra_id) }}" class="was-validated">
+
+                @csrf
+                @method('PUT')
+
+                <input type="hidden" name="flag" value="FirmadaPorAdministracion1">
+
+                <div class="modal-body">
+
+                    <div class="form-row">
+
+                        <div class="p-3">
+                                                                              
+                            <label for="id" class="text-center">Órden de Compra Firmada por Administración</label>
+
+                            <div class="form-row">
+                                            
+                                <label class=" col-sm-6 col-form-label text-muted">Id Órden de Compra</label>
+                                                                        
+                                <label class=" col-sm-6 col-form-label"><input type="text" value="{{ $ordenCompra->ordenCompra_id }}" readonly style="border:0;" name="ordenCompraID" id="ordenCompraID"></label>     
+
+                            </div>
+
+                        </div>
+
+                    </div>
+                    
+                    <div class="form-row">
+
+                        <button class="btn btn-success btn-block boton" type="submit">
+
+                            <i class="fas fa-save"></i>
+
+                            Firmar Órden De Compra por Administración
+
+                        </button>
+
+                        <button type="button" class="btn btn-block btn-secondary" data-dismiss="modal" aria-label="Close">
+
+                            <i class="fas fa-arrow-left"></i>
+
+                            Cancelar
+
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</div>
+<!-- END Órden de Compra Firmada por Administración1 -->
+
+<!-- Modal Órden de Compra Firmada por Alcaldía -->
+<div class="modal fade" id="enviarProveedor" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+
+    <div class="modal-dialog modal-dialog-centered" role="document">
+
+        <div class="modal-content">
+
+            <div class="modal-header bg-success text-white">
+
+                <p class="modal-title" id="exampleModalLabel" style="font-size: 1.2em"><i class="fas fa-plus-circle"></i> Validar Órden de Compra</p>
+
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+
+                    <span aria-hidden="true" class="text-white">&times;</span>
+
+                </button>
+
+            </div>
+
+
+            <form method="POST" action="{{ route('ordenCompra.update', $ordenCompra->ordenCompra_id) }}" class="was-validated">
+
+                @csrf
+                @method('PUT')
+
+                <input type="hidden" name="flag" value="EnviarProveedor">
+
+                <div class="modal-body">
+
+                    <div class="form-row">
+
+                        <div class="p-3">
+                                                                              
+                            <label for="id" class="text-center">Enviar Órden de Compra al Proveedor</label>
+
+                            <div class="form-row">
+                                            
+                                <label class=" col-sm-6 col-form-label text-muted">Id Órden de Compra</label>
+                                                                        
+                                <label class=" col-sm-6 col-form-label"><input type="text" value="{{ $ordenCompra->ordenCompra_id }}" readonly style="border:0;" name="ordenCompraID" id="ordenCompraID"></label>     
+
+                            </div>
+
+                        </div>
+
+                    </div>
+                    
+                    <div class="form-row">
+
+                        <button class="btn btn-success btn-block boton" type="submit">
+
+                            <i class="fas fa-save"></i>
+
+                            Enviar Órden de Compra
+
+                        </button>
+
+                        <button type="button" class="btn btn-block btn-secondary" data-dismiss="modal" aria-label="Close">
+
+                            <i class="fas fa-arrow-left"></i>
+
+                            Cancelar
+
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</div>
+<!-- END Órden de Compra Enviada al Proveedor -->
 
 <!-- UPDATE Modal Detalle Solicitud-->
 <div class="modal fade" id="asignarTODOSModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">

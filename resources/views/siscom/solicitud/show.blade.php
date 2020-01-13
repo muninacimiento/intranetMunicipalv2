@@ -1103,15 +1103,25 @@
             //End Delete Record Detalle Solicitud
 
         //Recorremos la Tabla y Sumamos cada Subtotal
-        var cls = document.getElementById("detalleSolicitud").getElementsByTagName("td");
-        var sum = 0;
-        for (var i = 0; i < cls.length; i++){
-            if(cls[i].className == "subtotal"){
-                sum += isNaN(cls[i].innerHTML) ? 0 : parseInt(cls[i].innerHTML);
-            }
-        }
+        //var cls = document.getElementById("detalleSolicitud").getElementsByTagName("td");
+        //var sum = 0;
+        //for (var i = 0; i < cls.length; i++){
+        //    if(cls[i].className == "subtotal"){
+        //        sum += isNaN(cls[i].innerHTML) ? 0 : parseInt(cls[i].innerHTML);
+        //    }
+        //}
 
-        $('#total').val(sum);
+        //$('#total').val(sum);
+
+        var total = 0;
+        $('#detalleSolicitud').DataTable().rows().data().each(function(el, index){
+          //Asumiendo que es la columna 5 de cada fila la que quieres agregar a la sumatoria
+          total += parseInt(el[5]);
+        });
+
+        $('#total').val(total);
+
+        console.log(total);
         
     });
 

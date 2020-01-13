@@ -64,7 +64,7 @@
                     @endif
 
                     
-                    <div class="form-row mb-5 col-md-12">
+                    <div>
 
                         <table class="display" id="solicitudsTable" style="font-size: 0.9em;" width="100%">
 
@@ -181,7 +181,7 @@
 
                                                 {{--Habilitar Entrega Stock--}}
 
-                                                @if($solicitud->estado === 'Asignada a Comprador' || $solicitud->estado === 'Recepcionada' && ($solicitud->categoriaSolicitud === 'Stock de Oficina' || $solicitud->categoriaSolicitud === 'Stock de Aseo' || $solicitud->categoriaSolicitud === 'Stock de Gas'))
+                                                @if(($solicitud->estado === 'Asignada a Comprador' || $solicitud->estado === 'Recepcionada') && ($solicitud->categoriaSolicitud === 'Stock de Oficina' || $solicitud->categoriaSolicitud === 'Stock de Aseo' || $solicitud->categoriaSolicitud === 'Stock de Gas'))
                                                     
                                                     <a href="#" class="btn btn-primary btn-sm mr-1 entregar" data-toggle="tooltip" data-placement="bottom" title="Entregar Productos Stock">
                                             
@@ -210,15 +210,15 @@
 
                                                     {{--Habilitar ReAsignacion--}}
 
-                                                @if(($solicitud->estado === 'Solicitud Entregada Completamente' || $solicitud->estado === 'Solicitud Gestionada Completamente') || $solicitud->categoriaSolicitud === 'Stock de Aseo')
-
-                                                @else
+                                                @if($solicitud->estado === 'Asignada a Comprador' || $solicitud->estado === 'En Proceso de Entrega' || $solicitud->estado === 'En Proceso de Compra')
 
                                                     <a href="#" class="btn btn-dark btn-sm mr-1 reasignar" data-toggle="tooltip" data-placement="bottom" title="ReAsignar Solicitud">
                                             
                                                         <i class="fas fa-inbox"></i>
 
                                                     </a>
+
+                                                @else
 
                                                 @endif
 

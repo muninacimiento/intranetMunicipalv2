@@ -301,6 +301,8 @@
                                                         
                                                 <th>SubTotal</th>
 
+                                                <th>Órden de Compra</th>
+
                                                 <th></th>
 
                                             </tr>
@@ -323,7 +325,9 @@
 
                                                 <td>{{ $detalle->valorUnitario }}</td>
 
-                                                <td class="subtotal">{{ $detalle->SubTotal }}</td>                                               
+                                                <td class="subtotal">{{ $detalle->SubTotal }}</td>
+
+                                                <td>{{ $detalle->NoOC }}</td>
 
                                                 <td>
                                                         

@@ -81,7 +81,7 @@
                     @endif
 
                     
-                    <div class="form-row mb-5 col-md-12">
+                    <div>
 
                         <table class="display" id="solicitudsTable" style="font-size: 0.9em;" width="100%">
 

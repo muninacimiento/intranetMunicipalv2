@@ -20,13 +20,19 @@ class StatusOCTableSeeder extends Seeder
 
         StatusOC::create([
 
-            'estado'     =>  'Recpcionada por C&S',
+            'estado'     =>  'Recepcionada y en Revisión por C&S',
 
         ]);
-        
-    	StatusOC::create([
 
-            'estado'     =>  'En Revisión por C&S',
+        StatusOC::create([
+
+            'estado'     =>  'Revisión por C&S', //Cuando sea Rechazada
+
+        ]);
+
+        StatusOC::create([
+
+            'estado'     =>  'Aprobada por C&S',
 
         ]);
 
@@ -38,13 +44,19 @@ class StatusOCTableSeeder extends Seeder
 
         StatusOC::create([
 
-            'estado'     =>  'En Revisión por DAF',
+            'estado'     =>  'En Revisión por Profesional DAF',
+
+        ]);
+
+        StatusOC::create([
+
+            'estado'     =>  'Aprobada por Profesional DAF',
 
         ]);
 
          StatusOC::create([
 
-            'estado'     =>  'Rechazada por DAF',
+            'estado'     =>  'Rechazada por Profesional DAF',
 
         ]);
 
@@ -56,13 +68,37 @@ class StatusOCTableSeeder extends Seeder
 
         StatusOC::create([
 
+            'estado'     =>  'Aprobada por DAF',
+
+        ]);
+
+        StatusOC::create([
+
+            'estado'     =>  'Rechazada por DAF',
+
+        ]);
+
+        StatusOC::create([
+
             'estado'     =>  'En Firma Alcaldía',
 
         ]);
 
         StatusOC::create([
 
+            'estado'     =>  'Aprobada por Alcaldía',
+
+        ]);
+
+        StatusOC::create([
+
             'estado'     =>  'En Firma Administración',
+
+        ]);
+
+        StatusOC::create([
+
+            'estado'     =>  'Aprobada por Administración',
 
         ]);
 
@@ -105,6 +141,12 @@ class StatusOCTableSeeder extends Seeder
         StatusOC::create([
 
             'estado'     =>  'Anulada',
+
+        ]);
+
+        StatusOC::create([
+
+            'estado'     =>  'Confirmada',
 
         ]);
     }

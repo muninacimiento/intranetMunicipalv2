@@ -16,5 +16,13 @@ class OrdenCompra extends Model
         return $this->hasMany('App\Proveedor');
 
     }
+
+
+    public function solicitud()
+    {
+
+        return $this->hasMany('App\Solicitud');
+
+    }
     
 }

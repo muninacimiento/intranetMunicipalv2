@@ -66,7 +66,7 @@
 
 		   	<a class="dropdown-item text-primary" href="{{ route('admin.consulta') }}">
 
-		    	<i class="fas fa-cogs px-1"></i>
+		    	<i class="fas fa-question px-1"></i>
 
 		    	Consultar Solicitudes
 
@@ -100,17 +100,7 @@
 
 			<div class="dropdown-divider"></div>
 
-			<a class="dropdown-item text-primary" href="#">
-
-			    <i class="fas fa-check-circle px-1"></i>
-
-			    Recepción de Productos OC
-
-			</a>
-
-			    <div class="dropdown-divider"></div>
-
-			<a class="dropdown-item text-primary" href="{{ action('ProveedoresController@index') }}">
+			<a class="dropdown-item text-primary" href="{{ route('proveedores.index') }}">
 
 			    <i class="fas fa-clipboard-list px-1"></i>
 

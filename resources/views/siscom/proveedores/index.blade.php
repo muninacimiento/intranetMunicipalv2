@@ -83,7 +83,7 @@
                     
                     <div class="form-row mb-5 col-md-12">
 
-                        <table class="display" id="proveedorTable" style="font-size: 0.9em;" width="100%">
+                        <table class="display" id="proveedorTable" style="font-size: 0.8em;" width="100%">
 
                             <thead>
 
@@ -98,10 +98,6 @@
                                     <th>Alias</th>
 
                                     <th>Giro</th>
-                                    
-                                    <th>Dirección</th>
-                                    
-                                    <th>Ciudad</th>
                                     
                                     <th>Teléfono</th>
 
@@ -128,10 +124,6 @@
                                     <td>{{ $proveedor->alias }}</td>
 
                                     <td>{{ $proveedor->giro }}</td>
-
-                                    <td>{{ $proveedor->direccion }}</td>
-
-                                    <td>{{ $proveedor->ciudad }}</td>
                                     
                                     <td>{{ $proveedor->telefono }}</td>
 

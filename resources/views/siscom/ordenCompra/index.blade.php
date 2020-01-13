@@ -81,7 +81,7 @@
                     @endif
 
                     
-                    <div class="form-row mb-5 col-md-12">
+                    <div>
 
                         <table class="display" id="ordenCompraTable" style="font-size: 0.9em;" width="100%">
 
@@ -145,17 +145,13 @@
 
                                     <td style="display: none">{{ $oc->totalOrdenCompra }}</td>
 
-                                    @if($oc->excepcion == 0)
-                                        <td>No</td>
-                                    @elseif($oc->excepcion == 1)
-                                        <td>Si</td>
-                                    @endif
+                                    <td>{{ $oc->excepcion }}</td>
                                     
                                     <td>{{ $oc->RazonSocial }}</td>
 
-                                    @if($oc->enviadaProveedor == 0)
+                                    @if($oc->enviadaProveedor === 0)
                                         <td>No</td>
-                                    @else if($oc->enviadaProveedor == 1)
+                                    @elseif($oc->enviadaProveedor === 1)
                                         <td>Si</td>
                                     @endif
 
@@ -183,6 +179,24 @@
 
                                             <div class="btn-group" role="group" aria-label="Basic example">
 
+                                                {{-- Asignar Solicitud para Registrar los Productos a la Órden de Compra --}}
+
+                                                @if($oc->Estado === 'Emitida')
+
+                                                    <a href="#" class="asignar" data-toggle="tooltip" data-placement="bottom" title="Asignar Solicitud para Agregar Productos">
+                                        
+                                                        <button class="btn btn-info btn-sm mr-1 " type="button">
+                                                        
+                                                            <i class="fas fa-shopping-basket"></i>
+
+                                                        </button>
+
+                                                    </a>
+
+                                                @else
+
+                                                @endif
+
                                                 <a href="{{ route('ordenCompra.show', $oc->id) }}" data-toggle="tooltip" data-placement="bottom" title="Ver en Detalle la Órden de Compra y Agregar Productos">
 
                                                     <button class="btn btn-secondary btn-sm mr-1" type="button">
@@ -193,36 +207,59 @@
 
                                                 </a>
 
-                                                @if($oc->Estado == 'Emitida')
+                                                {{-- Recepcionar Órden de Compra por C&S --}}
 
-                                                    <a href="#" class="btn btn-success btn-sm mr-1 recepcionar" data-toggle="tooltip" data-placement="bottom" title="Recepcionar Solicitud">
-                                            
-                                                        <i class="fas fa-clipboard-check"></i>
+                                                @if($oc->Estado == 'Confirmada')
+
+                                                    <a href="#" class="recepcionar" data-toggle="tooltip" data-placement="bottom" title="Recepcionar Órden de Compra">
+
+                                                        <button class="btn btn-success btn-sm mr-1" type="button">
+                                                        
+                                                            <i class="fas fa-clipboard-check"></i>
+
+                                                        </button>
 
                                                     </a>
+
                                                 @else
 
                                                 @endif
 
-                                                <a href="#" class="asignar" data-toggle="tooltip" data-placement="bottom" title="Asignar Solicitud">
+                                                {{-- Enviar Órden de Compra con EXCEPCION --}}
+
+                                                @if($oc->Estado == 'Recepcionada y en Revisión por C&S' && $oc->excepcion === 'Si')
+
+                                                    <a href="#" class="text-decoration-none excepcion" data-toggle="modal" ata-placement="bottom" title="Enviar Órden de Compra con Excepción">
+
+                                                        <button class="btn btn-danger btn-sm mr-1">
+  
+                                                            <i class="fas fa-envelope-open-text"></i> 
+
+                                                        </button>
+
+                                                    </a>
+
+                                                @else
+
+                                                @endif
+
+                                                {{-- Validar Órden de Compra --}}
+
+                                                @if($oc->Estado == 'Emitida' || $oc->Estado == 'Confirmada' || $oc->Estado == 'Enviada a Proveedor')
+
+                                                @else
+
+                                                    <a href="{{ route('ordenCompra.validar', $oc->id) }}" data-toggle="tooltip" data-placement="bottom" title="Válidar Órden de Compra">
                                         
-                                                    <button class="btn btn-info btn-sm mr-1 " type="button">
+                                                        <button class="btn btn-warning btn-sm mr-1 " type="button">
                                                         
-                                                        <i class="fas fa-cart-arrow-down"></i>
+                                                            <i class="fas fa-thumbs-up"></i>
 
-                                                    </button>
+                                                        </button>
 
-                                                </a>
+                                                    </a>
 
-                                                <a href="{{ route('ordenCompra.validar', $oc->id) }}" data-toggle="tooltip" data-placement="bottom" title="Válidar Órden de Compra">
-                                        
-                                                    <button class="btn btn-warning btn-sm mr-1 " type="button">
-                                                        
-                                                        <i class="fas fa-thumbs-up"></i>
-
-                                                    </button>
-
-                                                </a>
+                                                @endif
 
                                                 <a href="#" class="edit" data-toggle="tooltip" data-placement="bottom" title="Modificar la Órden de Compra">
 
@@ -271,6 +308,84 @@
     </div>
 
 </div>
+
+<!-- Modal Órden de Compra Enviada con Excepcion -->
+<div class="modal fade" id="enviarProveedor" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+
+    <div class="modal-dialog modal-dialog-centered" role="document">
+
+        <div class="modal-content">
+
+            <div class="modal-header bg-success text-white">
+
+                <p class="modal-title" id="exampleModalLabel" style="font-size: 1.2em"><i class="fas fa-plus-circle"></i> Validar Órden de Compra</p>
+
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+
+                    <span aria-hidden="true" class="text-white">&times;</span>
+
+                </button>
+
+            </div>
+
+
+            <form method="POST" action="{{ route('ordenCompra.update', $oc->ordenCompra_id) }}" class="was-validated" id="excepcionForm">
+
+                @csrf
+                @method('PUT')
+
+                <input type="hidden" name="flag" value="EnviarProveedorConExcepcion">
+
+                <div class="modal-body">
+
+                    <div class="form-row">
+
+                        <div class="p-3">
+                                                                              
+                            <label for="id" class="text-center">Enviar Órden de Compra con Excepción</label>
+
+                            <div class="form-row">
+                                            
+                                <label class=" col-sm-6 col-form-label text-muted">Id Órden de Compra</label>
+                                                                        
+                                <label class=" col-sm-6 col-form-label"><input type="text" value="{{ $oc->ordenCompra_id }}" readonly style="border:0;" name="ordenCompraID" id="ordenCompra_id_excepcion"></label>     
+
+                            </div>
+
+                        </div>
+
+                    </div>
+                    
+                    <div class="form-row">
+
+                        <button class="btn btn-success btn-block boton" type="submit">
+
+                            <i class="fas fa-save"></i>
+
+                            Enviar Órden de Compra
+
+                        </button>
+
+                        <button type="button" class="btn btn-block btn-secondary" data-dismiss="modal" aria-label="Close">
+
+                            <i class="fas fa-arrow-left"></i>
+
+                            Cancelar
+
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</div>
+<!-- END Órden de Compra Enviada al Proveedor --> 
 
 <!-- CREATE Modal Órden de Compra -->
 <div class="modal fade" id="createModalOrdenCompra" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -569,7 +684,7 @@
 <!-- Modal Asignar Solicitud 1 Órden de Compra -->
 <div class="modal fade" id="asignarSolicitud1Modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
 
-    <div class="modal-dialog modal-dialog-centered modal" role="document">
+    <div class="modal-dialog modal-dialog-centered" role="document">
 
         <div class="modal-content">
 
@@ -595,21 +710,34 @@
 
                 <div class="modal-body">
 
-                    <div class="form-row">
+                    <div class="form-row mb-3">
 
-                        <div class="col mb-3">
+                        <label for="ID" class="col-sm-4 col-form-label text-muted">No. Órden de Compra</label>
+
+                        <div class="col-sm-8">
+                                 
+                            <input type="" name="ordenCompra_id_assign" id="ordenCompra_id_assign" readonly class="form-control-plaintext">
+                                     
+                        </div>
+
+                    </div>
+
+                    <div class="form-row mb-3">
                                                                               
-                            <label for="solicitudID">No. Solicitud</label>
+                            <label for="solicitudID" class="col-sm-4 col-form-label text-muted">No. Solicitud</label>
 
-                            <input type="text" class="form-control" id="ocUpdate" name="solicitud_ID" placeholder="Ingrese el No. de la Solicitud" required>
+                            <div class="col-sm-8">
 
-                            <div class="invalid-feedback">
-                                                                                            
-                                Por favor ingrese el No. de la Solicitud a Asignar a la Órden de Compra
+                                <input type="text" class="form-control" id="solicitud_id_assign" name="solicitud_id_assign" placeholder="Ingrese el No. de la Solicitud" required>
+
+                                <div class="invalid-feedback">
+                                                                                                
+                                    Por favor ingrese el No. de la Solicitud a Asignar a la Órden de Compra
+
+                                </div>
 
                             </div>
 
-                        </div>
                     </div>
                     
                     <div class="form-row">
@@ -676,9 +804,9 @@
 
                         <div class="col-md-6 mb-3">
                                                                               
-                            <label for="id">ID Órden de Compra</label>
+                            <label for="ocUpdate">ID Órden de Compra</label>
 
-                            <input type="text" class="form-control" id="ocUpdate" name="ordenCompra_id" placeholder="Ingrese el No. de Órden de Compra" required>
+                            <input type="text" class="form-control" id="ordenCompra_id_update" name="ordenCompra_id" placeholder="Ingrese el No. de Órden de Compra" required>
 
                             <div class="invalid-feedback">
                                                                                             
@@ -974,25 +1102,6 @@
         
         $(document).ready(function () {
 
-            $( "#fechaActividad" ).datepicker({
-                dateFormat: "yy-mm-dd",
-                minDate: "+14d",
-                firstDay: 1,
-                dayNamesMin: [ "Dom", "Lun", "Mar", "Mier", "Jue", "Vie", "Sab" ],
-                monthNames: [ "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre" ],
-                numberOfMonths: 2,
-            });
-
-            $( "#fechaDecreto" ).datepicker({
-                dateFormat: "yy-mm-dd",
-                firstDay: 1,
-                dayNamesMin: [ "Dom", "Lun", "Mar", "Mier", "Jue", "Vie", "Sab" ],
-                monthNames: [ "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre" ],
-            });
-
-            disableEncabezado();
-
-            disableActividad();
 
             // Start Configuration DataTable
             var table = $('#ordenCompraTable').DataTable({
@@ -1033,6 +1142,29 @@
             });
             //End Configuration DataTable
 
+            //Comienzo de Excepcion de la Solicitud
+            table.on('click', '.excepcion', function () {
+
+                $tr = $(this).closest('tr');
+
+                if ($($tr).hasClass('child')) {
+
+                    $tr = $tr.prev('.parent');
+
+                }
+
+                var data = table.row($tr).data();
+
+                console.log(data);
+
+                $('#ordenCompra_id_excepcion').val(data[1]);
+
+                $('#excepcionForm').attr('action', '/siscom/ordenCompra/' + data[0]);
+                $('#enviarProveedor').modal('show');
+
+            });
+            //Fin Recepción de la Solicitud
+
             //Comienzo de Recepción de la Solicitud
             table.on('click', '.recepcionar', function () {
 
@@ -1071,7 +1203,7 @@
 
                 console.log(data);
 
-                
+                $('#ordenCompra_id_assign').val(data[1]);
 
                 $('#asignarSolicitudForm').attr('action', '/siscom/ordenCompra/' + data[0]);
                 $('#asignarSolicitud1Modal').modal('show');
@@ -1094,7 +1226,7 @@
 
                 console.log(data);
 
-                $('#ocUpdate').val(data[1]);
+                $('#ordenCompra_id_update').val(data[1]);
                 $('#iddocUpdate').val(data[2]);
                 
                 if (($('#tipoOrdenCompraUpdate').val(data[6]))==='Menor a 3 UTM') {
@@ -1168,136 +1300,7 @@
 
             });
             //End Delete Record
-
-            //LLenar Select CategoriaSolicitud dependiendo de la seleccion en TipoSolicitud
-        var options = {
-        
-            Operacional : ["Stock de Oficina", "Stock de Aseo", "Stock de Gas", "Compra"],
-            Actividad : ["Compra"]
-        }
-
-        $(function(){
-
-            var fillCategoria = function(){
-
-                var selected = $('#tipoSolicitud_create').val();
-
-                $('#categoriaSolicitud_create').empty();
-
-                options[selected].forEach(function(element,index){
-
-                    $('#categoriaSolicitud_create').append('<option value="'+element+'">'+element+'</option>');
-
-                });
-
-                if (selected === "") {
-
-                    disableActividad();
-
-                } else if (selected === "Operacional") {
-
-                    disableActividad();
-
-                } else if (selected === "Actividad") {
-
-                    enableActividad();
-
-                } 
-        
-            }
-
-            $('#tipoSolicitud_create').change(fillCategoria);
-
-            fillCategoria();
-
-            
-        });
-
-        document.getElementById("areaGestion").onchange = function() {habilitarEncabezado()};
-
-        function habilitarEncabezado(){
-
-            var option = $('#areaGestion').val();
-
-            if (option === '') {
-
-                disableEncabezado();
-
-            } else if (option === 'Interna') {
-
-                enableInterna();
-
-            } else if (option === 'Programa') {
-
-                enablePrograma();
-
-            }
-
-
-        }
-
-        function disableEncabezado(){
-
-            $('#motivo_create').prop("disabled", true);
-            $('#tipoSolicitud_create').prop("disabled", true);
-            $('#categoriaSolicitud_create').prop("disabled", true);
-            $('#decretoPrograma_create').prop("disabled", true);
-            $('#nombrePrograma_create').prop("disabled", true);
-        }
-
-
-        function enableInterna(){
-
-            $('#motivo_create').prop("disabled", false);
-            $('#tipoSolicitud_create').prop("disabled", false);
-            $('#categoriaSolicitud_create').prop("disabled", false);
-            $('#decretoPrograma_create').prop("disabled", true);
-            $('#nombrePrograma_create').prop("disabled", true);
-        }
-
-        function enablePrograma(){
-
-            $('#motivo_create').prop("disabled", false);
-            $('#tipoSolicitud_create').prop("disabled", false);
-            $('#categoriaSolicitud_create').prop("disabled", false);
-             $('#decretoPrograma_create').prop("disabled", false);
-            $('#nombrePrograma_create').prop("disabled", false);
-
-        }
-
-        function disableActividad() {
-            
-            $('#nombreActividad').prop("disabled", true);
-            $('#fechaActividad').prop("disabled", true);
-            $('#horaActividad').prop("disabled", true);
-            $('#lugarActividad').prop("disabled", true);
-            $('#objetivoActividad').prop("disabled", true);
-            $('#descripcionActividad').prop("disabled", true);
-            $('#participantesActividad').prop("disabled", true);
-            $('#cuentaPresupuestaria').prop("disabled", true);
-            $('#cuentaComplementaria').prop("disabled", true);
-            $('#obsActividad').prop("disabled", true);
-
-        }
-
-        function enableActividad(){
-
-            $('#nombreActividad').prop("disabled", false);
-            $('#fechaActividad').prop("disabled", false);
-            $('#horaActividad').prop("disabled", false);
-            $('#lugarActividad').prop("disabled", false);
-            $('#objetivoActividad').prop("disabled", false);
-            $('#descripcionActividad').prop("disabled", false);
-            $('#participantesActividad').prop("disabled", false);
-            $('#cuentaPresupuestaria').prop("disabled", false);
-            $('#cuentaComplementaria').prop("disabled", false);
-            $('#obsActividad').prop("disabled", false);
-
-        }
-
-        
-
-    });    
+         });    
 
 </script>
 

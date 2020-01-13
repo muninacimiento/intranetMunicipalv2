@@ -107,6 +107,7 @@ Route::middleware(['auth'])->group( function() {
 	Route::get('/siscom/ordenCompra/{oc}', 'OrdenCompraController@show')->name('ordenCompra.show')->middleware('can:ordenCompra.show');
 	Route::get('/siscom/ordenCompra/validar/{oc}', 'OrdenCompraController@validar')->name('ordenCompra.validar')->middleware('can:ordenCompra.validar');
 	Route::post('/siscom/ordenCompra/{oc}', 'OrdenCompraController@update')->name('ordenCompra.update')->middleware('can:ordenCompra.update');
+	//Route::get('/email', 'OrdenCompraController@enviarOC')->name('enviarOC');
 
 
 	//Productos
@@ -114,12 +115,12 @@ Route::middleware(['auth'])->group( function() {
 
 
 	//Proveedores
-	Route::resource('/siscom/proveedores', 'ProveedoresController');
-	Route::post('/siscom/proveedores/{proveedor}', 'ProveedoresController@show')->name('proveedor.show')->middleware('can:proveedor.show');
-	Route::post('/siscom/proveedores/{proveedor}', 'ProveedoresController@update')->name('proveedor.update')->middleware('can:proveedor.update');
+	Route::resource('/siscom/proveedores', 'ProveedoresController')->middleware('can:proveedores.index');
+	Route::post('/siscom/proveedores/{proveedor}', 'ProveedoresController@show')->name('proveedores.show')->middleware('can:proveedores.show');
+	Route::post('/siscom/proveedores/{proveedor}', 'ProveedoresController@update')->name('proveedores.update')->middleware('can:proveedores.update');
 
 	//Licitaciones
-	Route::resource('/siscom/licitaciones', 'OrdenCompraController')->middleware('can:licitaciones.index');
+	Route::resource('/siscom/licitaciones', 'LicitacionesController')->middleware('can:licitaciones.index');
 
 	//Factudas
 	Route::resource('/siscom/facturas', 'FacturaController')->middleware('can:factura.index');

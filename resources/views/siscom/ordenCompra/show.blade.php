@@ -139,8 +139,8 @@
                                                     
                                                     <th>Fecha</th>
                                                     <th>Estado</th>
-                                                    <th>Profesional C&S</th>
-                                                    <th>Comprador</th>
+                                                    <th>Responsable</th>
+                                                    <th>Obs. Rechazo</th>
                                                     
                                                 </tr>
 
@@ -155,7 +155,7 @@
                                                     <td>{{ date('d-m-Y H:i:s', strtotime($m->date)) }}</td>
                                                     <td>{{ $m->status }}</td>
                                                     <td>{{ $m->name }}</td>
-                                                    <td>{{ $ordenCompra->Comprador }}</td>
+                                                    <td>{{ $m->obsRechazoValidacion }}</td>
 
                                                 </tr>
 
@@ -175,7 +175,8 @@
 
                         </div>
 
-                        <div>
+                        <div class="mb-5">
+
                             <div class="mb-5">
 
                                  <a href="#" data-toggle="modal" data-target="#asignarTODOSModal" title="Asignar Producto a la órden de Compra" disabled>
@@ -206,7 +207,7 @@
 
                                             <th style="display: none;">ID</th>
 
-                                            <th>No. Solicitud</th>
+                                            <th>No.Solicitud</th>
 
                                             <th>Producto</th>
 
@@ -236,24 +237,35 @@
 
                                             <td>{{ $ds->cantidad }}</td>                                            
 
-                                            <td>
+                                            <td>                                                
 
                                                 @if($ds->ordenCompra_id == null)
-                                                        
+                                                            
                                                     <a href="#" class="btn btn-primary btn-sm asignarOC" data-toggle="tooltip" data-placement="bottom" title="Asignar Producto a la órden de Compra">
-                                                                
+                                                                    
                                                         <i class="fas fa-check"></i>
 
                                                     </a>
+
+                                                    <a href="#" class="btn btn-danger btn-sm eliminarOC" data-toggle="tooltip" data-placement="bottom" title="Eliminar Producto">
+                                                                    
+                                                        <i class="far fa-trash-alt"></i>
+
+                                                    </a>
+                                                    
+                                                @elseif($ds->ordenCompra_id === $ordenCompra->id)
+
+                                                    <a href="#" class="btn btn-danger btn-sm eliminarOC" data-toggle="tooltip" data-placement="bottom" title="Eliminar Producto">
+                                                                    
+                                                        <i class="far fa-trash-alt"></i>
+
+                                                    </a>
+
                                                 @else
 
+                                                    <label class="text-muted" style="font-size: 0.9em;">Producto Pertenece a otra OC</label>
+
                                                 @endif
-
-                                                <a href="#" class="btn btn-danger btn-sm eliminarOC" data-toggle="tooltip" data-placement="bottom" title="Eliminar Producto">
-                                                                
-                                                    <i class="far fa-trash-alt"></i>
-
-                                                </a>
 
                                             </td>
 
@@ -269,9 +281,57 @@
 
                         </div>
 
+                        <div>
+
+                            <form method="POST" action="{{ route('ordenCompra.update', $ordenCompra->id) }}">
+
+                                @csrf
+                                @method('PUT')
+
+                                <input type="hidden" name="flag" value="ConfirmarOC">
+
+                                @if($ordenCompra->Estado === 'Emitida')
+
+                                    <button type="submit" class="btn btn-success btn-block mb-3"> 
+
+                                        <i class="fas fa-check-circle"></i>
+
+                                        Confirmar Órden de Compra
+
+                                    </button>
+
+                                @else
+
+                                    <button type="submit" class="btn btn-success btn-block mb-3" disabled> 
+
+                                        <i class="fas fa-check-circle"></i>
+
+                                        Confirmar Órden de Compra
+
+                                    </button>
+
+                                @endif
+
+                            </form>
+
+                            <a href="{{ route('ordenCompra.index') }}" class="text-decoration-none">
+
+                                <button type="submit" class="btn btn-secondary btn-block"> 
+
+                                    <i class="fas fa-arrow-left"></i>
+                                                
+                                    Volver
+
+                                </button>
+
+                            </a>
+
+                        </div>
+
                     </div>
                 
                 </div>
+
             </div>
 
         </div>
@@ -289,7 +349,7 @@
 
             <div class="modal-header bg-primary text-white">
 
-                <h3 class="modal-title" id="exampleModalLabel">Agregar Todos los Producto a Órden de Compra<i class="fas fa-edit"></i>  </h3>
+                <p class="modal-title" id="exampleModalLabel" style="font-size: 1.2em"><i class="fas fa-edit"></i> Agregar Todos los Producto a Órden de Compra  </p>
 
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
 
@@ -347,7 +407,7 @@
 
             <div class="modal-header bg-primary text-white">
 
-                <h3 class="modal-title" id="exampleModalLabel">Agregar Producto a Órden de Compra<i class="fas fa-edit"></i>  </h3>
+               <p class="modal-title" id="exampleModalLabel" style="font-size: 1.2em"><i class="fas fa-plus-circle"></i> Agregar Producto a la Órden de Compra</p>
 
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
 
@@ -367,17 +427,19 @@
 
                 <div class="modal-body">
         
-                    <div>
+                    <div class="p-3">
                         
-                        Esta usted seguro ?
+                        <label class="text-muted">Esta usted seguro de querer agregar este Producto? : </label><input type="text"  id="productAdd" readonly style="border:0;">
+
+                        <input type="hidden" value="{{ $ordenCompra->id }}" name="ordenCompraID" id="ordenCompraID">
 
                     </div>
 
-                    <div class="mb-3 form-row">
+                    <div class="form-row">
 
                         <button class="btn btn-success btn-block" type="submit">
 
-                            <i class="fas fa-save"></i>
+                            <i class="fas fa-check-circle"></i>
 
                             Agregar Producto Órden de Compra
 
@@ -404,7 +466,7 @@
 
             <div class="modal-header bg-danger text-white">
 
-                <h4 class="modal-title" id="exampleModalLabel"> Eliminar Producto de la Solicitud <i class="fas fa-times-circle"></i></h4>
+                <p class="modal-title" id="exampleModalLabel" style="font-size: 1.2em"><i class="fas fa-times-circle"></i> Eliminar Producto de la Solicitud </p>
 
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
 
@@ -424,13 +486,19 @@
 
                 <div class="modal-body">
 
-                    <p>Esta Ud. segur@ de querer Eliminar el Producto de la Órden de Compra : </p>
+                    <div class="p-3">
+
+                        <label class="text-muted">Esta usted seguro de querer eliminar este Producto? : </label><input type="text" name="Producto" id="productDelete" readonly style="border:0;">
+
+                    </div>
                     
                     <div class="form-row">
 
                         <button class="btn btn-danger btn-block" type="submit">
 
-                            <i class="fas fa-times-circle"></i> Eliminar Producto
+                            <i class="fas fa-times-circle"></i>
+
+                            Eliminar Producto
 
                         </button>
 
@@ -456,7 +524,7 @@
 
             <div class="modal-header bg-success text-white">
 
-                <p class="modal-title" id="exampleModalLabel" style="font-size: 1.2em"> Nuevo Producto <i class="fas fa-plus-circle"></i></p>
+                <p class="modal-title" id="exampleModalLabel" style="font-size: 1.2em"><i class="fas fa-plus-circle"></i> Nuevo Producto</p>
 
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
 
@@ -544,23 +612,6 @@
     
     $(document).ready(function () {
 
-        $( "#fechaActividad" ).datepicker({
-            dateFormat: "yy-mm-dd",
-            minDate: "+14d",
-            firstDay: 1,
-            dayNamesMin: [ "Dom", "Lun", "Mar", "Mier", "Jue", "Vie", "Sab" ],
-            monthNames: [ "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre" ],
-            numberOfMonths: 2,
-        });
-
-        var tSolicitud = $('#tipoSolicitud').val();
-
-        if (tSolicitud === "Actividad") {
-
-            $('input[type="button"]').removeAttr('disabled');
-
-        }
-
             // Start Configuration DataTable Detalle Solicitud
             var table = $('#detalleSolicitud').DataTable({
                 "paginate"  : true,
@@ -615,7 +666,7 @@
 
                 console.log(dataDetalle);
 
-               // $('#Producto').val(dataDetalle[2]);
+                $('#productAdd').val(dataDetalle[3]);
 
                 $('#detalleOrdenCompraForm').attr('action', '/siscom/solicitud/' + dataDetalle[0]);
                 $('#asignarOCModal').modal('show');
@@ -638,6 +689,8 @@
                 var dataDetalle = table.row($tr).data();
 
                 console.log(dataDetalle);
+
+                $('#productDelete').val(dataDetalle[3]);
                 
                 $('#deleteDetalleForm').attr('action', '/siscom/solicitud/' + dataDetalle[0]);
                 $('#deleteDetalleModal').modal('show');
