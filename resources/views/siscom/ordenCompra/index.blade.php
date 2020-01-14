@@ -10,7 +10,7 @@
 
 @section('content')
 
-<div class="container">
+<div id="allWindow">
 
     <div class="row justify-content-center">
 
@@ -1137,6 +1137,9 @@
 <script type="text/javascript">
         
         $(document).ready(function () {
+            
+            var height = $(window).height();
+            $('#allWindow').height(height);
 
             // Setup - add a text input to each footer cell
             $('#ordenCompraTable tfoot th').each( function () {

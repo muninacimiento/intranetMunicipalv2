@@ -2,7 +2,7 @@
 
 @section('content')
 
-<div class="container">
+<div id="allWindow">
 
     <div class="row justify-content-center">
 
@@ -403,6 +403,9 @@
 <script>
     
     $(document).ready(function () {
+
+        var height = $(window).height();
+            $('#allWindow').height(height);
 
         $( "#fechaActividad" ).datepicker({
             dateFormat: "yy-mm-dd",

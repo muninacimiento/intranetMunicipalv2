@@ -9,7 +9,7 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container">
+<div id="allWindow">
 
     <div class="row justify-content-center">
 
@@ -51,5 +51,15 @@
 
 <!-- JQuery -->
 <script type="text/javascript" src="https://code.jquery.com/jquery-3.3.1.js" ></script>
+
+<script>
+    
+    $(document).ready(function () {
+        var height = $(window).height();
+            $('#allWindow').height(height);
+
+    });
+
+</script>
 
 @endpush
