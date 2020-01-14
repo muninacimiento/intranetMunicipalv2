@@ -208,17 +208,17 @@
                                                 @endif
 
 
-                                                    {{--Habilitar ReAsignacion--}}
+                                                {{--Habilitar ReAsignacion--}}
 
-                                                @if($solicitud->estado === 'Asignada a Comprador' || $solicitud->estado === 'En Proceso de Entrega' || $solicitud->estado === 'En Proceso de Compra')
+                                                @if($solicitud->categoriaSolicitud === 'Stock de Aseo')
+
+                                                @elseif( $solicitud->estado === 'Asignada a Comprador' || $solicitud->estado === 'En Proceso de Entrega' || $solicitud->estado === 'En Proceso de Compra')
 
                                                     <a href="#" class="btn btn-dark btn-sm mr-1 reasignar" data-toggle="tooltip" data-placement="bottom" title="ReAsignar Solicitud">
                                             
                                                         <i class="fas fa-inbox"></i>
 
                                                     </a>
-
-                                                @else
 
                                                 @endif
 

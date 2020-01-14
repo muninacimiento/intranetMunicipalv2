@@ -177,11 +177,25 @@
 
                                                 </a>
 
-                                                <a href="#" class="btn btn-outline-primary btn-sm mr-1 edit" data-toggle="tooltip" data-placement="bottom" title="Modificar la Solicitud">
-                                        
-                                                    <i class="fas fa-edit"></i>
+                                                {{-- Preguntamos si tiene Decreto de Programa para poder determinar que EDICIÓN se debe hacer --}}
 
-                                                </a>
+                                                @if($solicitud->decretoPrograma === NULL)
+
+                                                    <a href="#" class="btn btn-outline-primary btn-sm mr-1 editInterna" data-toggle="tooltip" data-placement="bottom" title="Modificar la Solicitud">
+                                            
+                                                        <i class="fas fa-edit"></i>
+
+                                                    </a>
+
+                                                @else
+
+                                                    <a href="#" class="btn btn-outline-primary btn-sm mr-1 editPrograma" data-toggle="tooltip" data-placement="bottom" title="Modificar la Solicitud">
+                                            
+                                                        <i class="fas fa-edit"></i>
+
+                                                    </a>
+
+                                                @endif
 
                                                 <a href="#" class="btn btn-outline-danger btn-sm delete" data-toggle="tooltip" data-placement="bottom" title="Anular Solicitud">
 
@@ -620,8 +634,8 @@
 </div>
 <!-- End Modal Create Solicitud -->
 
-<!-- Update Modal Solicitud -->
-<div class="modal fade" id="updateModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<!-- Actualizamos Solicitud de Gestión Interna -->
+<div class="modal fade" id="updateSolicitudInterna" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
 
     <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
 
@@ -640,12 +654,12 @@
             </div>
 
 
-            <form method="POST" action="{{ url('/siscom/solicitud') }}" class="was-validated" id="updateForm">
+            <form method="POST" action="{{ url('/siscom/solicitud') }}" class="was-validated" id="updateFormInterna">
 
                 @csrf
                 @method('PUT')
 
-                <input type="hidden" name="flag" value="Actualizar">
+                <input type="hidden" name="flag" value="ActualizarInterna">
 
                 <div class="modal-body">
 
@@ -655,7 +669,7 @@
                                                                               
                             <label for="Motivo">Motivo</label>
 
-                            <textarea type="text" class="form-control" id="motivo_update" name="motivo" placeholder="Ingrese el Motivo de su Solicitud" required></textarea>
+                            <textarea type="text" class="form-control" id="motivo_update_interna" name="motivo" placeholder="Ingrese el Motivo de su Solicitud" required></textarea>
 
                             <div class="invalid-feedback">
                                                                                             
@@ -673,7 +687,7 @@
 
                             <label for="tipoSolicitud">Tipo Solicitud</label>
 
-                            <select name="tipoSolicitud" id="tipoSolicitud_update" class="custom-select" required>
+                            <select name="tipoSolicitud" id="tipoSolicitud_update_interna" class="custom-select" required>
 
                                 <option>Operacional</option>
                                 <option>Actividad</option>
@@ -692,7 +706,7 @@
 
                             <label for="categoriaSolicitud">Categoria Solicitud</label>
 
-                            <select name="categoriaSolicitud" id="categoriaSolicitud_update" class="custom-select" required>
+                            <select name="categoriaSolicitud" id="categoriaSolicitud_update_interna" class="custom-select" required>
 
                                 <option>Stock de Oficina</option>
                                 <option>Stock de Aseo</option>                                
@@ -711,43 +725,7 @@
 
                     </div>
 
-                    <div class="form-row mb-5">
-
-                        <div class="col-md-6">
-                                                                                          
-                            <label for="decretoActividad">No. Decreto del Programa</label>
-
-                            <input type="text" id="decretoPrograma_update" name="decretoPrograma" class="form-control" placeholder="Cuál es el Número de su Decreto?" required/>
-
-                            <div class="invalid-feedback">
-                                                                                                        
-                                Por favor ingrese el No. de Decreto de su Programa
-
-                            </div>
-
-                        </div>
-
-                        <div class="col-md-6">
-                                                                                          
-                            <label for="nombrePrograma">Nombre del Programa 
-
-                                <small class="text-muted">(Programa Presupuestario)</small>
-
-                            </label>
-
-                            <input type="text" id="nombrePrograma_update" name="nombrePrograma" class="form-control" placeholder="Cuál es el Nombre del Programa a Ejecutar?" required/>
-                            
-                            <div class="invalid-feedback">
-                                                                                                        
-                                Por favor ingrese el Nombre de su Programa
-
-                            </div>
-
-                        </div>
-                    
-                    </div>
-
-                    <div class="mb-3 form-row" id="guardarForm">
+                    <div class="form-row">
 
                         <button class="btn btn-success btn-block" type="submit">
 
@@ -776,7 +754,165 @@
     </div>
 
 </div>
-<!-- End Modal Create Solicitud -->
+<!-- Actualizamos Solicitud de Gestión Interna -->
+
+<!-- Actualizamos Solicitud de Gestión de Programa -->
+<div class="modal fade" id="updateSolicitudPrograma" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+
+    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+
+        <div class="modal-content">
+
+            <div class="modal-header bg-primary text-white">
+
+                <h3 class="modal-title" id="exampleModalLabel"> Actualizar Solicitud <i class="fas fa-edit"></i></h3>
+
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+
+                    <span aria-hidden="true" class="text-white">&times;</span>
+
+                </button>
+
+            </div>
+
+
+            <form method="POST" action="{{ url('/siscom/solicitud') }}" class="was-validated" id="updateFormPrograma">
+
+                @csrf
+                @method('PUT')
+
+                <input type="hidden" name="flag" value="ActualizarPrograma">
+
+                <div class="modal-body">
+
+                    <div class="form-row">
+
+                        <div class="col-md-12 mb-3">
+                                                                              
+                            <label for="Motivo">Motivo</label>
+
+                            <textarea type="text" class="form-control" id="motivo_update_programa" name="motivo" placeholder="Ingrese el Motivo de su Solicitud" required></textarea>
+
+                            <div class="invalid-feedback">
+                                                                                            
+                                Por favor ingrese el Motivo de la Solicitud
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    <div class="form-row mb-5">
+
+                        <div class="form-group col-md-6 mb-3">
+
+                            <label for="tipoSolicitud">Tipo Solicitud</label>
+
+                            <select name="tipoSolicitud" id="tipoSolicitud_update_programa" class="custom-select" required>
+
+                                <option>Operacional</option>
+                                <option>Actividad</option>
+
+                            </select>
+
+                            <div class="invalid-feedback">
+
+                                Por favor seleccione el Tipo de Solicitud
+
+                            </div>
+
+                        </div>
+
+                        <div class="form-group col-md-6 mb-3">
+
+                            <label for="categoriaSolicitud">Categoria Solicitud</label>
+
+                            <select name="categoriaSolicitud" id="categoriaSolicitud_update_programa" class="custom-select" required>
+
+                                <option>Stock de Oficina</option>
+                                <option>Stock de Aseo</option>                                
+                                <option>Stock de Gas</option>                               
+                                <option>Compra</option>                                
+
+                            </select>
+                                                                                        
+                            <div class="invalid-feedback">
+                                                                                            
+                                Por favor seleccione la Categoria de la Solicitud
+
+                            </div>
+                                                                            
+                        </div>  
+
+                    </div>
+
+                    <div class="form-row mb-5">
+
+                        <div class="col-md-6">
+                                                                                          
+                            <label for="decretoActividad">No. Decreto del Programa</label>
+
+                            <input type="text" id="decretoPrograma_update_programa" name="decretoPrograma" class="form-control" placeholder="Cuál es el Número de su Decreto?" required/>
+
+                            <div class="invalid-feedback">
+                                                                                                        
+                                Por favor ingrese el No. de Decreto de su Programa
+
+                            </div>
+
+                        </div>
+
+                        <div class="col-md-6">
+                                                                                          
+                            <label for="nombrePrograma">Nombre del Programa 
+
+                                <small class="text-muted">(Programa Presupuestario)</small>
+
+                            </label>
+
+                            <input type="text" id="nombrePrograma_update_programa" name="nombrePrograma" class="form-control" placeholder="Cuál es el Nombre del Programa a Ejecutar?" required/>
+                            
+                            <div class="invalid-feedback">
+                                                                                                        
+                                Por favor ingrese el Nombre de su Programa
+
+                            </div>
+
+                        </div>
+                    
+                    </div>
+
+                    <div class="form-row">
+
+                        <button class="btn btn-success btn-block" type="submit">
+
+                            <i class="fas fa-save"></i>
+
+                            Guardar Solicitud
+
+                        </button>
+
+                        <button type="button" class="btn btn-block btn-secondary" data-dismiss="modal" aria-label="Close">
+
+                            <i class="fas fa-arrow-left"></i>
+
+                            Cancelar
+
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</div>
+<!-- ACtualizamos Solicitud de Gestión de Programa -->
 
 <!-- DELETE Modal Solicitud -->
 <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -964,7 +1100,7 @@
             //End Configuration DataTable
 
             //Start Edit Record
-            table.on('click', '.edit', function () {
+            table.on('click', '.editInterna', function () {
 
                 $tr = $(this).closest('tr');
 
@@ -978,40 +1114,89 @@
 
                 console.log(data);
 
-                $('#motivo_update').val(data[5]);
+                $('#motivo_update_interna').val(data[5]);
 
-                if (($('#tipoSolicitud_update').val(data[6]))==='Solicitud General') {
+                if (($('#tipoSolicitud_update_interna').val(data[6]))==='Solicitud General') {
 
-                    $('#tipoSolicitud_update').val();    
+                    $('#tipoSolicitud_update_interna').val();    
                 }
-                else if (($('#tipoSolicitud_update').val(data[6]))==='Solicitud de Actividad'){
+                else if (($('#tipoSolicitud_update_interna').val(data[6]))==='Solicitud de Actividad'){
 
-                    $('#tipoSolicitud_update').val();       
+                    $('#tipoSolicitud_update_interna').val();       
                 }
                 
-                if (($('#categoriaSolicitud_update').val(data[7]))==='Stock de Oficina') {
+                if (($('#categoriaSolicitud_update_interna').val(data[7]))==='Stock de Oficina') {
 
-                    $('#categoriaSolicitud_update').val();    
+                    $('#categoriaSolicitud_update_interna').val();    
                 }
-                else if (($('#categoriaSolicitud_update').val(data[7]))==='Stock de Aseo'){
+                else if (($('#categoriaSolicitud_update_interna').val(data[7]))==='Stock de Aseo'){
 
-                    $('#categoriaSolicitud_update').val();       
+                    $('#categoriaSolicitud_update_interna').val();       
                 }
-                else if (($('#categoriaSolicitud_update').val(data[7]))==='Stock de Gas'){
+                else if (($('#categoriaSolicitud_update_interna').val(data[7]))==='Stock de Gas'){
 
-                    $('#categoriaSolicitud_update').val();       
+                    $('#categoriaSolicitud_update_interna').val();       
                 }
-                else if (($('#categoriaSolicitud_update').val(data[7]))==='Compra'){
+                else if (($('#categoriaSolicitud_update_interna').val(data[7]))==='Compra'){
 
-                    $('#categoriaSolicitud_update').val();       
+                    $('#categoriaSolicitud_update_interna').val();       
+                }               
+
+                $('#updateFormInterna').attr('action', '/siscom/solicitud/' + data[0]);
+                $('#updateSolicitudInterna').modal('show');
+
+            });
+            //End Edit Record
+
+            //Start Edit Record
+            table.on('click', '.editPrograma', function () {
+
+                $tr = $(this).closest('tr');
+
+                if ($($tr).hasClass('child')) {
+
+                    $tr = $tr.prev('.parent');
+
                 }
 
-                $('#decretoPrograma_update').val(data[8]);
-                $('#nombrePrograma_update').val(data[9]);
+                var data = table.row($tr).data();
+
+                console.log(data);
+
+                $('#motivo_update_programa').val(data[5]);
+
+                if (($('#tipoSolicitud_update_programa').val(data[6]))==='Solicitud General') {
+
+                    $('#tipoSolicitud_update_programa').val();    
+                }
+                else if (($('#tipoSolicitud_update_programa').val(data[6]))==='Solicitud de Actividad'){
+
+                    $('#tipoSolicitud_update_programa').val();       
+                }
+                
+                if (($('#categoriaSolicitud_update_programa').val(data[7]))==='Stock de Oficina') {
+
+                    $('#categoriaSolicitud_update_programa').val();    
+                }
+                else if (($('#categoriaSolicitud_update_programa').val(data[7]))==='Stock de Aseo'){
+
+                    $('#categoriaSolicitud_update_programa').val();       
+                }
+                else if (($('#categoriaSolicitud_update_programa').val(data[7]))==='Stock de Gas'){
+
+                    $('#categoriaSolicitud_update_programa').val();       
+                }
+                else if (($('#categoriaSolicitud_update_programa').val(data[7]))==='Compra'){
+
+                    $('#categoriaSolicitud_update_programa').val();       
+                }
+
+                $('#decretoPrograma_update_programa').val(data[8]);
+                $('#nombrePrograma_update_programa').val(data[9]);
                
 
-                $('#updateForm').attr('action', '/siscom/solicitud/' + data[0]);
-                $('#updateModal').modal('show');
+                $('#updateFormPrograma').attr('action', '/siscom/solicitud/' + data[0]);
+                $('#updateSolicitudPrograma').modal('show');
 
             });
             //End Edit Record

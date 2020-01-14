@@ -200,8 +200,25 @@ class SCM_SolicitudController extends Controller
      */
     public function update(Request $request, $id)
     {
-       // Actualizar ENCABEZADO Solicitud
-        if ($request->flag == 'Actualizar') {
+       // Actualizar ENCABEZADO Solicitud Interna
+        if ($request->flag == 'ActualizarInterna') {
+
+            $solicitud = Solicitud::findOrFail($id);
+
+            $solicitud->user_id                     = Auth::user()->id;
+            $solicitud->motivo                      = strtoupper($request->motivo);
+            $solicitud->tipoSolicitud               = $request->tipoSolicitud;
+            $solicitud->categoriaSolicitud          = $request->categoriaSolicitud;
+
+            //dd($solicitud);
+
+            $solicitud->save(); //Guardamos la Solicitud
+
+            return redirect('/siscom/solicitud')->with('info', 'Solicitud Actualizada con éxito !');
+        }
+
+        else // Actualizar ENCABEZADO Solicitud Programa
+        if ($request->flag == 'ActualizarPrograma') {
 
             $solicitud = Solicitud::findOrFail($id);
 
@@ -211,7 +228,6 @@ class SCM_SolicitudController extends Controller
             $solicitud->categoriaSolicitud          = $request->categoriaSolicitud;
             $solicitud->decretoPrograma             = $request->decretoPrograma;
             $solicitud->nombrePrograma              = strtoupper($request->nombrePrograma);
-            $solicitud->estado_id                   = 1;
 
             //dd($solicitud);
 
@@ -219,6 +235,7 @@ class SCM_SolicitudController extends Controller
 
             return redirect('/siscom/solicitud')->with('info', 'Solicitud Actualizada con éxito !');
         }
+
         // Anular Solicitud
         else if ($request->flag == 'Anular') {
 

@@ -171,7 +171,7 @@
 
                                     <tbody>
 
-                                     @foreach($move as $m)
+                                    @foreach($move as $m)
                                         
                                         <tr>
 
@@ -192,7 +192,14 @@
 
                                         </tr>
 
-                                     @endforeach
+                                    @endforeach
+
+                                        <tr>
+                                            
+                                            <td><strong>Observación Anulación</strong></td>
+                                            <td colspan="4"><em>{{ $solicitud->motivoAnulacion }}</em></td>
+
+                                        </tr>
 
                                     </tbody>
 

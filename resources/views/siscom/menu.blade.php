@@ -62,6 +62,7 @@
 
 		    @endcan		
 
+		    @can('admin.consulta')
 		    <div class="dropdown-divider"></div>
 
 		   	<a class="dropdown-item text-primary" href="{{ route('admin.consulta') }}">
@@ -71,6 +72,7 @@
 		    	Consultar Solicitudes
 
 		    </a>
+		    @endcan
 
 		</div>
 
