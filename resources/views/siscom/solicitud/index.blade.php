@@ -99,7 +99,7 @@
 
                                     <th>Comprador</th>
                                     
-                                    <th>Motivo</th>
+                                    <th>Motivo/Destino</th>
                                     
                                     <th>Tipo</th>
                                     
@@ -296,7 +296,7 @@
 
                             <div class="form-group col-md-12 mb-3">
                                                                                   
-                                <label for="Motivo">Motivo</label>
+                                <label for="Motivo">Motivo / Destino</label>
 
                                 <textarea type="text" class="form-control" id="motivo_create" name="motivo" placeholder="Ingrese el Motivo de su Solicitud" required disabled></textarea>
 
@@ -667,7 +667,7 @@
 
                         <div class="col-md-12 mb-3">
                                                                               
-                            <label for="Motivo">Motivo</label>
+                            <label for="Motivo">Motivo / Destino</label>
 
                             <textarea type="text" class="form-control" id="motivo_update_interna" name="motivo" placeholder="Ingrese el Motivo de su Solicitud" required></textarea>
 
@@ -789,7 +789,7 @@
 
                         <div class="col-md-12 mb-3">
                                                                               
-                            <label for="Motivo">Motivo</label>
+                            <label for="Motivo">Motivo / Destino</label>
 
                             <textarea type="text" class="form-control" id="motivo_update_programa" name="motivo" placeholder="Ingrese el Motivo de su Solicitud" required></textarea>
 
@@ -983,7 +983,7 @@
 
                         <div class="col-md-12 mb-3">
                                                                                                               
-                            <label for="Motivo">Motivo</label>
+                            <label for="Motivo">Motivo / Destino</label>
 
                             <textarea type="text" class="form-control" id="motivoAnulacion" name="motivoAnulacion" placeholder="Ingrese el Motivo del porqué va a ANULAR su Solicitud" required></textarea>
 

@@ -85,7 +85,7 @@
 
 			<tr>
 				
-				<td width="18%" class="w3-text-gray">Motivo</td>
+				<td width="18%" class="w3-text-gray">Motivo/Destino</td>
 				<td colspan="5">{{ $solicitud->motivo }}</td>
 
 			</tr>

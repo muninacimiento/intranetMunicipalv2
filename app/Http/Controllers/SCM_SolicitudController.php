@@ -204,8 +204,6 @@ class SCM_SolicitudController extends Controller
         if ($request->flag == 'ActualizarInterna') {
 
             $solicitud = Solicitud::findOrFail($id);
-
-            $solicitud->user_id                     = Auth::user()->id;
             $solicitud->motivo                      = strtoupper($request->motivo);
             $solicitud->tipoSolicitud               = $request->tipoSolicitud;
             $solicitud->categoriaSolicitud          = $request->categoriaSolicitud;
@@ -221,8 +219,6 @@ class SCM_SolicitudController extends Controller
         if ($request->flag == 'ActualizarPrograma') {
 
             $solicitud = Solicitud::findOrFail($id);
-
-            $solicitud->user_id                     = Auth::user()->id;
             $solicitud->motivo                      = strtoupper($request->motivo);
             $solicitud->tipoSolicitud               = $request->tipoSolicitud;
             $solicitud->categoriaSolicitud          = $request->categoriaSolicitud;
@@ -244,7 +240,6 @@ class SCM_SolicitudController extends Controller
                 DB::beginTransaction();
 
                     $solicitud = Solicitud::findOrFail($id);
-                    $solicitud->user_id                     = Auth::user()->id;
                     $solicitud->motivoAnulacion            = strtoupper($request->motivoAnulacion);
                     $solicitud->estado_id                  = 11;
 
@@ -280,7 +275,6 @@ class SCM_SolicitudController extends Controller
                 DB::beginTransaction();
 
                     $solicitud = Solicitud::findOrFail($id);
-                    $solicitud->user_id                     = Auth::user()->id;
                     $solicitud->estado_id                   = 2;
                     $solicitud->total                       = $request->totalSolicitud;
 
@@ -314,8 +308,6 @@ class SCM_SolicitudController extends Controller
         else if ($request->flag == 'Actividad') {
 
             $solicitud = Solicitud::findOrFail($id);
-
-            $solicitud->user_id                     = Auth::user()->id;
             $solicitud->nombreActividad             = strtoupper($request->nombreActividad);
             $solicitud->fechaActividad              = $request->fechaActividad;
             $solicitud->horaActividad               = $request->horaActividad;

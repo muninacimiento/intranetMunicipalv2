@@ -305,8 +305,6 @@ class SCM_AdminSolicitudController extends Controller
         else if ($request->flag == 'Actividad') {
 
             $solicitud = Solicitud::findOrFail($id);
-
-            $solicitud->user_id                     = Auth::user()->id;
             $solicitud->nombreActividad             = strtoupper($request->nombreActividad);
             $solicitud->fechaActividad              = $request->fechaActividad;
             $solicitud->horaActividad               = $request->horaActividad;

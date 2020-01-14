@@ -94,7 +94,7 @@
 
                                     <th style="display: none">Nombre Programa</th>
 
-                                    <th>Acciones</th>
+                                    <th >Acciones</th>
 
                                 </tr>
 
@@ -143,6 +143,38 @@
                                 @endforeach
 
                             </tbody>
+
+                            <tfoot>
+
+                                <tr class="table-active">
+
+                                    <th>ID</th>
+
+                                    <th>Estado</th>
+
+                                    <th>IDDOC</th>
+
+                                    <th>Creada</th>
+
+                                    <th>Comprador</th>
+                                    
+                                    <th>Motivo</th>
+                                    
+                                    <th>Tipo</th>
+                                    
+                                    <th>Categoria</th>
+
+                                    <th>Dependencia</th>
+
+                                    <th style="display: none">Decreto Programa</th>
+
+                                    <th style="display: none">Nombre Programa</th>
+
+                                    <th>Acciones</th>
+
+                                </tr>
+
+                            </tfoot>
 
                         </table>
 
@@ -671,6 +703,9 @@
         
         $(document).ready(function () {
 
+            var height = $(window).height();
+            $('#allWindow').height(height);
+
             $( "#fechaActividad" ).datepicker({
                 dateFormat: "yy-mm-dd",
                 minDate: "+14d",
@@ -690,6 +725,13 @@
             disableEncabezado();
 
             disableActividad();
+
+            // Setup - add a text input to each footer cell
+            $('#solicitudsTable tfoot th').each( function () {
+                var title = $(this).text();
+                $(this).html( '<input type="text" placeholder="Buscar">' );
+            } );
+
 
             // Start Configuration DataTable
             var table = $('#solicitudsTable').DataTable({
@@ -729,6 +771,19 @@
 
             });
             //End Configuration DataTable
+
+             // Apply the search
+            table.columns().every( function () {
+                var that = this;
+         
+                $( 'input', this.footer() ).on( 'keyup change clear', function () {
+                    if ( that.search() !== this.value ) {
+                        that
+                            .search( this.value )
+                            .draw();
+                    }
+                } );
+            } );
 
             //Comienzo de Confirmar Entrega Productos de la Solicitud
             table.on('click', '.entregar', function () {

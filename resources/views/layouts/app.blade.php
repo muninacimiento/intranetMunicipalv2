@@ -76,6 +76,21 @@
 
         }
 
+        tfoot input {
+            
+            width: 100%;
+            padding: 3px;
+            box-sizing: border-box;
+
+        }
+
+        #allWindow {
+            
+            padding: 10px;
+            min-height: 100%
+            min-width: 100%
+        }
+
     </style>
 
 

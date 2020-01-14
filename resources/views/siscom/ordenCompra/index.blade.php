@@ -293,6 +293,42 @@
 
                             </tbody>
 
+                            <tfoot>
+
+                                <tr class="table-active">
+
+                                    <th style="display: none">ID</th>
+
+                                    <th>ID O.C.</th>
+
+                                    <th>IDDOC</th>
+
+                                    <th>Creada</th>
+
+                                    <th>Estado</th>
+
+                                    <th>Comprador</th>
+                                    
+                                    <th style="display: none">Tipo</th>
+
+                                    <th style="display: none">Valor Estimado</th>
+
+                                    <th style="display: none">Total $</th>
+                                    
+                                    <th>Excepción</th>
+                                    
+                                    <th>Proveedor</th>
+
+                                    <th>Enviada al Proveedor</th>
+
+                                    <th style="display: none">Depto. que Recepciona</th>
+
+                                    <th>Acciones</th>
+
+                                </tr>
+
+                            </tfoot>
+
                         </table>
 
 
@@ -1102,6 +1138,11 @@
         
         $(document).ready(function () {
 
+            // Setup - add a text input to each footer cell
+            $('#ordenCompraTable tfoot th').each( function () {
+                var title = $(this).text();
+                $(this).html( '<input type="text" placeholder="Buscar">' );
+            } );
 
             // Start Configuration DataTable
             var table = $('#ordenCompraTable').DataTable({
@@ -1141,6 +1182,19 @@
 
             });
             //End Configuration DataTable
+
+             // Apply the search
+            table.columns().every( function () {
+                var that = this;
+         
+                $( 'input', this.footer() ).on( 'keyup change clear', function () {
+                    if ( that.search() !== this.value ) {
+                        that
+                            .search( this.value )
+                            .draw();
+                    }
+                } );
+            } );
 
             //Comienzo de Excepcion de la Solicitud
             table.on('click', '.excepcion', function () {

@@ -40,7 +40,7 @@
 
                                 <div class="col-md-12 mb-3">
 
-                                    <label class="text-muted">Motivo</label>
+                                    <label class="text-muted">Motivo/Destino</label>
                                                                 
                                     <h5>{{ $solicitud->motivo }}</h5>
                                                             
