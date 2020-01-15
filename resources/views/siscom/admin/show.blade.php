@@ -288,7 +288,7 @@
 
                                 </form>
 
-                                <div class="form-row mb-5 col-md-12">
+                                <div>
 
                                     <table class="display" id="detalleSolicitud" width="100%">
 
@@ -310,7 +310,9 @@
 
                                                 <th>Órden de Compra</th>
 
-                                                <th></th>
+                                                <th>Estado O.C.</th>
+
+                                                <th>Acciones</th>
 
                                             </tr>
 
@@ -335,6 +337,8 @@
                                                 <td class="subtotal">{{ $detalle->SubTotal }}</td>
 
                                                 <td>{{ $detalle->NoOC }}</td>
+
+                                                <td>{{ $detalle->EstadoOC }}</td>
 
                                                 <td>
                                                         

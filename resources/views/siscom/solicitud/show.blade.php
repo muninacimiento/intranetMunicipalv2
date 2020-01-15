@@ -336,7 +336,11 @@
                                                         
                                                 <th>SubTotal</th>
 
-                                                <th></th>
+                                                <th>Órden de Compra</th>
+
+                                                <th>Estado O.C.</th>
+
+                                                <th>Acciones</th>
 
                                             </tr>
 
@@ -359,6 +363,10 @@
                                                 <td>{{ $detalle->valorUnitario }}</td>
 
                                                 <td class="subtotal">{{ $detalle->SubTotal }}</td>  
+
+                                                <td>{{ $detalle->NoOC }}</td>
+
+                                                <td>{{ $detalle->EstadoOC }}</td>
 
                                                 @if( $solicitud->estado_id < 3)                                             
 

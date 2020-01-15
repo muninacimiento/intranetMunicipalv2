@@ -20,6 +20,11 @@ use App\AssignRequestToOC;
 /* Invocamos el modelo de la Entidad DetalleSolicitud*/
 use App\DetailSolicitud;
 
+use App\Solicitud;
+
+/* Invocamos el modelo de la Entidad Movimiento de la Solicitud*/
+use App\MoveSolicitud;
+
 use DB;
 
 class OrdenCompraController extends Controller
@@ -267,17 +272,45 @@ class OrdenCompraController extends Controller
         //Asignamos las Solicitudes que proveerán de los Productos para la Órden de Compra
         else if ($request->flag == 'Asignar') {
 
-            $year = Carbon::now();
+            try {
 
-            $assign = new AssignRequestToOC;
+                DB::beginTransaction();
 
-            $assign->ordenCompra_id             = $id;
-            $assign->solicitud_id               = $request->solicitud_id_assign;
-            $assign->year                       = $year->format('Y');
+                    $year = Carbon::now();
 
-            $assign->save();
+                    //Asignamos la Solicitud a la Órden de Compra
+                    $assign = new AssignRequestToOC;
+                    $assign->ordenCompra_id             = $id;
+                    $assign->solicitud_id               = $request->solicitud_id_assign;
+                    $assign->year                       = $year->format('Y');
 
+                    $assign->save();
+
+                    //Cambiamos el Estado de la Solicitud a "En Proceso de Compra"
+                    $solicitud = Solicitud::findOrFail($request->solicitud_id_assign);
+                    $solicitud->estado_id               = 6;
+
+                    $solicitud->save();
+
+                    //Guardamos los datos de Movimientos de la Solicitud
+                    $move = new MoveSolicitud;
+                    $move->solicitud_id                     = $request->solicitud_id_assign;
+                    $move->estadoSolicitud_id               = 6;
+                    $move->fecha                            = $solicitud->updated_at;
+                    $move->user_id                          = Auth::user()->id;
+
+                    $move->save(); //Guardamos el Movimiento de la Solicitud    
+
+                DB::commit();
                 
+            } catch (Exception $e) {
+
+                DB::rollback();
+
+                return redirect('/siscom/ordenCompra')->with('info', 'No se ha podido asignar la Solicitud a la Órden de Compra');
+
+            }
+
             return redirect('/siscom/ordenCompra')->with('info', 'Solicitud Asignada con éxito!');
 
         }
