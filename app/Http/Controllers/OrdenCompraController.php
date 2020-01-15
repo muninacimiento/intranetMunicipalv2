@@ -256,7 +256,6 @@ class OrdenCompraController extends Controller
             $oc->ordenCompra_id                 = $request->ordenCompra_id;
             $oc->iddoc                          = $request->iddoc;
             $oc->proveedor_id                   = $request->flagIdProveedor;
-            $oc->estado_id                      = 1;
             $oc->tipoOrdenCompra                = $request->tipoOrdenCompra;
             $oc->valorEstimado                  = $request->valorEstimado;
             $oc->totalOrdenCompra               = $request->totalOrdenCompra;
@@ -799,8 +798,6 @@ class OrdenCompraController extends Controller
                             ->select('orden_compras.id', 'proveedores.correo as MailProveedor', 'users.email as MailComprador')
                             ->where('orden_compras.id', '=', $id)
                             ->first();
-
-
                             //dd($correo);
 
 
@@ -815,6 +812,8 @@ class OrdenCompraController extends Controller
             } catch (Exception $e) {
 
                 db::rollback();
+
+                return redirect('/siscom/ordenCompra')->with('danger', 'La Órden de Compra NO ha podido ser enviada al proveedor, favor verifique el correo del Proveedor!');
                 
             }
 

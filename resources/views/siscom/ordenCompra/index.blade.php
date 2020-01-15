@@ -80,6 +80,24 @@
                    
                     @endif
 
+                    @if (session('danger'))
+
+                        <div class="alert alert-danger alert-dismissible fade show shadow mb-3" role="alert">
+                              
+                            <i class="far fa-times-circle"></i>
+                             
+                            <strong> {{ session('danger') }} </strong>
+                            
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            
+                                <span aria-hidden="true">&times;</span>
+                              
+                            </button>
+
+                        </div>
+                   
+                    @endif
+
                     
                     <div>
 
@@ -111,7 +129,9 @@
                                     
                                     <th>Proveedor</th>
 
-                                    <th>Enviada al Proveedor</th>
+                                    <th>Tipo de O.C.</th>
+
+                                    <th style="display: none">Enviada al Proveedor</th>
 
                                     <th style="display: none">Depto. que Recepciona</th>
 
@@ -149,11 +169,9 @@
                                     
                                     <td>{{ $oc->RazonSocial }}</td>
 
-                                    @if($oc->enviadaProveedor === 0)
-                                        <td>No</td>
-                                    @elseif($oc->enviadaProveedor === 1)
-                                        <td>Si</td>
-                                    @endif
+                                    <td>{{ $oc->tipoOrdenCompra }}</td>
+
+                                    <td style="display: none">{{ $oc->enviadaProveedor }}</td>
 
                                     <td style="display: none">{{ $oc->deptoRecepcion }}</td>
 
@@ -319,7 +337,9 @@
                                     
                                     <th>Proveedor</th>
 
-                                    <th>Enviada al Proveedor</th>
+                                    <th>Tipo O.C.</th>
+
+                                    <th style="display: none">Enviada al Proveedor</th>
 
                                     <th style="display: none">Depto. que Recepciona</th>
 
@@ -345,7 +365,7 @@
 
 </div>
 
-<!-- Modal Órden de Compra Enviada con Excepcion 
+<!-- Modal Órden de Compra Enviada con Excepcion -->
 <div class="modal fade" id="enviarProveedor" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
 
     <div class="modal-dialog modal-dialog-centered" role="document">
@@ -421,7 +441,7 @@
     </div>
 
 </div>
-<!-- END Órden de Compra Enviada al Proveedor --> -->
+<!-- END Órden de Compra Enviada al Proveedor --> 
 
 <!-- CREATE Modal Órden de Compra -->
 <div class="modal fade" id="createModalOrdenCompra" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -530,6 +550,7 @@
 
                                 <option>Menor a 3 UTM</option>
                                 <option>Trato Directo</option>
+                                <option>Licitación</option>
                                 <option>Convenio Marco / Suministro</option>
 
                             </select>
@@ -1031,7 +1052,7 @@
 
             <div class="modal-header bg-danger text-white">
 
-                <p class="modal-title" id="exampleModalLabel" style="font-size: 1.2em"><i class="far fa-times-circle"></i></i> Anular Órden de Compra</p>
+                <p class="modal-title" id="exampleModalLabel" style="font-size: 1.2em"><i class="far fa-times-circle"></i> Anular Órden de Compra</p>
 
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
 
