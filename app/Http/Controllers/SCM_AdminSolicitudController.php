@@ -334,7 +334,7 @@ class SCM_AdminSolicitudController extends Controller
 
                     $solicitud = Solicitud::findOrFail($id);
                     $solicitud->motivoAnulacion            = strtoupper($request->motivoAnulacion);
-                    $solicitud->estado_id                  = 11;
+                    $solicitud->estado_id                  = 12;
 
                     //dd($solicitud);
 
@@ -343,7 +343,7 @@ class SCM_AdminSolicitudController extends Controller
                     //Guardamos los datos de Movimientos de la Solicitud
                     $move = new MoveSolicitud;
                     $move->solicitud_id                     = $solicitud->id;
-                    $move->estadoSolicitud_id               = 11;
+                    $move->estadoSolicitud_id               = 12;
                     $move->fecha                            = $solicitud->updated_at;
                     $move->user_id                          = Auth::user()->id;
 
@@ -454,7 +454,7 @@ class SCM_AdminSolicitudController extends Controller
                 DB::beginTransaction();
 
                     $solicitud = Solicitud::findOrFail($id);
-                    $solicitud->estado_id                   = 10;
+                    $solicitud->estado_id                   = 11;
 
                     $solicitud->save();
 
@@ -462,7 +462,7 @@ class SCM_AdminSolicitudController extends Controller
                     //Guardamos los datos de Movimientos de la Solicitud
                     $move = new MoveSolicitud;
                     $move->solicitud_id                     = $solicitud->id;
-                    $move->estadoSolicitud_id               = 10;
+                    $move->estadoSolicitud_id               = 11;
                     $move->fecha                            = $solicitud->updated_at;
                     $move->user_id                          = Auth::user()->id;
 

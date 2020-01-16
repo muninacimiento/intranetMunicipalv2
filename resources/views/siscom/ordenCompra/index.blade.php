@@ -385,7 +385,7 @@
             </div>
 
 
-            <form method="POST" action="{{ route('ordenCompra.update', $oc->ordenCompra_id) }}" class="was-validated" id="excepcionForm">
+            <form method="POST" action="#" class="was-validated" id="excepcionForm">
 
                 @csrf
                 @method('PUT')
@@ -404,7 +404,7 @@
                                             
                                 <label class=" col-sm-6 col-form-label text-muted">Id Órden de Compra</label>
                                                                         
-                                <label class=" col-sm-6 col-form-label"><input type="text" value="{{ $oc->ordenCompra_id }}" readonly style="border:0;" name="ordenCompraID" id="ordenCompra_id_excepcion"></label>     
+                                <label class=" col-sm-6 col-form-label"><input type="text" value="#" readonly style="border:0;" name="ordenCompraID" id="ordenCompra_id_excepcion"></label>     
 
                             </div>
 
@@ -659,7 +659,7 @@
 <!-- Recepcionar Solicitud MODAL -->
 <div class="modal fade" id="recepcionarModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
 
-    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+    <div class="modal-dialog modal-dialog-centered" role="document">
 
         <div class="modal-content">
 
@@ -938,6 +938,7 @@
 
                                 <option>Menor a 3 UTM</option>
                                 <option>Trato Directo</option>
+                                <option>Licitación</option>
                                 <option>Convenio Marco / Suministro</option>
 
                             </select>

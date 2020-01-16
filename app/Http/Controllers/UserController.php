@@ -8,6 +8,9 @@ use Caffeinated\Shinobi\Models\Role;
 /* Invocamos la clase Carbon para trabajar con fechas */
 use Carbon\Carbon;
 
+//Invocamos el Modelo de la Entidad
+use App\Dependency;
+
 use DB;
 
 class UserController extends Controller
@@ -60,7 +63,9 @@ class UserController extends Controller
         
         $roles = Role::get();
 
-        return view('users.edit', compact('user', 'roles'));
+        $dependencies = Dependency::all();
+
+        return view('users.edit', compact('user', 'roles', 'dependencies'));
 
     }
 
@@ -71,14 +76,27 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, User $user)
+    public function update(Request $request, User $user, $id)
     {
         
-        //Actualizamos al Usuario
-        $user->update($request->all());
+        @if ($request->flag == 'Contraseña') {
+            
+            $user = User::findOrFail($id);
+            $user->password = hash($request->password)
 
-        //Actualizamos los Roles
-        $user->roles()->sync($request->get('roles'));
+            $user->save();
+
+        }else{
+
+            //Actualizamos al Usuario
+            $user->update($request->all());
+
+            //Actualizamos los Roles
+            $user->roles()->sync($request->get('roles'));
+
+        }
+
+        
 
         return redirect()->route('users.index')->with('info', 'Usuario Actualizado con éxito !');
 

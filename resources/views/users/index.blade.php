@@ -88,6 +88,18 @@
                                         
                                         <div class="btn-group" role="group" aria-label="Basic example">
 
+                                            <a href="#" class="edit" data-toggle="tooltip" data-placement="bottom" title="Restablecer Contraseña">
+
+                                                <button class="btn btn-outline-primary mx-1" >
+                                                    
+                                                    <i class="fas fa-edit"></i>
+
+                                                </button>
+
+                                                
+
+                                            </a>
+
                                             <a href="{{ route('users.show', $user->id) }}">
 
                                                 <button class="btn btn-outline-secondary mx-1" data-toggle="tooltip" data-placement="bottom" title="Ver Detalle de este Permiso">
@@ -146,6 +158,102 @@
 
 </div>
 
+<!-- Actualizar Conraseña MODAL -->
+<div class="modal fade" id="passwordModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+
+    <div class="modal-dialog modal-dialog-centered" role="document">
+
+        <div class="modal-content">
+
+            <div class="modal-header bg-primary text-white">
+
+                <p class="modal-title" id="exampleModalLabel" style="font-size: 1.2em"><i class="fas fa-inbox"></i> Restablecer Contraseña</p>
+
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+
+                    <span aria-hidden="true" class="text-white">&times;</span>
+
+                </button>
+
+            </div>
+
+
+            <form method="POST" action="{{ url('/siscom/users') }}" class="was-validated" id="passwordForm">
+
+                @csrf
+                @method('PUT')
+
+                <input type="hidden" name="flag" value="Contraseña">
+
+                <div class="modal-body">
+
+                    <div class="form-group row mb-3">
+                        
+                                <label for="password" class="col-md-12 col-form-label">{{ __('Contraseña') }}</label>
+
+                                <div class="col-md-12">
+                                
+                                    <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password" required autocomplete="new-password" placeholder="******************">
+
+                                    @error('password')
+
+                                        <span class="invalid-feedback" role="alert">
+
+                                            <strong>{{ $message }}</strong>
+
+                                        </span>
+
+                                    @enderror
+                 
+                                </div>
+                 
+                            </div>
+
+                            <div class="form-group row mb-4">
+                  
+                                <label for="password-confirm" class="col-md-12 col-form-label">{{ __('Confirmar Contraseña') }}</label>
+
+                                <div class="col-md-12">
+                   
+                                    <input id="password-confirm" type="password" class="form-control" name="password_confirmation" required autocomplete="new-password" placeholder="******************">
+                        
+                                </div>
+                        
+                            </div>
+
+
+                    <div class="mb-3 form-row">
+
+                        <button class="btn btn-success btn-block" type="submit">
+
+                            <i class="fas fa-save"></i>
+
+                            Actualizar Contraseña
+
+                        </button>
+
+
+                        <button type="button" class="btn btn-block btn-secondary" data-dismiss="modal" aria-label="Close">
+
+                            <i class="fas fa-arrow-left"></i>
+
+                            Cancelar
+
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</div>
+<!-- End Recepcinoar Solicitud Modal -->
+
 @endsection
 
 @push('scripts')
@@ -158,7 +266,7 @@
         
     $(document).ready(function() {
 
-        $('#userTable').DataTable({
+        var table = $('#userTable').DataTable({
 
             "paginate"  : true,
 
@@ -194,6 +302,29 @@
                 }
 
         });
+
+         //Start Edit Record
+            table.on('click', '.edit', function () {
+
+                $tr = $(this).closest('tr');
+
+                if ($($tr).hasClass('child')) {
+
+                    $tr = $tr.prev('.parent');
+
+                }
+
+                var data = table.row($tr).data();
+
+                console.log(data);
+
+                
+
+                $('#passwordForm').attr('action', '/siscom/users/' + data[0]);
+                $('#passwordModal').modal('show');
+
+            });
+            //End Edit Record
 
     } );
 

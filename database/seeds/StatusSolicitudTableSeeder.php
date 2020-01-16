@@ -64,6 +64,12 @@ class StatusSolicitudTableSeeder extends Seeder
 
         StatusSolicitud::create([
 
+            'estado'     =>  'En Proceso de Licitación',
+
+        ]);
+
+        StatusSolicitud::create([
+
             'estado'     =>  'Productos Recepcionados',
 
         ]);

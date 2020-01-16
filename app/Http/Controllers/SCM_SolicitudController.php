@@ -400,7 +400,37 @@ class SCM_SolicitudController extends Controller
 
             return back();
 
-        }    
+        } 
+
+        // Actualizamos la OC en el Producto
+        else if ($request->flag == 'AsignarLicitacion') {
+
+            $detalleSolicitud = DetailSolicitud::findOrFail($id);
+
+            $detalleSolicitud->licitacion_id       = $request->licitacion_id;       
+
+            //dd($detalleSolicitud);
+
+           $detalleSolicitud->save(); //Guardamos la Solicitud
+
+            return back();
+
+        } 
+
+        // Actualizamos la OC en el Producto
+        else if ($request->flag == 'EliminarLicitacion') {
+
+            $detalleSolicitud = DetailSolicitud::findOrFail($id);
+
+            $detalleSolicitud->licitacion_id       = null;       
+
+            //dd($solicitud);
+
+            $detalleSolicitud->save(); //Guardamos la Solicitud
+
+            return back();
+
+        }       
 
     }
 

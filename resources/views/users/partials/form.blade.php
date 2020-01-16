@@ -32,6 +32,22 @@
 	
 </div>
 
+<div class="form-row mb-3">
+
+        <label for="dependencySelect">Dependencia Municipal</label>
+
+        <select name="dependency_id" class="browser-default custom-select" title="Por favor, seleecione su Dependencia Municipal">
+
+        @foreach($dependencies as $dependency)
+
+            <option value="{{ $dependency->id }}">{{ $dependency->name }}</option>
+
+        @endforeach
+
+        </select>
+
+    </div>
+
 
 <div class="form-row mb-3">
 

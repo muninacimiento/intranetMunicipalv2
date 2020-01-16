@@ -120,7 +120,7 @@
   	
   	<li class="nav-item">
     
-    	<a class="nav-link text-white" href="#">
+    	<a class="nav-link text-white" href="{{ route('licitacion.index') }}">
 
     		<i class="fas fa-cubes px-1"></i>
 

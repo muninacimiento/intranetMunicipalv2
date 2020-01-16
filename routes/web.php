@@ -120,7 +120,12 @@ Route::middleware(['auth'])->group( function() {
 	Route::post('/siscom/proveedores/{proveedor}', 'ProveedoresController@update')->name('proveedores.update')->middleware('can:proveedores.update');
 
 	//Licitaciones
-	Route::resource('/siscom/licitaciones', 'LicitacionesController')->middleware('can:licitaciones.index');
+	Route::resource('/siscom/licitacion', 'LicitacionController')->middleware('can:licitaciones.index');
+	Route::post('/siscom/licitacion/{licitacion}', 'LicitacionController@show')->name('licitacion.show')->middleware('can:licitacion.show');
+	Route::post('/siscom/licitacion/{licitacion}', 'LicitacionController@update')->name('licitacion.update')->middleware('can:licitacion.update');
+	Route::get('/siscom/licitacion/validar/{licitacion}', 'LicitacionController@validar')->name('licitacion.validar')->middleware('can:licitacion.validar');
+	
+
 
 	//Factudas
 	Route::resource('/siscom/facturas', 'FacturaController')->middleware('can:factura.index');

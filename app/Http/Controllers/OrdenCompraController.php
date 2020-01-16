@@ -177,7 +177,7 @@ class OrdenCompraController extends Controller
 
     }
 
-     public function validar($id)
+    public function validar($id)
     {
 
         /*
@@ -252,7 +252,6 @@ class OrdenCompraController extends Controller
         if ($request->flag == 'Actualizar') {
 
             $oc = OrdenCompra::findOrFail($id);
-            $oc->user_id                        = Auth::user()->id;
             $oc->ordenCompra_id                 = $request->ordenCompra_id;
             $oc->iddoc                          = $request->iddoc;
             $oc->proveedor_id                   = $request->flagIdProveedor;
