@@ -196,7 +196,9 @@
 
                                                 <td>
 
-                                                    @if($detalle->cantidad === $detalle->cantidadEntregada)
+                                                    @if($solicitud->estado === 'Solicitud Entregada Completamente')
+
+                                                    @elseif($detalle->cantidad === $detalle->cantidadEntregada)
                                                     
                                                         <label class="text-muted" style="font-size: 0.9em;">Producto Entregado en su Totalidad</label>
 
@@ -315,7 +317,7 @@
             </div>
 
 
-            <form method="POST" action="/siscom/admin" class="was-validated" id="updateDetalleForm">
+            <form method="POST" action="{{ url('/siscom/admin') }}" class="was-validated" id="updateDetalleForm">
 
                 @csrf
                 @method('PUT')

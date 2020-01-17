@@ -427,10 +427,14 @@ class SCM_AdminSolicitudController extends Controller
 
 
             $detalleSolicitud = DetailSolicitud::findOrFail($id);
+            $suma = $detalleSolicitud->cantidadEntregada;
+            $suma = $suma + $request->cantidadEntregada;
 
-            if ($detalleSolicitud->cantidad >= $request->cantidadEntregada) {
+            //dd($suma);
+
+            if ($detalleSolicitud->cantidad >= $suma) {
                         
-                $detalleSolicitud->cantidadEntregada    = $request->cantidadEntregada;
+                $detalleSolicitud->cantidadEntregada    = $suma;
                 $detalleSolicitud->userDeliver_id       = Auth::user()->id;
                 $detalleSolicitud->fechaEntrega         = $detalleSolicitud->updated_at;
                 $detalleSolicitud->obsEntrega           = strtoupper($request->observacion);

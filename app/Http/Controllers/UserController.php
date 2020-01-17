@@ -78,25 +78,12 @@ class UserController extends Controller
      */
     public function update(Request $request, User $user, $id)
     {
-        
-        @if ($request->flag == 'Contraseña') {
-            
-            $user = User::findOrFail($id);
-            $user->password = hash($request->password)
-
-            $user->save();
-
-        }else{
 
             //Actualizamos al Usuario
             $user->update($request->all());
 
             //Actualizamos los Roles
-            $user->roles()->sync($request->get('roles'));
-
-        }
-
-        
+            $user->roles()->sync($request->get('roles'));        
 
         return redirect()->route('users.index')->with('info', 'Usuario Actualizado con éxito !');
 

@@ -241,5 +241,11 @@ class StatusLicitacionTableSeeder extends Seeder
 
         ]);
 
+        StatusLicitacion::create([
+
+            'estado'     =>  'Confirmada',
+
+        ]);
+
     }
 }
