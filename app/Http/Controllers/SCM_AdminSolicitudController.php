@@ -145,7 +145,7 @@ class SCM_AdminSolicitudController extends Controller
         $detalleSolicitud = DB::table('detail_solicituds')
                     ->join('products', 'detail_solicituds.product_id', 'products.id')
                     ->join('solicituds', 'detail_solicituds.solicitud_id', '=', 'solicituds.id')
-                    ->select('detail_solicituds.*', 'products.name as Producto', DB::raw('(detail_solicituds.cantidad * detail_solicituds.valorUnitario) as SubTotal'))
+                    ->select('detail_solicituds.*', 'products.name as Producto', DB::raw('(detail_solicituds.cantidad * detail_solicituds.valorUnitario) as SubTotal'), DB::raw('(detail_solicituds.cantidad - detail_solicituds.cantidadEntregada) as Saldo'))
                      ->where('solicituds.id', '=', $id) //Revisar la vista y el envio de los datos a la tabla de Detalle de la Solicitud
                     ->get();
 

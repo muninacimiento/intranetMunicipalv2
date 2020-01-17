@@ -170,6 +170,8 @@
 
                                                 <th>Cantidad Entregada</th>
 
+                                                <th>Saldo</th>
+
                                                 <th>Observaciones</th>
 
                                                 <th>Acciones</th>
@@ -191,6 +193,8 @@
                                                 <td>{{ $detalle->cantidad }}</td>
 
                                                 <td>{{ $detalle->cantidadEntregada }}</td>
+
+                                                <td>{{ $detalle->Saldo }}</td>
 
                                                 <td>{{ $detalle->obsEntrega }}</td>
 
@@ -474,7 +478,7 @@
                 $('#Producto').val(dataDetalle[1]);
                 $('#cantidadSolicitada').val(dataDetalle[2]);
                 $('#cantidadEntregada').val(dataDetalle[3]);
-                $('#observacion').val(dataDetalle[4]);            
+                $('#observacion').val(dataDetalle[5]);            
 
                 $('#updateDetalleForm').attr('action', '/siscom/admin/' + dataDetalle[0]);
                 $('#updateDetalleModal').modal('show');
