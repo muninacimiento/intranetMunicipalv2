@@ -78,7 +78,7 @@
                                             
                     {{ Form::checkbox('permissions[]', $permission->id, null) }}
 
-                    {{ $permission->name }}
+                    {{ $permission->name }} / <strong><em>{{ $permission->slug }}</em></strong>
 
                 </label>
 

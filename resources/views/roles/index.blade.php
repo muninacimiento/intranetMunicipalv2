@@ -12,7 +12,7 @@
 
                 <div class="card-header text-center text-white bg-secondary">
 
-                    <h3 class="font-weight-lighter">
+                    <h3 class="font-weight-lighter mb-3">
                     
                         Administración - 
 
@@ -20,43 +20,41 @@
 
                     </h3>
 
+                    @can('roles.create')
+
+                        <div class="form-group">
+                                
+                            <a href="{{ route('roles.create') }}" class="btn btn-success btn-sm" data-toggle="tooltip" data-placement="bottom" title="Nuevo Rol del Sistema">
+
+                                <i class="fas fa-plus-circle"></i>
+
+                                Nuevo Rol
+                                
+                            </a>
+
+                        </div>
+                    
+                    @endcan
+
                 </div>
 
                 <div class="card-body">
 
                     @if (session('info'))
 
-                    <div class="alert alert-success alert-dismissible fade show shadow" role="alert">
-                          
-                        <strong> {{ session('info') }} </strong>
-                        
-                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                        
-                            <span aria-hidden="true">&times;</span>
-                          
-                        </button>
-
-                    </div>
-                   
-                    @endif
-
-                    @can('roles.create')
-
-                        <div class="form-group mb-3">
+                        <div class="alert alert-success alert-dismissible fade show shadow" role="alert">
+                              
+                            <strong> {{ session('info') }} </strong>
                             
-                            <a href="{{ route('roles.create') }}" class="btn btn-success" data-toggle="tooltip" data-placement="bottom" title="Nuevo Rol del Sistema">
-
-                                <i class="fas fa-plus-circle"></i>
-
-                                Nuevo Rol
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                             
-                            </a>
+                                <span aria-hidden="true">&times;</span>
+                              
+                            </button>
 
                         </div>
-
-                    @endcan
-                    
-
+                   
+                    @endif                   
                     
                     <div>
 
@@ -76,7 +74,7 @@
 
                                 <th>Registrado por</th>
 
-                                <th colspan="3">&nbsp;</th>
+                                <th>Acciones</th>
 
                             </tr>
 
@@ -98,57 +96,58 @@
 
                                 <td>{{ $role->userName }}</td>
 
-                                @can('roles.show')
+                                
 
                                 <td>
 
-                                    <a href="{{ route('roles.show', $role->id) }}" class="btn btn-outline-secondary" data-toggle="tooltip" data-placement="bottom" title="Ver Detalle de este Permiso" style="font-size: 90%;">
+                                    <div class="btn-group" role="group" aria-label="Basic example">
 
-                                        <i class="fas fa-eye"></i>
 
-                                        Ver
+                                        @can('roles.show')
 
-                                    </a>
+                                            <a href="{{ route('roles.show', $role->id) }}" data-toggle="tooltip" data-placement="bottom" title="Ver Detalle de este Permiso">
+                                                
+                                                <button class="btn btn-outline-secondary mr-1">
+
+                                                    <i class="fas fa-eye"></i>
+
+                                                </button>
+
+                                            </a>
+
+                                        @endcan
+
+                                        @can('roles.edit')
+
+                                            <a href="{{ route('roles.edit', $role->id) }}" data-toggle="tooltip" data-placement="bottom" title="Editar este Permiso del Sistema">
+
+                                                <button class="btn btn-outline-primary mr-1">
+
+                                                    <i class="fas fa-edit"></i>
+
+                                                </button>
+
+                                            </a>
+
+                                        @endcan
+
+                                        @can('roles.destroy')
+
+                                            {!! Form::open(['route'=> ['roles.destroy', $role->id], 'method' => 'DELETE']) !!}
+
+                                                <button class="btn btn-outline-danger mr-1">
+
+                                                    <i class="fas fa-trash"></i>
+
+                                                </button>
+
+                                            {!! Form::close() !!}
+
+                                        @endcan
+
+                                    </div>
 
                                 </td>
-
-                                @endcan
-
-                                @can('roles.edit')
-
-                                <td>
-                                        
-                                        <a href="{{ route('roles.edit', $role->id) }}" class="btn btn-outline-primary" data-toggle="tooltip" data-placement="bottom" title="Editar este Permiso del Sistema" style="font-size: 90%;">
-
-                                            <i class="fas fa-edit"></i>
-
-                                            Editar
-
-                                        </a>
-
-                                </td>
-
-                                @endcan
-
-                                @can('roles.destroy')
-
-                                <td>
-
-                                   {!! Form::open(['route'=> ['roles.destroy', $role->id], 'method' => 'DELETE']) !!}
-
-                                        <button class="btn btn-outline-danger" style="font-size: 90%;">
-
-                                            <i class="fas fa-trash"></i>
-
-                                            Eliminar
-
-                                        </button>
-
-                                   {!! Form::close() !!}
-
-                                </td>
-
-                                @endcan
 
                             </tr>
 

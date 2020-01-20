@@ -410,7 +410,7 @@
 
                                 <div class="col-md-12 mb-2">
                                 
-                                    <form method="POST" action="{{ action('SCM_SolicitudController@update', $solicitud->id) }}">
+                                    <form method="POST" action="{{ route('solicitud.update', $solicitud->id) }}">
 
                                         @csrf
 

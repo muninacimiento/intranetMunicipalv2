@@ -32,13 +32,7 @@ class PermissionController extends Controller
        $permission = DB::table('permissions')
                     ->join('users', 'permissions.user_id', '=', 'users.id')
                     ->select('permissions.*', 'users.name as userName')
-                    ->where('permissions.id', 'LIKE', '%'.$search.'%')
-                    ->orWhere('permissions.name', 'LIKE', '%'.$search.'%')
-                    ->orWhere('permissions.slug', 'LIKE', '%'.$search.'%')
-                    ->orWhere('permissions.description', 'LIKE', '%'.$search.'%')
-                    ->orWhere('users.name', 'LIKE', '%'.$search.'%')
-                    ->orderBy('permissions.id', 'DESC') //a medida que se ingresan nuevos registros, quedan al inicio de la lista
-                    ->paginate(10);
+                    ->get();
 
                     //dd($permission);
 

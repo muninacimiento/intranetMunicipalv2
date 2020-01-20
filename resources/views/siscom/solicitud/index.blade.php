@@ -145,11 +145,15 @@
 
                                         <td>
 
+                                            @can('solicitud.show')
+
                                                 <a href="{{ route('solicitud.show', $solicitud->id) }}" class="btn btn-outline-secondary btn-sm mr-1" data-toggle="tooltip" data-placement="bottom" title="Ver el Detalle de la Solicitud">
 
                                                     <i class="fas fa-eye"></i>
 
                                                 </a>
+
+                                            @endcan
 
                                         </td>
 
@@ -171,37 +175,49 @@
 
                                                 @endif
 
-                                                <a href="{{ route('solicitud.show', $solicitud->id) }}" class="btn btn-outline-secondary btn-sm mr-1" data-toggle="tooltip" data-placement="bottom" title="Ver en Detalle la Solicitud y Agregar Productos">
+                                                @can('solicitud.show')
 
-                                                    <i class="fas fa-eye"></i>
+                                                    <a href="{{ route('solicitud.show', $solicitud->id) }}" class="btn btn-outline-secondary btn-sm mr-1" data-toggle="tooltip" data-placement="bottom" title="Ver en Detalle la Solicitud y Agregar Productos">
 
-                                                </a>
+                                                        <i class="fas fa-eye"></i>
+
+                                                    </a>
+
+                                                @endcan
 
                                                 {{-- Preguntamos si tiene Decreto de Programa para poder determinar que EDICIÓN se debe hacer --}}
 
-                                                @if($solicitud->decretoPrograma === NULL)
+                                                @can('solicitud.update')
 
-                                                    <a href="#" class="btn btn-outline-primary btn-sm mr-1 editInterna" data-toggle="tooltip" data-placement="bottom" title="Modificar la Solicitud">
-                                            
-                                                        <i class="fas fa-edit"></i>
+                                                    @if($solicitud->decretoPrograma === NULL)
+
+                                                        <a href="#" class="btn btn-outline-primary btn-sm mr-1 editInterna" data-toggle="tooltip" data-placement="bottom" title="Modificar la Solicitud">
+                                                
+                                                            <i class="fas fa-edit"></i>
+
+                                                        </a>
+
+                                                    @else
+
+                                                        <a href="#" class="btn btn-outline-primary btn-sm mr-1 editPrograma" data-toggle="tooltip" data-placement="bottom" title="Modificar la Solicitud">
+                                                
+                                                            <i class="fas fa-edit"></i>
+
+                                                        </a>
+
+                                                    @endif
+
+                                                @endcan
+
+                                                @can('solicitud.anular')
+
+                                                    <a href="#" class="btn btn-outline-danger btn-sm delete" data-toggle="tooltip" data-placement="bottom" title="Anular Solicitud">
+
+                                                        <i class="fas fa-trash"></i>
 
                                                     </a>
 
-                                                @else
-
-                                                    <a href="#" class="btn btn-outline-primary btn-sm mr-1 editPrograma" data-toggle="tooltip" data-placement="bottom" title="Modificar la Solicitud">
-                                            
-                                                        <i class="fas fa-edit"></i>
-
-                                                    </a>
-
-                                                @endif
-
-                                                <a href="#" class="btn btn-outline-danger btn-sm delete" data-toggle="tooltip" data-placement="bottom" title="Anular Solicitud">
-
-                                                    <i class="fas fa-trash"></i>
-
-                                                </a>
+                                                @endcan
 
                                             </div>
 
@@ -934,7 +950,7 @@
             </div>
 
 
-            <form method="POST" action="{{ url('/siscom/solicitud') }}" class="was-validated" id="deleteForm">
+            <form method="POST" action="{{ url('/siscom/solicitud/anular') }}" class="was-validated" id="deleteForm">
 
                 @csrf
                 @method('PUT')
@@ -1224,7 +1240,7 @@
                 document.getElementById('tipoSolicitud_anular').innerHTML = data[6];
                 document.getElementById('categoriaSolicitud_anular').innerHTML = data[7];
                 
-                $('#deleteForm').attr('action', '/siscom/solicitud/' + data[0]);
+                $('#deleteForm').attr('action', '/siscom/solicitud/anular/' + data[0]);
                 $('#deleteModal').modal('show');
 
             });

@@ -67,9 +67,7 @@
                                             
                     {{ Form::checkbox('roles[]', $role->id, null) }}
 
-                    {{ $role->name }}
-
-                    <em>{{ $role->description }}</em>
+                    <strong>{{ $role->name }} /</strong> <em style="font-size: 0.8em;">{{ $role->description }}</em>
 
                 </label>
 

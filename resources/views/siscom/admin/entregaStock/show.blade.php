@@ -236,7 +236,7 @@
 
                                 <div class="col-md-12 mb-2">
                                 
-                                    <form method="POST" action="{{ action('SCM_AdminSolicitudController@update', $solicitud->id) }}">
+                                    <form method="POST" action="{{ route('admin.cerrar', $solicitud->id) }}">
 
                                         @csrf
                                         @method('PUT')

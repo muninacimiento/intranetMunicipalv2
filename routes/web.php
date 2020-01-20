@@ -87,15 +87,19 @@ Route::middleware(['auth'])->group( function() {
 	Route::resource('/siscom/solicitud', 'SCM_SolicitudController')->middleware('can:solicitud.index');
 	Route::get('/siscom/solicitud/{solicitud}', 'SCM_SolicitudController@show')->name('solicitud.show')->middleware('can:solicitud.show');
 	Route::post('/siscom/solicitud/{solicitud}', 'SCM_SolicitudController@update')->name('solicitud.update')->middleware('can:solicitud.update');
+	Route::put('/siscom/solicitud/anular/{solicitud}', 'SCM_SolicitudController@update')->name('solicitud.anular')->middleware('can:solicitud.anular');
+
 
 	//Administrar Solicitudes
 	Route::resource('/siscom/admin', 'SCM_AdminSolicitudController')->middleware('can:admin.index');
 	Route::get('/siscom/admin/{solicitud}', 'SCM_AdminSolicitudController@show')->name('admin.show')->middleware('can:admin.show');
 	Route::post('/siscom/admin/{solicitud}', 'SCM_AdminSolicitudController@update')->name('admin.update')->middleware('can:admin.update');
+	Route::put('/siscom/admin/asignar/{solicitud}', 'SCM_AdminSolicitudController@update')->name('admin.asignar')->middleware('can:admin.asignar');
+	Route::put('/siscom/admin/recepcionar/{solicitud}', 'SCM_AdminSolicitudController@update')->name('admin.recepcionar')->middleware('can:admin.recepcionar');
+	Route::put('/siscom/admin/anular/{solicitud}', 'SCM_AdminSolicitudController@update')->name('admin.anular')->middleware('can:admin.anular');
 	Route::get('/siscom/admin/entregaStock/{solicitud}', 'SCM_AdminSolicitudController@entregaStock')->name('admin.stock')->middleware('can:admin.stock');
-
-	//Consulta de Solicitudes por C&S
 	Route::get('/siscom/consulta', 'SCM_AdminSolicitudController@consulta')->name('admin.consulta')->middleware('can:admin.consulta');
+	Route::put('/siscom/admin/cerrarSolicitud/{solicitud}', 'SCM_AdminSolicitudController@update')->name('admin.cerrar')->middleware('can:admin.cerrar');
 
 
 	//Vista PDF
@@ -107,7 +111,12 @@ Route::middleware(['auth'])->group( function() {
 	Route::get('/siscom/ordenCompra/{oc}', 'OrdenCompraController@show')->name('ordenCompra.show')->middleware('can:ordenCompra.show');
 	Route::get('/siscom/ordenCompra/validar/{oc}', 'OrdenCompraController@validar')->name('ordenCompra.validar')->middleware('can:ordenCompra.validar');
 	Route::post('/siscom/ordenCompra/{oc}', 'OrdenCompraController@update')->name('ordenCompra.update')->middleware('can:ordenCompra.update');
-	//Route::get('/email', 'OrdenCompraController@enviarOC')->name('enviarOC');
+	Route::put('/siscom/ordenCompra/asignar/{oc}', 'OrdenCompraController@update')->name('ordenCompra.asignar')->middleware('can:ordenCompra.asignar');
+	Route::put('/siscom/ordenCompra/recepcionar/{oc}', 'OrdenCompraController@update')->name('ordenCompra.recepcionar')->middleware('can:ordenCompra.recepcionar');
+	Route::put('/siscom/ordenCompra/enviarExcepcion/{oc}', 'OrdenCompraController@update')->name('ordenCompra.enviarExcepcion')->middleware('can:ordenCompra.enviarExcepcion');
+	Route::put('/siscom/ordenCompra/anular/{oc}', 'OrdenCompraController@update')->name('ordenCompra.anular')->middleware('can:ordenCompra.anular');
+
+
 
 
 	//Productos

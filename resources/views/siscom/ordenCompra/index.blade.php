@@ -179,6 +179,8 @@
 
                                         <td>
 
+                                            @can('ordenCompra.show')
+
                                                 <a href="{{ route('ordenCompra.show', $oc->id) }}" data-toggle="tooltip" data-placement="bottom" title="Ver el Detalle de la Solicitud">
 
                                                     <button class="btn btn-secondary btn-sm mr-1">
@@ -188,6 +190,8 @@
                                                     </button>
 
                                                 </a>
+
+                                            @endcan
 
                                         </td>
 
@@ -199,105 +203,133 @@
 
                                                 {{-- Asignar Solicitud para Registrar los Productos a la Órden de Compra --}}
 
-                                                @if($oc->Estado === 'Emitida')
+                                                @can('ordenCompra.asignar')
 
-                                                    <a href="#" class="asignar" data-toggle="tooltip" data-placement="bottom" title="Asignar Solicitud para Agregar Productos">
-                                        
-                                                        <button class="btn btn-info btn-sm mr-1 " type="button">
-                                                        
-                                                            <i class="fas fa-shopping-basket"></i>
+                                                    @if($oc->Estado === 'Emitida')
+
+                                                        <a href="#" class="asignar" data-toggle="tooltip" data-placement="bottom" title="Asignar Solicitud para Agregar Productos">
+                                            
+                                                            <button class="btn btn-info btn-sm mr-1 " type="button">
+                                                            
+                                                                <i class="fas fa-shopping-basket"></i>
+
+                                                            </button>
+
+                                                        </a>
+
+                                                    @else
+
+                                                    @endif
+
+                                                @endcan
+
+                                                @can('ordenCompra.show')
+
+                                                    <a href="{{ route('ordenCompra.show', $oc->id) }}" data-toggle="tooltip" data-placement="bottom" title="Ver en Detalle la Órden de Compra y Agregar Productos">
+
+                                                        <button class="btn btn-secondary btn-sm mr-1" type="button">
+                                                            
+                                                            <i class="fas fa-eye"></i>
 
                                                         </button>
 
                                                     </a>
 
-                                                @else
-
-                                                @endif
-
-                                                <a href="{{ route('ordenCompra.show', $oc->id) }}" data-toggle="tooltip" data-placement="bottom" title="Ver en Detalle la Órden de Compra y Agregar Productos">
-
-                                                    <button class="btn btn-secondary btn-sm mr-1" type="button">
-                                                        
-                                                        <i class="fas fa-eye"></i>
-
-                                                    </button>
-
-                                                </a>
+                                                @endcan
 
                                                 {{-- Recepcionar Órden de Compra por C&S --}}
 
-                                                @if($oc->Estado == 'Confirmada')
+                                                @can('ordenCompra.recepcionar')
 
-                                                    <a href="#" class="recepcionar" data-toggle="tooltip" data-placement="bottom" title="Recepcionar Órden de Compra">
+                                                    @if($oc->Estado == 'Confirmada')
 
-                                                        <button class="btn btn-success btn-sm mr-1" type="button">
-                                                        
-                                                            <i class="fas fa-clipboard-check"></i>
+                                                        <a href="#" class="recepcionar" data-toggle="tooltip" data-placement="bottom" title="Recepcionar Órden de Compra">
 
-                                                        </button>
+                                                            <button class="btn btn-success btn-sm mr-1" type="button">
+                                                            
+                                                                <i class="fas fa-clipboard-check"></i>
 
-                                                    </a>
+                                                            </button>
 
-                                                @else
+                                                        </a>
 
-                                                @endif
+                                                    @else
+
+                                                    @endif
+
+                                                @endcan
 
                                                 {{-- Enviar Órden de Compra con EXCEPCION --}}
 
-                                                @if($oc->Estado == 'Recepcionada y en Revisión por C&S' && $oc->excepcion === 'Si')
+                                                @can('ordenCompra.enviarExcepcion')
 
-                                                    <a href="#" class="text-decoration-none excepcion" data-toggle="modal" ata-placement="bottom" title="Enviar Órden de Compra con Excepción">
+                                                    @if($oc->Estado == 'Recepcionada y en Revisión por C&S' && $oc->excepcion === 'Si')
 
-                                                        <button class="btn btn-danger btn-sm mr-1">
-  
-                                                            <i class="fas fa-envelope-open-text"></i> 
+                                                        <a href="#" class="text-decoration-none excepcion" data-toggle="modal" ata-placement="bottom" title="Enviar Órden de Compra con Excepción">
 
-                                                        </button>
+                                                            <button class="btn btn-danger btn-sm mr-1">
+      
+                                                                <i class="fas fa-envelope-open-text"></i> 
 
-                                                    </a>
+                                                            </button>
 
-                                                @else
+                                                        </a>
 
-                                                @endif
+                                                    @else
+
+                                                    @endif
+
+                                                @endcan
 
                                                 {{-- Validar Órden de Compra --}}
 
-                                                @if($oc->Estado == 'Emitida' || $oc->Estado == 'Confirmada' || $oc->Estado == 'Enviada a Proveedor')
+                                                @can('ordenCompra.validar')
 
-                                                @else
+                                                    @if($oc->Estado == 'Emitida' || $oc->Estado == 'Confirmada' || $oc->Estado == 'Enviada a Proveedor')
 
-                                                    <a href="{{ route('ordenCompra.validar', $oc->id) }}" data-toggle="tooltip" data-placement="bottom" title="Válidar Órden de Compra">
-                                        
-                                                        <button class="btn btn-warning btn-sm mr-1 " type="button">
-                                                        
-                                                            <i class="fas fa-thumbs-up"></i>
+                                                    @else
+
+                                                        <a href="{{ route('ordenCompra.validar', $oc->id) }}" data-toggle="tooltip" data-placement="bottom" title="Válidar Órden de Compra">
+                                            
+                                                            <button class="btn btn-warning btn-sm mr-1 " type="button">
+                                                            
+                                                                <i class="fas fa-thumbs-up"></i>
+
+                                                            </button>
+
+                                                        </a>
+
+                                                    @endif
+
+                                                @endcan
+
+                                                @can('ordenCompra.update')
+
+                                                    <a href="#" class="edit" data-toggle="tooltip" data-placement="bottom" title="Modificar la Órden de Compra">
+
+                                                        <button class="btn btn-primary btn-sm mr-1  " type="button">
+                                                            
+                                                            <i class="fas fa-edit"></i>
 
                                                         </button>
 
                                                     </a>
 
-                                                @endif
+                                                @endcan
 
-                                                <a href="#" class="edit" data-toggle="tooltip" data-placement="bottom" title="Modificar la Órden de Compra">
+                                                @can('ordenCompra.anular')
 
-                                                    <button class="btn btn-primary btn-sm mr-1  " type="button">
-                                                        
-                                                        <i class="fas fa-edit"></i>
+                                                    <a href="#" class="delete" data-toggle="tooltip" data-placement="bottom" title="Anular Órden de Compra">
 
-                                                    </button>
+                                                        <button class="btn btn-danger btn-sm " type="button">
+                                                            
+                                                             <i class="fas fa-trash"></i>
 
-                                                </a>
+                                                        </button>
 
-                                                <a href="#" class="delete" data-toggle="tooltip" data-placement="bottom" title="Anular Órden de Compra">
+                                                    </a>
 
-                                                    <button class="btn btn-danger btn-sm " type="button">
-                                                        
-                                                         <i class="fas fa-trash"></i>
-
-                                                    </button>
-
-                                                </a>
+                                                @endcan
 
                                             </div>
 
@@ -676,7 +708,7 @@
             </div>
 
 
-            <form method="POST" action="{{ url('/siscom/ordenCompra') }}" class="was-validated" id="recepcionarForm">
+            <form method="POST" action="{{ url('/siscom/ordenCompra/recepcionar') }}" class="was-validated" id="recepcionarForm">
 
                 @csrf
                 @method('PUT')
@@ -738,8 +770,8 @@
 </div>
 <!-- End Recepcinoar Solicitud Modal -->
 
-<!-- Modal Asignar Solicitud 1 Órden de Compra -->
-<div class="modal fade" id="asignarSolicitud1Modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<!-- Modal Asignar Solicitud Órden de Compra -->
+<div class="modal fade" id="asignarSolicitudModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
 
     <div class="modal-dialog modal-dialog-centered" role="document">
 
@@ -758,7 +790,7 @@
             </div>
 
 
-            <form method="POST" action="{{ url('/siscom/ordenCompra') }}" class="was-validated" id="asignarSolicitudForm">
+            <form method="POST" action="{{ url('/siscom/ordenCompra/asignar') }}" class="was-validated" id="asignarSolicitudForm">
 
                 @csrf
                 @method('PUT')
@@ -826,7 +858,7 @@
     </div>
 
 </div>
-<!-- End Modal Asignar Solicitud 1 Órden de Compra -->
+<!-- End Modal Asignar Solicitud Órden de Compra -->
 
 <!-- Update Modal Órden de Compra -->
 <div class="modal fade" id="updateOrdenCompraModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -1044,7 +1076,7 @@
 </div>
 <!-- End Modal Update Órden de Compra -->
 
-<!-- DELETE Modal Órden de Compra -->
+<!-- Anular Modal Órden de Compra -->
 <div class="modal fade" id="deleteOrdenCompraModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
 
     <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
@@ -1064,7 +1096,7 @@
             </div>
 
 
-            <form method="POST" action="{{ url('/siscom/ordenCompra') }}" class="was-validated" id="deleteOrdenCompraForm">
+            <form method="POST" action="{{ url('/siscom/ordenCompra/anular') }}" class="was-validated" id="deleteOrdenCompraForm">
 
                 @csrf
                 @method('PUT')
@@ -1238,7 +1270,7 @@
 
                 $('#ordenCompra_id_excepcion').val(data[1]);
 
-                $('#excepcionForm').attr('action', '/siscom/ordenCompra/' + data[0]);
+                $('#excepcionForm').attr('action', '/siscom/ordenCompra/enviarExcepcion/' + data[0]);
                 $('#enviarProveedor').modal('show');
 
             });
@@ -1261,7 +1293,7 @@
 
                 $('#ordenCompra_id').val(data[1]);
 
-                $('#recepcionarForm').attr('action', '/siscom/ordenCompra/' + data[0]);
+                $('#recepcionarForm').attr('action', '/siscom/ordenCompra/recepcionar/' + data[0]);
                 $('#recepcionarModal').modal('show');
 
             });
@@ -1284,8 +1316,8 @@
 
                 $('#ordenCompra_id_assign').val(data[1]);
 
-                $('#asignarSolicitudForm').attr('action', '/siscom/ordenCompra/' + data[0]);
-                $('#asignarSolicitud1Modal').modal('show');
+                $('#asignarSolicitudForm').attr('action', '/siscom/ordenCompra/asignar/' + data[0]);
+                $('#asignarSolicitudModal').modal('show');
 
             });
             //End Edit Record
@@ -1374,7 +1406,7 @@
                 document.getElementById('ordenCompra_id_Delete').innerHTML = data[1];
                 document.getElementById('fechaOrdenCompra_delete').innerHTML = data[3];
                 
-                $('#deleteOrdenCompraForm').attr('action', '/siscom/ordenCompra/' + data[0]);
+                $('#deleteOrdenCompraForm').attr('action', '/siscom/ordenCompra/anular/' + data[0]);
                 $('#deleteOrdenCompraModal').modal('show');
 
             });

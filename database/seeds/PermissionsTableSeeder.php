@@ -232,72 +232,234 @@ class PermissionsTableSeeder extends Seeder
 
         Permission::create([
 
-    		'name' 			=> 'Acceso al Sistema de Compras Públicas Municipales - SisCoM',
+    		'name' 			=> 'SisCoM - Acceso al Sistema de Compras Públicas Municipales',
     		'slug' 			=> 'siscom.index',
-    		'description' 	=> 'Permiso que nos autoriza a utilizar el Sistema de Compras Públicas Municipales - SisCoM',
+    		'description' 	=> 'Permiso que nos autoriza a utilizar el Sistema de Compras Públicas Municipales (SisCoM)',
             'user_id'      =>  1,
 
     	]);
 
         Permission::create([
 
-            'name'          => 'Permiso para Gestionar Solicitudes',
+            'name'          => 'Listar Solicitudes Generadas por los Usuarios',
             'slug'          => 'solicitud.index',
-            'description'   => 'Crear, Editar y Anular Solicitudes',
+            'description'   => 'Permiso que autoriza ver el Listado de todas las Solicitudes Generadas por los Usuarios SisCoM',
             'user_id'      =>  1,
 
         ]);
 
         Permission::create([
 
-            'name'          => 'Permiso para Gestionar Solicitudes',
+            'name'          => 'Agregar Productos a la Solicitud',
             'slug'          => 'solicitud.show',
-            'description'   => 'Ver y Agregar Productos a la Solicitud',
+            'description'   => 'Permiso que autoriza el Ingreso de Productos a la Solicitud, además de Mostrar el Detalle de la Solicitud (TimeLine)',
             'user_id'      =>  1,
 
         ]);
 
         Permission::create([
 
-            'name'          => 'Permiso para Gestionar Solicitudes',
+            'name'          => 'Actualizar Encabezado de la Solicitud',
             'slug'          => 'solicitud.update',
-            'description'   => 'Actualiza, Elimina Productos de la Solicitud y Confirma la Solicitud',
+            'description'   => 'Permiso que autoriza le Modificación del Encabezado de la Solicitud',
             'user_id'      =>  1,
 
         ]);
 
         Permission::create([
 
-            'name'          => 'Administración de las Solicitudes',
+            'name'          => 'Anular Solicitud',
+            'slug'          => 'solicitud.anular',
+            'description'   => 'Permiso que autoriza la Anulación de la Solicitud',
+            'user_id'      =>  1,
+
+        ]);
+
+        Permission::create([
+
+            'name'          => 'Listar Solicitudes Asignadas al Comprador en el Panel de Administración',
             'slug'          => 'admin.index',
-            'description'   => 'Lista las Solicitudes y sus Acciones de Ver, Editar y Anular',
+            'description'   => 'Permiso que autoriza ver el Listado de Solicitudes Generadas en el Panel de Administración',
             'user_id'      =>  1,
 
         ]);
 
         Permission::create([
 
-            'name'          => 'Administración de las Solicitudes',
+            'name'          => 'Mostrar Detalle de la Solicitud en el Panel de Administración',
             'slug'          => 'admin.show',
-            'description'   => 'Ver y Agregar Productos a la Solicitud',
+            'description'   => 'Permiso que autoriza Ver y Modificar la Solicitud, si corresponde, en el Panel de Administración',
             'user_id'      =>  1,
 
         ]);
 
         Permission::create([
 
-            'name'          => 'Administración de las Solicitudes',
+            'name'          => 'Actualizar Encabezado de la Solicitud en el Panel de Administración',
             'slug'          => 'admin.update',
-            'description'   => 'Actualizar la Solicitud',
+            'description'   => 'Permiso que autoriza la Modificación de la Solicitud en el Panel de Administración',
             'user_id'      =>  1,
 
         ]);
 
         Permission::create([
 
-            'name'          => 'Administración de las Solicitudes',
+            'name'          => 'Anular Solicitud en el Panel de Administración',
+            'slug'          => 'admin.anular',
+            'description'   => 'Permiso que autoriza la Anulación de la Solicitud en el Panel de Administración',
+            'user_id'      =>  1,
+
+        ]);
+
+        Permission::create([
+
+            'name'          => 'Entrega de Productos de las Solicitudes de Stock',
             'slug'          => 'admin.stock',
-            'description'   => 'Entrega Productos de Stock de la Solicitud',
+            'description'   => 'Permiso que autoriza la Entrega de Productos Solicitados que se encuentran en Stock',
+            'user_id'      =>  1,
+
+        ]);
+
+        Permission::create([
+
+            'name'          => 'Recepcionar las Solicitudes en el Panel de Administración',
+            'slug'          => 'admin.recepcionar',
+            'description'   => 'Permiso que autoriza la Recepción de las Solicitudes en el Panel de Administración',
+            'user_id'      =>  1,
+
+        ]);
+
+        Permission::create([
+
+            'name'          => 'Asignar Solicitudes en el Panel de Administración',
+            'slug'          => 'admin.asignar',
+            'description'   => 'Permiso que autoriza a la Jefa de C&S, Titular y Subrogante, la asignación de un Comprador a la Solicitud en el Panel de Administración',
+            'user_id'      =>  1,
+
+        ]);
+
+        Permission::create([
+
+            'name'          => 'Listar Todas las Solicitudes Generadas para Consulta',
+            'slug'          => 'admin.consulta',
+            'description'   => 'Permiso que autoriza ver el Listado de Todas las Solicitudes Generadas a los Compradores, a modo de Consulta',
+            'user_id'      =>  1,
+
+        ]);
+
+        Permission::create([
+
+            'name'          => 'Listar Todas las Órdenes de Compra',
+            'slug'          => 'ordenCompra.index',
+            'description'   => 'Permiso que autoriza ver el Listado de las Órdenes de Compra generadas por los Compradores y Encargada de Licitaciones',
+            'user_id'      =>  1,
+
+        ]);
+
+        Permission::create([
+
+            'name'          => 'Actualizar Encabezado de la Órden de Compra',
+            'slug'          => 'ordenCompra.update',
+            'description'   => 'Permiso que autoriza la Modificación del Encabezado de la Órden de Compra',
+            'user_id'      =>  1,
+
+        ]);
+
+        Permission::create([
+
+            'name'          => 'Anular Órden de Compra',
+            'slug'          => 'ordenCompra.anular',
+            'description'   => 'Permiso que autoriza la Anulación de la Órden de Compra',
+            'user_id'      =>  1,
+
+        ]);
+
+        Permission::create([
+
+            'name'          => 'Ver el Detalle de la Órden de Compra y Agregar Productos',
+            'slug'          => 'ordenCompra.show',
+            'description'   => 'Permiso que autoriza ver el Detalle de la Órden de Compra y Agregar los Productos de la Solicitud asignada',
+            'user_id'      =>  1,
+
+        ]);
+
+        Permission::create([
+
+            'name'          => 'Válidar la Órden de Compra',
+            'slug'          => 'ordenCompra.validar',
+            'description'   => 'Permiso que autoriza la Validación de la Órden de Compra',
+            'user_id'      =>  1,
+
+        ]);
+
+        Permission::create([
+
+            'name'          => 'Recepcionar la Órden de Compra',
+            'slug'          => 'ordenCompra.recepcionar',
+            'description'   => 'Permiso que autoriza la Recepción de la Órden de Compra',
+            'user_id'      =>  1,
+
+        ]);
+
+        Permission::create([
+
+            'name'          => 'Asignar Solicitud a la Órden de Compra',
+            'slug'          => 'ordenCompra.asignar',
+            'description'   => 'Permiso que autoriza Asignar una o varias Soliitudes a la Órden de Compra',
+            'user_id'      =>  1,
+
+        ]);
+
+        Permission::create([
+
+            'name'          => 'Listar las Licitaciones',
+            'slug'          => 'licitacion.index',
+            'description'   => 'Permiso que autoriza Listar las Licitaciones generadas para su Gestión',
+            'user_id'      =>  1,
+
+        ]);
+
+        Permission::create([
+
+            'name'          => 'Actualizar Licitación',
+            'slug'          => 'licitacion.update',
+            'description'   => 'Permiso que autoriza Actualizar el Encabezado de las Licitaciones',
+            'user_id'      =>  1,
+
+        ]);
+
+        Permission::create([
+
+            'name'          => 'Mostrar el Detalle y Agregar Productos de la Licitación',
+            'slug'          => 'licitacion.show',
+            'description'   => 'Permiso que autoriza a Ver el Detalle de las Licitaciones, además de Agregar los Productos de la(s) Solicitudes Asignadas',
+            'user_id'      =>  1,
+
+        ]);
+
+        Permission::create([
+
+            'name'          => 'Anular Licitación',
+            'slug'          => 'licitacion.anular',
+            'description'   => 'Permiso que autoriza Anular la Licitación',
+            'user_id'      =>  1,
+
+        ]);
+
+        Permission::create([
+
+            'name'          => 'Recepcionar Licitación',
+            'slug'          => 'licitacion.recepcionar',
+            'description'   => 'Permiso que autoriza la Recepción de la Licitación',
+            'user_id'      =>  1,
+
+        ]);
+
+        Permission::create([
+
+            'name'          => 'Validar Licitación',
+            'slug'          => 'licitacion.validar',
+            'description'   => 'Permiso que autoriza el proceso de Validación de la Licitación',
             'user_id'      =>  1,
 
         ]);

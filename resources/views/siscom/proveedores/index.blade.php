@@ -81,7 +81,7 @@
                     @endif
 
                     
-                    <div class="form-row mb-5 col-md-12">
+                    <div>
 
                         <table class="display" id="proveedorTable" style="font-size: 0.8em;" width="100%">
 

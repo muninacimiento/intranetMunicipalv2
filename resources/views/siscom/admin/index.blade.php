@@ -132,11 +132,15 @@
 
                                         <td>
 
+                                            @can('admin.show')
+
                                                 <a href="{{ route('admin.show', $solicitud->id) }}" class="btn btn-outline-secondary btn-sm mr-1" data-toggle="tooltip" data-placement="bottom" title="Ver el Detalle de la Solicitud">
 
                                                     <i class="fas fa-eye"></i>
 
                                                 </a>
+
+                                            @endcan
 
                                         </td>
 
@@ -148,112 +152,135 @@
 
                                                 {{-- Visualizar Solicitud--}}
 
-                                                @if($solicitud->estado === 'En Proceso de Entrega' || $solicitud->estado === 'Solicitud Entregada Completamente')
+                                                @can('admin.show')
 
-                                                    <a href="{{ route('admin.stock', $solicitud->id) }}" class="btn btn-secondary btn-sm mr-1" data-toggle="tooltip" data-placement="bottom" title="Ver el Detalle de la Solicitud">
+                                                    @if($solicitud->estado === 'En Proceso de Entrega' || $solicitud->estado === 'Solicitud Entregada Completamente')
 
-                                                        <i class="fas fa-eye"></i>
+                                                        <a href="{{ route('admin.stock', $solicitud->id) }}" class="btn btn-secondary btn-sm mr-1" data-toggle="tooltip" data-placement="bottom" title="Ver el Detalle de la Solicitud">
 
-                                                    </a>
+                                                            <i class="fas fa-eye"></i>
 
-                                                @else
+                                                        </a>
 
-                                                    <a href="{{ route('admin.show', $solicitud->id) }}" class="btn btn-secondary btn-sm mr-1" data-toggle="tooltip" data-placement="bottom" title="Ver el Detalle de la Solicitud">
+                                                    @else
 
-                                                        <i class="fas fa-eye"></i>
+                                                        <a href="{{ route('admin.show', $solicitud->id) }}" class="btn btn-secondary btn-sm mr-1" data-toggle="tooltip" data-placement="bottom" title="Ver el Detalle de la Solicitud">
 
-                                                    </a>
+                                                            <i class="fas fa-eye"></i>
 
-                                                @endif
+                                                        </a>
+
+                                                    @endif
+
+                                                @endcan
 
                                                 {{--Habilitar Recepcion--}}
 
-                                                @if($solicitud->estado === 'Pendiente')
+                                                @can('admin.recepcionar')
 
-                                                    <a href="#" class="btn btn-success btn-sm mr-1 recepcionar" data-toggle="tooltip" data-placement="bottom" title="Recepcionar Solicitud">
-                                            
-                                                        <i class="fas fa-clipboard-check"></i>
+                                                    @if($solicitud->estado === 'Pendiente')
 
-                                                    </a>
-                                                @else
+                                                        <a href="#" class="btn btn-success btn-sm mr-1 recepcionar" data-toggle="tooltip" data-placement="bottom" title="Recepcionar Solicitud">
+                                                
+                                                            <i class="fas fa-clipboard-check"></i>
 
-                                                @endif
+                                                        </a>
+                                                    @else
+
+                                                    @endif
+
+                                                @endcan
 
                                                 {{--Habilitar Entrega Stock--}}
 
-                                                @if(($solicitud->estado === 'Asignada a Comprador' || $solicitud->estado === 'Recepcionada') && ($solicitud->categoriaSolicitud === 'Stock de Oficina' || $solicitud->categoriaSolicitud === 'Stock de Aseo' || $solicitud->categoriaSolicitud === 'Stock de Gas'))
-                                                    
-                                                    <a href="#" class="btn btn-primary btn-sm mr-1 entregar" data-toggle="tooltip" data-placement="bottom" title="Entregar Productos Stock">
-                                            
-                                                        <i class="fas fa-dolly"></i>
+                                                @can('admin.stock')
 
-                                                    </a>
+                                                    @if($solicitud->estado === 'Asignada a Comprador' && ($solicitud->categoriaSolicitud === 'Stock de Oficina' || $solicitud->categoriaSolicitud === 'Stock de Aseo' || $solicitud->categoriaSolicitud === 'Stock de Gas'))
+                                                        
+                                                        <a href="#" class="btn btn-primary btn-sm mr-1 entregar" data-toggle="tooltip" data-placement="bottom" title="Entregar Productos Stock">
+                                                
+                                                            <i class="fas fa-dolly"></i>
 
-                                                @else
+                                                        </a>
 
-                                                @endif
+                                                    @else
+
+                                                    @endif
+
+                                                @endcan
 
                                                 {{--Habilitar Asignacion--}}
 
-                                                @if($solicitud->estado === 'Recepcionada' && $solicitud->categoriaSolicitud != 'Stock de Aseo')
+                                                @can('admin.asignar')
 
-                                                    <a href="#" class="btn btn-warning btn-sm mr-1 asignar" data-toggle="tooltip" data-placement="bottom" title="Asignar Solicitud">
-                                            
-                                                        <i class="fas fa-inbox"></i>
+                                                    @if($solicitud->estado === 'Recepcionada' && $solicitud->categoriaSolicitud != 'Stock de Aseo')
 
-                                                    </a>
+                                                        <a href="#" class="btn btn-warning btn-sm mr-1 asignar" data-toggle="tooltip" data-placement="bottom" title="Asignar Solicitud">
+                                                
+                                                            <i class="fas fa-inbox"></i>
 
-                                                @else
+                                                        </a>
 
-                                                @endif
+                                                    @else
 
+                                                    @endif
 
                                                 {{--Habilitar ReAsignacion--}}
 
-                                                @if($solicitud->categoriaSolicitud === 'Stock de Aseo')
+                                                    @if($solicitud->categoriaSolicitud === 'Stock de Aseo')
 
-                                                @elseif( $solicitud->estado === 'Asignada a Comprador' || $solicitud->estado === 'En Proceso de Entrega' || $solicitud->estado === 'En Proceso de Compra')
+                                                    @elseif( $solicitud->estado === 'Asignada a Comprador' || $solicitud->estado === 'En Proceso de Entrega' || $solicitud->estado === 'En Proceso de Compra')
 
-                                                    <a href="#" class="btn btn-dark btn-sm mr-1 reasignar" data-toggle="tooltip" data-placement="bottom" title="ReAsignar Solicitud">
-                                            
-                                                        <i class="fas fa-inbox"></i>
+                                                        <a href="#" class="btn btn-dark btn-sm mr-1 reasignar" data-toggle="tooltip" data-placement="bottom" title="ReAsignar Solicitud">
+                                                
+                                                            <i class="fas fa-inbox"></i>
 
-                                                    </a>
+                                                        </a>
 
-                                                @endif
+                                                    @endif
+
+                                                 @endcan
 
                                                 {{-- Preguntamos si tiene Decreto de Programa para poder determinar que EDICIÓN se debe hacer --}}
 
-                                                @if($solicitud->decretoPrograma === NULL)
+                                                @can('admin.update')
 
-                                                    <a href="#" class="btn btn-primary btn-sm mr-1 editInterna" data-toggle="tooltip" data-placement="bottom" title="Modificar la Solicitud">
-                                            
-                                                        <i class="fas fa-edit"></i>
+                                                    @if($solicitud->decretoPrograma === NULL)
 
-                                                    </a>
+                                                        <a href="#" class="btn btn-primary btn-sm mr-1 editInterna" data-toggle="tooltip" data-placement="bottom" title="Modificar la Solicitud">
+                                                
+                                                            <i class="fas fa-edit"></i>
 
-                                                @else
+                                                        </a>
 
-                                                    <a href="#" class="btn btn-primary btn-sm mr-1 editPrograma" data-toggle="tooltip" data-placement="bottom" title="Modificar la Solicitud">
-                                            
-                                                        <i class="fas fa-edit"></i>
+                                                    @else
 
-                                                    </a>
+                                                        <a href="#" class="btn btn-primary btn-sm mr-1 editPrograma" data-toggle="tooltip" data-placement="bottom" title="Modificar la Solicitud">
+                                                
+                                                            <i class="fas fa-edit"></i>
 
-                                                @endif
+                                                        </a>
 
-                                                @if($solicitud->estado === 'Solicitud Entregada Completamente' || $solicitud->estado === 'Solicitud Gestionada Completamente')
+                                                    @endif
 
-                                                @else
+                                                @endcan
 
-                                                    <a href="#" class="btn btn-danger btn-sm anular" data-toggle="tooltip" data-placement="bottom" title="Anular Solicitud">
+                                                @can('admin.anular')
 
-                                                        <i class="fas fa-trash"></i>
+                                                    @if($solicitud->estado === 'Solicitud Entregada Completamente' || $solicitud->estado === 'Solicitud Gestionada Completamente')
 
-                                                    </a>
+                                                    @else
 
+                                                        <a href="#" class="btn btn-danger btn-sm anular" data-toggle="tooltip" data-placement="bottom" title="Anular Solicitud">
 
-                                                @endif
+                                                            <i class="fas fa-trash"></i>
+
+                                                        </a>
+
+                                                    @endif
+
+                                                @endcan
+
                                             </div>
 
                                         </td>
@@ -388,7 +415,7 @@
 <!-- Recepcionar Solicitud MODAL -->
 <div class="modal fade" id="recepcionarModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
 
-    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+    <div class="modal-dialog modal-dialog-centered" role="document">
 
         <div class="modal-content">
 
@@ -405,7 +432,7 @@
             </div>
 
 
-            <form method="POST" action="{{ url('/siscom/admin') }}" class="was-validated" id="recepcionarForm">
+            <form method="POST" action="{{ url('/siscom/admin/recepcionar') }}" class="was-validated" id="recepcionarForm">
 
                 @csrf
                 @method('PUT')
@@ -487,7 +514,7 @@
 <!-- Asignar Solicitud Modal -->
 <div class="modal fade" id="asignarSolicitudModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
 
-    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+    <div class="modal-dialog modal-dialog-centered" role="document">
 
         <div class="modal-content">
 
@@ -504,7 +531,7 @@
             </div>
 
 
-            <form method="POST" action="{{ url('/siscom/admin') }}" class="was-validated" id="asignarForm">
+            <form method="POST" action="{{ url('/siscom/admin/asignar') }}" class="was-validated" id="asignarForm">
 
                 @csrf
                 @method('PUT')
@@ -593,7 +620,7 @@
 <!-- REAsignar Solicitud Modal -->
 <div class="modal fade" id="reasignarSolicitudModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
 
-    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+    <div class="modal-dialog modal-dialog-centered" role="document">
 
         <div class="modal-content">
 
@@ -610,7 +637,7 @@
             </div>
 
 
-            <form method="POST" action="{{ url('/siscom/admin') }}" class="was-validated" id="reasignarForm">
+            <form method="POST" action="{{ url('/siscom/admin/reasignar') }}" class="was-validated" id="reasignarForm">
 
                 @csrf
                 @method('PUT')
@@ -979,7 +1006,7 @@
 <!-- Anular Modal Solicitud -->
 <div class="modal fade" id="anularSolicitudModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
 
-    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+    <div class="modal-dialog modal-dialog-centered" role="document">
 
         <div class="modal-content">
 
@@ -996,7 +1023,7 @@
             </div>
 
 
-            <form method="POST" action="{{ url('/siscom/admin') }}" class="was-validated" id="anularForm">
+            <form method="POST" action="{{ url('/siscom/admin/anular') }}" class="was-validated" id="anularForm">
 
                 @csrf
                 @method('PUT')
@@ -1329,7 +1356,7 @@
 
                 $('#solicitudID').val(data[0]);
 
-                $('#recepcionarForm').attr('action', '/siscom/admin/' + data[0]);
+                $('#recepcionarForm').attr('action', '/siscom/admin/recepcionar/' + data[0]);
                 $('#recepcionarModal').modal('show');
 
             });
@@ -1352,7 +1379,7 @@
 
                 $('#solicitud_id').val(data[0]);
                 
-                $('#asignarForm').attr('action', '/siscom/admin/' + data[0]);
+                $('#asignarForm').attr('action', '/siscom/admin/asignar/' + data[0]);
                 $('#asignarSolicitudModal').modal('show');
 
             });
@@ -1375,7 +1402,7 @@
 
                 $('#solicitud_id_reasignar').val(data[0]);
                 
-                $('#reasignarForm').attr('action', '/siscom/admin/' + data[0]);
+                $('#reasignarForm').attr('action', '/siscom/admin/reasignar' + data[0]);
                 $('#reasignarSolicitudModal').modal('show');
 
             });
@@ -1401,7 +1428,7 @@
                 document.getElementById('tipoSolicitud_anular').innerHTML = data[6];
                 document.getElementById('categoriaSolicitud_anular').innerHTML = data[7];
                 
-                $('#anularForm').attr('action', '/siscom/admin/' + data[0]);
+                $('#anularForm').attr('action', '/siscom/admin/anular/' + data[0]);
                 $('#anularSolicitudModal').modal('show');
 
             });
