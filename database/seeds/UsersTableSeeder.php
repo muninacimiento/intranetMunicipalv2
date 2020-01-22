@@ -74,6 +74,15 @@ class UsersTableSeeder extends Seeder
 
         ]);
 
+        User::create([
+
+            'dependency_id'     =>  8,
+            'name'              => 'Carolina Medina',
+            'email'             => 'carolina.medina@nacimiento.cl',
+            'password'          => '$2y$10$K742L1ka.anWGaTcdLRARelIGFBt4aII7h0NmXd2zZpYM.GY9LPFa',
+
+        ]);
+
     	Role::create([
 
     		'name'              => 'Administrador',

@@ -239,6 +239,8 @@ class PermissionsTableSeeder extends Seeder
 
     	]);
 
+        //Solicitudes
+
         Permission::create([
 
             'name'          => 'Listar Solicitudes Generadas por los Usuarios',
@@ -274,6 +276,8 @@ class PermissionsTableSeeder extends Seeder
             'user_id'      =>  1,
 
         ]);
+
+        //Administrar Solicitudes
 
         Permission::create([
 
@@ -349,6 +353,17 @@ class PermissionsTableSeeder extends Seeder
 
         Permission::create([
 
+            'name'          => 'Cerrar Solicitudes de Stock',
+            'slug'          => 'admin.cerrar',
+            'description'   => 'Permiso que autoriza el Cerrar las Solicitudes de Stock',
+            'user_id'      =>  1,
+
+        ]);
+
+        //Órdenes de Compra
+
+        Permission::create([
+
             'name'          => 'Listar Todas las Órdenes de Compra',
             'slug'          => 'ordenCompra.index',
             'description'   => 'Permiso que autoriza ver el Listado de las Órdenes de Compra generadas por los Compradores y Encargada de Licitaciones',
@@ -412,6 +427,17 @@ class PermissionsTableSeeder extends Seeder
 
         Permission::create([
 
+            'name'          => 'Enviar Órden de Compra con Excepción',
+            'slug'          => 'ordenCompra.enviarExcepcion',
+            'description'   => 'Permiso que autoriza el Envío de la Órden de Compra al Proveedor con Excepción',
+            'user_id'      =>  1,
+
+        ]);
+
+        //Licitaciones
+
+        Permission::create([
+
             'name'          => 'Listar las Licitaciones',
             'slug'          => 'licitacion.index',
             'description'   => 'Permiso que autoriza Listar las Licitaciones generadas para su Gestión',
@@ -460,6 +486,44 @@ class PermissionsTableSeeder extends Seeder
             'name'          => 'Validar Licitación',
             'slug'          => 'licitacion.validar',
             'description'   => 'Permiso que autoriza el proceso de Validación de la Licitación',
+            'user_id'      =>  1,
+
+        ]);
+
+        //Proveedores
+
+        Permission::create([
+
+            'name'          => 'Listar a los Proveedores',
+            'slug'          => 'proveedores.index',
+            'description'   => 'Permiso que autoriza Ver el Listado de todos los Proveedores',
+            'user_id'      =>  1,
+
+        ]);
+
+        Permission::create([
+
+            'name'          => 'Ver el Detalle de los Proveedores',
+            'slug'          => 'proveedores.show',
+            'description'   => 'Permiso que autoriza ver el Detalle de los Proveedores',
+            'user_id'      =>  1,
+
+        ]);
+
+        Permission::create([
+
+            'name'          => 'Actualizar Proveedor',
+            'slug'          => 'proveedores.update',
+            'description'   => 'Permiso que autoriza la Actualización de los datos de los Proveedores',
+            'user_id'      =>  1,
+
+        ]);
+
+        Permission::create([
+
+            'name'          => 'Eliminar a un Proveedor',
+            'slug'          => 'proveedores.delete',
+            'description'   => 'Permiso que autoriza la Eliminación de un Proveedor',
             'user_id'      =>  1,
 
         ]);

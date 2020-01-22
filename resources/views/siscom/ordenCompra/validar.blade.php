@@ -387,7 +387,7 @@
 
                                             </a>
 
-                                        @elseif($ordenCompra->Estado === 'Lista para Enviar a Proveedor' && $ordenCompra->enviadaProveedor == 1)
+                                        @elseif($ordenCompra->Estado === 'Lista para Enviar a Proveedor' || $ordenCompra->enviadaProveedor == 1)
 
                                             <a href="#" class="text-decoration-none">
 

@@ -263,7 +263,7 @@
 
                                                 @can('ordenCompra.enviarExcepcion')
 
-                                                    @if($oc->Estado == 'Recepcionada y en Revisión por C&S' && $oc->excepcion === 'Si')
+                                                    @if($oc->excepcion === 'Si' && $oc->enviadaProveedor === 0)
 
                                                         <a href="#" class="text-decoration-none excepcion" data-toggle="modal" ata-placement="bottom" title="Enviar Órden de Compra con Excepción">
 
