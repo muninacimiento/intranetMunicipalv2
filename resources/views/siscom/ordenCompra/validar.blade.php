@@ -502,7 +502,7 @@
             </div>
 
 
-            <form method="POST" action="{{ route('ordenCompra.update', $ordenCompra->ordenCompra_id) }}" class="was-validated">
+            <form method="POST" action="{{ route('ordenCompra.update', $ordenCompra->id) }}" class="was-validated">
 
                 @csrf
                 @method('PUT')
@@ -580,7 +580,7 @@
             </div>
 
 
-            <form method="POST" action="{{ route('ordenCompra.update', $ordenCompra->ordenCompra_id) }}" class="was-validated">
+            <form method="POST" action="{{ route('ordenCompra.update', $ordenCompra->id) }}" class="was-validated">
 
                 @csrf
                 @method('PUT')
@@ -676,7 +676,7 @@
             </div>
 
 
-            <form method="POST" action="{{ route('ordenCompra.update', $ordenCompra->ordenCompra_id) }}" class="was-validated">
+            <form method="POST" action="{{ route('ordenCompra.update', $ordenCompra->id) }}" class="was-validated">
 
                 @csrf
                 @method('PUT')
@@ -754,7 +754,7 @@
             </div>
 
 
-            <form method="POST" action="{{ route('ordenCompra.update', $ordenCompra->ordenCompra_id) }}" class="was-validated">
+            <form method="POST" action="{{ route('ordenCompra.update', $ordenCompra->id) }}" class="was-validated">
 
                 @csrf
                 @method('PUT')
@@ -850,7 +850,7 @@
             </div>
 
 
-            <form method="POST" action="{{ route('ordenCompra.update', $ordenCompra->ordenCompra_id) }}" class="was-validated">
+            <form method="POST" action="{{ route('ordenCompra.update', $ordenCompra->id) }}" class="was-validated">
 
                 @csrf
                 @method('PUT')
@@ -928,7 +928,7 @@
             </div>
 
 
-            <form method="POST" action="{{ route('ordenCompra.update', $ordenCompra->ordenCompra_id) }}" class="was-validated">
+            <form method="POST" action="{{ route('ordenCompra.update', $ordenCompra->id) }}" class="was-validated">
 
                 @csrf
                 @method('PUT')
@@ -1024,7 +1024,7 @@
             </div>
 
 
-            <form method="POST" action="{{ route('ordenCompra.update', $ordenCompra->ordenCompra_id) }}" class="was-validated">
+            <form method="POST" action="{{ route('ordenCompra.update', $ordenCompra->id) }}" class="was-validated">
 
                 @csrf
                 @method('PUT')
@@ -1102,7 +1102,7 @@
             </div>
 
 
-            <form method="POST" action="{{ route('ordenCompra.update', $ordenCompra->ordenCompra_id) }}" class="was-validated">
+            <form method="POST" action="{{ route('ordenCompra.update', $ordenCompra->id) }}" class="was-validated">
 
                 @csrf
                 @method('PUT')
@@ -1180,7 +1180,7 @@
             </div>
 
 
-            <form method="POST" action="{{ route('ordenCompra.update', $ordenCompra->ordenCompra_id) }}" class="was-validated">
+            <form method="POST" action="{{ route('ordenCompra.update', $ordenCompra->id) }}" class="was-validated">
 
                 @csrf
                 @method('PUT')
@@ -1258,7 +1258,7 @@
             </div>
 
 
-            <form method="POST" action="{{ route('ordenCompra.update', $ordenCompra->ordenCompra_id) }}" class="was-validated">
+            <form method="POST" action="{{ route('ordenCompra.update', $ordenCompra->id) }}" class="was-validated">
 
                 @csrf
                 @method('PUT')
@@ -1336,7 +1336,7 @@
             </div>
 
 
-            <form method="POST" action="{{ route('ordenCompra.update', $ordenCompra->ordenCompra_id) }}" class="was-validated">
+            <form method="POST" action="{{ route('ordenCompra.update', $ordenCompra->id) }}" class="was-validated">
 
                 @csrf
                 @method('PUT')
