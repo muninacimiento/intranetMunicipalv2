@@ -116,7 +116,7 @@
 
   	</li>
 
-  	@can('licitaciones.index')
+  	@can('licitacion.index')
   	
   	<li class="nav-item">
     

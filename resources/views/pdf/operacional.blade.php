@@ -164,7 +164,7 @@
 
                 <tr class="w3-medium">
                 	
-                	<td colspan="4"><strong>Total</strong></td>
+                	<td colspan="4"><strong>Total Estimado</strong></td>
                 	<td class="w3-right-align"><strong>$ {{ $solicitud->total }}</strong></td>
 
                 </tr>

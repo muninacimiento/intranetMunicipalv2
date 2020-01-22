@@ -240,26 +240,36 @@
                                             <td>                                                
 
                                                 @if($ds->ordenCompra_id == null)
-                                                            
-                                                    <a href="#" class="btn btn-primary btn-sm asignarOC" data-toggle="tooltip" data-placement="bottom" title="Asignar Producto a la órden de Compra">
-                                                                    
+
+                                                {!! Form::open(['route'=> ['solicitud.update', $ds->id], 'method' => 'PUT']) !!}
+
+                                                    @csrf
+
+                                                    <input type="hidden" name="flag" value="AsignarOC">
+
+                                                    <input type="hidden" value="{{ $ordenCompra->id }}" name="ordenCompraID" id="ordenCompraID">
+
+                                                    <button class="btn btn-primary btn-sm mr-1">
+
                                                         <i class="fas fa-check"></i>
 
-                                                    </a>
+                                                    </button>
 
-                                                    <a href="#" class="btn btn-danger btn-sm eliminarOC" data-toggle="tooltip" data-placement="bottom" title="Eliminar Producto">
-                                                                    
-                                                        <i class="far fa-trash-alt"></i>
-
-                                                    </a>
+                                                {!! Form::close() !!}
                                                     
                                                 @elseif($ds->ordenCompra_id === $ordenCompra->id)
 
-                                                    <a href="#" class="btn btn-danger btn-sm eliminarOC" data-toggle="tooltip" data-placement="bottom" title="Eliminar Producto">
-                                                                    
-                                                        <i class="far fa-trash-alt"></i>
+                                                {!! Form::open(['route'=> ['solicitud.update', $ds->id], 'method' => 'PUT']) !!}
 
-                                                    </a>
+                                                    <input type="hidden" name="flag" value="EliminarOC">
+
+                                                    <button class="btn btn-danger btn-sm mr-1">
+
+                                                        <i class="fas fa-trash-alt"></i>
+
+                                                    </button>
+
+                                                {!! Form::close() !!}
 
                                                 @else
 

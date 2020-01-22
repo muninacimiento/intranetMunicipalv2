@@ -217,7 +217,7 @@ class OrdenCompraController extends Controller
                     ->join('assign_request_to_o_c_s', 'detail_solicituds.solicitud_id', '=', 'assign_request_to_o_c_s.solicitud_id')
                     ->join('orden_compras', 'detail_solicituds.ordenCompra_id', '=', 'orden_compras.id')
                     ->select('detail_solicituds.*', 'products.name as Producto')
-                    ->where('assign_request_to_o_c_s.ordenCompra_id', '=', $ordenCompra->id)
+                    ->where('detail_solicituds.ordenCompra_id', '=', $id)
                     ->get();    
 
 
