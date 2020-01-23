@@ -212,13 +212,13 @@ class OrdenCompraController extends Controller
                 ->get();
 
         $detalleSolicitud = DB::table('detail_solicituds')
-                    ->join('products', 'detail_solicituds.product_id', 'products.id')
-                    ->join('solicituds', 'detail_solicituds.solicitud_id', '=', 'solicituds.id')
-                    ->join('assign_request_to_o_c_s', 'detail_solicituds.solicitud_id', '=', 'assign_request_to_o_c_s.solicitud_id')
-                    ->join('orden_compras', 'detail_solicituds.ordenCompra_id', '=', 'orden_compras.id')
-                    ->select('detail_solicituds.*', 'products.name as Producto')
-                    ->where('detail_solicituds.ordenCompra_id', '=', $id)
-                    ->get();    
+                                ->join('products', 'detail_solicituds.product_id', 'products.id')
+                                ->join('solicituds', 'detail_solicituds.solicitud_id', '=', 'solicituds.id')
+                                ->join('assign_request_to_o_c_s', 'detail_solicituds.solicitud_id', '=', 'assign_request_to_o_c_s.solicitud_id')
+                                ->join('orden_compras', 'detail_solicituds.ordenCompra_id', '=', 'orden_compras.id')
+                                ->select('detail_solicituds.*', 'products.name as Producto')
+                                ->where('detail_solicituds.ordenCompra_id', '=', $id)
+                                ->get();
 
 
                     //dd($ordenCompra);
