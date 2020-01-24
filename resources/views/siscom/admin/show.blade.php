@@ -390,7 +390,7 @@
 
                                         <input type="hidden" name="flag" value="Confirmar">
 
-                                        @if( $solicitud->estado_id == 1)
+                                        @if( $solicitud->estado_id < 3)
 
                                             <button type="submit" class="btn btn-success btn-block"> 
 

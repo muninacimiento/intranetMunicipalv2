@@ -85,6 +85,8 @@
                                     <th>Motivo</th>
                                     
                                     <th>Tipo</th>
+
+                                    <th>Fecha Actividad</th>
                                     
                                     <th>Categoria</th>
 
@@ -118,7 +120,25 @@
 
                                     <td>{{ $solicitud->motivo }}</td>
 
-                                    <td>{{ $solicitud->tipoSolicitud }}</td>
+                                    @if($solicitud->tipoSolicitud === 'Actividad')
+
+                                        <td style="background-color : #483D8B !important;color: white;">{{ $solicitud->tipoSolicitud }}</td>
+
+                                    @else
+
+                                        <td>{{ $solicitud->tipoSolicitud }}</td>
+                                    
+                                    @endif
+
+                                    @if($solicitud->fechaActividad === NULL)
+
+                                        <td>No Aplica</td>
+
+                                    @else
+                                        
+                                        <td style="background-color : #483D8B !important;color: white;">{{ date('d-m-Y', strtotime($solicitud->fechaActividad)) }}</td>
+
+                                    @endif
                                     
                                     <td>{{ $solicitud->categoriaSolicitud }}</td>
 
@@ -312,6 +332,8 @@
                                     <th>Tipo</th>
                                     
                                     <th>Categoria</th>
+
+                                    <th>Fecha Actividad</th>
 
                                     <th>Dependencia</th>
 

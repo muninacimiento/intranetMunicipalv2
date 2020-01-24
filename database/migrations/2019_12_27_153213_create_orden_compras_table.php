@@ -21,6 +21,7 @@ class CreateOrdenComprasTable extends Migration
             $table->unsignedBigInteger('proveedor_id'); //FK Proveedores
             $table->unsignedBigInteger('estado_id'); //FK StatusOC
             $table->string('tipoOrdenCompra'); // 1.- Menores 3UTM - 2.- Licitaciones - 3.- Trato Directo - 4.- Convenio Marco
+            $table->boolean('mercadoPublico')->default(0); //1.- No Envia OC / 0.- Envia OC
             $table->bigInteger('factura_id')->nullable(); //FK Factura
             $table->string('valorEstimado');
             $table->bigInteger('totalOrdenCompra');

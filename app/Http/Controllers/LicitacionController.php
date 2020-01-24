@@ -131,7 +131,7 @@ class LicitacionController extends Controller
                     ->where('assign_request_to_licitacions.licitacion_id', '=', $licitacion->id)
                     ->get();    
 
-                //dd($move);
+                //dd($detalleSolicitud);
 
         return view('siscom.licitacion.show', compact('licitacion', 'move', 'detalleSolicitud'));
 

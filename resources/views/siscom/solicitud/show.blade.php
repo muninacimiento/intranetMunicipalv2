@@ -52,7 +52,7 @@
 
                                 <div class="col-md-3 mb-3">
                                                           
-                                    <label class="text-muted">Tipo Solicitud</label>
+                                    <label class="text-muted">Tipo Solicitud</label> <br>
 
                                     <input type="text" value="{{ $solicitud->tipoSolicitud }}" readonly class="h5" style="border:0;" id="tipoSolicitud">
 
@@ -262,7 +262,7 @@
                                                 
                                             <label for="flagCantidad">Cantidad</label>
 
-                                            <input type="number" name="flagCantidad" id="flagCantidad" class="form-control" required>
+                                            <input type="number" min="0" name="flagCantidad" id="flagCantidad" class="form-control" required>
 
                                         </div>
 
@@ -270,7 +270,7 @@
                                                 
                                             <label for="flagValorUnitario">Valor Unitario $</label>
 
-                                            <input type="number" name="flagValorUnitario" id="flagValorUnitario" class="form-control" required>
+                                            <input type="number" min="0" name="flagValorUnitario" id="flagValorUnitario" class="form-control" required>
 
                                         </div>
 
@@ -426,7 +426,7 @@
 
                                         <input type="hidden" name="flag" value="Confirmar">
 
-                                        @if( $solicitud->estado_id == 1 || $solicitud->estado_id == 2)
+                                        @if( $solicitud->estado < 3)
 
                                             <button type="submit" class="btn btn-success btn-block"> 
 

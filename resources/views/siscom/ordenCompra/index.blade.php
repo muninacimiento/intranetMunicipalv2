@@ -135,6 +135,8 @@
 
                                     <th style="display: none">Depto. que Recepciona</th>
 
+                                    <th style="display: none">Mercado Publico</th>
+
                                     <th>Acciones</th>
 
                                 </tr>
@@ -174,6 +176,8 @@
                                     <td style="display: none">{{ $oc->enviadaProveedor }}</td>
 
                                     <td style="display: none">{{ $oc->deptoRecepcion }}</td>
+
+                                    <td style="display: none">{{ $oc->mercadoPublico }}</td>
 
                                     @if( $oc->Estado == 'Anulada')
 
@@ -263,9 +267,9 @@
 
                                                 @can('ordenCompra.enviarExcepcion')
 
-                                                    @if($oc->excepcion === 'Si' && $oc->enviadaProveedor === 0)
+                                                    @if($oc->excepcion === 'Si' && $oc->enviadaProveedor === 0 && $oc->estado_id > 1)
 
-                                                        <a href="#" class="text-decoration-none excepcion" data-toggle="modal" ata-placement="bottom" title="Enviar Órden de Compra con Excepción">
+                                                        <a href="#" class="text-decoration-none excepcion" data-toggle="modal" data-placement="bottom" title="Enviar Órden de Compra con Excepción">
 
                                                             <button class="btn btn-danger btn-sm mr-1">
       
@@ -374,6 +378,8 @@
                                     <th style="display: none">Enviada al Proveedor</th>
 
                                     <th style="display: none">Depto. que Recepciona</th>
+
+                                    <th style="display: none">Mercado Público</th>
 
                                     <th>Acciones</th>
 
@@ -509,25 +515,13 @@
 
                             <input type="text" class="form-control" id="ocCreate" name="ordenCompra_id" placeholder="Ingrese el No. de Órden de Compra" required>
 
-                            <div class="invalid-feedback">
-                                                                                            
-                                Por favor ingrese el No. de Órden de Compra
-
-                            </div>
-
                         </div>
 
                         <div class="col-md-6 mb-3">
                                                                               
                             <label for="iddoc">IDDOC</label>
 
-                            <input type="text" class="form-control" id="iddocCreate" name="iddoc" placeholder="Ingrese el IDDOC" required>
-
-                            <div class="invalid-feedback">
-                                                                                            
-                                Por favor ingrese el ID del Sistema de Gestión Documental de su Órden de Compra
-
-                            </div>
+                            <input type="number" min="0" class="form-control" id="iddocCreate" name="iddoc" placeholder="Ingrese el IDDOC" required>
 
                         </div>
 
@@ -566,14 +560,20 @@
 
                             </select>
 
-                            <div class="invalid-feedback">
-                                                                                            
-                                Por favor ingrese el Valor Estimado de su Órden de Compra
+                        </div>
 
-                            </div>
+                        <div class="col-md-6 mb-3">
+                                                                              
+                            <label for="totalOrdenCompra">Total $</label>
+
+                            <input type="number" min="0" class="form-control" id="totalOrdenCompraCreate" name="totalOrdenCompra" placeholder="Ingrese el Total de su Órden de Compra" required>
 
                         </div>
 
+                    </div>
+
+                    <div class="form-row">
+                        
                         <div class="col-md-6 mb-3">
                                                                               
                             <label for="tipoOrdenCompra">Tipo de Órden de Compra</label>
@@ -587,31 +587,24 @@
 
                             </select>
 
-                            <div class="invalid-feedback">
-                                                                                            
-                                Por favor seleccione el Tipo de Órden de Compra
+                        </div>
 
-                            </div>
+                        <div class="col-md-6 mb-3">
+                                                                              
+                            <label for="mercadoPublico">Mercado Público</label>
+
+                            <select name="mercadoPublico" id="mercadoPublico" class="form-control selectpicker" title="Órden de Compra Mercado Público?" required>
+
+                                <option value="1">Si</option>
+                                <option value="0">No</option>
+
+                            </select>
 
                         </div>
 
                     </div>
 
                     <div class="form-row">
-                        
-                        <div class="col-md-6 mb-3">
-                                                                              
-                            <label for="totalOrdenCompra">Total $</label>
-
-                            <input type="text" class="form-control" id="totalOrdenCompraCreate" name="totalOrdenCompra" placeholder="Ingrese el Total de su Órden de Compra" required>
-
-                            <div class="invalid-feedback">
-                                                                                            
-                                Por favor ingrese el Total ($) de su Órden de Compra
-
-                            </div>
-
-                        </div>
 
                         <div class="col-md-6 mb-3">
                                                                               
@@ -624,17 +617,7 @@
 
                             </select>
 
-                            <div class="invalid-feedback">
-                                                                                            
-                                Por favor indique si su Órden de Compra es con Excepción
-
-                            </div>
-
                         </div>
-
-                    </div>
-
-                    <div class="form-row">
                         
                         <div class="col-md-6 mb-5">
                                                                               
@@ -642,16 +625,10 @@
 
                             <select name="deptoReceptor" id="deptoReceptorCreate" class="form-control selectpicker" title="Quién Recepciona los Productos ?" required>
 
-                                <option>Compras y Suministros</option>
-                                <option>Bodega Talleres Municipales</option>
+                                <option>Compras y Suministros, Freire #614 Nacimiento</option>
+                                <option>Bodega Talleres Municipales, San Martin #649 Nacimiento</option>
 
                             </select>
-
-                            <div class="invalid-feedback">
-                                                                                            
-                                Por favor indique si su Órden de Compra es con Excepción
-
-                            </div>
 
                         </div>
 
@@ -964,6 +941,24 @@
 
                         <div class="col-md-6 mb-3">
                                                                               
+                            <label for="totalOrdenCompra">Total $</label>
+
+                            <input type="text" class="form-control" id="totalOrdenCompraUpdate" name="totalOrdenCompra" placeholder="Ingrese el Total de su Órden de Compra" required>
+
+                            <div class="invalid-feedback">
+                                                                                            
+                                Por favor ingrese el Total ($) de su Órden de Compra
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    <div class="form-row">
+
+                        <div class="col-md-6 mb-3">
+                                                                              
                             <label for="tipoOrdenCompra">Tipo de Órden de Compra</label>
 
                             <select name="tipoOrdenCompra" id="tipoOrdenCompraUpdate" class="form-control" title="Tipo de Órden de Compra ?" required>
@@ -982,24 +977,23 @@
                             </div>
 
                         </div>
+                        
+                        <div class="col-md-6 mb-3">
+                                                                              
+                            <label for="mercadoPublico">Mercado Público</label>
+
+                            <select name="mercadoPublico" id="mercadoPublicoUpdate" class="form-control selectpicker" title="Órden de Compra Mercado Público?" required>
+
+                                <option value="1">Si</option>
+                                <option value="0">No</option>
+
+                            </select>
+
+                        </div>
 
                     </div>
 
                     <div class="form-row">
-                        
-                        <div class="col-md-6 mb-3">
-                                                                              
-                            <label for="totalOrdenCompra">Total $</label>
-
-                            <input type="text" class="form-control" id="totalOrdenCompraUpdate" name="totalOrdenCompra" placeholder="Ingrese el Total de su Órden de Compra" required>
-
-                            <div class="invalid-feedback">
-                                                                                            
-                                Por favor ingrese el Total ($) de su Órden de Compra
-
-                            </div>
-
-                        </div>
 
                         <div class="col-md-6 mb-3">
                                                                               
@@ -1019,10 +1013,6 @@
                             </div>
 
                         </div>
-
-                    </div>
-
-                    <div class="form-row">
                         
                         <div class="col-md-6 mb-5">
                                                                               
@@ -1030,8 +1020,8 @@
 
                             <select name="deptoReceptor" id="deptoReceptorUpdate" class="form-control" title="Quién Recepciona los Productos ?" required>
 
-                                <option>Compras y Suministros</option>
-                                <option>Bodega Talleres Municipales</option>
+                                <option>Compras y Suministros, Freire #614 Nacimiento</option>
+                                <option>Bodega Talleres Municipales, San Martin #649 Nacimiento</option>
 
                             </select>
 
@@ -1373,14 +1363,17 @@
                     $('#excepcionUpdate').val();       
                 }
 
-                if (($('#deptoReceptorUpdate').val(data[12]))=== 'Compras y Suministros') {
+                if (($('#deptoReceptorUpdate').val(data[13]))=== 'Compras y Suministros') {
 
                     $('#deptoReceptorUpdate').val();    
                 }
-                else if (($('#deptoReceptorUpdate').val(data[12]))=== 'Bodega Talleres Municipales'){
+                else if (($('#deptoReceptorUpdate').val(data[13]))=== 'Bodega Talleres Municipales'){
 
                     $('#deptoReceptorUpdate').val();       
                 }
+
+                $('#mercadoPublicoUpdate').val(data[14]);
+
 
                 $('#updateOrdenCompraForm').attr('action', '/siscom/ordenCompra/' + data[0]);
                 $('#updateOrdenCompraModal').modal('show');

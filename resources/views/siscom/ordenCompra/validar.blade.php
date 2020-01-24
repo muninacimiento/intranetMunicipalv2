@@ -285,23 +285,9 @@
 
                                         @endif
 
-                                        @if($ordenCompra->Estado == 'En Firma Alcaldía' && $ordenCompra->enviadaProveedor == 0)
+                                        @if($ordenCompra->Estado == 'En Firma Alcaldía')
 
                                             <a href="#" class="text-decoration-none" data-toggle="modal" data-target="#firmaAlcaldia">
-
-                                                <button class="btn btn-success btn-block mb-1" >
-
-                                                    <i class="fas fa-check-double"></i> 
-
-                                                    Firmada por Alcaldía
-
-                                                </button>
-
-                                            </a>
-
-                                        @elseif ($ordenCompra->Estado == 'En Firma Alcaldía' && $ordenCompra->enviadaProveedor == 1)
-
-                                            <a href="#" class="text-decoration-none" data-toggle="modal" data-target="#firmaAlcaldia1">
 
                                                 <button class="btn btn-success btn-block mb-1" >
 
@@ -329,23 +315,9 @@
 
                                         @endif
 
-                                        @if($ordenCompra->Estado == 'En Firma Administración' && $ordenCompra->enviadaProveedor == 0)
+                                        @if($ordenCompra->Estado == 'En Firma Administración')
 
                                             <a href="#" class="text-decoration-none" data-toggle="modal" data-target="#firmaAdministracion">
-
-                                                <button class="btn btn-success btn-block mb-1">
-
-                                                    <i class="fas fa-check-double"></i> 
-
-                                                    Firmada por Administración
-
-                                                </button>
-
-                                            </a>
-
-                                        @elseif($ordenCompra->Estado == 'En Firma Administración' && $ordenCompra->enviadaProveedor == 1)
-
-                                            <a href="#" class="text-decoration-none" data-toggle="modal" data-target="#firmaAdministracion1">
 
                                                 <button class="btn btn-success btn-block mb-1">
 
@@ -387,19 +359,7 @@
 
                                             </a>
 
-                                        @elseif($ordenCompra->Estado === 'Lista para Enviar a Proveedor' || $ordenCompra->enviadaProveedor == 1)
-
-                                            <a href="#" class="text-decoration-none">
-
-                                                <button class="btn btn-secondary btn-block mb-3" disabled>
-
-                                                    <i class="fas fa-envelope-open-text"></i> 
-
-                                                    Enviar al Proveedor
-
-                                                </button>
-
-                                            </a>
+                                        @else
 
                                         @endif
 
@@ -423,7 +383,7 @@
 
                             <div>
 
-                                <table class="display" id="detalleSolicitud" width="100%">
+                                <table class="display" id="detalleSolicitudValidar" width="100%">
 
                                     <thead>
 
@@ -1082,84 +1042,6 @@
 </div>
 <!-- END Órden de Compra Firmada Alcaldia -->
 
-<!-- Modal Órden de Compra Firmada por Alcaldía1 -->
-<div class="modal fade" id="firmaAlcaldia1" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-
-    <div class="modal-dialog modal-dialog-centered" role="document">
-
-        <div class="modal-content">
-
-            <div class="modal-header bg-success text-white">
-
-                <p class="modal-title" id="exampleModalLabel" style="font-size: 1.2em"><i class="far fa-thumbs-up"></i> Validar Órden de Compra</p>
-
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-
-                    <span aria-hidden="true" class="text-white">&times;</span>
-
-                </button>
-
-            </div>
-
-
-            <form method="POST" action="{{ route('ordenCompra.update', $ordenCompra->id) }}" class="was-validated">
-
-                @csrf
-                @method('PUT')
-
-                <input type="hidden" name="flag" value="FirmadaPorAlcaldia1">
-
-                <div class="modal-body">
-
-                    <div class="form-row">
-
-                        <div class="p-3">
-                                                                              
-                            <label for="id" class="text-center">Órden de Compra Firmada por Alcaldía</label>
-
-                            <div class="form-row">
-                                            
-                                <label class=" col-sm-6 col-form-label text-muted">Id Órden de Compra</label>
-                                                                        
-                                <label class=" col-sm-6 col-form-label"><input type="text" value="{{ $ordenCompra->ordenCompra_id }}" readonly style="border:0;" name="ordenCompraID" id="ordenCompraID"></label>     
-
-                            </div>
-
-                        </div>
-
-                    </div>
-                    
-                    <div class="form-row">
-
-                        <button class="btn btn-success btn-block boton" type="submit">
-
-                            <i class="fas fa-save"></i>
-
-                            Firmar Órden De Compra por Alcaldía
-
-                        </button>
-
-                        <button type="button" class="btn btn-block btn-secondary" data-dismiss="modal" aria-label="Close">
-
-                            <i class="fas fa-arrow-left"></i>
-
-                            Cancelar
-
-                        </button>
-
-                    </div>
-
-                </div>
-
-            </form>
-
-        </div>
-
-    </div>
-
-</div>
-<!-- END Órden de Compra Firmada Alcaldia1 -->
-
 <!-- Modal Órden de Compra Firmada por Administracion -->
 <div class="modal fade" id="firmaAdministracion" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
 
@@ -1238,85 +1120,9 @@
 </div>
 <!-- END Órden de Compra Firmada por Administración -->
 
-<!-- Modal Órden de Compra Firmada por Administracion1 -->
-<div class="modal fade" id="firmaAdministracion1" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-
-    <div class="modal-dialog modal-dialog-centered" role="document">
-
-        <div class="modal-content">
-
-            <div class="modal-header bg-success text-white">
-
-                <p class="modal-title" id="exampleModalLabel" style="font-size: 1.2em"><i class="far fa-thumbs-up"></i> Validar Órden de Compra</p>
-
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-
-                    <span aria-hidden="true" class="text-white">&times;</span>
-
-                </button>
-
-            </div>
 
 
-            <form method="POST" action="{{ route('ordenCompra.update', $ordenCompra->id) }}" class="was-validated">
-
-                @csrf
-                @method('PUT')
-
-                <input type="hidden" name="flag" value="FirmadaPorAdministracion1">
-
-                <div class="modal-body">
-
-                    <div class="form-row">
-
-                        <div class="p-3">
-                                                                              
-                            <label for="id" class="text-center">Órden de Compra Firmada por Administración</label>
-
-                            <div class="form-row">
-                                            
-                                <label class=" col-sm-6 col-form-label text-muted">Id Órden de Compra</label>
-                                                                        
-                                <label class=" col-sm-6 col-form-label"><input type="text" value="{{ $ordenCompra->ordenCompra_id }}" readonly style="border:0;" name="ordenCompraID" id="ordenCompraID"></label>     
-
-                            </div>
-
-                        </div>
-
-                    </div>
-                    
-                    <div class="form-row">
-
-                        <button class="btn btn-success btn-block boton" type="submit">
-
-                            <i class="fas fa-save"></i>
-
-                            Firmar Órden De Compra por Administración
-
-                        </button>
-
-                        <button type="button" class="btn btn-block btn-secondary" data-dismiss="modal" aria-label="Close">
-
-                            <i class="fas fa-arrow-left"></i>
-
-                            Cancelar
-
-                        </button>
-
-                    </div>
-
-                </div>
-
-            </form>
-
-        </div>
-
-    </div>
-
-</div>
-<!-- END Órden de Compra Firmada por Administración1 -->
-
-<!-- Modal Órden de Compra Firmada por Alcaldía -->
+<!-- Modal Órden de Compra Enviar Órden de Compra -->
 <div class="modal fade" id="enviarProveedor" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
 
     <div class="modal-dialog modal-dialog-centered" role="document">
@@ -1394,246 +1200,6 @@
 </div>
 <!-- END Órden de Compra Enviada al Proveedor -->
 
-<!-- UPDATE Modal Detalle Solicitud-->
-<div class="modal fade" id="asignarTODOSModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-
-    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
-
-        <div class="modal-content">
-
-            <div class="modal-header bg-primary text-white">
-
-                <h3 class="modal-title" id="exampleModalLabel">Agregar Todos los Producto a Órden de Compra<i class="fas fa-edit"></i>  </h3>
-
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-
-                    <span aria-hidden="true">&times;</span>
-
-                </button>
-
-            </div>
-
-
-            <form method="POST" action="{{ route('ordenCompra.update', $ordenCompra->id) }}" class="was-validated">
-
-                @csrf
-                @method('PUT')
-
-                <input type="hidden" name="flag" value="AsignarTodosOC">
-
-                <div class="modal-body">
-        
-                    <div class="mb-3">
-                        
-                        Esta usted seguro de quere agregar TODOS los Productos a esta Órden de Compra ?
-
-                        <input type="text" value="{{ $ordenCompra->ordenCompra_id }}" readonly class="h4" style="border:0;" name="ordenCompraID" id="ordenCompraID">
-
-                    </div>
-
-                    <div class="mb-3 form-row">
-
-                        <button class="btn btn-success btn-block" type="submit">
-
-                            <i class="fas fa-save"></i>
-
-                            Agregar Producto Órden de Compra
-
-                        </button>
-
-                    </div>
-                            
-                </div>
-
-            </form>
-        </div>
-
-    </div>
-
-</div>
-
-<!-- UPDATE Modal Detalle Solicitud-->
-<div class="modal fade" id="asignarOCModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-
-    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
-
-        <div class="modal-content">
-
-            <div class="modal-header bg-primary text-white">
-
-                <h3 class="modal-title" id="exampleModalLabel">Agregar Producto a Órden de Compra<i class="fas fa-edit"></i>  </h3>
-
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-
-                    <span aria-hidden="true">&times;</span>
-
-                </button>
-
-            </div>
-
-
-            <form method="POST" action="{{ url('/siscom/solicitud') }}" class="was-validated" id="detalleOrdenCompraForm">
-
-                @csrf
-                @method('PUT')
-
-                <input type="hidden" name="flag" value="AsignarOC">
-
-                <div class="modal-body">
-        
-                    <div>
-                        
-                        Esta usted seguro ?
-
-                    </div>
-
-                    <div class="mb-3 form-row">
-
-                        <button class="btn btn-success btn-block" type="submit">
-
-                            <i class="fas fa-save"></i>
-
-                            Agregar Producto Órden de Compra
-
-                        </button>
-
-                    </div>
-                            
-                </div>
-
-            </form>
-        </div>
-
-    </div>
-
-</div>
-<!-- UPDATE Modal Detalle Solicitud -->
-
-<!-- DELETE Modal Detalle Solicitud -->
-<div class="modal fade" id="deleteDetalleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-
-    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
-
-        <div class="modal-content">
-
-            <div class="modal-header bg-danger text-white">
-
-                <h4 class="modal-title" id="exampleModalLabel"> Eliminar Producto de la Solicitud <i class="fas fa-times-circle"></i></h4>
-
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-
-                    <span aria-hidden="true" class="text-white">&times;</span>
-
-                </button>
-
-            </div>
-
-
-            <form method="POST" action="{{ url('/siscom/solicitud') }}" class="was-validated" id="deleteDetalleForm">
-
-                @csrf
-                @method('PUT')
-
-                <input type="hidden" name="flag" value="EliminarOC">
-
-                <div class="modal-body">
-
-                    <p>Esta Ud. segur@ de querer Eliminar el Producto de la Órden de Compra : </p>
-                    
-                    <div class="form-row">
-
-                        <button class="btn btn-danger btn-block" type="submit">
-
-                            <i class="fas fa-times-circle"></i> Eliminar Producto
-
-                        </button>
-
-                    </div>
-
-                </div>
-
-            </form>
-
-        </div>
-
-    </div>
-
-</div>
-<!-- End Modal Create Solicitud -->
-
-<!-- Modal Create Product -->
-<div class="modal fade" id="createProductModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-
-    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
-
-        <div class="modal-content">
-
-            <div class="modal-header bg-success text-white">
-
-                <p class="modal-title" id="exampleModalLabel" style="font-size: 1.2em"> Nuevo Producto <i class="fas fa-plus-circle"></i></p>
-
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-
-                    <span aria-hidden="true" class="text-white">&times;</span>
-
-                </button>
-
-            </div>
-
-
-            <form method="POST" action="{{ action('SCM_SolicitudController@store') }}" class="was-validated" id="createForm">
-
-                @csrf
-
-                <input type="hidden" name="flag" value="Solicitud">
-
-                <div class="modal-body">
-
-                    <div class="col-md-12 mb-3">
-                                                
-                        <label for="Product">Producto</label>
-                        
-                        <input type="text" name="Product" class="form-control" required>
-
-                        <div class="invalid-feedback">
-                                                                                                    
-                                Por favor ingrese el Producto a solicitar
-
-                            </div>
-
-                    </div>
-
-                    <div class="form-row">
-
-                        <button class="btn btn-success btn-block boton" type="submit" form="createForm">
-
-                            <i class="fas fa-save"></i>
-
-                            Guardar Solicitud
-
-                        </button>
-
-                        <button type="button" class="btn btn-block btn-secondary" data-dismiss="modal" aria-label="Close">
-
-                            <i class="fas fa-arrow-left"></i>
-
-                            Cancelar
-
-                        </button>
-
-                    </div>
-
-                </div>
-
-            </form>
-
-        </div>
-
-    </div>
-
-</div>
-<!-- End Modal Create Solicitud -->
-
 @endsection
 
 @push('scripts')
@@ -1661,25 +1227,8 @@
         var height = $(window).height();
             $('#allWindow').height(height);
 
-        $( "#fechaActividad" ).datepicker({
-            dateFormat: "yy-mm-dd",
-            minDate: "+14d",
-            firstDay: 1,
-            dayNamesMin: [ "Dom", "Lun", "Mar", "Mier", "Jue", "Vie", "Sab" ],
-            monthNames: [ "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre" ],
-            numberOfMonths: 2,
-        });
-
-        var tSolicitud = $('#tipoSolicitud').val();
-
-        if (tSolicitud === "Actividad") {
-
-            $('input[type="button"]').removeAttr('disabled');
-
-        }
-
             // Start Configuration DataTable Detalle Solicitud
-            var table = $('#detalleSolicitud').DataTable({
+            var table = $('#detalleSolicitudValidar').DataTable({
                 "paginate"  : true,
 
                 "ordering": false,
@@ -1690,7 +1239,7 @@
                             "sProcessing":     "Procesando...",
                             "sLengthMenu":     "Mostrar _MENU_ registros",
                             "sZeroRecords":    "No se encontraron resultados",
-                            "sEmptyTable":     "No existen Productos en su Solicitud, aún...",
+                            "sEmptyTable":     "No existen Productos en su Solicitud para su validación",
                             "sInfo":           "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
                             "sInfoEmpty":      "Mostrando registros del 0 al 0 de un total de 0 registros",
                             "sInfoFiltered":   "(filtrado de un total de _MAX_ registros)",
@@ -1715,63 +1264,6 @@
                             }
                         }
             });
-
-            //Start Edit Record Detalle Solicitud
-            table.on('click', '.asignarOC', function () {
-
-                $tr = $(this).closest('tr');
-
-                if ($($tr).hasClass('child')) {
-
-                    $tr = $tr.prev('.parent');
-
-                }
-
-                var dataDetalle = table.row($tr).data();
-
-                console.log(dataDetalle);
-
-               // $('#Producto').val(dataDetalle[2]);
-
-                $('#detalleOrdenCompraForm').attr('action', '/siscom/solicitud/' + dataDetalle[0]);
-                $('#asignarOCModal').modal('show');
-
-            });
-            //End Edit Record Detalle Solicitud
-            
-
-            //Start Delete Record Detalle Solicitud 
-            table.on('click', '.eliminarOC', function () {
-
-                $tr = $(this).closest('tr');
-
-                if ($($tr).hasClass('child')) {
-
-                    $tr = $tr.prev('.parent');
-
-                }
-
-                var dataDetalle = table.row($tr).data();
-
-                console.log(dataDetalle);
-                
-                $('#deleteDetalleForm').attr('action', '/siscom/solicitud/' + dataDetalle[0]);
-                $('#deleteDetalleModal').modal('show');
-
-            });
-            //End Delete Record Detalle Solicitud
-
-        //Recorremos la Tabla y Sumamos cada Subtotal
-        var cls = document.getElementById("detalleSolicitud").getElementsByTagName("td");
-        var sum = 0;
-        for (var i = 0; i < cls.length; i++){
-            if(cls[i].className == "subtotal"){
-                sum += isNaN(cls[i].innerHTML) ? 0 : parseInt(cls[i].innerHTML);
-            }
-        }
-
-        $('#total').val(sum);
-        
     });
 
 

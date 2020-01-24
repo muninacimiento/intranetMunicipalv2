@@ -98,6 +98,10 @@
                                     <th>Alias</th>
 
                                     <th>Giro</th>
+
+                                    <th style="display: none;">Dirección</th>
+
+                                    <th style="display: none;">Ciudad</th>
                                     
                                     <th>Teléfono</th>
 
@@ -124,6 +128,10 @@
                                     <td>{{ $proveedor->alias }}</td>
 
                                     <td>{{ $proveedor->giro }}</td>
+
+                                    <td style="display: none;">{{ $proveedor->direccion }}</td>
+
+                                    <td style="display: none;">{{ $proveedor->ciudad }}</td>                                    
                                     
                                     <td>{{ $proveedor->telefono }}</td>
 
@@ -645,26 +653,6 @@
             var height = $(window).height();
             $('#allWindow').height(height);
 
-            $( "#fechaActividad" ).datepicker({
-                dateFormat: "yy-mm-dd",
-                minDate: "+14d",
-                firstDay: 1,
-                dayNamesMin: [ "Dom", "Lun", "Mar", "Mier", "Jue", "Vie", "Sab" ],
-                monthNames: [ "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre" ],
-                numberOfMonths: 2,
-            });
-
-            $( "#fechaDecreto" ).datepicker({
-                dateFormat: "yy-mm-dd",
-                firstDay: 1,
-                dayNamesMin: [ "Dom", "Lun", "Mar", "Mier", "Jue", "Vie", "Sab" ],
-                monthNames: [ "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre" ],
-            });
-
-            disableEncabezado();
-
-            disableActividad();
-
             // Start Configuration DataTable
             var table = $('#proveedorTable').DataTable({
 
@@ -757,134 +745,6 @@
 
             });
             //End Delete Record
-
-            //LLenar Select CategoriaSolicitud dependiendo de la seleccion en TipoSolicitud
-        var options = {
-        
-            Operacional : ["Stock de Oficina", "Stock de Aseo", "Stock de Gas", "Compra"],
-            Actividad : ["Compra"]
-        }
-
-        $(function(){
-
-            var fillCategoria = function(){
-
-                var selected = $('#tipoSolicitud_create').val();
-
-                $('#categoriaSolicitud_create').empty();
-
-                options[selected].forEach(function(element,index){
-
-                    $('#categoriaSolicitud_create').append('<option value="'+element+'">'+element+'</option>');
-
-                });
-
-                if (selected === "") {
-
-                    disableActividad();
-
-                } else if (selected === "Operacional") {
-
-                    disableActividad();
-
-                } else if (selected === "Actividad") {
-
-                    enableActividad();
-
-                } 
-        
-            }
-
-            $('#tipoSolicitud_create').change(fillCategoria);
-
-            fillCategoria();
-
-            
-        });
-
-        document.getElementById("areaGestion").onchange = function() {habilitarEncabezado()};
-
-        function habilitarEncabezado(){
-
-            var option = $('#areaGestion').val();
-
-            if (option === '') {
-
-                disableEncabezado();
-
-            } else if (option === 'Interna') {
-
-                enableInterna();
-
-            } else if (option === 'Programa') {
-
-                enablePrograma();
-
-            }
-
-
-        }
-
-        function disableEncabezado(){
-
-            $('#motivo_create').prop("disabled", true);
-            $('#tipoSolicitud_create').prop("disabled", true);
-            $('#categoriaSolicitud_create').prop("disabled", true);
-            $('#decretoPrograma_create').prop("disabled", true);
-            $('#nombrePrograma_create').prop("disabled", true);
-        }
-
-
-        function enableInterna(){
-
-            $('#motivo_create').prop("disabled", false);
-            $('#tipoSolicitud_create').prop("disabled", false);
-            $('#categoriaSolicitud_create').prop("disabled", false);
-            $('#decretoPrograma_create').prop("disabled", true);
-            $('#nombrePrograma_create').prop("disabled", true);
-        }
-
-        function enablePrograma(){
-
-            $('#motivo_create').prop("disabled", false);
-            $('#tipoSolicitud_create').prop("disabled", false);
-            $('#categoriaSolicitud_create').prop("disabled", false);
-             $('#decretoPrograma_create').prop("disabled", false);
-            $('#nombrePrograma_create').prop("disabled", false);
-
-        }
-
-        function disableActividad() {
-            
-            $('#nombreActividad').prop("disabled", true);
-            $('#fechaActividad').prop("disabled", true);
-            $('#horaActividad').prop("disabled", true);
-            $('#lugarActividad').prop("disabled", true);
-            $('#objetivoActividad').prop("disabled", true);
-            $('#descripcionActividad').prop("disabled", true);
-            $('#participantesActividad').prop("disabled", true);
-            $('#cuentaPresupuestaria').prop("disabled", true);
-            $('#cuentaComplementaria').prop("disabled", true);
-            $('#obsActividad').prop("disabled", true);
-
-        }
-
-        function enableActividad(){
-
-            $('#nombreActividad').prop("disabled", false);
-            $('#fechaActividad').prop("disabled", false);
-            $('#horaActividad').prop("disabled", false);
-            $('#lugarActividad').prop("disabled", false);
-            $('#objetivoActividad').prop("disabled", false);
-            $('#descripcionActividad').prop("disabled", false);
-            $('#participantesActividad').prop("disabled", false);
-            $('#cuentaPresupuestaria').prop("disabled", false);
-            $('#cuentaComplementaria').prop("disabled", false);
-            $('#obsActividad').prop("disabled", false);
-
-        }
-
-        
 
     });    
 

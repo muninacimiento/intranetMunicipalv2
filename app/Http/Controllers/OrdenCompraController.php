@@ -93,6 +93,7 @@ class OrdenCompraController extends Controller
                 $oc->proveedor_id                   = $request->flagIdProveedor;
                 $oc->estado_id                      = 1;
                 $oc->tipoOrdenCompra                = $request->tipoOrdenCompra;
+                $oc->mercadoPublico                 = $request->mercadoPublico;
                 $oc->valorEstimado                  = $request->valorEstimado;
                 $oc->totalOrdenCompra               = $request->totalOrdenCompra;
                 $oc->excepcion                      = $request->excepcion;
@@ -194,10 +195,6 @@ class OrdenCompraController extends Controller
                     ->where('orden_compras.id', '=', $id)
                     ->first();
 
-        $proveedores = DB::table('proveedores')
-                    ->select(DB::raw('CONCAT(proveedores.id, " ) ", proveedores.razonSocial) as RazonSocial'), 'proveedores.id')
-                    ->get();
-
         $move = DB::table('move_o_c_s') 
                 ->join('status_o_c_s', 'move_o_c_s.estadoOrdenCompra_id', 'status_o_c_s.id')               
                 ->join('users', 'move_o_c_s.user_id', 'users.id')
@@ -205,26 +202,19 @@ class OrdenCompraController extends Controller
                 ->where('move_o_c_s.ordenCompra_id', '=', $id)
                 ->get();
 
-        $assign = DB::table('assign_request_to_o_c_s')
-                ->join('orden_compras', 'assign_request_to_o_c_s.ordenCompra_id', '=', 'orden_compras.id')
-                ->select('assign_request_to_o_c_s.*', 'orden_compras.ordenCompra_id as NoOC')
-                ->where('assign_request_to_o_c_s.ordenCompra_id', '=', $ordenCompra->id)
-                ->get();
-
         $detalleSolicitud = DB::table('detail_solicituds')
                                 ->join('products', 'detail_solicituds.product_id', 'products.id')
                                 ->join('solicituds', 'detail_solicituds.solicitud_id', '=', 'solicituds.id')
-                                ->join('assign_request_to_o_c_s', 'detail_solicituds.solicitud_id', '=', 'assign_request_to_o_c_s.solicitud_id')
                                 ->join('orden_compras', 'detail_solicituds.ordenCompra_id', '=', 'orden_compras.id')
                                 ->select('detail_solicituds.*', 'products.name as Producto')
                                 ->where('detail_solicituds.ordenCompra_id', '=', $id)
                                 ->get();
 
 
-                    //dd($ordenCompra);
+                    //dd($detalleSolicituds);
 
                      /* Retornamos a la vista los resultados psanadolos por parametros */
-        return view('siscom.ordenCompra.validar', compact('ordenCompra', 'dateCarbon', 'proveedores', 'move', 'detalleSolicitud', 'assign'));
+        return view('siscom.ordenCompra.validar', compact('ordenCompra', 'dateCarbon', 'move', 'detalleSolicitud'));
 
     }
 
@@ -256,6 +246,7 @@ class OrdenCompraController extends Controller
             $oc->iddoc                          = $request->iddoc;
             $oc->proveedor_id                   = $request->flagIdProveedor;
             $oc->tipoOrdenCompra                = $request->tipoOrdenCompra;
+            $oc->mercadoPublico                 = $request->mercadoPublico;
             $oc->valorEstimado                  = $request->valorEstimado;
             $oc->totalOrdenCompra               = $request->totalOrdenCompra;
             $oc->excepcion                      = $request->excepcion;
@@ -581,41 +572,6 @@ class OrdenCompraController extends Controller
             return redirect('/siscom/ordenCompra')->with('info', 'Órden de Compra Rechazada por DAF con éxito !');
         }
 
-        //Órden de compra en Firma Alcaldia1
-        else if ($request->flag == 'FirmadaPorAlcaldia1') {
-
-            try {
-
-                DB::beginTransaction();
-
-                    $oc = OrdenCompra::findOrFail($id);
-                    $oc->estado_id                      = 17;
-
-                    //dd($solicitud);
-
-                    $oc->save(); //Guardamos la Solicitud
-
-                    //Guardamos los datos de Movimientos de la Solicitud
-                    $move = new MoveOC;
-                    $move->ordenCompra_id                = $oc->id;
-                    $move->estadoOrdenCompra_id          = 13;
-                    $move->fecha                         = $oc->updated_at;
-                    $move->user_id                       = Auth::user()->id;
-
-
-                    $move->save(); //Guardamos el Movimiento de la Solicitud
-
-                DB::commit();
-                
-            } catch (Exception $e) {
-
-                db::rollback();
-                
-            }
-
-            return redirect('/siscom/ordenCompra')->with('info', 'Órden de Compra Firmada por Alcaldía con éxito !');
-        } 
-
         //Órden de compra en Firma Alcaldia
         else if ($request->flag == 'FirmadaPorAlcaldia') {
 
@@ -624,21 +580,43 @@ class OrdenCompraController extends Controller
                 DB::beginTransaction();
 
                     $oc = OrdenCompra::findOrFail($id);
-                    $oc->estado_id                      = 16;
 
-                    //dd($solicitud);
+                    //Consultaremos si la Órden de Compra ha sido enviada con Excepción
+                    if ($oc->enviadaProveedor == 0) {
+                        
+                        $oc->estado_id                      = 16;
 
-                    $oc->save(); //Guardamos la Solicitud
+                        //dd($solicitud);
 
-                    //Guardamos los datos de Movimientos de la Solicitud
-                    $move = new MoveOC;
-                    $move->ordenCompra_id                = $oc->id;
-                    $move->estadoOrdenCompra_id          = 13;
-                    $move->fecha                         = $oc->updated_at;
-                    $move->user_id                       = Auth::user()->id;
+                        $oc->save(); //Actualizamos el Estado de la OC
 
+                        //Guardamos los datos de Movimientos de la Órden de Compra
+                        $move = new MoveOC;
+                        $move->ordenCompra_id                = $oc->id;
+                        $move->estadoOrdenCompra_id          = 13;
+                        $move->fecha                         = $oc->updated_at;
+                        $move->user_id                       = Auth::user()->id;
 
-                    $move->save(); //Guardamos el Movimiento de la Solicitud
+                        $move->save();
+
+                    } else if ($oc->enviadaProveedor == 1) {
+
+                        $oc->estado_id                      = 17;
+
+                        //dd($solicitud);
+
+                        $oc->save(); //Actualizamos el Estado de la OC
+
+                        //Guardamos los datos de Movimientos de la Órden de Compr
+                        $move = new MoveOC;
+                        $move->ordenCompra_id                = $oc->id;
+                        $move->estadoOrdenCompra_id          = 13;
+                        $move->fecha                         = $oc->updated_at;
+                        $move->user_id                       = Auth::user()->id;
+
+                        $move->save();
+
+                    }
 
                 DB::commit();
                 
@@ -650,6 +628,8 @@ class OrdenCompraController extends Controller
 
             return redirect('/siscom/ordenCompra')->with('info', 'Órden de Compra Firmada por Alcaldía con éxito !');
         } 
+
+        
 
         //Órden de compra en Firma Administracion
         else if ($request->flag == 'FirmadaPorAdministracion') {
@@ -659,56 +639,43 @@ class OrdenCompraController extends Controller
                 DB::beginTransaction();
 
                     $oc = OrdenCompra::findOrFail($id);
-                    $oc->estado_id                      = 16;
 
-                    //dd($solicitud);
+                    //Consultaremos si la Órden de Compra ha sido enviada con Excepción
+                    if ($oc->enviadaProveedor == 0) {
 
-                    $oc->save(); //Guardamos la Solicitud
+                        $oc->estado_id                      = 16;
 
-                    //Guardamos los datos de Movimientos de la Solicitud
-                    $move = new MoveOC;
-                    $move->ordenCompra_id                = $oc->id;
-                    $move->estadoOrdenCompra_id          = 15;
-                    $move->fecha                         = $oc->updated_at;
-                    $move->user_id                       = Auth::user()->id;
+                        //dd($solicitud);
 
+                        $oc->save(); //Guardamos la Solicitud
 
-                    $move->save(); //Guardamos el Movimiento de la Solicitud
+                        //Guardamos los datos de Movimientos de la Solicitud
+                        $move = new MoveOC;
+                        $move->ordenCompra_id                = $oc->id;
+                        $move->estadoOrdenCompra_id          = 15;
+                        $move->fecha                         = $oc->updated_at;
+                        $move->user_id                       = Auth::user()->id;
 
-                DB::commit();
-                
-            } catch (Exception $e) {
+                        $move->save();
 
-                db::rollback();
-                
-            }
+                    }else if ($oc->enviadaProveedor == 1) {
 
-            return redirect('/siscom/ordenCompra')->with('info', 'Órden de Compra Firmada por Administración con éxito !');
-        }
+                         $oc->estado_id                      = 17;
 
-        //Órden de compra en Firma Administracion1
-        else if ($request->flag == 'FirmadaPorAdministracion1') {
+                        //dd($solicitud);
 
-            try {
+                        $oc->save(); //Guardamos la Solicitud
 
-                DB::beginTransaction();
+                        //Guardamos los datos de Movimientos de la Solicitud
+                        $move = new MoveOC;
+                        $move->ordenCompra_id                = $oc->id;
+                        $move->estadoOrdenCompra_id          = 15;
+                        $move->fecha                         = $oc->updated_at;
+                        $move->user_id                       = Auth::user()->id;
 
-                    $oc = OrdenCompra::findOrFail($id);
-                    $oc->estado_id                      = 17;
+                        $move->save(); //Guardamos el Movimiento de la Solicitud
 
-                    //dd($solicitud);
-
-                    $oc->save(); //Guardamos la Solicitud
-
-                    //Guardamos los datos de Movimientos de la Solicitud
-                    $move = new MoveOC;
-                    $move->ordenCompra_id                = $oc->id;
-                    $move->estadoOrdenCompra_id          = 15;
-                    $move->fecha                         = $oc->updated_at;
-                    $move->user_id                       = Auth::user()->id;
-
-
-                    $move->save(); //Guardamos el Movimiento de la Solicitud
+                    }
 
                 DB::commit();
                 
@@ -746,11 +713,11 @@ class OrdenCompraController extends Controller
 
                     $move->save(); //Guardamos el Movimiento de la Solicitud
 
-                    $objDemo = new \stdClass();
-                    $objDemo->ordenCompra_id = $oc->ordenCompra_id;
+                    //$objDemo = new \stdClass();
+                    //$objDemo->ordenCompra_id = $oc->ordenCompra_id;
 
 
-                    Mail::to('juan.fuentealba@gmail.com')->send(new OrdenDeCompraRecibida($objDemo));
+                    //Mail::to('juan.fuentealba@gmail.com')->send(new OrdenDeCompraRecibida($objDemo));
 
                     
 
@@ -794,15 +761,50 @@ class OrdenCompraController extends Controller
                     $correo = DB::table('orden_compras')
                             ->join('proveedores', 'orden_compras.proveedor_id', '=', 'proveedores.id')
                             ->join('users', 'orden_compras.user_id', '=', 'users.id')
-                            ->select('orden_compras.id', 'proveedores.correo as MailProveedor', 'users.email as MailComprador')
+                            ->select('orden_compras.id', 'orden_compras.deptoRecepcion', 'proveedores.correo as MailProveedor', 'users.email as MailComprador')
                             ->where('orden_compras.id', '=', $id)
                             ->first();
                             //dd($correo);
 
+                    $ocMail = DB::table('orden_compras')
+                        ->join('users', 'orden_compras.user_id', '=', 'users.id')
+                        ->join('status_o_c_s', 'orden_compras.estado_id', '=', 'status_o_c_s.id')
+                        ->join('proveedores', 'orden_compras.proveedor_id', '=', 'proveedores.id')
+                        ->select('orden_compras.*', 'users.name as Comprador', 'users.email as EmailComprador', 'status_o_c_s.estado as Estado', 'proveedores.razonSocial as RazonSocial', 'proveedores.correo as EmailProveedor')
+                        ->where('orden_compras.id', '=', $id)
+                        ->first();
 
-                    Mail::to( $correo->MailProveedor )
+                    $detalleSolicitud = DB::table('detail_solicituds')
+                                ->join('products', 'detail_solicituds.product_id', 'products.id')
+                                ->join('solicituds', 'detail_solicituds.solicitud_id', '=', 'solicituds.id')
+                                ->join('orden_compras', 'detail_solicituds.ordenCompra_id', '=', 'orden_compras.id')
+                                ->select('detail_solicituds.*', 'products.name as Producto')
+                                ->where('detail_solicituds.ordenCompra_id', '=', $id)
+                                ->get();
+
+                    $solicitud = DB::table('solicituds')
+                                ->join('detail_solicituds', 'solicituds.id', '=', 'detail_solicituds.solicitud_id')
+                                ->join('orden_compras', 'detail_solicituds.ordenCompra_id', '=', 'orden_compras.id')
+                                ->select('solicituds.*')
+                                ->where('orden_compras.id', '=', $id)
+                                ->first();
+
+                    //dd($solicitud);
+
+                    if ($correo->deptoRecepcion == 'Compras y Suministros, Freire #614 Nacimiento') {
+                        
+                        Mail::to( $correo->MailProveedor )
                         ->cc($correo->MailComprador)
-                        ->send(new OrdenDeCompraRecibida($id));
+                        ->send(new OrdenDeCompraRecibida($id, $detalleSolicitud, $ocMail, $solicitud));
+
+                    }else if ($correo->deptoRecepcion == 'Bodega Talleres Municipales, San Martin #649 Nacimiento'){
+
+                        Mail::to( $correo->MailProveedor )
+                        ->cc($correo->MailComprador)
+                        ->bcc('erwin.castillo@nacimiento.cl')
+                        ->send(new OrdenDeCompraRecibida($id, $detalleSolicitud, $ocMail, $solicitud));
+                    }
+                    
 
                     
 

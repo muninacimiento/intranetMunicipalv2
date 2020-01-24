@@ -16,32 +16,19 @@ class OrdenDeCompraRecibida extends Mailable
 {
     use Queueable, SerializesModels;
 
-    public $oc_mail, $detalleSolicitud;
+    public $oc_mail, $sol, $dS;
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct($id)
+    public function __construct($id, $detalleSolicitud, $ocMail, $solicitud)
     {
-        $this->oc_mail = DB::table('orden_compras')
-                        ->join('users', 'orden_compras.user_id', '=', 'users.id')
-                        ->join('status_o_c_s', 'orden_compras.estado_id', '=', 'status_o_c_s.id')
-                        ->join('proveedores', 'orden_compras.proveedor_id', '=', 'proveedores.id')
-                        ->select('orden_compras.*', 'users.name as Comprador', 'users.email as EmailComprador', 'status_o_c_s.estado as Estado', 'proveedores.razonSocial as RazonSocial', 'proveedores.correo as EmailProveedor')
-                        ->where('orden_compras.id', '=', $id)
-                        ->first();
+        $this->oc_mail = $ocMail;
 
-        $this->detalleSolicitud = DB::table('detail_solicituds')
-                                ->join('products', 'detail_solicituds.product_id', 'products.id')
-                                ->join('solicituds', 'detail_solicituds.solicitud_id', '=', 'solicituds.id')
-                                ->join('assign_request_to_o_c_s', 'detail_solicituds.solicitud_id', '=', 'assign_request_to_o_c_s.solicitud_id')
-                                ->join('orden_compras', 'detail_solicituds.ordenCompra_id', '=', 'orden_compras.id')
-                                ->select('detail_solicituds.*', 'products.name as Producto')
-                                ->where('detail_solicituds.ordenCompra_id', '=', $id)
-                                ->get();
+        $this->dS = $detalleSolicitud;
 
-                                //dd($oc_mail);    
+        $this->sol = $solicitud;
 
     }
 
@@ -53,6 +40,6 @@ class OrdenDeCompraRecibida extends Mailable
     public function build()
     {
 
-        return $this->view('email.ordenCompra');
+        return $this->subject('Orden de Compra - I.Municipalidad de Nacimiento')->view('email.ordenCompra');
     }
 }
