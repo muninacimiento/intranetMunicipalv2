@@ -804,8 +804,6 @@ class OrdenCompraController extends Controller
 
 
                     $move->save(); //Guardamos el Movimiento de la Solicitud
-
-                    if ($oc->mercadoPublico == 0) {
                         
                         $correo = DB::table('orden_compras')
                             ->join('proveedores', 'orden_compras.proveedor_id', '=', 'proveedores.id')
@@ -838,27 +836,28 @@ class OrdenCompraController extends Controller
                                     ->where('orden_compras.id', '=', $id)
                                     ->first();
 
-                        //dd($solicitud);
+                        //dd($ocMail);
+                        if ($ocMail->mercadoPublico == 'No') {
 
-                        if ($correo->deptoRecepcion == 'Compras y Suministros, Freire #614 Nacimiento') {
-                            
-                            Mail::to( $correo->MailProveedor )
-                            ->cc($correo->MailComprador)
-                            ->send(new OrdenDeCompraRecibida($id, $detalleSolicitud, $ocMail, $solicitud));
+                            if ($correo->deptoRecepcion == 'Compras y Suministros, Freire #614 Nacimiento') {
+                                
+                                Mail::to( $correo->MailProveedor )
+                                ->cc($correo->MailComprador)
+                                ->send(new OrdenDeCompraRecibida($id, $detalleSolicitud, $ocMail, $solicitud));
 
-                        }else if ($correo->deptoRecepcion == 'Bodega Talleres Municipales, San Martin #649 Nacimiento'){
+                            }else if ($correo->deptoRecepcion == 'Bodega Talleres Municipales, San Martin #649 Nacimiento'){
 
-                            Mail::to( $correo->MailProveedor )
-                            ->cc($correo->MailComprador)
-                            ->bcc('erwin.castillo@nacimiento.cl')
-                            ->send(new OrdenDeCompraRecibida($id, $detalleSolicitud, $ocMail, $solicitud));
+                                Mail::to( $correo->MailProveedor )
+                                ->cc($correo->MailComprador)
+                                ->bcc('erwin.castillo@nacimiento.cl')
+                                ->send(new OrdenDeCompraRecibida($id, $detalleSolicitud, $ocMail, $solicitud));
+                            }
+
+                        }else if($ocMail->mercadoPublico == 'Si'){
+
+                            //No hace Nada
+
                         }
-
-                    }else if($oc->mercadoPublico == 1){
-
-                        //No hace Nada
-
-                    }
 
 
                 DB::commit();

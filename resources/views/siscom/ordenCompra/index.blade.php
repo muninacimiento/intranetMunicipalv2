@@ -595,8 +595,8 @@
 
                             <select name="mercadoPublico" id="mercadoPublico" class="form-control selectpicker" title="Órden de Compra Mercado Público?" required>
 
-                                <option value="1">Si</option>
-                                <option value="0">No</option>
+                                <option>Si</option>
+                                <option>No</option>
 
                             </select>
 
@@ -984,8 +984,8 @@
 
                             <select name="mercadoPublico" id="mercadoPublicoUpdate" class="form-control selectpicker" title="Órden de Compra Mercado Público?" required>
 
-                                <option value="1">Si</option>
-                                <option value="0">No</option>
+                                <option>Si</option>
+                                <option>No</option>
 
                             </select>
 
