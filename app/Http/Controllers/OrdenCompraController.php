@@ -713,13 +713,60 @@ class OrdenCompraController extends Controller
 
                     $move->save(); //Guardamos el Movimiento de la Solicitud
 
-                    //$objDemo = new \stdClass();
-                    //$objDemo->ordenCompra_id = $oc->ordenCompra_id;
+                    if ($oc->mercadoPublico == 0) {
+                        
+                        $correo = DB::table('orden_compras')
+                            ->join('proveedores', 'orden_compras.proveedor_id', '=', 'proveedores.id')
+                            ->join('users', 'orden_compras.user_id', '=', 'users.id')
+                            ->select('orden_compras.id', 'orden_compras.deptoRecepcion', 'proveedores.correo as MailProveedor', 'users.email as MailComprador')
+                            ->where('orden_compras.id', '=', $id)
+                            ->first();
+                            //dd($correo);
 
+                        $ocMail = DB::table('orden_compras')
+                            ->join('users', 'orden_compras.user_id', '=', 'users.id')
+                            ->join('status_o_c_s', 'orden_compras.estado_id', '=', 'status_o_c_s.id')
+                            ->join('proveedores', 'orden_compras.proveedor_id', '=', 'proveedores.id')
+                            ->select('orden_compras.*', 'users.name as Comprador', 'users.email as EmailComprador', 'status_o_c_s.estado as Estado', 'proveedores.razonSocial as RazonSocial', 'proveedores.correo as EmailProveedor')
+                            ->where('orden_compras.id', '=', $id)
+                            ->first();
 
-                    //Mail::to('juan.fuentealba@gmail.com')->send(new OrdenDeCompraRecibida($objDemo));
+                        $detalleSolicitud = DB::table('detail_solicituds')
+                                    ->join('products', 'detail_solicituds.product_id', 'products.id')
+                                    ->join('solicituds', 'detail_solicituds.solicitud_id', '=', 'solicituds.id')
+                                    ->join('orden_compras', 'detail_solicituds.ordenCompra_id', '=', 'orden_compras.id')
+                                    ->select('detail_solicituds.*', 'products.name as Producto')
+                                    ->where('detail_solicituds.ordenCompra_id', '=', $id)
+                                    ->get();
 
-                    
+                        $solicitud = DB::table('solicituds')
+                                    ->join('detail_solicituds', 'solicituds.id', '=', 'detail_solicituds.solicitud_id')
+                                    ->join('orden_compras', 'detail_solicituds.ordenCompra_id', '=', 'orden_compras.id')
+                                    ->select('solicituds.*')
+                                    ->where('orden_compras.id', '=', $id)
+                                    ->first();
+
+                        //dd($solicitud);
+
+                        if ($correo->deptoRecepcion == 'Compras y Suministros, Freire #614 Nacimiento') {
+                            
+                            Mail::to( $correo->MailProveedor )
+                            ->cc($correo->MailComprador)
+                            ->send(new OrdenDeCompraRecibida($id, $detalleSolicitud, $ocMail, $solicitud));
+
+                        }else if ($correo->deptoRecepcion == 'Bodega Talleres Municipales, San Martin #649 Nacimiento'){
+
+                            Mail::to( $correo->MailProveedor )
+                            ->cc($correo->MailComprador)
+                            ->bcc('erwin.castillo@nacimiento.cl')
+                            ->send(new OrdenDeCompraRecibida($id, $detalleSolicitud, $ocMail, $solicitud));
+                        }
+
+                    }else if($oc->mercadoPublico == 1){
+
+                        //No hace Nada
+
+                    }
 
                 DB::commit();
                 
@@ -758,7 +805,9 @@ class OrdenCompraController extends Controller
 
                     $move->save(); //Guardamos el Movimiento de la Solicitud
 
-                    $correo = DB::table('orden_compras')
+                    if ($oc->mercadoPublico == 0) {
+                        
+                        $correo = DB::table('orden_compras')
                             ->join('proveedores', 'orden_compras.proveedor_id', '=', 'proveedores.id')
                             ->join('users', 'orden_compras.user_id', '=', 'users.id')
                             ->select('orden_compras.id', 'orden_compras.deptoRecepcion', 'proveedores.correo as MailProveedor', 'users.email as MailComprador')
@@ -766,47 +815,51 @@ class OrdenCompraController extends Controller
                             ->first();
                             //dd($correo);
 
-                    $ocMail = DB::table('orden_compras')
-                        ->join('users', 'orden_compras.user_id', '=', 'users.id')
-                        ->join('status_o_c_s', 'orden_compras.estado_id', '=', 'status_o_c_s.id')
-                        ->join('proveedores', 'orden_compras.proveedor_id', '=', 'proveedores.id')
-                        ->select('orden_compras.*', 'users.name as Comprador', 'users.email as EmailComprador', 'status_o_c_s.estado as Estado', 'proveedores.razonSocial as RazonSocial', 'proveedores.correo as EmailProveedor')
-                        ->where('orden_compras.id', '=', $id)
-                        ->first();
+                        $ocMail = DB::table('orden_compras')
+                            ->join('users', 'orden_compras.user_id', '=', 'users.id')
+                            ->join('status_o_c_s', 'orden_compras.estado_id', '=', 'status_o_c_s.id')
+                            ->join('proveedores', 'orden_compras.proveedor_id', '=', 'proveedores.id')
+                            ->select('orden_compras.*', 'users.name as Comprador', 'users.email as EmailComprador', 'status_o_c_s.estado as Estado', 'proveedores.razonSocial as RazonSocial', 'proveedores.correo as EmailProveedor')
+                            ->where('orden_compras.id', '=', $id)
+                            ->first();
 
-                    $detalleSolicitud = DB::table('detail_solicituds')
-                                ->join('products', 'detail_solicituds.product_id', 'products.id')
-                                ->join('solicituds', 'detail_solicituds.solicitud_id', '=', 'solicituds.id')
-                                ->join('orden_compras', 'detail_solicituds.ordenCompra_id', '=', 'orden_compras.id')
-                                ->select('detail_solicituds.*', 'products.name as Producto')
-                                ->where('detail_solicituds.ordenCompra_id', '=', $id)
-                                ->get();
+                        $detalleSolicitud = DB::table('detail_solicituds')
+                                    ->join('products', 'detail_solicituds.product_id', 'products.id')
+                                    ->join('solicituds', 'detail_solicituds.solicitud_id', '=', 'solicituds.id')
+                                    ->join('orden_compras', 'detail_solicituds.ordenCompra_id', '=', 'orden_compras.id')
+                                    ->select('detail_solicituds.*', 'products.name as Producto')
+                                    ->where('detail_solicituds.ordenCompra_id', '=', $id)
+                                    ->get();
 
-                    $solicitud = DB::table('solicituds')
-                                ->join('detail_solicituds', 'solicituds.id', '=', 'detail_solicituds.solicitud_id')
-                                ->join('orden_compras', 'detail_solicituds.ordenCompra_id', '=', 'orden_compras.id')
-                                ->select('solicituds.*')
-                                ->where('orden_compras.id', '=', $id)
-                                ->first();
+                        $solicitud = DB::table('solicituds')
+                                    ->join('detail_solicituds', 'solicituds.id', '=', 'detail_solicituds.solicitud_id')
+                                    ->join('orden_compras', 'detail_solicituds.ordenCompra_id', '=', 'orden_compras.id')
+                                    ->select('solicituds.*')
+                                    ->where('orden_compras.id', '=', $id)
+                                    ->first();
 
-                    //dd($solicitud);
+                        //dd($solicitud);
 
-                    if ($correo->deptoRecepcion == 'Compras y Suministros, Freire #614 Nacimiento') {
-                        
-                        Mail::to( $correo->MailProveedor )
-                        ->cc($correo->MailComprador)
-                        ->send(new OrdenDeCompraRecibida($id, $detalleSolicitud, $ocMail, $solicitud));
+                        if ($correo->deptoRecepcion == 'Compras y Suministros, Freire #614 Nacimiento') {
+                            
+                            Mail::to( $correo->MailProveedor )
+                            ->cc($correo->MailComprador)
+                            ->send(new OrdenDeCompraRecibida($id, $detalleSolicitud, $ocMail, $solicitud));
 
-                    }else if ($correo->deptoRecepcion == 'Bodega Talleres Municipales, San Martin #649 Nacimiento'){
+                        }else if ($correo->deptoRecepcion == 'Bodega Talleres Municipales, San Martin #649 Nacimiento'){
 
-                        Mail::to( $correo->MailProveedor )
-                        ->cc($correo->MailComprador)
-                        ->bcc('erwin.castillo@nacimiento.cl')
-                        ->send(new OrdenDeCompraRecibida($id, $detalleSolicitud, $ocMail, $solicitud));
+                            Mail::to( $correo->MailProveedor )
+                            ->cc($correo->MailComprador)
+                            ->bcc('erwin.castillo@nacimiento.cl')
+                            ->send(new OrdenDeCompraRecibida($id, $detalleSolicitud, $ocMail, $solicitud));
+                        }
+
+                    }else if($oc->mercadoPublico == 1){
+
+                        //No hace Nada
+
                     }
-                    
 
-                    
 
                 DB::commit();
                 
