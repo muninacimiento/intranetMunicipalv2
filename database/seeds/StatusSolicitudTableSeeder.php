@@ -82,7 +82,7 @@ class StatusSolicitudTableSeeder extends Seeder
 
         StatusSolicitud::create([
 
-            'estado'     =>  'Solicitud Entreagada Completamente',
+            'estado'     =>  'Solicitud Entregada Completamente',
 
         ]);
 

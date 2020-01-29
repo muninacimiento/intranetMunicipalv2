@@ -40,51 +40,55 @@
 
                                 <div class="form-row">
 
-                                    <div class="col mb-3">
+                                    <div class="col-lg">
 
                                         <div class="form-row">
                                             
-                                            <label class="col-sm-3 col-form-label text-muted">Fecha Licitación</label>
+                                            <label class="col-sm-6 col-form-label text-muted">Fecha Licitación</label>
                                                                         
-                                            <label class="col-sm-9 col-form-label">{{ date('d-m-Y H:i:s', strtotime($licitacion->created_at)) }}</label>
+                                            <label class="col-sm-6 col-form-label">{{ date('d-m-Y H:i:s', strtotime($licitacion->created_at)) }}</label>
 
                                         </div>
 
                                         <div class="form-row">
                                             
-                                            <label class="col-sm-3 col-form-label text-muted">IDDOC</label>
+                                            <label class="col-sm-6 col-form-label text-muted">IDDOC</label>
                                                                         
-                                            <label class="col-sm-9 col-form-label">{{ $licitacion->iddoc }}</label>
+                                            <label class="col-sm-6 col-form-label">{{ $licitacion->iddoc }}</label>
 
                                         </div>
 
                                         <div class="form-row">
                                             
-                                            <label class=" col-sm-3 col-form-label text-muted">Estado</label>
+                                            <label class=" col-sm-6 col-form-label text-muted">Estado</label>
                                                                         
-                                            <label class=" col-sm-9 col-form-label">{{ $licitacion->Estado }}</label>     
+                                            <label class=" col-sm-6 col-form-label">{{ $licitacion->Estado }}</label>     
 
                                         </div>
 
                                         <div class="form-row">
                                         
-                                            <label class=" col-sm-3 col-form-label text-muted">Propósito</label>
+                                            <label class=" col-sm-6 col-form-label text-muted">Propósito</label>
 
-                                            <label class="col-sm-9 col-form-label">{{ $licitacion->proposito }}</label>
+                                            <label class="col-sm-6 col-form-label">{{ $licitacion->proposito }}</label>
 
                                         </div>
 
                                         <div class="form-row">
                                             
-                                            <label class=" col-sm-3 col-form-label text-muted">Valor Estimado</label>
+                                            <label class=" col-sm-6 col-form-label text-muted">Valor Estimado</label>
                                                                         
-                                            <label class=" col-sm-9 col-form-label">{{ $licitacion->valorEstimado }}</label>     
+                                            <label class=" col-sm-6 col-form-label">{{ $licitacion->valorEstimado }}</label>     
 
                                         </div>
                                                                     
                                     </div>
 
-                                    <div class="col">
+                                    <div class="col-sm text-center">
+
+                                        <label class="text-muted">Bases de Licitación</label>
+
+                                        {{-- COMIENZA EL CICLO DE EVALUACIÓN DE LAs BASES --}}
 
                                         @if($licitacion->Estado == 'Bases Recepcionadas y en Revisión por C&S' || $licitacion->Estado == 'Bases en Revisión por C&S')
 
@@ -335,6 +339,241 @@
 
                                     </div>
 
+                                    {{-- TERMINA EL CICLO DE EVALUACIÓN DE LAS BASES --}}
+
+                                    {{-- COMIENZA EL CICLO DE EVALUACIÓN DE LA ADJUDICACIÓN --}}
+
+                                    <div class="col-sm text-center">
+
+                                        <label class="text-muted">Adjudicación de Licitación</label>
+
+                                        @if($licitacion->Estado == 'Adjudicación Recepcionada y en Revisión por C&S' || $licitacion->Estado == 'Adjudicación en Revisión por C&S')
+
+                                            <a href="#" class="text-decoration-none" data-toggle="modal" data-target="#adjAprobadaCS">
+
+                                                <button class="btn btn-success btn-block mb-1">
+
+                                                    <i class="fas fa-check-double"></i> 
+
+                                                    Aprobada por C&S
+
+                                                </button>
+
+                                            </a>
+
+                                            <a href="#" class="text-decoration-none" data-toggle="modal" data-target="#adjRechazadaCS">
+
+                                                <button class="btn btn-danger btn-block mb-1">
+
+                                                    <i class="fas fa-times"></i>
+
+                                                    Rechazada por C&S
+
+                                                </button>
+
+                                            </a>
+
+                                        @else
+
+                                            <a href="#" class="text-decoration-none">
+
+                                                <button class="btn btn-secondary btn-block mb-1" disabled>
+
+                                                    <i class="fas fa-check-double"></i> 
+
+                                                    Aprobada por C&S
+
+                                                </button>
+
+                                            </a>
+
+                                            <a href="#" class="text-decoration-none">
+
+                                                <button class="btn btn-secondary btn-block mb-1" disabled>
+
+                                                    <i class="fas fa-times"></i>
+
+                                                    Rechazada por C&S
+
+                                                </button>
+
+                                            </a>
+
+                                        @endif
+
+                                        @if($licitacion->Estado == 'Adjudicación en Revisión por Profesional D.A.F.')
+
+                                            <a href="#" class="text-decoration-none" data-toggle="modal" data-target="#adjAprobadaProfDAF">
+
+                                                <button class="btn btn-success btn-block mb-1">
+
+                                                    <i class="fas fa-check-double"></i> 
+
+                                                    Aprobada por Profesional D.A.F.
+
+                                                </button>
+
+                                            </a>
+
+                                            <a href="#" class="text-decoration-none" data-toggle="modal" data-target="#adjRechazadaProfDAF">
+
+                                                <button class="btn btn-danger btn-block mb-1">
+
+                                                    <i class="fas fa-times"></i>
+
+                                                    Rechazada por Profesional D.A.F.
+
+                                                </button>
+
+                                            </a>
+
+                                        @else
+
+                                            <a href="#" class="text-decoration-none">
+
+                                                <button class="btn btn-secondary btn-block mb-1" disabled>
+
+                                                    <i class="fas fa-check-double"></i> 
+
+                                                    Aprobada por Profesional D.A.F.
+
+                                                </button>
+
+                                            </a>
+
+                                            <a href="#" class="text-decoration-none">
+
+                                                <button class="btn btn-secondary btn-block mb-1" disabled>
+
+                                                    <i class="fas fa-times"></i>
+
+                                                    Rechazada por Profesional D.A.F.
+
+                                                </button>
+
+                                            </a>
+
+                                        @endif
+
+                                        @if($licitacion->Estado == 'Adjudicación en Firma D.A.F.')
+
+                                            <a href="#" class="text-decoration-none" data-toggle="modal" data-target="#adjFirmaDAF">
+
+                                                <button class="btn btn-success btn-block mb-1" >
+
+                                                    <i class="fas fa-check-double"></i> 
+
+                                                    Firmada por D.A.F.
+
+                                                </button>
+
+                                            </a>
+
+                                            <a href="#" class="text-decoration-none" data-toggle="modal" data-target="#adjRechazadaDAF">
+
+                                                <button class="btn btn-danger btn-block mb-1" >
+
+                                                    <i class="fas fa-times"></i>
+
+                                                    Rechazada por D.A.F.
+
+                                                </button>
+
+                                            </a>
+
+                                        @else
+
+                                            <a href="#" class="text-decoration-none">
+
+                                                <button class="btn btn-secondary btn-block mb-1" disabled>
+
+                                                    <i class="fas fa-check-double"></i> 
+
+                                                    Firmada por D.A.F.
+
+                                                </button>
+
+                                            </a>
+
+                                            <a href="#" class="text-decoration-none">
+
+                                                <button class="btn btn-secondary btn-block mb-1" disabled>
+
+                                                    <i class="fas fa-times"></i>
+
+                                                    Rechazada por D.A.F.
+
+                                                </button>
+
+                                            </a>
+
+                                        @endif
+
+                                        @if($licitacion->Estado == 'Adjudicación en Firma Alcadía')
+
+                                            <a href="#" class="text-decoration-none" data-toggle="modal" data-target="#adjFirmaAlcaldia">
+
+                                                <button class="btn btn-success btn-block mb-1">
+
+                                                    <i class="fas fa-check-double"></i> 
+
+                                                    Firmada por Alcaldía
+
+                                                </button>
+
+                                            </a>
+
+                                        @else
+
+                                            <a href="#" class="text-decoration-none">
+
+                                                <button class="btn btn-secondary btn-block mb-1" disabled>
+
+                                                    <i class="fas fa-check-double"></i> 
+
+                                                    Firmada por Alcaldía
+
+                                                </button>
+
+                                            </a>
+
+                                        @endif
+
+                                        @if($licitacion->Estado == 'Adjudicación en Firma Administración')
+
+                                            <a href="#" class="text-decoration-none" data-toggle="modal" data-target="#adjFirmaAdministracion">
+
+                                                <button class="btn btn-success btn-block mb-1">
+
+                                                    <i class="fas fa-check-double"></i> 
+
+                                                    Firmada por Administración
+
+                                                </button>
+
+                                            </a>
+
+                                        @else
+
+                                            <a href="#" class="text-decoration-none">
+
+                                                <button class="btn btn-secondary btn-block mb-1" disabled>
+
+                                                    <i class="fas fa-check-double"></i> 
+
+                                                    Firmada por Administración
+
+                                                </button>
+
+                                            </a>
+
+                                        @endif
+
+                                        {{-- TERMINA EL CICLO DE EVALUACIÓN DE LA ADJUDICACIÓN --}}
+
+                                    </div>
+
+
                                 </div>
 
                             </div>
@@ -412,7 +651,9 @@
         
 </div>
 
-<!-- Modal Estado 3 Órden de Compra -->
+{{-- INICIO EVALUACIÓN BASES DE LICITACIÓN --}}
+
+<!-- Bases de Licitación Aprobada por C&S -->
 <div class="modal fade" id="aprobadaCS" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
 
     <div class="modal-dialog modal-dialog-centered " role="document">
@@ -488,9 +729,9 @@
     </div>
 
 </div>
-<!-- END Modal Estado 3 Órden de Compra -->
+<!-- Bases de Licitación Aprobada por C&S -->
 
-<!-- Modal Estado 4 Órden de Compra -->
+<!-- Bases de Licitación Rechazada por C&S -->
 <div class="modal fade" id="rechazadaCS" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
 
     <div class="modal-dialog modal-dialog-centered" role="document">
@@ -584,9 +825,9 @@
     </div>
 
 </div>
-<!-- End Modal Create Solicitud -->
+<!-- Bases de Licitación Rechazada por C&S -->
 
-<!-- Modal Estado 3 Órden de Compra -->
+<!-- Bases de Licitación Aprobada por Profesional DAF -->
 <div class="modal fade" id="aprobadaProfDAF" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
 
     <div class="modal-dialog modal-dialog-centered" role="document">
@@ -662,9 +903,9 @@
     </div>
 
 </div>
-<!-- END Modal Estado 3 Órden de Compra -->
+<!-- Bases de Licitación Aprobada por Profesional DAF -->
 
-<!-- Modal Estado 4 Órden de Compra -->
+<!-- Bases de Licitación Rechazada por Profesional DAF -->
 <div class="modal fade" id="rechazadaProfDAF" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
 
     <div class="modal-dialog modal-dialog-centered" role="document">
@@ -758,9 +999,9 @@
     </div>
 
 </div>
-<!-- End Modal Create Solicitud -->
+<!-- Bases de Licitación Rechazada por Profesional DAF -->
 
-<!-- Modal Órden de Compra Firmada por DAF -->
+<!-- Bases de Licitación Aprobada por DAF -->
 <div class="modal fade" id="firmaDAF" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
 
     <div class="modal-dialog modal-dialog-centered" role="document">
@@ -836,9 +1077,9 @@
     </div>
 
 </div>
-<!-- END Órden de Compra Firmada por DAF -->
+<!-- Bases de Licitación Aprobada por DAF -->
 
-<!-- Modal Rechazada por DAF -->
+<!-- Bases de Licitación Rechazada por DAF -->
 <div class="modal fade" id="rechazadaDAF" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
 
     <div class="modal-dialog modal-dialog-centered" role="document">
@@ -932,9 +1173,9 @@
     </div>
 
 </div>
-<!-- End Órden de Compra Rechazada por DAF -->
+<!-- Bases de Licitación Rechazada por DAF -->
 
-<!-- Modal Órden de Compra Firmada por DAF -->
+<!-- Bases de Licitación Aprobada por Dirección de Control -->
 <div class="modal fade" id="firmaControl" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
 
     <div class="modal-dialog modal-dialog-centered" role="document">
@@ -1010,9 +1251,9 @@
     </div>
 
 </div>
-<!-- END Órden de Compra Firmada por DAF -->
+<!-- Bases de Licitación Aprobada por Dirección de Control -->
 
-<!-- Modal Rechazada por DAF -->
+<!-- Bases de Licitación Rechazada por Dirección de Control -->
 <div class="modal fade" id="rechazadaControl" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
 
     <div class="modal-dialog modal-dialog-centered" role="document">
@@ -1106,165 +1347,9 @@
     </div>
 
 </div>
-<!-- End Licitación Rechazada por Control -->
+<!-- Bases de Licitación Rechazada por Dirección de Control -->
 
-<!-- Modal Órden de Compra Firmada por Alcaldía -->
-<div class="modal fade" id="firmaAlcaldia" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-
-    <div class="modal-dialog modal-dialog-centered" role="document">
-
-        <div class="modal-content">
-
-            <div class="modal-header bg-success text-white">
-
-                <p class="modal-title" id="exampleModalLabel" style="font-size: 1.2em"><i class="far fa-thumbs-up"></i> Validar Licitación</p>
-
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-
-                    <span aria-hidden="true" class="text-white">&times;</span>
-
-                </button>
-
-            </div>
-
-
-            <form method="POST" action="{{ route('licitacion.update', $licitacion->id) }}" class="was-validated">
-
-                @csrf
-                @method('PUT')
-
-                <input type="hidden" name="flag" value="FirmadaPorAlcaldia">
-
-                <div class="modal-body">
-
-                    <div class="form-row">
-
-                        <div class="p-3">
-                                                                              
-                            <label for="id" class="text-center">Licitación Firmada por Alcaldía</label>
-
-                            <div class="form-row">
-                                            
-                                <label class=" col-sm-6 col-form-label text-muted">Id Órden de Compra</label>
-                                                                        
-                                <label class=" col-sm-6 col-form-label"><input type="text" value="{{ $licitacion->licitacion_id }}" readonly style="border:0;" name="licitacion_id" id="licitacion_id"></label>     
-
-                            </div>
-
-                        </div>
-
-                    </div>
-                    
-                    <div class="form-row">
-
-                        <button class="btn btn-success btn-block boton" type="submit">
-
-                            <i class="fas fa-save"></i>
-
-                            Firmar Órden De Compra por Alcaldía
-
-                        </button>
-
-                        <button type="button" class="btn btn-block btn-secondary" data-dismiss="modal" aria-label="Close">
-
-                            <i class="fas fa-arrow-left"></i>
-
-                            Cancelar
-
-                        </button>
-
-                    </div>
-
-                </div>
-
-            </form>
-
-        </div>
-
-    </div>
-
-</div>
-<!-- END Órden de Compra Firmada Alcaldia -->
-
-<!-- Modal Órden de Compra Firmada por Alcaldía1 -->
-<div class="modal fade" id="firmaAlcaldia1" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-
-    <div class="modal-dialog modal-dialog-centered" role="document">
-
-        <div class="modal-content">
-
-            <div class="modal-header bg-success text-white">
-
-                <p class="modal-title" id="exampleModalLabel" style="font-size: 1.2em"><i class="far fa-thumbs-up"></i> Validar Licitación</p>
-
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-
-                    <span aria-hidden="true" class="text-white">&times;</span>
-
-                </button>
-
-            </div>
-
-
-            <form method="POST" action="{{ route('licitacion.update', $licitacion->id) }}" class="was-validated">
-
-                @csrf
-                @method('PUT')
-
-                <input type="hidden" name="flag" value="FirmadaPorAlcaldia1">
-
-                <div class="modal-body">
-
-                    <div class="form-row">
-
-                        <div class="p-3">
-                                                                              
-                            <label for="id" class="text-center">Licitación Firmada por Alcaldía</label>
-
-                            <div class="form-row">
-                                            
-                                <label class=" col-sm-6 col-form-label text-muted">Id Órden de Compra</label>
-                                                                        
-                                <label class=" col-sm-6 col-form-label"><input type="text" value="{{ $licitacion->licitacion_id }}" readonly style="border:0;" name="licitacion_id" id="licitacion_id"></label>     
-
-                            </div>
-
-                        </div>
-
-                    </div>
-                    
-                    <div class="form-row">
-
-                        <button class="btn btn-success btn-block boton" type="submit">
-
-                            <i class="fas fa-save"></i>
-
-                            Firmar Licitación por Alcaldía
-
-                        </button>
-
-                        <button type="button" class="btn btn-block btn-secondary" data-dismiss="modal" aria-label="Close">
-
-                            <i class="fas fa-arrow-left"></i>
-
-                            Cancelar
-
-                        </button>
-
-                    </div>
-
-                </div>
-
-            </form>
-
-        </div>
-
-    </div>
-
-</div>
-<!-- END Órden de Compra Firmada Alcaldia1 -->
-
-<!-- Modal Órden de Compra Firmada por Administracion -->
+<!-- Bases de Licitación Aprobada por Administración -->
 <div class="modal fade" id="firmaAdministracion" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
 
     <div class="modal-dialog modal-dialog-centered" role="document">
@@ -1340,10 +1425,362 @@
     </div>
 
 </div>
-<!-- END Órden de Compra Firmada por Administración -->
+<!-- Bases de Licitación Aprobada por Administración -->
 
-<!-- Modal Órden de Compra Firmada por Administracion1 -->
-<div class="modal fade" id="firmaAdministracion1" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+{{-- FIN EVALUACIÓN BASES DE LICITACIÓN --}}
+
+{{-- INICIO EVALUACIÓN ADJUDICACIÓN DE LICITACIÓN --}}
+
+<!-- Adjudicación de Licitación Aprobada por C&S -->
+<div class="modal fade" id="adjAprobadaCS" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+
+    <div class="modal-dialog modal-dialog-centered " role="document">
+
+        <div class="modal-content">
+
+            <div class="modal-header bg-success text-white">
+
+                <p class="modal-title" id="exampleModalLabel" style="font-size: 1.2em"><i class="far fa-thumbs-up"></i> Validar Licitación</p>
+
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+
+                    <span aria-hidden="true" class="text-white">&times;</span>
+
+                </button>
+
+            </div>
+
+
+            <form method="POST" action="{{ route('licitacion.update', $licitacion->id) }}" class="was-validated">
+
+                @csrf
+                @method('PUT')
+
+                <input type="hidden" name="flag" value="AdjAprobadaC&S">
+
+                <div class="modal-body">
+
+                    <div class="form-row">
+
+                        <div class="p-3">
+                                                                              
+                            <label for="id" class="text-center">Licitación Aprobada por C&S </label>
+
+                            <div class="form-row">
+                                            
+                                <label class=" col-sm-6 col-form-label text-muted">Id Licitación</label>
+                                                                        
+                                <label class=" col-sm-6 col-form-label"><input type="text" value="{{ $licitacion->licitacion_id }}" readonly style="border:0;" name="licitacion_id" id="licitacion_id"></label>     
+
+                            </div>
+
+                        </div>
+
+                    </div>
+                    
+                    <div class="form-row">
+
+                        <button class="btn btn-success btn-block boton" type="submit">
+
+                            <i class="fas fa-save"></i>
+
+                            Aprobar Licitación
+
+                        </button>
+
+                        <button type="button" class="btn btn-block btn-secondary" data-dismiss="modal" aria-label="Close">
+
+                            <i class="fas fa-arrow-left"></i>
+
+                            Cancelar
+
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</div>
+<!-- Adjudicación de Licitación Aprobada por C&S -->
+
+<!-- Adjudicación de Licitación Rechazada por C&S -->
+<div class="modal fade" id="adjRechazadaCS" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+
+    <div class="modal-dialog modal-dialog-centered" role="document">
+
+        <div class="modal-content">
+
+            <div class="modal-header bg-danger text-white">
+
+                <p class="modal-title" id="exampleModalLabel" style="font-size: 1.2em"><i class="far fa-thumbs-down"></i> Validar Licitación</p>
+
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+
+                    <span aria-hidden="true" class="text-white">&times;</span>
+
+                </button>
+
+            </div>
+
+
+            <form method="POST" action="{{ route('licitacion.update', $licitacion->id) }}" class="was-validated">
+
+                @csrf
+                @method('PUT')
+
+                <input type="hidden" name="flag" value="AdjRechazadaC&S">
+
+                <div class="modal-body">
+
+                    <div class="form-row">
+
+                        <div class="p-3">
+                                                                              
+                            <label for="id" class="text-center">Licitación Rechazada por C&S </label>
+
+                            <div class="form-row">
+                                            
+                                <label class=" col-sm-6 col-form-label text-muted">Id Licitación</label>
+                                                                        
+                                <label class=" col-sm-6 col-form-label"><input type="text" value="{{ $licitacion->licitacion_id }}" readonly style="border:0;" name="licitacion_id" id="licitacion_id"></label>     
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    <div class="form-row">
+
+                        <div class="col-md-12 mb-3">
+                                                                                                              
+                            <label for="Motivo">Motivo Rechazo</label>
+
+                            <textarea type="text" class="form-control" id="motivoRechazo" name="motivoRechazo" placeholder="Ingrese el Motivo del porqué va a Rechazar la Licitación" required></textarea>
+
+                            <div class="invalid-feedback">
+                                                                                                                            
+                                Por favor ingrese el Motivo del Rechazo de la Licitación
+
+                            </div>
+
+                        </div>
+
+                    </div>
+                    
+                    <div class="form-row">
+
+                        <button class="btn btn-success btn-block boton" type="submit">
+
+                            <i class="fas fa-save"></i>
+
+                            Rechazar Licitación
+
+                        </button>
+
+                        <button type="button" class="btn btn-block btn-secondary" data-dismiss="modal" aria-label="Close">
+
+                            <i class="fas fa-arrow-left"></i>
+
+                            Cancelar
+
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</div>
+<!-- Adjudicación de Licitación Rechazada por C&S -->
+
+<!-- Adjudicación de Licitación Aprobada por Profesional DAF -->
+<div class="modal fade" id="adjAprobadaProfDAF" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+
+    <div class="modal-dialog modal-dialog-centered" role="document">
+
+        <div class="modal-content">
+
+            <div class="modal-header bg-success text-white">
+
+                <p class="modal-title" id="exampleModalLabel" style="font-size: 1.2em"><i class="far fa-thumbs-up"></i></i> Validar Licitación</p>
+
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+
+                    <span aria-hidden="true" class="text-white">&times;</span>
+
+                </button>
+
+            </div>
+
+
+            <form method="POST" action="{{ route('licitacion.update', $licitacion->id) }}" class="was-validated">
+
+                @csrf
+                @method('PUT')
+
+                <input type="hidden" name="flag" value="AdjAprobadaProfDAF">
+
+                <div class="modal-body">
+
+                    <div class="form-row">
+
+                        <div class="p-3">
+                                                                              
+                            <label for="id" class="text-center">Licitación Aprobada por Profesional D.A.F. </label>
+
+                            <div class="form-row">
+                                            
+                                <label class=" col-sm-6 col-form-label text-muted">Id Licitación</label>
+                                                                        
+                                <label class=" col-sm-6 col-form-label"><input type="text" value="{{ $licitacion->licitacion_id }}" readonly style="border:0;" name="licitacion_id" id="licitacion_id"></label>     
+
+                            </div>
+
+                        </div>
+
+                    </div>
+                    
+                    <div class="form-row">
+
+                        <button class="btn btn-success btn-block boton" type="submit">
+
+                            <i class="fas fa-save"></i>
+
+                            Aprobar Licitación
+
+                        </button>
+
+                        <button type="button" class="btn btn-block btn-secondary" data-dismiss="modal" aria-label="Close">
+
+                            <i class="fas fa-arrow-left"></i>
+
+                            Cancelar
+
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</div>
+<!-- Adjudicación de Licitación Aprobada por Profesional DAF -->
+
+<!-- Adjudicación de Licitación Rechazada por Profesional DAF -->
+<div class="modal fade" id="adjRechazadaProfDAF" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+
+    <div class="modal-dialog modal-dialog-centered" role="document">
+
+        <div class="modal-content">
+
+            <div class="modal-header bg-danger text-white">
+
+                <p class="modal-title" id="exampleModalLabel" style="font-size: 1.2em"><i class="far fa-thumbs-down"></i> Validar Licitación</p>
+
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+
+                    <span aria-hidden="true" class="text-white">&times;</span>
+
+                </button>
+
+            </div>
+
+
+            <form method="POST" action="{{ route('licitacion.update', $licitacion->id) }}" class="was-validated">
+
+                @csrf
+                @method('PUT')
+
+                <input type="hidden" name="flag" value="AdjRechazadaProfDAF">
+
+                <div class="modal-body">
+
+                    <div class="form-row">
+
+                        <div class="p-3">
+                                                                              
+                            <label for="id" class="text-center">Licitación Rechazada por Profesional D.A.F. </label>
+
+                            <div class="form-row">
+                                            
+                                <label class=" col-sm-6 col-form-label text-muted">Id Licitación</label>
+                                                                        
+                                <label class=" col-sm-6 col-form-label"><input type="text" value="{{ $licitacion->licitacion_id }}" readonly style="border:0;" name="licitacion_id" id="licitacion_id"></label>     
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    <div class="form-row">
+
+                        <div class="col-md-12 mb-3">
+                                                                                                              
+                            <label for="Motivo">Motivo Rechazo</label>
+
+                            <textarea type="text" class="form-control" id="motivoRechazo" name="motivoRechazo" placeholder="Ingrese el Motivo del porqué va a Rechazar la Órden de Compra" required></textarea>
+
+                            <div class="invalid-feedback">
+                                                                                                                            
+                                Por favor ingrese el Motivo del Rechazo de la Licitación
+
+                            </div>
+
+                        </div>
+
+                    </div>
+                    
+                    <div class="form-row">
+
+                        <button class="btn btn-success btn-block boton" type="submit">
+
+                            <i class="fas fa-save"></i>
+
+                            Rechazar Licitación
+
+                        </button>
+
+                        <button type="button" class="btn btn-block btn-secondary" data-dismiss="modal" aria-label="Close">
+
+                            <i class="fas fa-arrow-left"></i>
+
+                            Cancelar
+
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</div>
+<!-- Adjudicación de Licitación Rechazada por Profesional DAF -->
+
+<!-- Adjudicación de Licitación Aprobada por DAF -->
+<div class="modal fade" id="adjFirmaDAF" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
 
     <div class="modal-dialog modal-dialog-centered" role="document">
 
@@ -1367,7 +1804,259 @@
                 @csrf
                 @method('PUT')
 
-                <input type="hidden" name="flag" value="FirmadaPorAdministracion1">
+                <input type="hidden" name="flag" value="AdjFirmadaPorDAF">
+
+                <div class="modal-body">
+
+                    <div class="form-row">
+
+                        <div class="p-3">
+                                                                              
+                            <label for="id" class="text-center">Licitación Firmada por D.A.F.</label>
+
+                            <div class="form-row">
+                                            
+                                <label class=" col-sm-6 col-form-label text-muted">Id Órden de Compra</label>
+                                                                        
+                                <label class=" col-sm-6 col-form-label"><input type="text" value="{{ $licitacion->licitacion_id }}" readonly style="border:0;" name="licitacion_id" id="licitacion_id"></label>     
+
+                            </div>
+
+                        </div>
+
+                    </div>
+                    
+                    <div class="form-row">
+
+                        <button class="btn btn-success btn-block boton" type="submit">
+
+                            <i class="fas fa-save"></i>
+
+                            Firmar Licitación por D.A.F.
+
+                        </button>
+
+                        <button type="button" class="btn btn-block btn-secondary" data-dismiss="modal" aria-label="Close">
+
+                            <i class="fas fa-arrow-left"></i>
+
+                            Cancelar
+
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</div>
+<!-- Adjudicacion de Licitación Aprobada por DAF -->
+
+<!-- Adjudicación de Licitación Rechazada por DAF -->
+<div class="modal fade" id="adjRechazadaDAF" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+
+    <div class="modal-dialog modal-dialog-centered" role="document">
+
+        <div class="modal-content">
+
+            <div class="modal-header bg-danger text-white">
+
+                <p class="modal-title" id="exampleModalLabel" style="font-size: 1.2em"><i class="far fa-thumbs-down"></i> Validar Licitación</p>
+
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+
+                    <span aria-hidden="true" class="text-white">&times;</span>
+
+                </button>
+
+            </div>
+
+
+            <form method="POST" action="{{ route('licitacion.update', $licitacion->id) }}" class="was-validated">
+
+                @csrf
+                @method('PUT')
+
+                <input type="hidden" name="flag" value="AdjRechazadaDAF">
+
+                <div class="modal-body">
+
+                    <div class="form-row">
+
+                        <div class="p-3">
+                                                                              
+                            <label for="id" class="text-center">Licitación Rechazada por D.A.F.</label>
+
+                            <div class="form-row">
+                                            
+                                <label class=" col-sm-6 col-form-label text-muted">Id Órden de Compra</label>
+                                                                        
+                                <label class=" col-sm-6 col-form-label"><input type="text" value="{{ $licitacion->licitacion_id }}" readonly style="border:0;" name="licitacion_id" id="licitacion_id"></label>     
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    <div class="form-row">
+
+                        <div class="col-md-12 mb-3">
+                                                                                                              
+                            <label for="Motivo">Motivo Rechazo</label>
+
+                            <textarea type="text" class="form-control" id="motivoRechazo" name="motivoRechazo" placeholder="Ingrese el Motivo del porqué va a Rechazar la Órden de Compra" required></textarea>
+
+                            <div class="invalid-feedback">
+                                                                                                                            
+                                Por favor ingrese el Motivo del Rechazo de la Licitación
+
+                            </div>
+
+                        </div>
+
+                    </div>
+                    
+                    <div class="form-row">
+
+                        <button class="btn btn-success btn-block boton" type="submit">
+
+                            <i class="fas fa-save"></i>
+
+                            Rechazar Licitación
+
+                        </button>
+
+                        <button type="button" class="btn btn-block btn-secondary" data-dismiss="modal" aria-label="Close">
+
+                            <i class="fas fa-arrow-left"></i>
+
+                            Cancelar
+
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</div>
+<!-- Adjudicación de Licitación Rechazada por DAF -->
+
+<!-- Adjudicación de Licitación Aprobada por Alcaldía -->
+<div class="modal fade" id="adjFirmaAlcaldia" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+
+    <div class="modal-dialog modal-dialog-centered" role="document">
+
+        <div class="modal-content">
+
+            <div class="modal-header bg-success text-white">
+
+                <p class="modal-title" id="exampleModalLabel" style="font-size: 1.2em"><i class="far fa-thumbs-up"></i> Validar Licitación</p>
+
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+
+                    <span aria-hidden="true" class="text-white">&times;</span>
+
+                </button>
+
+            </div>
+
+
+            <form method="POST" action="{{ route('licitacion.update', $licitacion->id) }}" class="was-validated">
+
+                @csrf
+                @method('PUT')
+
+                <input type="hidden" name="flag" value="AdjFirmadaPorAlcaldia">
+
+                <div class="modal-body">
+
+                    <div class="form-row">
+
+                        <div class="p-3">
+                                                                              
+                            <label for="id" class="text-center">Licitación Firmada por Alcaldía</label>
+
+                            <div class="form-row">
+                                            
+                                <label class=" col-sm-6 col-form-label text-muted">Id Órden de Compra</label>
+                                                                        
+                                <label class=" col-sm-6 col-form-label"><input type="text" value="{{ $licitacion->licitacion_id }}" readonly style="border:0;" name="licitacion_id" id="licitacion_id"></label>     
+
+                            </div>
+
+                        </div>
+
+                    </div>
+                    
+                    <div class="form-row">
+
+                        <button class="btn btn-success btn-block boton" type="submit">
+
+                            <i class="fas fa-save"></i>
+
+                            Firmar Órden De Compra por Alcaldía
+
+                        </button>
+
+                        <button type="button" class="btn btn-block btn-secondary" data-dismiss="modal" aria-label="Close">
+
+                            <i class="fas fa-arrow-left"></i>
+
+                            Cancelar
+
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</div>
+<!-- Adjudicación de Licitación Aprobada por Alcaldía -->
+
+<!-- Adjudicación de Licitación Aprobada por Administración -->
+<div class="modal fade" id="adjFirmaAdministracion" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+
+    <div class="modal-dialog modal-dialog-centered" role="document">
+
+        <div class="modal-content">
+
+            <div class="modal-header bg-success text-white">
+
+                <p class="modal-title" id="exampleModalLabel" style="font-size: 1.2em"><i class="far fa-thumbs-up"></i> Validar Licitación</p>
+
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+
+                    <span aria-hidden="true" class="text-white">&times;</span>
+
+                </button>
+
+            </div>
+
+
+            <form method="POST" action="{{ route('licitacion.update', $licitacion->id) }}" class="was-validated">
+
+                @csrf
+                @method('PUT')
+
+                <input type="hidden" name="flag" value="AdjFirmadaPorAdministracion">
 
                 <div class="modal-body">
 
@@ -1418,7 +2107,9 @@
     </div>
 
 </div>
-<!-- END Órden de Compra Firmada por Administración1 -->
+<!-- Adjudicación de Licitación Aprobada por Administración -->
+
+{{-- FIN EVALUACIÓN ADJUDICACIÓN DE LICITACIÓN --}}
 
 @endsection
 

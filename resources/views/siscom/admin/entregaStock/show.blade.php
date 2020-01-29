@@ -301,7 +301,7 @@
 </div>
 
 
-<!-- UPDATE Modal Detalle Solicitud-->
+<!-- Entregar Productos Modal -->
 <div class="modal fade" id="updateDetalleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
 
     <div class="modal-dialog modal-dialog-centered" role="document">
@@ -382,7 +382,7 @@
     </div>
 
 </div>
-<!-- UPDATE Modal Detalle Solicitud -->
+<!-- Entregar Productos Modal -->
 
 @endsection
 
@@ -412,15 +412,6 @@
 
         var height = $(window).height();
             $('#allWindow').height(height);
-
-        $( "#fechaActividad" ).datepicker({
-            dateFormat: "yy-mm-dd",
-            minDate: "+14d",
-            firstDay: 1,
-            dayNamesMin: [ "Dom", "Lun", "Mar", "Mier", "Jue", "Vie", "Sab" ],
-            monthNames: [ "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre" ],
-            numberOfMonths: 2,
-        });
 
             // Start Configuration DataTable Detalle Solicitud
             var table1 = $('#detalleSolicitud').DataTable({
@@ -486,16 +477,6 @@
             });
             //End Edit Record Detalle Solicitud
 
-        //Recorremos la Tabla y Sumamos cada Subtotal
-        var cls = document.getElementById("detalleSolicitud").getElementsByTagName("td");
-        var sum = 0;
-        for (var i = 0; i < cls.length; i++){
-            if(cls[i].className == "subtotal"){
-                sum += isNaN(cls[i].innerHTML) ? 0 : parseInt(cls[i].innerHTML);
-            }
-        }
-
-        $('#total').val(sum);
         
     });
 

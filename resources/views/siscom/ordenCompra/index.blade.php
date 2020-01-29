@@ -263,33 +263,11 @@
 
                                                 @endcan
 
-                                                {{-- Enviar Órden de Compra con EXCEPCION --}}
-
-                                                @can('ordenCompra.enviarExcepcion')
-
-                                                    @if($oc->excepcion === 'Si' && $oc->enviadaProveedor === 0 && $oc->estado_id > 1)
-
-                                                        <a href="#" class="text-decoration-none excepcion" data-toggle="modal" data-placement="bottom" title="Enviar Órden de Compra con Excepción">
-
-                                                            <button class="btn btn-danger btn-sm mr-1">
-      
-                                                                <i class="fas fa-envelope-open-text"></i> 
-
-                                                            </button>
-
-                                                        </a>
-
-                                                    @else
-
-                                                    @endif
-
-                                                @endcan
-
                                                 {{-- Validar Órden de Compra --}}
 
                                                 @can('ordenCompra.validar')
 
-                                                    @if($oc->Estado == 'Emitida' || $oc->Estado == 'Confirmada' || $oc->Estado == 'Enviada a Proveedor')
+                                                    @if($oc->Estado == 'Emitida' || $oc->Estado == 'Confirmada' || $oc->Estado == 'Enviada a Proveedor' || $oc->Estado == 'Productos Recepcionados')
 
                                                     @else
 
@@ -306,6 +284,18 @@
                                                     @endif
 
                                                 @endcan
+
+                                                
+
+                                                        <a href="{{ route('ordenCompra.recepcionarProductos', $oc->id) }}" data-toggle="tooltip" data-placement="bottom" title="Recepcionar Productos de la OC">
+                                            
+                                                            <button class="btn btn-success btn-sm mr-1 " type="button">
+                                                            
+                                                                <i class="fas fa-box-open"></i>
+
+                                                            </button>
+
+                                                        </a>
 
                                                 @can('ordenCompra.update')
 
@@ -403,83 +393,6 @@
 
 </div>
 
-<!-- Modal Órden de Compra Enviada con Excepcion -->
-<div class="modal fade" id="enviarProveedor" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-
-    <div class="modal-dialog modal-dialog-centered" role="document">
-
-        <div class="modal-content">
-
-            <div class="modal-header bg-success text-white">
-
-                <p class="modal-title" id="exampleModalLabel" style="font-size: 1.2em"><i class="fas fa-plus-circle"></i> Validar Órden de Compra</p>
-
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-
-                    <span aria-hidden="true" class="text-white">&times;</span>
-
-                </button>
-
-            </div>
-
-
-            <form method="POST" action="#" class="was-validated" id="excepcionForm">
-
-                @csrf
-                @method('PUT')
-
-                <input type="hidden" name="flag" value="EnviarProveedorConExcepcion">
-
-                <div class="modal-body">
-
-                    <div class="form-row">
-
-                        <div class="p-3">
-                                                                              
-                            <label for="id" class="text-center">Enviar Órden de Compra con Excepción</label>
-
-                            <div class="form-row">
-                                            
-                                <label class=" col-sm-6 col-form-label text-muted">Id Órden de Compra</label>
-                                                                        
-                                <label class=" col-sm-6 col-form-label"><input type="text" value="#" readonly style="border:0;" name="ordenCompraID" id="ordenCompra_id_excepcion"></label>     
-
-                            </div>
-
-                        </div>
-
-                    </div>
-                    
-                    <div class="form-row">
-
-                        <button class="btn btn-success btn-block boton" type="submit">
-
-                            <i class="fas fa-save"></i>
-
-                            Enviar Órden de Compra
-
-                        </button>
-
-                        <button type="button" class="btn btn-block btn-secondary" data-dismiss="modal" aria-label="Close">
-
-                            <i class="fas fa-arrow-left"></i>
-
-                            Cancelar
-
-                        </button>
-
-                    </div>
-
-                </div>
-
-            </form>
-
-        </div>
-
-    </div>
-
-</div>
-<!-- END Órden de Compra Enviada al Proveedor --> 
 
 <!-- CREATE Modal Órden de Compra -->
 <div class="modal fade" id="createModalOrdenCompra" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -746,6 +659,88 @@
 
 </div>
 <!-- End Recepcinoar Solicitud Modal -->
+
+<!-- Recepcionar Productos de la Órden de Compra MODAL -->
+<div class="modal fade" id="confirmarRecepcionModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+
+    <div class="modal-dialog modal-dialog-centered" role="document">
+
+        <div class="modal-content">
+
+            <div class="modal-header bg-light">
+
+                <p class="modal-title" id="exampleModalLabel" style="font-size: 1.2em"><i class="fas fa-boxes"></i> Confirmar la Recepción de los Productos de la Órden de Compra</p>
+
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+
+                    <span aria-hidden="true" class="text-white">&times;</span>
+
+                </button>
+
+            </div>
+
+
+            <form method="POST" action="{{ url('/siscom/ordenCompra/confirmarRecepcion') }}" class="was-validated" id="recepcionarProductosForm">
+
+                @csrf
+                @method('PUT')
+
+                <input type="hidden" name="flag" value="ConfirmarRecepcionProductosOC">
+
+                <div class="modal-body">
+
+                    <div class="form-row">
+                        
+                        <label for="fechaRecepcion" class="col-sm-6 col-form-label text-muted">Fecha Recepción</label>
+
+                        <label for="fechaRecepcion" class="col-sm-6 col-form-label">{{ $dateCarbon }}</label>
+
+                    </div>
+
+                    <div class="form-row">
+
+                        <label for="ID" class="col-sm-6 col-form-label text-muted">No. Órden de Compra</label>
+
+                         <div class="col-sm-6">
+                             
+                            <input type="" name="ordenCompra_id" id="ordenCompra_id_recepcionar" readonly class="form-control-plaintext">
+                                 
+                         </div>
+
+                    </div>
+
+
+                    <div class="mb-3 form-row">
+
+                        <button class="btn btn-success btn-block" type="submit">
+
+                            <i class="fas fa-save"></i>
+
+                            Recepcionar Productos
+
+                        </button>
+
+
+                        <button type="button" class="btn btn-block btn-secondary" data-dismiss="modal" aria-label="Close">
+
+                            <i class="fas fa-arrow-left"></i>
+
+                            Cancelar
+
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</div>
+<!-- End Recepcionar Productos de la Órden de Compra Modal -->
 
 <!-- Modal Asignar Solicitud Órden de Compra -->
 <div class="modal fade" id="asignarSolicitudModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -1243,29 +1238,6 @@
                 } );
             } );
 
-            //Comienzo de Excepcion de la Solicitud
-            table.on('click', '.excepcion', function () {
-
-                $tr = $(this).closest('tr');
-
-                if ($($tr).hasClass('child')) {
-
-                    $tr = $tr.prev('.parent');
-
-                }
-
-                var data = table.row($tr).data();
-
-                console.log(data);
-
-                $('#ordenCompra_id_excepcion').val(data[1]);
-
-                $('#excepcionForm').attr('action', '/siscom/ordenCompra/enviarExcepcion/' + data[0]);
-                $('#enviarProveedor').modal('show');
-
-            });
-            //Fin Recepción de la Solicitud
-
             //Comienzo de Recepción de la Solicitud
             table.on('click', '.recepcionar', function () {
 
@@ -1288,6 +1260,29 @@
 
             });
             //Fin Recepción de la Solicitud
+
+            //Comienzo de Recepción de los Productos de la OC
+            table.on('click', '.confirmarRecepcion', function () {
+
+                $tr = $(this).closest('tr');
+
+                if ($($tr).hasClass('child')) {
+
+                    $tr = $tr.prev('.parent');
+
+                }
+
+                var data = table.row($tr).data();
+
+                console.log(data);
+
+                $('#ordenCompra_id_recepcionar').val(data[1]);
+
+                $('#recepcionarProductosForm').attr('action', '/siscom/ordenCompra/confirmarRecepcion/' + data[0]);
+                $('#confirmarRecepcionModal').modal('show');
+
+            });
+            //Fin Recepción de los Productos de la OC
 
             //Start Edit Record
             table.on('click', '.asignar', function () {

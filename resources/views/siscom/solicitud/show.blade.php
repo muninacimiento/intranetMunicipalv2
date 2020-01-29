@@ -340,6 +340,10 @@
 
                                                 <th>Estado O.C.</th>
 
+                                                <th>Licitación</th>
+
+                                                <th>Estado Licitación</th>
+
                                                 <th>Acciones</th>
 
                                             </tr>
@@ -367,6 +371,10 @@
                                                 <td>{{ $detalle->NoOC }}</td>
 
                                                 <td>{{ $detalle->EstadoOC }}</td>
+
+                                                <td>{{ $detalle->NoLicitacion}}</td>
+
+                                                <td>{{ $detalle->EstadoLicitacion }}</td>
 
                                                 @if( $solicitud->estado_id < 3)                                             
 

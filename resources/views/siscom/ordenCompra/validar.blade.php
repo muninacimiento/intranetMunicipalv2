@@ -30,7 +30,9 @@
 
                         <a href="{{action('OrdenCompraController@index')}}" class="btn btn-link text-decoration-none float-right"> <i class="far fa-arrow-alt-circle-left"></i> Volver</a>
 
-                        <h4> Órden de Compra No.  <input type="text" value="{{ $ordenCompra->ordenCompra_id }}" readonly class="h4" style="border:0;" name="ordenCompraID" id="ordenCompraID" form="detalleOrdenCompraForm"> </h4>
+                        <h4> Órden de Compra No.  <input type="text" value="{{ $ordenCompra->ordenCompra_id }}" readonly class="h4" style="border:0;" name="ordenCompraID" id="ordenCompraID" form="detalleOrdenCompraForm">
+
+                        </h4>
 
                          <hr style="background-color: #d7d7d7">
 
@@ -40,7 +42,7 @@
 
                                 <div class="form-row">
 
-                                    <div class="col mb-3">
+                                    <div class="col-6 mb-3">
 
                                         <div class="form-row">
                                             
@@ -121,7 +123,27 @@
                                                                     
                                     </div>
 
-                                    <div class="col">
+                                    <div class="col-6">
+
+                                        @can('ordenCompra.enviarExcepcion')
+
+                                        @if($ordenCompra->excepcion === 'Si' && $ordenCompra->enviadaProveedor === 0 && $ordenCompra->estado_id > 1)
+
+                                            <a href="#" data-placement="bottom" title="Enviar Órden de Compra con Excepción" data-toggle="modal" data-target="#enviarProveedorExcepcion">
+
+                                                <button class="btn btn-danger mb-3 btn-lg">
+                      
+                                                    <i class="fas fa-envelope-open-text"></i> 
+
+                                                </button>
+
+                                            </a>
+
+                                        @else
+
+                                        @endif
+
+                                        @endcan
 
                                         @if(($ordenCompra->Estado == 'Recepcionada y en Revisión por C&S' || $ordenCompra->Estado == 'Revisión por C&S' || $ordenCompra->Estado == 'Enviada a Proveedor') || ($ordenCompra->excepcion === 'Si' && $ordenCompra->Estado == 'Enviada a Proveedor con Excepción'))
 
@@ -441,6 +463,85 @@
     </div>
         
 </div>
+
+<!-- Modal Órden de Compra Enviada con Excepcion -->
+<div class="modal fade" id="enviarProveedorExcepcion" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+
+    <div class="modal-dialog modal-dialog-centered" role="document">
+
+        <div class="modal-content">
+
+            <div class="modal-header bg-success text-white">
+
+                <p class="modal-title" id="exampleModalLabel" style="font-size: 1.2em"><i class="fas fa-plus-circle"></i> Validar Órden de Compra</p>
+
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+
+                    <span aria-hidden="true" class="text-white">&times;</span>
+
+                </button>
+
+            </div>
+
+
+            <form method="POST" action="{{ route('ordenCompra.update', $ordenCompra->id) }}" class="was-validated" id="excepcionForm">
+
+                @csrf
+                @method('PUT')
+
+                <input type="hidden" name="flag" value="EnviarProveedorConExcepcion">
+
+                <div class="modal-body">
+
+                    <div class="form-row">
+
+                        <div class="p-3">
+                                                                              
+                            <label for="id" class="text-center">Enviar Órden de Compra con Excepción</label>
+
+                            <div class="form-row">
+                                            
+                                <label class=" col-sm-6 col-form-label text-muted">Id Órden de Compra</label>
+                                                                        
+                                <label class=" col-sm-6 col-form-label"><input type="text" value="{{ $ordenCompra->ordenCompra_id }}" readonly style="border:0;" name="ordenCompraID" id="ordenCompra_id_excepcion"></label>     
+
+                            </div>
+
+                        </div>
+
+                    </div>
+                    
+                    <div class="form-row">
+
+                        <button class="btn btn-success btn-block boton" type="submit">
+
+                            <i class="fas fa-save"></i>
+
+                            Enviar Órden de Compra
+
+                        </button>
+
+                        <button type="button" class="btn btn-block btn-secondary" data-dismiss="modal" aria-label="Close">
+
+                            <i class="fas fa-arrow-left"></i>
+
+                            Cancelar
+
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</div>
+<!-- END Órden de Compra Enviada al Proveedor --> 
+
 
 <!-- Modal Estado 3 Órden de Compra -->
 <div class="modal fade" id="aprobadaCS" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -1264,6 +1365,29 @@
                             }
                         }
             });
+
+            //Comienzo de Excepcion de la Solicitud
+            table.on('click', '.excepcion', function () {
+
+                $tr = $(this).closest('tr');
+
+                if ($($tr).hasClass('child')) {
+
+                    $tr = $tr.prev('.parent');
+
+                }
+
+                var data = table.row($tr).data();
+
+                console.log(data);
+
+                $('#ordenCompra_id_excepcion').val(data[1]);
+
+                $('#excepcionForm').attr('action', '/siscom/ordenCompra/enviarExcepcion/' + data[0]);
+                $('#enviarProveedorExcepcion').modal('show');
+
+            });
+            //Fin Recepción de la Solicitud
     });
 
 

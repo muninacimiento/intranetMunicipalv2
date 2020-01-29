@@ -213,9 +213,27 @@
 
                                                 @endif
 
-                                            {{-- Validar Órden de Compra --}}
+                                                {{-- Recepcionar Adjudicacion Licitacion por C&S --}}
 
-                                                @if($licitacion->Estado == 'Creada' || $licitacion->Estado == 'Confirmada')
+                                                @if($licitacion->Estado == 'Cerrada')
+
+                                                    <a href="#" class="recepcionarADJ" data-toggle="tooltip" data-placement="bottom" title="Recepcionar Adjudicacion de Licitación">
+
+                                                        <button class="btn btn-success btn-sm mr-1" type="button">
+                                                        
+                                                            <i class="fas fa-clipboard-check"></i>
+
+                                                        </button>
+
+                                                    </a>
+
+                                                @else
+
+                                                @endif
+
+                                            {{-- Validar Licitación --}}
+
+                                                @if($licitacion->Estado == 'Creada' || $licitacion->Estado == 'Confirmada' || $licitacion->Estado == 'Lista para Publicar' || $licitacion->Estado == 'Publicada' || $licitacion->Estado == 'Cerrada')
 
                                                 @else
 
@@ -228,6 +246,25 @@
                                                         </button>
 
                                                     </a>
+
+                                                @endif
+
+                                                {{-- Publicar Licitación --}}
+
+                                                @if($licitacion->Estado == 'Lista para Publicar')
+
+                                                    <a href="#" class="publicar" data-toggle="tooltip" data-placement="bottom" title="Publicar Licitación">
+                                        
+                                                        <button class="btn btn-light btn-sm mr-1 " type="button">
+                                                        
+                                                            <i class="fas fa-cloud-upload-alt"></i>
+
+                                                        </button>
+
+                                                    </a>
+
+
+                                                @else
 
                                                 @endif
 
@@ -367,8 +404,9 @@
 
                             <select name="valorEstimado" class="form-control selectpicker" title="Valor Estimado de la Licitación ?" required>
 
-                                <option>Menor a 200 UTM</option>
-                                <option>Mayor a 200 UTM</option>
+                                <option>Mayor o Igual a 500 UTM</option>
+                                <option>Mayor a 100 y Menor a 500 UTM</option>
+                                <option>Menor o Igual a 100 UTM</option>
 
                             </select>
 
@@ -603,6 +641,188 @@
 </div>
 <!-- End Recepcinoar Solicitud Modal -->
 
+<!-- Recepcionar Licitacion MODAL -->
+<div class="modal fade" id="recepcionarADJLicitacionModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+
+    <div class="modal-dialog modal-dialog-centered" role="document">
+
+        <div class="modal-content">
+
+            <div class="modal-header bg-primary text-white">
+
+                <p class="modal-title" id="exampleModalLabel" style="font-size: 1.2em"><i class="fas fa-inbox"></i> Recepcionar Licitación</p>
+
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+
+                    <span aria-hidden="true" class="text-white">&times;</span>
+
+                </button>
+
+            </div>
+
+
+            <form method="POST" action="{{ url('/siscom/licitacion') }}" class="was-validated" id="recepcionarADJLicitacionForm">
+
+                @csrf
+                @method('PUT')
+
+                <input type="hidden" name="flag" value="RecepcionarAdjudicacionLicitacion">
+
+                <div class="modal-body">
+
+                    <div class="form-row">
+                        
+                        <label for="fechaRecepcion" class="col-sm-6 col-form-label text-muted">Fecha Recepción</label>
+
+                        <label for="fechaRecepcion" class="col-sm-6 col-form-label">{{ $dateCarbon }}</label>
+
+                    </div>
+
+                    <div class="form-row">
+
+                        <label for="ID" class="col-sm-6 col-form-label text-muted">No. de Licitación</label>
+
+                         <div class="col-sm-6">
+                             
+                            <input type="" name="licitacion_id" id="licitacion_id_recepcionarADJ" readonly class="form-control-plaintext">
+                                 
+                         </div>
+
+                    </div>
+
+
+                    <div class="mb-3 form-row">
+
+                        <button class="btn btn-success btn-block" type="submit">
+
+                            <i class="fas fa-save"></i>
+
+                            Recepcionar Adjudicaciòn de Licitación
+
+                        </button>
+
+
+                        <button type="button" class="btn btn-block btn-secondary" data-dismiss="modal" aria-label="Close">
+
+                            <i class="fas fa-arrow-left"></i>
+
+                            Cancelar
+
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</div>
+<!-- End Recepcinoar Adjudicacion Licitacion Modal -->
+
+<!-- Publicar Licitacion MODAL -->
+<div class="modal fade" id="publicarLicitacionModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+
+    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+ 
+        <div class="modal-content">
+
+            <div class="modal-header bg-light">
+
+                <p class="modal-title" id="exampleModalLabel" style="font-size: 1.2em"><i class="fas fa-cloud-upload-alt"></i> Publicar Licitación</p>
+
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+
+                    <span aria-hidden="true" class="text-white">&times;</span>
+
+                </button>
+
+            </div>
+
+
+            <form method="POST" action="{{ url('/siscom/licitacion') }}" class="was-validated" id="publicarLicitacionForm">
+
+                @csrf
+                @method('PUT')
+
+                <input type="hidden" name="flag" value="PublicarLicitacion">
+
+                <div class="modal-body">
+
+                    <div class="form-row mb-3">
+                        
+                        <label for="fechaRecepcion" class="col-sm-4 col-form-label text-muted">Fecha Publicación</label>
+
+                        <label for="fechaRecepcion" class="col-sm-8 col-form-label">{{ $dateCarbon }}</label>
+
+                    </div>
+
+                    <div class="form-row mb-3">
+
+                        <label for="ID" class="col-sm-4 col-form-label text-muted">No. de Licitación</label>
+
+                         <div class="col-sm-8">
+                             
+                            <input type="" name="licitacion_id" id="licitacion_id_publicar" readonly class="form-control-plaintext">
+                                 
+                         </div>
+
+                    </div>
+
+                    <div class="form-row mb-3">
+
+                        <label for="ID" class="col-sm-4 col-form-label text-muted">Fecha de Cierre</label>
+
+                         <div class="col-sm-8">
+                             
+                            <input type="text" id="fechaCierre" name="fechaCierre" class="form-control" placeholder="Cuál es la Fecha de Cierre de la Licitación?" required/>
+
+                                    <div class="invalid-feedback">
+                                                                                                        
+                                        Por favor ingrese la Fecha Cierre de su Licitación
+
+                                    </div>
+                                 
+                         </div>
+
+                    </div>
+
+
+                    <div class="mb-3 form-row">
+
+                        <button class="btn btn-success btn-block" type="submit">
+
+                            <i class="fas fa-save"></i>
+
+                            Publicar Licitación
+
+                        </button>
+
+
+                        <button type="button" class="btn btn-block btn-secondary" data-dismiss="modal" aria-label="Close">
+
+                            <i class="fas fa-arrow-left"></i>
+
+                            Cancelar
+
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</div>
+<!-- Publicar Licitación Modal -->
+
 <!-- UPDATE Modal Licitación -->
 <div class="modal fade" id="updateModalLicitacion" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
 
@@ -668,8 +888,8 @@
 
                             <select id="valorEstimadoUpdate" name="valorEstimado" class="form-control" title="Valor Estimado de la Licitación ?" required>
 
-                                <option>Mayor a 200 UTM</option>
-                                <option>Menor a 200 y Mayor a 100 UTM</option>
+                                <option>Mayor o Igual a 500 UTM</option>
+                                <option>Mayor a 100 y Menor a 500 UTM</option>
                                 <option>Menor o Igual a 100 UTM</option>
 
                             </select>
@@ -759,6 +979,13 @@
             
             var height = $(window).height();
             $('#allWindow').height(height);
+
+            $( "#fechaCierre" ).datepicker({
+                dateFormat: "yy-mm-dd",
+                firstDay: 1,
+                dayNamesMin: [ "Dom", "Lun", "Mar", "Mier", "Jue", "Vie", "Sab" ],
+                monthNames: [ "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre" ],
+            });
 
             // Setup - add a text input to each footer cell
             $('#licitacionTable tfoot th').each( function () {
@@ -899,6 +1126,52 @@
 
                 $('#recepcionarLicitacionForm').attr('action', '/siscom/licitacion/' + data[0]);
                 $('#recepcionarLicitacionModal').modal('show');
+
+            });
+            //Fin Recepción de la Solicitud
+
+             //Comienzo de Recepción de la Adjudicacion de Licitacion
+            table.on('click', '.recepcionarADJ', function () {
+
+                $tr = $(this).closest('tr');
+
+                if ($($tr).hasClass('child')) {
+
+                    $tr = $tr.prev('.parent');
+
+                }
+
+                var data = table.row($tr).data();
+
+                console.log(data);
+
+                $('#licitacion_id_recepcionarADJ').val(data[1]);
+
+                $('#recepcionarADJLicitacionForm').attr('action', '/siscom/licitacion/' + data[0]);
+                $('#recepcionarADJLicitacionModal').modal('show');
+
+            });
+            //Fin Recepción de la Solicitud
+
+            //Comienzo de Publicar la Licitación
+            table.on('click', '.publicar', function () {
+
+                $tr = $(this).closest('tr');
+
+                if ($($tr).hasClass('child')) {
+
+                    $tr = $tr.prev('.parent');
+
+                }
+
+                var data = table.row($tr).data();
+
+                console.log(data);
+
+                $('#licitacion_id_publicar').val(data[1]);
+
+                $('#publicarLicitacionForm').attr('action', '/siscom/licitacion/publicar/' + data[0]);
+                $('#publicarLicitacionModal').modal('show');
 
             });
             //Fin Recepción de la Solicitud

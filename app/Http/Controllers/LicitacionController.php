@@ -74,7 +74,7 @@ class LicitacionController extends Controller
                 $licitacion->licitacion_id                  = $request->licitacion_id;
                 $licitacion->iddoc                          = $request->iddoc;
                 $licitacion->valorEstimado                  = $request->valorEstimado;
-                $licitacion->proposito                      = $request->proposito;
+                $licitacion->proposito                      = strtoupper($request->proposito);
                 $licitacion->estado_id                      = 1;
                 
                 
@@ -220,7 +220,7 @@ class LicitacionController extends Controller
             $licitacion->licitacion_id                  = $request->licitacion_id;
             $licitacion->iddoc                          = $request->iddoc;
             $licitacion->valorEstimado                  = $request->valorEstimado;
-            $licitacion->proposito                      = $request->proposito;
+            $licitacion->proposito                      = strtoupper($request->proposito);
 
             $licitacion->save();
 
@@ -489,7 +489,7 @@ class LicitacionController extends Controller
 
                     $licitacion = Licitacion::findOrFail($id);
 
-                    if ($licitacion->valorEstimado == 'Menor a 200 UTM') {
+                    if ($licitacion->valorEstimado == 'Menor o Igual a 100 UTM' || $licitacion->valorEstimado == 'Mayor a 100 y Menor a 500 UTM') {
                         
                         $licitacion->estado_id                      = 15;
 
@@ -509,7 +509,7 @@ class LicitacionController extends Controller
 
                         $move->save(); //Guardamos el Movimiento de la Solicitud    
                     
-                    } else if ($licitacion->valorEstimado == 'Mayor a 200 UTM') {
+                    } else if ($licitacion->valorEstimado == 'Mayor o Igual a 500 UTM') {
                         
                         $licitacion->estado_id                      = 12;
 
@@ -660,6 +660,390 @@ class LicitacionController extends Controller
                     $move = new MoveLicitacion;
                     $move->licitacion_id                = $licitacion->id;
                     $move->estadoLicitacion_id          = 16;
+                    $move->fecha                        = $licitacion->updated_at;
+                    $move->user_id                      = Auth::user()->id;
+
+                    $move->save(); //Guardamos el Movimiento de la Solicitud    
+
+                DB::commit();
+                
+            } catch (Exception $e) {
+
+                db::rollback();
+                
+            }
+
+            return redirect('/siscom/licitacion')->with('info', 'Licitación Aprobada por Administración con éxito !');
+        } 
+
+        //Publicar Licitación
+        else if ($request->flag == 'PublicarLicitacion') {
+
+            try {
+
+                DB::beginTransaction();
+
+                    $fechaPublicacion = Carbon::now();
+
+                    $licitacion = Licitacion::findOrFail($id);
+                    $licitacion->estado_id              = 18;
+                    $licitacion->fechaPublicacion       = $fechaPublicacion;
+                    $licitacion->fechaCierre            = $request->fechaCierre;
+                    //dd($solicitud);
+
+                    $licitacion->save(); //Guardamos la Solicitud
+
+                    //Guardamos los datos de Movimientos de la Solicitud
+                    $move = new MoveLicitacion;
+                    $move->licitacion_id                = $licitacion->id;
+                    $move->estadoLicitacion_id          = 18;
+                    $move->fecha                        = $licitacion->updated_at;
+                    $move->user_id                      = Auth::user()->id;
+
+                    $move->save(); //Guardamos el Movimiento de la Solicitud    
+
+                DB::commit();
+                
+            } catch (Exception $e) {
+
+                db::rollback();
+                
+            }
+
+            return redirect('/siscom/licitacion')->with('info', 'Licitación Publicada con éxito !');
+        } 
+
+        /*
+         * EVALUACIÓN DE LA ADJUDICACIÓN
+         */
+
+        // Recepcionar y Órden de Compra en Revisión por C&S
+        else if ($request->flag == 'RecepcionarAdjudicacionLicitacion') {
+
+            try {
+
+                DB::beginTransaction();
+
+                    $licitacionC = Licitacion::findOrFail($id);
+
+                    //Actualizamos el Movimiento del Cierre de la Licitacion
+                    $moveC = new MoveLicitacion;
+                    $moveC->licitacion_id                = $licitacionC->id;
+                    $moveC->estadoLicitacion_id          = 19;
+                    $moveC->fecha                        = $licitacionC->updated_at;
+                    $moveC->user_id                      = 1;
+
+                    $moveC->save(); //Guardamos el Movimiento de la Solicitud    
+
+                    $licitacion = Licitacion::findOrFail($id);
+                    $licitacion->estado_id                              = 20;
+
+                    //dd($solicitud);
+
+                    $licitacion->save(); //Guardamos la Solicitud
+
+                    //Guardamos los datos de Movimientos de la Solicitud
+                    $move = new MoveLicitacion;
+                    $move->licitacion_id                = $licitacion->id;
+                    $move->estadoLicitacion_id          = 20;
+                    $move->fecha                        = $licitacion->updated_at;
+                    $move->user_id                      = Auth::user()->id;
+
+                    $move->save(); //Guardamos el Movimiento de la Solicitud    
+
+                DB::commit();
+                
+            } catch (Exception $e) {
+
+                db::rollback();
+                
+            }
+
+            return redirect('/siscom/licitacion')->with('info', 'Licitación Recepcionada con éxito !');
+        }  
+
+        // Aprobada por C&S
+        else if ($request->flag == 'AdjAprobadaC&S') {
+
+            try {
+
+                DB::beginTransaction();
+
+                    $licitacion = Licitacion::findOrFail($id);
+                    $licitacion->estado_id              = 24;
+
+                    //dd($solicitud);
+
+                    $licitacion->save(); //Guardamos la Solicitud
+
+                    //Guardamos los datos de Movimientos de la Solicitud
+                    $move = new MoveLicitacion;
+                    $move->licitacion_id                = $licitacion->id;
+                    $move->estadoLicitacion_id          = 22;
+                    $move->fecha                        = $licitacion->updated_at;
+                    $move->user_id                      = Auth::user()->id;
+
+                    $move->save(); //Guardamos el Movimiento de la Solicitud    
+
+
+                DB::commit();
+                
+            } catch (Exception $e) {
+
+                db::rollback();
+                
+            }
+
+            return redirect('/siscom/licitacion')->with('info', 'Licitación Aprobada por C&S con éxito !');
+        } 
+
+        //Rechazada por C&S
+        else if ($request->flag == 'AdjRechazadaC&S') {
+
+            try {
+
+                DB::beginTransaction();
+
+                    $licitacion = Licitacion::findOrFail($id);
+                    $licitacion->estado_id              = 21;
+
+                    //dd($solicitud);
+
+                    $licitacion->save(); //Guardamos la Solicitud
+
+                    //Guardamos los datos de Movimientos de la Solicitud
+                    $move = new MoveLicitacion;
+                    $move->licitacion_id                = $licitacion->id;
+                    $move->estadoLicitacion_id          = 23;
+                    $move->fecha                        = $licitacion->updated_at;
+                    $move->user_id                      = Auth::user()->id;
+                    $move->obsRechazoValidacion         = $request->motivoRechazo;
+
+                    $move->save(); //Guardamos el Movimiento de la Solicitud    
+
+                DB::commit();
+                
+            } catch (Exception $e) {
+
+                db::rollback();
+                
+            }
+
+            return redirect('/siscom/licitacion')->with('info', 'Licitación Rechazada por C&S con éxito !');
+        }   
+
+        //Aprobada por Profesinoal DAF
+        else if ($request->flag == 'AdjAprobadaProfDAF') {
+
+            try {
+
+                DB::beginTransaction();
+
+                   $licitacion = Licitacion::findOrFail($id);
+                    $licitacion->estado_id               = 27;
+
+                    //dd($solicitud);
+
+                    $licitacion->save(); //Guardamos la Solicitud
+
+                    //Guardamos los datos de Movimientos de la Solicitud
+                    $move = new MoveLicitacion;
+                    $move->licitacion_id                = $licitacion->id;
+                    $move->estadoLicitacion_id          = 25;
+                    $move->fecha                        = $licitacion->updated_at;
+                    $move->user_id                      = Auth::user()->id;
+
+                    $move->save(); //Guardamos el Movimiento de la Solicitud    
+
+                DB::commit();
+                
+            } catch (Exception $e) {
+
+                db::rollback();
+                
+            }
+
+            return redirect('/siscom/licitacion')->with('info', 'Licitación Aprobada por Profesinal DAF con éxito !');
+        } 
+
+        // Rechazada por Profesinoal DAF
+        else if ($request->flag == 'AdjRechazadaProfDAF') {
+
+            try {
+
+                DB::beginTransaction();
+
+                    $licitacion = Licitacion::findOrFail($id);
+                    $licitacion->estado_id              = 21;
+
+                    //dd($solicitud);
+
+                    $licitacion->save(); //Guardamos la Solicitud
+
+                    //Guardamos los datos de Movimientos de la Solicitud
+                    $move = new MoveLicitacion;
+                    $move->licitacion_id                = $licitacion->id;
+                    $move->estadoLicitacion_id          = 26;
+                    $move->fecha                        = $licitacion->updated_at;
+                    $move->user_id                      = Auth::user()->id;
+                    $move->obsRechazoValidacion          = $request->motivoRechazo;
+
+                    $move->save(); //Guardamos el Movimiento de la Solicitud    
+
+                DB::commit();
+                
+            } catch (Exception $e) {
+
+                db::rollback();
+                
+            }
+
+            return redirect('/siscom/licitacion')->with('info', 'Licitación Rechazada por Profesional DAF con éxito !');
+        } 
+
+        //Órden de compra en Firma DAF
+        else if ($request->flag == 'AdjFirmadaPorDAF') {
+
+            try {
+
+                DB::beginTransaction();
+
+                    $licitacion = Licitacion::findOrFail($id);
+
+                    if ($licitacion->valorEstimado == 'Menor o Igual a 100 UTM') {
+                        
+                        $licitacion->estado_id               = 32;
+
+                        //dd($solicitud);
+
+                        $licitacion->save(); //Guardamos la Solicitud
+
+                       //Guardamos los datos de Movimientos de la Solicitud
+                        $move = new MoveLicitacion;
+                        $move->licitacion_id                = $licitacion->id;
+                        $move->estadoLicitacion_id          = 28;
+                        $move->fecha                        = $licitacion->updated_at;
+                        $move->user_id                      = Auth::user()->id;
+
+                        $move->save(); //Guardamos el Movimiento de la Solicitud    
+
+
+                        $move->save(); //Guardamos el Movimiento de la Solicitud    
+                    
+                    } else if ($licitacion->valorEstimado == 'Mayor a 100 y Menor a 500 UTM' || $licitacion->valorEstimado == 'Mayor o Igual a 500 UTM') {
+                        
+                        $licitacion->estado_id               = 30;
+
+                        //dd($solicitud);
+
+                        $licitacion->save(); //Guardamos la Solicitud
+
+                       //Guardamos los datos de Movimientos de la Solicitud
+                        $move = new MoveLicitacion;
+                        $move->licitacion_id                = $licitacion->id;
+                        $move->estadoLicitacion_id          = 28;
+                        $move->fecha                        = $licitacion->updated_at;
+                        $move->user_id                      = Auth::user()->id;
+
+                        $move->save(); //Guardamos el Movimiento de la Solicitud    
+
+                    }
+
+                DB::commit();
+                
+            } catch (Exception $e) {
+
+                db::rollback();
+                
+            }
+
+            return redirect('/siscom/licitacion')->with('info', 'Licitación Firmada por DAF con éxito !');
+        }
+
+        // Rechazada por DAF
+        else if ($request->flag == 'AdjRechazadaDAF') {
+
+            try {
+
+                DB::beginTransaction();
+
+                    $licitacion = Licitacion::findOrFail($id);
+                    $licitacion->estado_id               = 21;
+
+                    //dd($solicitud);
+
+                    $licitacion->save(); //Guardamos la Solicitud
+
+                    //Guardamos los datos de Movimientos de la Solicitud
+                    $move = new MoveLicitacion;
+                    $move->licitacion_id                = $licitacion->id;
+                    $move->estadoLicitacion_id          = 29;
+                    $move->fecha                        = $licitacion->updated_at;
+                    $move->user_id                      = Auth::user()->id;
+                    $move->obsRechazoValidacion         = $request->motivoRechazo;
+
+                    $move->save(); //Guardamos el Movimiento de la Solicitud    
+
+                DB::commit();
+                
+            } catch (Exception $e) {
+
+                db::rollback();
+                
+            }
+
+            return redirect('/siscom/licitacion')->with('info', 'Licitación Rechazada por DAF con éxito !');
+        }
+
+        //Aprobada por Profesinoal DAF
+        else if ($request->flag == 'AdjFirmadaPorAlcaldia') {
+
+            try {
+
+                DB::beginTransaction();
+
+                    $licitacion = Licitacion::findOrFail($id);
+                    $licitacion->estado_id              = 34;
+                    //dd($solicitud);
+
+                    $licitacion->save(); //Guardamos la Solicitud
+
+                    //Guardamos los datos de Movimientos de la Solicitud
+                    $move = new MoveLicitacion;
+                    $move->licitacion_id                = $licitacion->id;
+                    $move->estadoLicitacion_id          = 31;
+                    $move->fecha                        = $licitacion->updated_at;
+                    $move->user_id                      = Auth::user()->id;
+
+                    $move->save(); //Guardamos el Movimiento de la Solicitud    
+
+                DB::commit();
+                
+            } catch (Exception $e) {
+
+                db::rollback();
+                
+            }
+
+            return redirect('/siscom/licitacion')->with('info', 'Licitación Aprobada por Alcadía con éxito !');
+        } 
+        //Aprobada por Profesinoal DAF
+        else if ($request->flag == 'AdjFirmadaPorAdministracion') {
+
+            try {
+
+                DB::beginTransaction();
+
+                    $licitacion = Licitacion::findOrFail($id);
+                    $licitacion->estado_id              = 34;
+                    //dd($solicitud);
+
+                    $licitacion->save(); //Guardamos la Solicitud
+
+                    //Guardamos los datos de Movimientos de la Solicitud
+                    $move = new MoveLicitacion;
+                    $move->licitacion_id                = $licitacion->id;
+                    $move->estadoLicitacion_id          = 33;
                     $move->fecha                        = $licitacion->updated_at;
                     $move->user_id                      = Auth::user()->id;
 

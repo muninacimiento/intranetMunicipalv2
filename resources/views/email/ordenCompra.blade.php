@@ -45,7 +45,7 @@
     <div>
         
         <label>No. de Órden de Compra : <strong>{{ $oc_mail->ordenCompra_id }}</strong></label><br>
-        <label>Monto Órden de Compra : <strong style="font-size: 1em;">$ {{ $sol->total }}</strong></label><br>
+        <label>Monto Órden de Compra : <strong style="font-size: 1em;">$ {{ $oc_mail->totalOrdenCompra }}</strong></label><br>
         <label>Motivo/Destino Órden de Compra : <strong>{{ $sol->motivo }}</strong></label><br>
 
         <label>Fecha Actividad : <strong>{{ $sol->fechaActividad }}</strong></label><br>

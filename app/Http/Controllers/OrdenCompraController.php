@@ -218,6 +218,46 @@ class OrdenCompraController extends Controller
 
     }
 
+    public function recepcionarProductos($id)
+    {
+
+        /*
+         * Definimos variable que contendrá la fecha actual del sistema
+         */
+        $dateCarbon = Carbon::now()->locale('es')->isoFormat('dddd D, MMMM YYYY');
+
+        /* Declaramos la variable que contendrá todos los permisos existentes en la base de datos */
+        $ordenCompra = DB::table('orden_compras')
+                    ->join('users', 'orden_compras.user_id', '=', 'users.id')
+                    ->join('status_o_c_s', 'orden_compras.estado_id', '=', 'status_o_c_s.id')
+                    ->join('proveedores', 'orden_compras.proveedor_id', '=', 'proveedores.id')
+                    ->select('orden_compras.*', 'users.name as Comprador', 'status_o_c_s.estado as Estado', 'proveedores.razonSocial as RazonSocial')
+                    ->where('orden_compras.id', '=', $id)
+                    ->first();
+
+        $move = DB::table('move_o_c_s') 
+                ->join('status_o_c_s', 'move_o_c_s.estadoOrdenCompra_id', 'status_o_c_s.id')               
+                ->join('users', 'move_o_c_s.user_id', 'users.id')
+                ->select('move_o_c_s.*', 'status_o_c_s.estado as status', 'users.name as name', 'move_o_c_s.created_at as date')
+                ->where('move_o_c_s.ordenCompra_id', '=', $id)
+                ->get();
+
+        $detalleSolicitud = DB::table('detail_solicituds')
+                                ->join('products', 'detail_solicituds.product_id', 'products.id')
+                                ->join('solicituds', 'detail_solicituds.solicitud_id', '=', 'solicituds.id')
+                                ->join('orden_compras', 'detail_solicituds.ordenCompra_id', '=', 'orden_compras.id')
+                                ->select('detail_solicituds.*', 'products.name as Producto')
+                                ->where('detail_solicituds.ordenCompra_id', '=', $id)
+                                ->get();
+
+
+                    //dd($detalleSolicituds);
+
+                     /* Retornamos a la vista los resultados psanadolos por parametros */
+        return view('siscom.ordenCompra.recepcionarProductos', compact('ordenCompra', 'dateCarbon', 'move', 'detalleSolicitud'));
+
+    }
+
     /**
      * Show the form for editing the specified resource.
      *
@@ -369,7 +409,7 @@ class OrdenCompraController extends Controller
                 
             }
 
-            return redirect('/siscom/ordenCompra')->with('info', 'Órden de Compra Aprobada por C&S con éxito !');
+            return back();
         } 
 
         //Rechazada por C&S
@@ -712,8 +752,6 @@ class OrdenCompraController extends Controller
 
 
                     $move->save(); //Guardamos el Movimiento de la Solicitud
-
-                    if ($oc->mercadoPublico == 0) {
                         
                         $correo = DB::table('orden_compras')
                             ->join('proveedores', 'orden_compras.proveedor_id', '=', 'proveedores.id')
@@ -747,6 +785,7 @@ class OrdenCompraController extends Controller
                                     ->first();
 
                         //dd($solicitud);
+                        if ($oc->mercadoPublico == 'No') {
 
                         if ($correo->deptoRecepcion == 'Compras y Suministros, Freire #614 Nacimiento') {
                             
@@ -762,7 +801,7 @@ class OrdenCompraController extends Controller
                             ->send(new OrdenDeCompraRecibida($id, $detalleSolicitud, $ocMail, $solicitud));
                         }
 
-                    }else if($oc->mercadoPublico == 1){
+                    }else if($oc->mercadoPublico == 'Si'){
 
                         //No hace Nada
 
@@ -870,7 +909,7 @@ class OrdenCompraController extends Controller
                 
             }
 
-           return redirect('/siscom/ordenCompra')->with('info', 'Órden de Compra Enviada al Proveedor, con Excepción,  con éxito !');
+           return back();
 
             
         }                                 
@@ -943,6 +982,175 @@ class OrdenCompraController extends Controller
 
             return redirect('/siscom/ordenCompra')->with('info', 'Órden de Compra Confirmada con éxito !');
         }     
+
+        
+
+        // Ingresamos la Cantidad Entregada de un Producto
+        else if ($request->flag == 'EntregarProductos') {
+
+
+            $detalleSolicitud = DetailSolicitud::findOrFail($id);
+            $suma = $detalleSolicitud->cantidadEntregada;
+            $suma = $suma + $request->cantidadEntregada;
+
+            //dd($suma);
+
+            if ($detalleSolicitud->cantidad >= $suma) {
+                        
+                $detalleSolicitud->cantidadEntregada    = $suma;
+                $detalleSolicitud->userDeliver_id       = Auth::user()->id;
+                $detalleSolicitud->fechaEntrega         = $detalleSolicitud->updated_at;
+                $detalleSolicitud->obsEntrega           = strtoupper($request->observacion);
+
+                $detalleSolicitud->save(); //Guardamos la solicitud
+
+                return back();
+
+            }else{
+
+                return back()->with('danger', 'La Cantidad Entregada No puede ser mayor a la Solicitada');
+            }
+
+        }
+
+        // Recepcionar TODOS los Productos de la Órden de Compra 
+        else if ($request->flag == 'RecepcionarProductosOC') {
+
+            try {
+
+                DB::beginTransaction();
+
+                    $dateCarbon = Carbon::now();
+
+                    $detSolicitud = DetailSolicitud::where('ordenCompra_id', $id)
+                                                    ->where('fechaRecepcion', NULL)
+                                                    ->count();
+//dd($detSolicitud);
+                    if ($detSolicitud == 0) {
+                        
+                        $dSolicitud = DetailSolicitud::where('ordenCompra_id', $id);
+                        $dSolicitud->update(['userReceive_id' => Auth::user()->id], ['fechaRecepcion' => $dateCarbon]);
+
+                        $dSolicitud = DetailSolicitud::where('ordenCompra_id', $id);
+                        $dSolicitud->update(['fechaRecepcion' => $dateCarbon]);
+                        
+                        
+
+                        //Buscamos la Solicitud relacionada con la OC a recepcionar
+                        $s = DB::table('solicituds')
+                                    ->join('detail_solicituds', 'solicituds.id', '=', 'detail_solicituds.solicitud_id')
+                                    ->join('orden_compras', 'detail_solicituds.ordenCompra_id', '=', 'orden_compras.id')
+                                    ->where('orden_compras.id', '=', $id)
+                                    ->first();
+
+                        //dd($solicitud->id);
+                        //Actualizmos el estado de la Solicitud
+                        $solicitud = Solicitud::findOrFail($s->id);            
+                        $solicitud->estado_id                   = 9;
+                        $solicitud->save();
+
+                        //Actualizamos el estado de la OC
+                        $oc = OrdenCompra::findOrFail($id);
+                        $oc->estado_id                          = 19;
+                        $oc->save();
+
+
+                        //Guardamos el Movimientos de la Solicitud
+                        $move = new MoveSolicitud;
+                        $move->solicitud_id                     = $solicitud->id;
+                        $move->estadoSolicitud_id               = 9;
+                        $move->fecha                            = $solicitud->updated_at;
+                        $move->user_id                          = Auth::user()->id;
+                        $move->save();
+
+                        //Guardamos el Movimientos de la OC
+                        $move = new MoveOC;
+                        $move->ordenCompra_id                   = $oc->id;
+                        $move->estadoOrdenCompra_id             = 19;
+                        $move->fecha                            = $oc->updated_at;
+                        $move->user_id                          = Auth::user()->id;
+                        $move->save();      
+
+                    }else{
+
+                        //Buscamos la Solicitud relacionada con la OC a recepcionar
+                        $s = DB::table('solicituds')
+                                    ->join('detail_solicituds', 'solicituds.id', '=', 'detail_solicituds.solicitud_id')
+                                    ->join('orden_compras', 'detail_solicituds.ordenCompra_id', '=', 'orden_compras.id')
+                                    ->where('orden_compras.id', '=', $id)
+                                    ->first();
+
+                        //dd($solicitud->id);
+                        //Actualizmos el estado de la Solicitud
+                        $solicitud = Solicitud::findOrFail($s->id);            
+                        $solicitud->estado_id                   = 9;
+                        $solicitud->save();
+
+                        //Actualizamos el estado de la OC
+                        $oc = OrdenCompra::findOrFail($id);
+                        $oc->estado_id                          = 24;
+                        $oc->save();
+
+
+                        //Guardamos el Movimientos de la Solicitud
+                        $move = new MoveSolicitud;
+                        $move->solicitud_id                     = $solicitud->id;
+                        $move->estadoSolicitud_id               = 9;
+                        $move->fecha                            = $solicitud->updated_at;
+                        $move->user_id                          = Auth::user()->id;
+                        $move->save();
+
+                        //Guardamos el Movimientos de la OC
+                        $move = new MoveOC;
+                        $move->ordenCompra_id                   = $oc->id;
+                        $move->estadoOrdenCompra_id             = 24;
+                        $move->fecha                            = $oc->updated_at;
+                        $move->user_id                          = Auth::user()->id;
+                        $move->save();      
+
+                    }
+
+                    
+
+                DB::commit();
+                
+            } catch (Exception $e) {
+
+                db::rollback();
+                
+            }
+
+            return redirect('/siscom/ordenCompra')->with('info', 'Productos de Órden de Compra Recepcionados con éxito !');
+        }  
+
+        // Recepcionar Producto a Producto la Órden de Compra 
+        else if ($request->flag == 'RecepcionarProductoOrdenCompra') {
+
+            try {
+
+                DB::beginTransaction();
+
+                    $dateCarbon = Carbon::now();
+
+                    $dSolicitud = DetailSolicitud::findOrFail($id);
+
+                    $dSolicitud->fechaRecepcion         = $dateCarbon;
+                    $dSolicitud->userReceive_id         = Auth::user()->id;
+                    $dSolicitud->obsRecepcion           = $request->obsRecepcion;
+
+                    $dSolicitud->save();
+
+                DB::commit();
+                
+            } catch (Exception $e) {
+
+                db::rollback();
+                
+            }
+
+            return back()->with('info', 'Producto Recepcionado con Obervaciones!');
+        }  
+
     }
 
     /**

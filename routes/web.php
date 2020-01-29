@@ -115,6 +115,13 @@ Route::middleware(['auth'])->group( function() {
 	Route::put('/siscom/ordenCompra/recepcionar/{oc}', 'OrdenCompraController@update')->name('ordenCompra.recepcionar')->middleware('can:ordenCompra.recepcionar');
 	Route::put('/siscom/ordenCompra/enviarExcepcion/{oc}', 'OrdenCompraController@update')->name('ordenCompra.enviarExcepcion')->middleware('can:ordenCompra.enviarExcepcion');
 	Route::put('/siscom/ordenCompra/anular/{oc}', 'OrdenCompraController@update')->name('ordenCompra.anular')->middleware('can:ordenCompra.anular');
+	Route::get('/siscom/ordenCompra/recepcionarProductos/{oc}', 'OrdenCompraController@recepcionarProductos')->name('ordenCompra.recepcionarProductos')
+			->middleware('can:ordenCompra.recepcionarProductos');
+	Route::put('/siscom/ordenCompra/confirmarRecepcion/{oc}', 'OrdenCompraController@update')->name('ordenCompra.confirmarRecepcion')
+			->middleware('can:ordenCompra.confirmarRecepcion');
+	Route::put('/siscom/ordenCompra/recepcionarProducto/{oc}', 'OrdenCompraController@update')->name('ordenCompra.recepcionarProducto')
+			->middleware('can:ordenCompra.recepcionarProducto');
+
 
 
 
@@ -133,6 +140,8 @@ Route::middleware(['auth'])->group( function() {
 	Route::post('/siscom/licitacion/{licitacion}', 'LicitacionController@show')->name('licitacion.show')->middleware('can:licitacion.show');
 	Route::post('/siscom/licitacion/{licitacion}', 'LicitacionController@update')->name('licitacion.update')->middleware('can:licitacion.update');
 	Route::get('/siscom/licitacion/validar/{licitacion}', 'LicitacionController@validar')->name('licitacion.validar')->middleware('can:licitacion.validar');
+	Route::put('/siscom/licitacion/publicar/{licitacion}', 'LicitacionController@update')->name('licitacion.publicar')->middleware('can:licitacion.publicar');
+
 	
 
 
