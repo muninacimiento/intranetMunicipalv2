@@ -27,12 +27,15 @@ class SiscomController extends Controller
         //Obtenemos la Fecha Actual del Sistema
         //$dateCarbon = Carbon::now()->isoFormat('Y-m-d');
 
+        //$l = DB::table('licitacions')
+
         //Consultar por las licitaciones con fecha de cierre igual a Carbon->now
         $licitacion = Licitacion::whereDate('fechaCierre', '=', Carbon::now()->format('Y-m-d'));
 
         //dd($licitacion);
-        //Cambiar Estado de la Licitacion a Cerrada
-        $licitacion->update(['estado_id' => 19]); 
+            
+            //Cambiar Estado de la Licitacion a Cerrada
+            $licitacion->update(['estado_id' => 19]); 
 
         return view('siscom.index');
     }

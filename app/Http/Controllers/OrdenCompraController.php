@@ -1022,10 +1022,15 @@ class OrdenCompraController extends Controller
 
                     $dateCarbon = Carbon::now();
 
-                    $detSolicitud = DetailSolicitud::where('ordenCompra_id', $id)
-                                                    ->where('fechaRecepcion', NULL)
-                                                    ->count();
-//dd($detSolicitud);
+                    $detSolicitud = DB::table('detail_solicituds')
+                                    ->where('detail_solicituds.ordenCompra_id', '=', $id)
+                                    ->where('detail_solicituds.obsRecepcion', '=', null)
+                                    ->count();
+
+
+                    //DetailSolicitud::where('ordenCompra_id', '=', $id)->where('userReceive_id', '=', null)->get();
+
+dd($detSolicitud);
                     if ($detSolicitud == 0) {
                         
                         $dSolicitud = DetailSolicitud::where('ordenCompra_id', $id);

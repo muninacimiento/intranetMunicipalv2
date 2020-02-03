@@ -35,7 +35,7 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
-        //Guardamos un Rol
+        //Guardamos el Producto
         $product = new Product;
         
         $product->name = strtoupper($request->name);

@@ -13,7 +13,7 @@ class FarmaciaController extends Controller
      */
     public function index()
     {
-        //
+        return view('farmacia.index');
     }
 
     /**

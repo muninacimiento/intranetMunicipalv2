@@ -214,9 +214,9 @@ class PermissionsTableSeeder extends Seeder
 
     	]);
 
-    	/*
-         * FARMACIA
-         */
+    	/*###################################################################################################################################
+         * FARMACIA #########################################################################################################################
+         *###################################################################################################################################*/
     	Permission::create([
 
     		'name' 			=> 'Acceso al Sistema de Farmacia Municipal',
@@ -225,6 +225,62 @@ class PermissionsTableSeeder extends Seeder
             'user_id'      =>  1,
 
     	]);
+
+        Permission::create([
+
+            'name'          => 'Listar Usuarios de la Farmacia',
+            'slug'          => 'usuarioFarmacia.index',
+            'description'   => 'Permiso que autoriza el Listar a los Usuarios de la Farmacia',
+            'user_id'      =>  1,
+
+        ]);
+
+        Permission::create([
+
+            'name'          => 'Eliminar Usuarios de la Farmacia',
+            'slug'          => 'usuarioFarmacia.destroy',
+            'description'   => 'Permiso que autoriza la Eliminación de los Usuarios de la Farmacia',
+            'user_id'      =>  1,
+
+        ]);
+
+        Permission::create([
+
+            'name'          => 'Listar Medicamentos de la Farmacia',
+            'slug'          => 'medicamentos.index',
+            'description'   => 'Permiso que autoriza Listar los Medicamentos de la Farmacia',
+            'user_id'      =>  1,
+
+        ]);
+
+        Permission::create([
+
+            'name'          => 'Eliminar Medicamentos de la Farmacia',
+            'slug'          => 'medicamentos.destroy',
+            'description'   => 'Permiso que autoriza la Eliminación de los Medicamentos de la Farmacia',
+            'user_id'      =>  1,
+
+        ]);
+
+        Permission::create([
+
+            'name'          => 'Listar Categoría de Medicamentos de la Farmacia',
+            'slug'          => 'categoria.index',
+            'description'   => 'Permiso que autoriza Listar las Categorías de los Medicamentos de la Farmacia',
+            'user_id'      =>  1,
+
+        ]);
+
+        Permission::create([
+
+            'name'          => 'Eliminar Categoría de Medicamento de la Farmacia',
+            'slug'          => 'categoria.destroy',
+            'description'   => 'Permiso que autoriza la Eliminación de las Categorías de los Medicamentos de la Farmacia',
+            'user_id'      =>  1,
+
+        ]);
+
+
 
     	/********************************************************************************************************************************************
          * SISCOM   *********************************************************************************************************************************
@@ -495,6 +551,15 @@ class PermissionsTableSeeder extends Seeder
             'name'          => 'Validar Licitación',
             'slug'          => 'licitacion.validar',
             'description'   => 'Permiso que autoriza el proceso de Validación de la Licitación',
+            'user_id'      =>  1,
+
+        ]);
+
+        Permission::create([
+
+            'name'          => 'Publicar Licitación',
+            'slug'          => 'licitacion.publicar',
+            'description'   => 'Permiso que autoriza la Publicación de la Licitación',
             'user_id'      =>  1,
 
         ]);

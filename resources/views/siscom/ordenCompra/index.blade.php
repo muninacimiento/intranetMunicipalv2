@@ -285,7 +285,9 @@
 
                                                 @endcan
 
-                                                
+                                                @can('ordenCompra.recepcionarProucto')
+
+                                                    @if($oc->Estado == 'Enviada a Proveedor' || $oc->Estado == 'Enviada a Proveedor con Excepción')
 
                                                         <a href="{{ route('ordenCompra.recepcionarProductos', $oc->id) }}" data-toggle="tooltip" data-placement="bottom" title="Recepcionar Productos de la OC">
                                             
@@ -296,6 +298,12 @@
                                                             </button>
 
                                                         </a>
+
+                                                    @else
+
+                                                    @endif
+
+                                                @endcan
 
                                                 @can('ordenCompra.update')
 
@@ -378,8 +386,6 @@
                             </tfoot>
 
                         </table>
-
-
 
                     </div>
 
