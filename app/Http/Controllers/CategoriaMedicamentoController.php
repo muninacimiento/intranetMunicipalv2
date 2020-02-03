@@ -55,7 +55,7 @@ class CategoriaMedicamentoController extends Controller
     {
         $categoria = new CategoriaMedicamento;
 
-        $categoria->name                  = $request->name;
+        $categoria->name                  = strtoupper($request->name);
         $categoria->save();
 
         return redirect('farmacia/categoria')->with('info', 'Categoría Creada con Éxito !');
@@ -94,7 +94,7 @@ class CategoriaMedicamentoController extends Controller
     {
         $categoria = CategoriaMedicamento::findOrFail($id);
 
-        $categoria->name                  = $request->name;
+        $categoria->name                  = strtoupper($request->name);
         $categoria->save();
 
         return redirect('farmacia/categoria')->with('info', 'Categoría Actualizada con Éxito !');

@@ -70,10 +70,10 @@ class MedicamentoController extends Controller
         $medicamento = new Medicamento;
 
         $medicamento->categoria_id                  = $request->categoria_id;
-        $medicamento->medicamento                   = $request->medicamento;
-        $medicamento->principioActivo               = $request->principioActivo;
-        $medicamento->laboratorio                   = $request->laboratorio;
-        $medicamento->lote                          = $request->lote;
+        $medicamento->medicamento                   = strtoupper($request->medicamento);
+        $medicamento->principioActivo               = strtoupper($request->principioActivo);
+        $medicamento->laboratorio                   = strtoupper($request->laboratorio);
+        $medicamento->lote                          = strtoupper($request->lote);
         $medicamento->fechaVencimiento              = $request->fechaVencimiento;
         $medicamento->stock                         = $request->stock;
         $medicamento->precioComercio                = $request->precioComercio;
@@ -120,10 +120,10 @@ class MedicamentoController extends Controller
         $medicamento = Medicamento::findOrFail($id);
 
         $medicamento->categoria_id                  = $request->categoria_id;
-        $medicamento->medicamento                   = $request->medicamento;
-        $medicamento->principioActivo               = $request->principioActivo;
-        $medicamento->laboratorio                   = $request->laboratorio;
-        $medicamento->lote                          = $request->lote;
+        $medicamento->medicamento                   = strtoupper($request->medicamento);
+        $medicamento->principioActivo               = strtoupper($request->principioActivo);
+        $medicamento->laboratorio                   = strtoupper($request->laboratorio);
+        $medicamento->lote                          = strtoupper($request->lote);
         $medicamento->fechaVencimiento              = $request->fechaVencimiento;
         $medicamento->stock                         = $request->stock;
         $medicamento->precioComercio                = $request->precioComercio;
