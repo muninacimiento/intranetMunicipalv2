@@ -114,7 +114,7 @@
 
                                     <td>{{ $solicitud->iddoc }}</td>
 
-                                    <td>{{ date('d-m-Y H:i:s', strtotime($solicitud->updated_at)) }}</td>
+                                    <td>{{ date('d-m-Y H:i:s', strtotime($solicitud->created_at)) }}</td>
 
                                     <td>{{ $solicitud->compradorTitular }}</td>
 
@@ -1424,7 +1424,7 @@
 
                 $('#solicitud_id_reasignar').val(data[0]);
                 
-                $('#reasignarForm').attr('action', '/siscom/admin/reasignar' + data[0]);
+                $('#reasignarForm').attr('action', '/siscom/admin/reasignar/' + data[0]);
                 $('#reasignarSolicitudModal').modal('show');
 
             });

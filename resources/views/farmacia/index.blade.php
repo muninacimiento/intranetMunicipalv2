@@ -13,7 +13,7 @@
 
     <div class="row justify-content-center">
 
-        <div class="col">
+        <div class="col-md-12">
 
             <div class="card border-danger shadow">
 
@@ -54,7 +54,7 @@
 
 <script>
     
-    
+
 
 </script>
 

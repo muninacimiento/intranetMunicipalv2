@@ -95,6 +95,7 @@ Route::middleware(['auth'])->group( function() {
 	Route::get('/siscom/admin/{solicitud}', 'SCM_AdminSolicitudController@show')->name('admin.show')->middleware('can:admin.show');
 	Route::post('/siscom/admin/{solicitud}', 'SCM_AdminSolicitudController@update')->name('admin.update')->middleware('can:admin.update');
 	Route::put('/siscom/admin/asignar/{solicitud}', 'SCM_AdminSolicitudController@update')->name('admin.asignar')->middleware('can:admin.asignar');
+	Route::put('/siscom/admin/reasignar/{solicitud}', 'SCM_AdminSolicitudController@update')->name('admin.reasignar')->middleware('can:admin.reasignar');
 	Route::put('/siscom/admin/recepcionar/{solicitud}', 'SCM_AdminSolicitudController@update')->name('admin.recepcionar')->middleware('can:admin.recepcionar');
 	Route::put('/siscom/admin/anular/{solicitud}', 'SCM_AdminSolicitudController@update')->name('admin.anular')->middleware('can:admin.anular');
 	Route::get('/siscom/admin/entregaStock/{solicitud}', 'SCM_AdminSolicitudController@entregaStock')->name('admin.stock')->middleware('can:admin.stock');
@@ -149,6 +150,10 @@ Route::middleware(['auth'])->group( function() {
 	Route::resource('/farmacia/medicamentos', 'MedicamentoController')->middleware('can:medicamentos.index');
 	Route::delete('/farmacia/medicamentos/{medicamento}', 'MedicamentoController@destroy')->name('medicamento.destroy')->middleware('can:medicamento.destroy');
 	Route::resource('/farmacia/categoria', 'CategoriaMedicamentoController')->middleware('can:categoria.index');
+	Route::resource('/farmacia/ventas', 'VentaFarmaciaController')->middleware('can:ventas.index'); 
+	Route::delete('/farmacia/ventas/{venta}', 'VentaFarmaciaController@destroy')->name('ventas.destroy')->middleware('can:ventas.destroy');
+
+
 
 
 

@@ -112,7 +112,7 @@
 
                                     <td>{{ $solicitud->iddoc }}</td>
 
-                                    <td>{{ date('d-m-Y H:i:s', strtotime($solicitud->updated_at)) }}</td>
+                                    <td>{{ date('d-m-Y H:i:s', strtotime($solicitud->created_at)) }}</td>
 
                                     <td>{{ $solicitud->compradorTitular }}</td>
 

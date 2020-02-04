@@ -400,6 +400,15 @@ class PermissionsTableSeeder extends Seeder
 
         Permission::create([
 
+            'name'          => 'Reasignar Solicitudes en el Panel de Administración',
+            'slug'          => 'admin.reasignar',
+            'description'   => 'Permiso que autoriza a la Jefa de C&S la reasignación de un Comprador a la Solicitud en el Panel de Administración',
+            'user_id'      =>  1,
+
+        ]);
+
+        Permission::create([
+
             'name'          => 'Listar Todas las Solicitudes Generadas para Consulta',
             'slug'          => 'admin.consulta',
             'description'   => 'Permiso que autoriza ver el Listado de Todas las Solicitudes Generadas a los Compradores, a modo de Consulta',

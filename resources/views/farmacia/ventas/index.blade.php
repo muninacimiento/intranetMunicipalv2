@@ -31,7 +31,7 @@
 
                         <div class="col-md-6 text-center">
                             
-                            <h3>Gestión de Categorias de Medicamentos</h3>
+                            <h3>Punto de Venta de Medicamentos</h3>
 
                             <div class="text-secondary">
 
@@ -44,13 +44,13 @@
                         <!-- Button trigger Crear Usuario -->
                         <div class="col-md-6">
                             
-                            <a href="#" class="text-decoration-none" data-toggle="modal" data-target="#createCategoriaModal">
+                            <a href="#" class="text-decoration-none" data-toggle="modal" data-target="#createVentaModal">
 
                                 <button class="btn btn-warning btn-block boton">
 
-                                    <i class="fas fa-cogs px-2"></i>
+                                    <i class="fas fa-dollar-sign px-2"></i>
 
-                                    Nueva Categoria
+                                    Nueva Venta
 
                                 </button>
 
@@ -83,15 +83,19 @@
                     
                     <div>
 
-                        <table class="display" id="categoriasTable" style="font-size: 0.8em;">
+                        <table class="display" id="ventasTable" style="font-size: 0.8em;">
 
                             <thead>
 
                                 <tr class="table-active">
 
-                                    <th>ID</th>
+                                    <th>No. Venta</th>
 
-                                    <th>Categoria</th>
+                                    <th>Usuario</th>
+
+                                    <th>Fecha Venta</th>
+
+                                    <th>Vendedor</th>
 
                                     <th>Acciones</th>
 
@@ -101,17 +105,27 @@
 
                             <tbody>
 
-                                @foreach($categorias as $categoria)
+                                @foreach($venta as $v)
 
                                 <tr>
 
-                                    <td>{{ $categoria->id }}</td>
+                                    <td>{{ $v->id }}</td>
 
-                                    <td>{{ $categoria->name }}</td>
+                                    <td>{{ $v->Comprador }}</td>
+
+                                    <td>{{ $v->created_at }}</td>
+
+                                    <td>{{ $v->Vendedor }}</td>
 
                                     <td>
 
                                         <div class="btn-group" role="group">
+
+                                            <a href="{{ route('ventas.show', $v->id) }}" class="btn btn-primary btn-sm mr-1" data-toggle="tooltip" data-placement="bottom" title="Agregar Medicamentos">
+                                                    
+                                                <i class="fas fa-prescription-bottle-alt"></i>
+
+                                            </a>
 
                                             <a href="#" class="btn btn-warning btn-sm mr-1 actualizar" data-toggle="tooltip" data-placement="bottom" title="Actualizar Categoria">
                                                     
@@ -119,7 +133,7 @@
 
                                             </a>
 
-                                            {!! Form::open(['route'=> ['categoria.destroy', $categoria->id], 'method' => 'DELETE']) !!}
+                                            {!! Form::open(['route'=> ['ventas.destroy', $v->id], 'method' => 'DELETE']) !!}
 
                                                 <button class="btn btn-danger btn-sm mr-1">
 
@@ -128,7 +142,7 @@
                                                 </button>
 
                                             {!! Form::close() !!}
-
+                                            
                                         </div>
 
                                     </td>
@@ -142,6 +156,10 @@
                             <tfoot>
 
                                 <tr class="table-active">
+
+                                    <td></td>
+
+                                    <td></td>
 
                                     <td></td>
 
@@ -167,16 +185,16 @@
 
 </div>
 
-<!-- Creación Nuevo Medicamento -->
-<div class="modal fade" id="createCategoriaModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<!-- Creación Nueva Venta -->
+<div class="modal fade" id="createVentaModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
 
-    <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
         
         <div class="modal-content">
             
             <div class="modal-header bg-warning">
                 
-                <p class="modal-title" id="tituloLabel" style="font-size: 1.2em"><i class="fas fa-cogs px-2"></i> Nueva Categoria</p>
+                <p class="modal-title" id="tituloLabel" style="font-size: 1.2em"><i class="fas fa-dollar-sign px-2"></i> Nueva Venta</p>
                     
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         
@@ -186,27 +204,27 @@
 
             </div>
         
-            <form method="POST" action="{{ action('CategoriaMedicamentoController@store') }}" class="was-validated" id="categoriaForm">
+            <form method="POST" action="{{ action('VentaFarmaciaController@store') }}" class="was-validated" id="ventaForm">
 
                 @csrf
+
+                <input type="hidden" name="flag" value="VentaUsuario">
             
             <div class="modal-body">
                 
-                <div class="form-row">
+                <div class="form-row mb-5">
 
-                    <div class="col-md-12 mb-3">
-                                                                              
-                        <label for="name">Categoría de Medicamento</label>
+                    <label for="Usuario">Usuario</label>
 
-                        <input type="text" class="form-control" id="name" name="name" placeholder="Probiótico" required>
+                    <select name="userFarmacia_id" id="userFarmacia_id" class="form-control selectpicker" data-live-search="true" title="Seleccione el Usuario al que desea realizar la Venta..." required>
 
-                        <div class="invalid-feedback">
+                        @foreach($usersVenta as $user)
 
-                            Por favor Ingrese la Categoría del Medicamento
+                            <option value="{{ $user->id }}">{{ $user->Usuario }}</option>
+                                                                
+                        @endforeach
 
-                        </div>
-
-                    </div>
+                    </select>
 
                 </div>
 
@@ -216,7 +234,7 @@
 
                         <i class="fas fa-check-circle"></i>
 
-                        Guardar Categoría
+                        Guardar Venta
 
                     </button>
                 
@@ -239,10 +257,10 @@
     </div>
 
 </div>
-<!-- Crear Nueva Categoria -->
+<!-- Crear Nueva Venta -->
 
-<!-- Actualizaa Categoria -->
-<div class="modal fade" id="updateCategoriaModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<!-- Actualizar Venta -->
+<div class="modal fade" id="updateVentaModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
 
     <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
         
@@ -250,7 +268,7 @@
             
             <div class="modal-header bg-warning">
                 
-                <p class="modal-title" id="tituloLabel" style="font-size: 1.2em"><i class="fas fa-user-edit px-2"></i> Actualizar Categoria</p>
+                <p class="modal-title" id="tituloLabel" style="font-size: 1.2em"><i class="fas fa-user-edit px-2"></i> Actualizar Venta</p>
                     
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         
@@ -260,29 +278,30 @@
 
             </div>
         
-            <form method="POST" action="#" class="was-validated" id="updateCategoriaForm">
+            <form method="POST" action="#" class="was-validated" id="updateVentaForm">
 
                 @csrf
 
                 @method('PUT')
+
+                <input type="hidden" name="flag" value="ActualizarUsuario">
             
             <div class="modal-body">
                 
-                <div class="form-row">
+                <div class="form-row mb-5">
 
-                    <div class="col-md-12 mb-3">
-                                                                              
-                        <label for="name">Categoría de Medicamento</label>
+                    <label for="Usuario">Usuario</label>
 
-                        <input type="text" class="form-control" id="nameUpdate" name="name" placeholder="Probiótico" required>
+                    <select name="userFarmacia_id" id="userFarmacia_id_update" class="form-control selectpicker" data-live-search="true" title="Seleccione el Usuario al que desea realizar la Venta..." required>
 
-                        <div class="invalid-feedback">
+                        @foreach($usersVenta as $user)
 
-                            Por favor Ingrese la Categoría del Medicamento
+                            <option value="{{ $user->id }}">{{ $user->Usuario }}</option>
+                                                                
+                        @endforeach
 
-                        </div>
+                    </select>
 
-                    </div>
 
                 </div>
 
@@ -292,7 +311,7 @@
 
                         <i class="fas fa-check-circle"></i>
 
-                        Guardar Categoría
+                        Actualizar Venta
 
                     </button>
                 
@@ -342,7 +361,7 @@
 $(document).ready(function () {
 
     // Start Configuration DataTable
-    var table = $('#categoriasTable').DataTable({
+    var table = $('#ventasTable').DataTable({
 
         "paginate"  : true,
 
@@ -352,7 +371,7 @@ $(document).ready(function () {
             "sProcessing":     "Procesando...",
             "sLengthMenu":     "Mostrar _MENU_ registros",
             "sZeroRecords":    "No se encontraron resultados",
-            "sEmptyTable":     "No existen Categorías registradas aún...",
+            "sEmptyTable":     "No existen Ventas aún...",
             "sInfo":           "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
             "sInfoEmpty":      "Mostrando registros del 0 al 0 de un total de 0 registros",
             "sInfoFiltered":   "(filtrado de un total de _MAX_ registros)",
@@ -395,10 +414,10 @@ $(document).ready(function () {
 
         console.log(data);
 
-        $('#nameUpdate').val(data[1]);
+        $('#userFarmacia_id_update').val(data[1]);
 
-        $('#updateCategoriaForm').attr('action', '/farmacia/categoria/' + data[0]);
-        $('#updateCategoriaModal').modal('show');
+        $('#updateVentaForm').attr('action', '/farmacia/ventas/' + data[0]);
+        $('#updateVentaModal').modal('show');
 
     });
     //End Edit Record

@@ -83,7 +83,7 @@
                     
                     <div>
 
-                        <table class="display" id="medicamentosTable" style="font-size: 0.9em;" width="100%">
+                        <table class="display" id="medicamentosTable" style="font-size: 0.8em;">
 
                             <thead>
 

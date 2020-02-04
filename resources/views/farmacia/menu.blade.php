@@ -74,11 +74,11 @@
 
   	</li>
 
-  	@can('venta.index')
+
   	
   	<li class="nav-item">
     
-    	<a class="nav-link text-white" href="{{ route('licitacion.index') }}">
+    	<a class="nav-link text-white" href="{{ route('ventas.index') }}">
 
     		<i class="fas fa-cash-register px-1"></i>
 
@@ -87,7 +87,6 @@
     	</a>
   	
   	</li>
-
-  	@endcan  	
+ 	
 
 </ul>
