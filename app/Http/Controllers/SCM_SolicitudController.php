@@ -189,7 +189,7 @@ class SCM_SolicitudController extends Controller
                 ->where('move_solicituds.solicitud_id', '=', $id)
                 ->get();
 
-        //dd($solicitud);
+        //dd($detalleSolicitud);
 
         return view('siscom.solicitud.show', compact('solicitud', 'products', 'detalleSolicitud', 'move'));
 

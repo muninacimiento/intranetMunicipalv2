@@ -312,6 +312,12 @@
 
                                                 <th>Estado O.C.</th>
 
+                                                <th>Recepcionado?</th>
+
+                                                <th>Licitación</th>
+
+                                                <th>Estado Licitación</th>
+
                                                 <th>Acciones</th>
 
                                             </tr>
@@ -334,27 +340,49 @@
 
                                                 <td>{{ $detalle->valorUnitario }}</td>
 
-                                                <td class="subtotal">{{ $detalle->SubTotal }}</td>
+                                                <td class="subtotal">{{ $detalle->SubTotal }}</td>  
 
                                                 <td>{{ $detalle->NoOC }}</td>
 
                                                 <td>{{ $detalle->EstadoOC }}</td>
 
-                                                <td>
-                                                        
-                                                    <a href="#" class="btn btn-primary btn-sm editDetalle" data-toggle="tooltip" data-placement="bottom" title="Editar Producto">
-                                                                
-                                                        <i class="far fa-edit"></i>
+                                                @if($detalle->fechaRecepcion == NULL)
 
-                                                    </a>
+                                                    <td>No</td>
 
-                                                    <a href="#" class="btn btn-danger btn-sm deleteDetalle" data-toggle="tooltip" data-placement="bottom" title="Eliminar Producto">
-                                                                
-                                                        <i class="far fa-trash-alt"></i>
+                                                @else
 
-                                                    </a>
+                                                    <td>Si</td>
 
-                                                </td>
+                                                @endif
+
+                                                <td>{{ $detalle->NoLicitacion}}</td>
+
+                                                <td>{{ $detalle->EstadoLicitacion }}</td>
+
+                                                @if( $solicitud->estado_id < 3)                                             
+
+                                                    <td>
+                                                            
+                                                        <a href="#" class="btn btn-primary btn-sm editDetalle" data-toggle="tooltip" data-placement="bottom" title="Editar Producto">
+                                                                    
+                                                            <i class="far fa-edit"></i>
+
+                                                        </a>
+
+                                                        <a href="#" class="btn btn-danger btn-sm deleteDetalle" data-toggle="tooltip" data-placement="bottom" title="Eliminar Producto">
+                                                                    
+                                                            <i class="far fa-trash-alt"></i>
+
+                                                        </a>
+
+                                                    </td>
+
+                                                @else
+
+                                                    <td></td>
+
+                                                @endif
 
                                             </tr>
 

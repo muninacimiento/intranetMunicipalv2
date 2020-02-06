@@ -8,9 +8,9 @@
 
         <div class="col-md-12">
 
-            <div class="card border-primary shadow">
+            <div class="card border-danger shadow">
 
-                <div class="card-header text-center text-white bg-primary mb-3">
+                <div class="card-header text-center text-white bg-danger mb-3">
 
                     @include('farmacia.menu')
 
@@ -18,14 +18,34 @@
 
                     <div class="card-body">
 
-                        @if (session('status'))
+                        @if (session('info'))
     
                             <div class="alert alert-success" role="alert">
 
-                                {{ session('status') }}
+                                <i class="fas fa-check-circle"></i>
+
+                                {{ session('info') }}
                             
                             </div>
 
+                        @endif
+
+                        @if (session('danger'))
+
+                        <div class="alert alert-danger alert-dismissible fade show shadow mb-3" role="alert">
+                              
+                            <i class="fas fa-times-circle"></i>
+                             
+                            <strong> {{ session('danger') }} </strong>
+                            
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            
+                                <span aria-hidden="true">&times;</span>
+                              
+                            </button>
+
+                        </div>
+                   
                         @endif
 
                         <a href="{{action('VentaFarmaciaController@index')}}" class="btn btn-link text-decoration-none float-right"> <i class="far fa-arrow-alt-circle-left"></i> Volver</a>
@@ -42,7 +62,7 @@
 
                                     <label class="text-muted">Usuario</label>
                                                                 
-                                    <h4>{{ $venta->name }}</h4>
+                                    <h4>{{ $venta->Comprador }}</h4>
                                                             
                                 </div>
 
@@ -151,7 +171,7 @@
 
                                 </form>
 
-                                <div>
+                                <div class="py-5">
 
                                     <table class="display" id="detalleVenta" width="100%">
 
@@ -181,7 +201,7 @@
 
                                             <tr>
 
-                                                <td style="display: none;"></td>
+                                                <td style="display: none;">{{ $dv->id }}</td>
 
                                                 <td>{{ $dv->Medicamento }}</td>
 
@@ -221,12 +241,16 @@
 
                             <div class="form-row">
                                 
-                                <div class="form-row mb-3">
+                                <div class="col-md-8">
+                                    
+                                    <h5 class="text-muted float-right mt-3">Total Venta : $</h5> 
+
+                                </div>
+                                
+                                <div class="col-md-4 mb-3 col-xs-3">
+                                  
+                                    <input type="text" name="totalVenta" id="total" readonly style="border: 0;font-size: 2em;" size="15">   
                                             
-                                    <h5 class="text-muted">Total Venta :&nbsp;$&nbsp;</h5>
-
-                                    <input type="text" name="totalVenta" id="total" readonly style="border: 0;font-size: 1.5em;">    
-
                                 </div>
 
                             </div>    
@@ -260,16 +284,16 @@
         
 </div>
 
-<!-- UPDATE Modal Detalle Solicitud-->
-<div class="modal fade" id="updateDetalleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<!-- Actualizar Medicamento Detalle Venta-->
+<div class="modal fade" id="updateMedicamentoModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
 
-    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+    <div class="modal-dialog modal-dialog-centered" role="document">
 
         <div class="modal-content">
 
-            <div class="modal-header bg-primary text-white">
+            <div class="modal-header bg-warning">
 
-                <h3 class="modal-title" id="exampleModalLabel">Modificar Productos de la Solicitud <i class="fas fa-edit"></i>  </h3>
+                <p class="modal-title" id="exampleModalLabel" style="font-size: 1.2em"><i class="fas fa-edit"></i> Modificar Medicamento de la Venta</p>
 
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
 
@@ -280,28 +304,20 @@
             </div>
 
 
-            <form method="POST" action="/siscom/solicitud" class="was-validated" id="updateDetalleForm">
+            <form method="POST" action="/farmacia/ventas" class="was-validated" id="updateMedicamentoForm">
 
                 @csrf
                 @method('PUT')
 
-                <input type="hidden" name="flag" value="UpdateProducts">
+                <input type="hidden" name="flag" value="UpdateMedicamento">
 
                 <div class="modal-body">
         
                     <div class="col-md-12 mb-3">
                                                 
-                        <label for="Producto">Producto</label>
+                        <label for="Medicamento">Medicamento</label>
 
-                        <input type="text" id="Producto" class="form-control" disabled>
-                        
-                    </div>
-
-                    <div class="col-md-12 mb-3">
-                                                
-                        <label for="Especificacion">Especificacion</label>
-
-                        <textarea type="text" class="form-control" name="Especificacion" id="Especificacion" required></textarea>
+                        <input type="text" id="MedicamentoUpdate" class="form-control" disabled>
                         
                     </div>
 
@@ -309,15 +325,7 @@
                                                 
                         <label for="Cantidad">Cantidad</label>
 
-                        <input type="number" name="Cantidad" id="Cantidad" class="form-control" required>
-
-                    </div>
-
-                    <div class="col-md-12 mb-3">
-                                                
-                        <label for="ValorUnitario">Valor Unitario $</label>
-
-                        <input type="number" name="ValorUnitario" id="ValorUnitario" class="form-control" required>
+                        <input type="number" name="cantidad" id="CantidadUpdate" class="form-control" required>
 
                     </div>
 
@@ -327,7 +335,7 @@
 
                             <i class="fas fa-save"></i>
 
-                            Actualizar Producto
+                            Actualizar Medicamento
 
                         </button>
 
@@ -341,18 +349,18 @@
     </div>
 
 </div>
-<!-- UPDATE Modal Detalle Solicitud -->
+<!-- Actualizar Medicamento Detalle Venta-->
 
 <!-- DELETE Modal Detalle Solicitud -->
-<div class="modal fade" id="deleteDetalleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="deleteMedicamentoModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
 
-    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+    <div class="modal-dialog modal-dialog-centered" role="document">
 
         <div class="modal-content">
 
             <div class="modal-header bg-danger text-white">
 
-                <h4 class="modal-title" id="exampleModalLabel"> Eliminar Producto de la Solicitud <i class="fas fa-times-circle"></i></h4>
+                <p class="modal-title" id="exampleModalLabel" style="font-size: 1.2em"><i class="fas fa-times-circle"></i> Eliminar Medicamento de la Venta </p>
 
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
 
@@ -363,16 +371,16 @@
             </div>
 
 
-            <form method="POST" action="/siscom/solicitud" class="was-validated" id="deleteDetalleForm">
+            <form method="POST" action="#" class="was-validated" id="deleteMedicamentoForm">
 
                 @csrf
                 @method('PUT')
 
-                <input type="hidden" name="flag" value="DeleteProduct">
+                <input type="hidden" name="flag" value="DeleteMedicamento">
 
                 <div class="modal-body">
 
-                    <p>Esta Ud. segur@ de querer Eliminar el Producto : </p>
+                    <p>Esta Ud. segur@ de querer Eliminar el Medicamento : </p>
 
                     <div class="form-row">
 
@@ -388,7 +396,7 @@
 
                         <button class="btn btn-danger btn-block" type="submit">
 
-                            <i class="fas fa-times-circle"></i> Eliminar Producto
+                            <i class="fas fa-times-circle"></i> Eliminar Medicamento
 
                         </button>
 
@@ -431,9 +439,13 @@
         
             // Start Configuration DataTable Detalle Solicitud
             var table = $('#detalleVenta').DataTable({
-                "paginate"  : true,
+                "paginate"  : false,
 
                 "ordering": false,
+
+                "searching": false,
+
+                "info" : false,
 
                 "order"     : ([0, 'desc']),
 
@@ -478,17 +490,15 @@
 
                 }
 
-                var dataDetalle = table1.row($tr).data();
+                var dataDetalle = table.row($tr).data();
 
                 console.log(dataDetalle);
 
-                $('#Producto').val(dataDetalle[1]);
-                $('#Especificacion').val(dataDetalle[2]);
-                $('#Cantidad').val(dataDetalle[3]);
-                $('#ValorUnitario').val(dataDetalle[4]);
+                $('#MedicamentoUpdate').val(dataDetalle[1]);
+                $('#CantidadUpdate').val(dataDetalle[2]);
 
-                $('#updateDetalleForm').attr('action', '/siscom/solicitud/' + dataDetalle[0]);
-                $('#updateDetalleModal').modal('show');
+                $('#updateMedicamentoForm').attr('action', '/farmacia/ventas/medicamento/' + dataDetalle[0]);
+                $('#updateMedicamentoModal').modal('show');
 
             });
             //End Edit Record Detalle Solicitud
@@ -504,14 +514,14 @@
 
                 }
 
-                var dataDetalle = table1.row($tr).data();
+                var dataDetalle = table.row($tr).data();
 
                 console.log(dataDetalle);
 
                 document.getElementById('deleteProducto').innerHTML = dataDetalle[1];
                 
-                $('#deleteDetalleForm').attr('action', '/siscom/solicitud/' + dataDetalle[0]);
-                $('#deleteDetalleModal').modal('show');
+                $('#deleteMedicamentoForm').attr('action', '/farmacia/ventas/medicamento/' + dataDetalle[0]);
+                $('#deleteMedicamentoModal').modal('show');
 
             });
             //End Delete Record Detalle Solicitud

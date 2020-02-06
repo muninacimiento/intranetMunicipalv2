@@ -38,8 +38,6 @@
 
   	<li class="nav-item dropdown">
 
-  		@can('medicamento.index')
-
 	    <a class="nav-link text-white dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
 	    		
 	    	<i class="fas fa-prescription-bottle px-1"></i>
@@ -47,8 +45,6 @@
 	    	Medicamentos
 
 	    </a>
-
-		@endcan
 
 		<div class="dropdown-menu">
 

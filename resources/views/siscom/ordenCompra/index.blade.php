@@ -267,7 +267,7 @@
 
                                                 @can('ordenCompra.validar')
 
-                                                    @if($oc->Estado == 'Emitida' || $oc->Estado == 'Confirmada' || $oc->Estado == 'Enviada a Proveedor' || $oc->Estado == 'Productos Recepcionados')
+                                                    @if($oc->Estado == 'Emitida' || $oc->Estado == 'Confirmada' || $oc->Estado == 'Enviada a Proveedor')
 
                                                     @else
 
@@ -285,9 +285,11 @@
 
                                                 @endcan
 
+                                                {{-- Recepcionar Prodcutos de la OC --}}
+
                                                 @can('ordenCompra.recepcionarProucto')
 
-                                                    @if($oc->Estado == 'Enviada a Proveedor' || $oc->Estado == 'Enviada a Proveedor con Excepción')
+                                                    @if($oc->Estado == 'Enviada a Proveedor' || $oc->Estado == 'Enviada a Proveedor con Excepción' )
 
                                                         <a href="{{ route('ordenCompra.recepcionarProductos', $oc->id) }}" data-toggle="tooltip" data-placement="bottom" title="Recepcionar Productos de la OC">
                                             
@@ -1203,7 +1205,7 @@
                             "sProcessing":     "Procesando...",
                             "sLengthMenu":     "Mostrar _MENU_ registros",
                             "sZeroRecords":    "No se encontraron resultados",
-                            "sEmptyTable":     "No existen Órdenes de Compra generadas por su unidad, aún...",
+                            "sEmptyTable":     "No existen Órdenes de Compra generadas o asignadas aún...",
                             "sInfo":           "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
                             "sInfoEmpty":      "Mostrando registros del 0 al 0 de un total de 0 registros",
                             "sInfoFiltered":   "(filtrado de un total de _MAX_ registros)",

@@ -36,26 +36,51 @@ class OrdenCompraController extends Controller
      */
     public function index()
     {
+
+        if (Auth::user()->email == 'perla.briceno@nacimiento.cl') {
         
-        /*
-         * Definimos variable que contendrá la fecha actual del sistema
-         */
-        $dateCarbon = Carbon::now()->locale('es')->isoFormat('dddd D, MMMM YYYY');
+            /*
+             * Definimos variable que contendrá la fecha actual del sistema
+             */
+            $dateCarbon = Carbon::now()->locale('es')->isoFormat('dddd D, MMMM YYYY');
 
-        /* Declaramos la variable que contendrá todos los permisos existentes en la base de datos */
-        $ordenesCompra = DB::table('orden_compras')
-                    ->join('users', 'orden_compras.user_id', '=', 'users.id')
-                    ->join('status_o_c_s', 'orden_compras.estado_id', '=', 'status_o_c_s.id')
-                    ->join('proveedores', 'orden_compras.proveedor_id', '=', 'proveedores.id')
-                    ->select('orden_compras.*', 'users.name as Comprador', 'users.email as EmailComprador', 'status_o_c_s.estado as Estado', 'proveedores.razonSocial as RazonSocial', 'proveedores.correo as EmailProveedor')
-                    ->orderBy('orden_compras.id', 'desc')
-                    ->get();
+            /* Declaramos la variable que contendrá todos los permisos existentes en la base de datos */
+            $ordenesCompra = DB::table('orden_compras')
+                        ->join('users', 'orden_compras.user_id', '=', 'users.id')
+                        ->join('status_o_c_s', 'orden_compras.estado_id', '=', 'status_o_c_s.id')
+                        ->join('proveedores', 'orden_compras.proveedor_id', '=', 'proveedores.id')
+                        ->select('orden_compras.*', 'users.name as Comprador', 'users.email as EmailComprador', 'status_o_c_s.estado as Estado', 'proveedores.razonSocial as RazonSocial', 'proveedores.correo as EmailProveedor')
+                        ->where('orden_compras.estado_id', '=', 6)
+                        ->orderBy('orden_compras.id', 'desc')
+                        ->get();
 
-        $proveedores = DB::table('proveedores')
-                    ->select(DB::raw('CONCAT(proveedores.id, " ) ", proveedores.razonSocial) as RazonSocial'), 'proveedores.id')
-                    ->get();
+            $proveedores = DB::table('proveedores')
+                        ->select(DB::raw('CONCAT(proveedores.id, " ) ", proveedores.razonSocial) as RazonSocial'), 'proveedores.id')
+                        ->get();
 
-                    //dd($ordenesCompra);
+        }else{
+
+             /*
+             * Definimos variable que contendrá la fecha actual del sistema
+             */
+            $dateCarbon = Carbon::now()->locale('es')->isoFormat('dddd D, MMMM YYYY');
+
+            /* Declaramos la variable que contendrá todos los permisos existentes en la base de datos */
+            $ordenesCompra = DB::table('orden_compras')
+                        ->join('users', 'orden_compras.user_id', '=', 'users.id')
+                        ->join('status_o_c_s', 'orden_compras.estado_id', '=', 'status_o_c_s.id')
+                        ->join('proveedores', 'orden_compras.proveedor_id', '=', 'proveedores.id')
+                        ->select('orden_compras.*', 'users.name as Comprador', 'users.email as EmailComprador', 'status_o_c_s.estado as Estado', 'proveedores.razonSocial as RazonSocial', 'proveedores.correo as EmailProveedor')
+                        ->orderBy('orden_compras.id', 'desc')
+                        ->get();
+
+            $proveedores = DB::table('proveedores')
+                        ->select(DB::raw('CONCAT(proveedores.id, " ) ", proveedores.razonSocial) as RazonSocial'), 'proveedores.id')
+                        ->get();
+
+        }
+
+        //dd($ordenesCompra);
 
         /* Retornamos a la vista los resultados psanadolos por parametros */
         return view('siscom.ordenCompra.index', ['ordenesCompra' => $ordenesCompra, 'dateCarbon' => $dateCarbon, 'proveedores'=>$proveedores]);
@@ -386,20 +411,42 @@ class OrdenCompraController extends Controller
                 DB::beginTransaction();
 
                     $oc = OrdenCompra::findOrFail($id);
-                    $oc->estado_id                                 = 6;
 
-                    //dd($solicitud);
+                    if ($oc->tipoOrdenCompra == "Trato Directo") {
+                        
+                        $oc->estado_id                                 = 9;
 
-                    $oc->save(); //Guardamos la Solicitud
+                        //dd($solicitud);
 
-                    //Guardamos los datos de Movimientos de la Solicitud
-                    $move = new MoveOC;
-                    $move->ordenCompra_id                          = $oc->id;
-                    $move->estadoOrdenCompra_id                    = 4;
-                    $move->fecha                                   = $oc->updated_at;
-                    $move->user_id                                 = Auth::user()->id;
+                        $oc->save(); //Guardamos la Solicitud
 
-                    $move->save(); //Guardamos el Movimiento de la Solicitud    
+                        //Guardamos los datos de Movimientos de la Solicitud
+                        $move = new MoveOC;
+                        $move->ordenCompra_id                          = $oc->id;
+                        $move->estadoOrdenCompra_id                    = 4;
+                        $move->fecha                                   = $oc->updated_at;
+                        $move->user_id                                 = Auth::user()->id;
+
+                        $move->save(); //Guardamos el Movimiento de la Solicitud    
+
+                    }else{
+
+                        $oc->estado_id                                 = 6;
+
+                        //dd($solicitud);
+
+                        $oc->save(); //Guardamos la Solicitud
+
+                        //Guardamos los datos de Movimientos de la Solicitud
+                        $move = new MoveOC;
+                        $move->ordenCompra_id                          = $oc->id;
+                        $move->estadoOrdenCompra_id                    = 4;
+                        $move->fecha                                   = $oc->updated_at;
+                        $move->user_id                                 = Auth::user()->id;
+
+                        $move->save(); //Guardamos el Movimiento de la Solicitud    
+
+                    }
 
                 DB::commit();
                 
@@ -1014,7 +1061,7 @@ class OrdenCompraController extends Controller
         }
 
         // Recepcionar TODOS los Productos de la Órden de Compra 
-        else if ($request->flag == 'RecepcionarProductosOC') {
+        else if ($request->flag == 'RecepcionarTodosProductosOC') {
 
             try {
 
@@ -1022,16 +1069,21 @@ class OrdenCompraController extends Controller
 
                     $dateCarbon = Carbon::now();
 
-                    $detSolicitud = DB::table('detail_solicituds')
+                    //Traemos todos los productos de la OC
+                    $fullRecepction = DB::table('detail_solicituds')
                                     ->where('detail_solicituds.ordenCompra_id', '=', $id)
-                                    ->where('detail_solicituds.obsRecepcion', '=', null)
                                     ->count();
+
+                    $parcialReception = DB::table('detail_solicituds')
+                                        ->where('detail_solicituds.ordenCompra_id', '=', $id)
+                                        ->where('detail_solicituds.obsRecepcion', '<>', null)
+                                        ->count();
 
 
                     //DetailSolicitud::where('ordenCompra_id', '=', $id)->where('userReceive_id', '=', null)->get();
 
-dd($detSolicitud);
-                    if ($detSolicitud == 0) {
+//dd($parcialReception);
+                    if ($fullRecepction == $parcialReception) {
                         
                         $dSolicitud = DetailSolicitud::where('ordenCompra_id', $id);
                         $dSolicitud->update(['userReceive_id' => Auth::user()->id], ['fechaRecepcion' => $dateCarbon]);
@@ -1048,11 +1100,11 @@ dd($detSolicitud);
                                     ->where('orden_compras.id', '=', $id)
                                     ->first();
 
-                        //dd($solicitud->id);
+                        //dd($s->id);
                         //Actualizmos el estado de la Solicitud
                         $solicitud = Solicitud::findOrFail($s->id);            
                         $solicitud->estado_id                   = 9;
-                        $solicitud->save();
+                        $solicitud->update();
 
                         //Actualizamos el estado de la OC
                         $oc = OrdenCompra::findOrFail($id);

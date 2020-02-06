@@ -12,6 +12,8 @@ use Carbon\Carbon;
 /* Invocamos la clase DetalleVenta trabajar con el Detalle de la Venta */
 use App\VentaDetalleFarmacia;
 
+use App\Medicamento;
+
 use DB;
 
 class VentaFarmaciaController extends Controller
@@ -98,7 +100,20 @@ class VentaFarmaciaController extends Controller
                 $detalleVenta->medicamento_id           = $request->medicamento_id;
                 $detalleVenta->cantidad                 = $request->cantidad;
 
-                $detalleVenta->save(); 
+                $consulta = Medicamento::findOrFail($request->medicamento_id);
+
+
+                if ($consulta->stock >= $request->cantidad) {
+                    
+                    $detalleVenta->save(); 
+
+                    $consulta->stock = $consulta->stock - $request->cantidad;
+                    $consulta->save();
+
+                }else{
+
+                    return back()->with('danger', 'No hay Stock suficiente!');
+                }
 
                 DB::commit();
                 
@@ -125,11 +140,11 @@ class VentaFarmaciaController extends Controller
         /*
          * Definimos el Objeto que contendrá los datos de la Venta
          */  
-        $venta = DB::table('venta_farmacias as Venta')
-                ->join('usuario_farmacias', 'Venta.userFarmacia_id', '=', 'usuario_farmacias.id')
-                ->join('users', 'Venta.user_id', '=', 'users.id')
-                ->select('Venta.*', 'usuario_farmacias.*', 'usuario_farmacias.name as Comprador', 'users.name as Vendedor')
-                 ->where('Venta.id', '=', $id)
+        $venta = DB::table('venta_farmacias')
+                ->join('usuario_farmacias', 'venta_farmacias.userFarmacia_id', '=', 'usuario_farmacias.id')
+                ->join('users', 'venta_farmacias.user_id', '=', 'users.id')
+                ->select('venta_farmacias.*', 'usuario_farmacias.name as Comprador', 'users.name as Vendedor', 'usuario_farmacias.direccion', 'usuario_farmacias.telefono')
+                 ->where('venta_farmacias.id', '=', $id)
                 ->first();
         /*
          * Definimos el Objeto que contendrá TODOS los Medicamentos
@@ -139,12 +154,13 @@ class VentaFarmaciaController extends Controller
                     ->get();
 
         $detalleVenta = DB::table('venta_detalle_farmacias')
+                        ->join('venta_farmacias', 'venta_detalle_farmacias.venta_id', '=', 'venta_farmacias.id')
                         ->join('medicamentos', 'venta_detalle_farmacias.medicamento_id', '=', 'medicamentos.id')
                         ->select('venta_detalle_farmacias.*', 'medicamentos.medicamento as Medicamento', 'medicamentos.precioInventario as Valor', DB::raw('(venta_detalle_farmacias.cantidad * medicamentos.precioInventario) as SubTotal'))
-                        ->where('venta_detalle_farmacias.venta_id', '=', $id)
+                        ->where('venta_farmacias.id', '=', $id)
                         ->get();
 
-//dd($detalleVenta);
+//dd($venta);
 
 
         return view('farmacia.ventas.show', compact('venta', 'medicamentos', 'detalleVenta'));
@@ -173,26 +189,74 @@ class VentaFarmaciaController extends Controller
         // Guardamos el ENCABEZADO de la Venta
         if ($request->flag == 'ActualizarUsuario') {
 
-            try {
+            //Instanciamos un objeto VentaUsuario, para capturar los datos del Usuario
+            $ventaUsuario = VentaFarmacia::findOrFail($id);
+            $ventaUsuario->userFarmacia_id             = $request->userFarmacia_id;
+            $ventaUsuario->user_id                     = Auth::user()->id;
 
-                DB::beginTransaction();
-
-                //Instanciamos un objeto VentaUsuario, para capturar los datos del Usuario
-                $ventaUsuario = VentaFarmacia::findOrFail($id);
-                $ventaUsuario->userFarmacia_id             = $request->userFarmacia_id;
-                $ventaUsuario->user_id                     = Auth::user()->id;
-
-                $ventaUsuario->save(); 
-
-                DB::commit();
-                
-            } catch (Exception $e) {
-
-                DB::rollback();
-                
-            }
+            $ventaUsuario->save(); 
             
             return redirect('/farmacia/ventas')->with('info', 'Venta Actualizada con Éxito !');
+
+        }
+
+        // Actualizamos Producto del Detalle de la Solicitud
+        else if ($request->flag == 'UpdateMedicamento') {
+
+            $detalleVenta = VentaDetalleFarmacia::findOrFail($id);
+
+            $consulta = Medicamento::findOrFail($detalleVenta->medicamento_id);
+
+
+            if ($consulta->stock >= $request->cantidad) {
+
+                if ($request->cantidad >= $detalleVenta->cantidad) {
+
+                    $suma = $detalleVenta->cantidad + $request->cantidad;
+                    
+                    $detalleVenta->cantidad             = $suma;
+                    $detalleVenta->save(); 
+
+                    $consulta->stock = $consulta->stock - $request->cantidad;
+                    $consulta->save();
+
+                }else{
+
+                    $diferencia = $detalleVenta->cantidad - $request->cantidad;
+
+                    //dd($detalleVenta->cantidad);
+                    $detalleVenta->cantidad             = $request->cantidad;
+                    $detalleVenta->save(); 
+
+                    $consulta->stock = $consulta->stock + $diferencia;
+                    $consulta->save();
+
+                }
+                    
+            }else{
+
+                return back()->with('danger', 'No hay Stock suficiente!');
+
+            }
+
+
+            return back()->with('info', 'Medicamento Actualizado con Éxito !');
+        }
+
+        // Eliminamos el Producto del Detalle de la Solicitud
+        else if ($request->flag == 'DeleteMedicamento') {
+
+            $deleteProduct = VentaDetalleFarmacia::findOrFail($id);
+
+            $consulta = Medicamento::findOrFail($deleteProduct->medicamento_id);
+
+
+            $consulta->stock = $consulta->stock + $deleteProduct->cantidad;
+            $consulta->save();
+
+            $deleteProduct->delete(); //Guardamos la Solicitud
+
+            return back()->with('info', 'Medicamento Eliminado con Éxito !');
 
         }
     }

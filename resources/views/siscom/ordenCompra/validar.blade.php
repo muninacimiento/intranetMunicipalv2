@@ -145,7 +145,7 @@
 
                                         @endcan
 
-                                        @if(($ordenCompra->Estado == 'Recepcionada y en Revisión por C&S' || $ordenCompra->Estado == 'Revisión por C&S' || $ordenCompra->Estado == 'Enviada a Proveedor') || ($ordenCompra->excepcion === 'Si' && $ordenCompra->Estado == 'Enviada a Proveedor con Excepción'))
+                                        @if(($ordenCompra->Estado == 'Recepcionada y en Revisión por C&S' || $ordenCompra->Estado == 'Revisión por C&S' || $ordenCompra->Estado == 'Enviada a Proveedor' || $ordenCompra->Estado == 'Productos Recepcionados' || $ordenCompra->Estado == '  Productos Parcialmente Recepcionados') || ($ordenCompra->excepcion === 'Si' && $ordenCompra->Estado == 'Enviada a Proveedor con Excepción'))
 
                                             <a href="#" class="text-decoration-none" data-toggle="modal" data-target="#aprobadaCS">
 

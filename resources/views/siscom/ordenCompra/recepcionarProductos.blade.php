@@ -256,7 +256,7 @@
                                         @csrf
                                         @method('PUT')
 
-                                        <input type="hidden" name="flag" value="RecepcionarProductosOC">
+                                        <input type="hidden" name="flag" value="RecepcionarTodosProductosOC">
 
                                         <button type="submit" class="btn btn-success btn-block"> 
 

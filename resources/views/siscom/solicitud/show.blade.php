@@ -340,6 +340,8 @@
 
                                                 <th>Estado O.C.</th>
 
+                                                <th>Recepcionado?</th>
+
                                                 <th>Licitación</th>
 
                                                 <th>Estado Licitación</th>
@@ -371,6 +373,16 @@
                                                 <td>{{ $detalle->NoOC }}</td>
 
                                                 <td>{{ $detalle->EstadoOC }}</td>
+
+                                                @if($detalle->fechaRecepcion == NULL)
+
+                                                    <td>No</td>
+
+                                                @else
+
+                                                    <td>Si</td>
+
+                                                @endif
 
                                                 <td>{{ $detalle->NoLicitacion}}</td>
 
@@ -434,7 +446,7 @@
 
                                         <input type="hidden" name="flag" value="Confirmar">
 
-                                        @if( $solicitud->estado < 3)
+                                        @if( $solicitud->estado_id < 3)
 
                                             <button type="submit" class="btn btn-success btn-block"> 
 
