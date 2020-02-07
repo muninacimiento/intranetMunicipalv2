@@ -149,5 +149,11 @@ class StatusOCTableSeeder extends Seeder
             'estado'     =>  'Confirmada',
 
         ]);
+
+        StatusOC::create([
+
+            'estado'     =>  'Productos Recepcionados Parcialmente',
+
+        ]);
     }
 }

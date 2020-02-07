@@ -312,11 +312,15 @@
 
                                                 <th>Estado O.C.</th>
 
-                                                <th>Recepcionado?</th>
-
                                                 <th>Licitación</th>
 
                                                 <th>Estado Licitación</th>
+
+                                                <th>Recepcionado?</th>
+
+                                                <th>Facturado?</th>
+
+                                                <th>No. Factura</th>
 
                                                 <th>Acciones</th>
 
@@ -346,6 +350,10 @@
 
                                                 <td>{{ $detalle->EstadoOC }}</td>
 
+                                                <td>{{ $detalle->NoLicitacion}}</td>
+
+                                                <td>{{ $detalle->EstadoLicitacion }}</td>
+
                                                 @if($detalle->fechaRecepcion == NULL)
 
                                                     <td>No</td>
@@ -356,9 +364,18 @@
 
                                                 @endif
 
-                                                <td>{{ $detalle->NoLicitacion}}</td>
+                                                @if($detalle->factura_id == NULL)
 
-                                                <td>{{ $detalle->EstadoLicitacion }}</td>
+                                                    <td>No</td>
+
+                                                @else
+
+                                                    <td>Si</td>
+
+                                                @endif
+
+                                                <td>{{ $detalle->factura_id }}</td>
+
 
                                                 @if( $solicitud->estado_id < 3)                                             
 

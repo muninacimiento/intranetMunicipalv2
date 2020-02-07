@@ -51,7 +51,6 @@ class OrdenCompraController extends Controller
                         ->join('proveedores', 'orden_compras.proveedor_id', '=', 'proveedores.id')
                         ->select('orden_compras.*', 'users.name as Comprador', 'users.email as EmailComprador', 'status_o_c_s.estado as Estado', 'proveedores.razonSocial as RazonSocial', 'proveedores.correo as EmailProveedor')
                         ->where('orden_compras.estado_id', '=', 6)
-                        ->orderBy('orden_compras.id', 'desc')
                         ->get();
 
             $proveedores = DB::table('proveedores')
@@ -71,7 +70,6 @@ class OrdenCompraController extends Controller
                         ->join('status_o_c_s', 'orden_compras.estado_id', '=', 'status_o_c_s.id')
                         ->join('proveedores', 'orden_compras.proveedor_id', '=', 'proveedores.id')
                         ->select('orden_compras.*', 'users.name as Comprador', 'users.email as EmailComprador', 'status_o_c_s.estado as Estado', 'proveedores.razonSocial as RazonSocial', 'proveedores.correo as EmailProveedor')
-                        ->orderBy('orden_compras.id', 'desc')
                         ->get();
 
             $proveedores = DB::table('proveedores')
@@ -1076,13 +1074,13 @@ class OrdenCompraController extends Controller
 
                     $parcialReception = DB::table('detail_solicituds')
                                         ->where('detail_solicituds.ordenCompra_id', '=', $id)
-                                        ->where('detail_solicituds.obsRecepcion', '<>', null)
+                                        ->where('detail_solicituds.obsRecepcion', '=', null)
                                         ->count();
 
 
                     //DetailSolicitud::where('ordenCompra_id', '=', $id)->where('userReceive_id', '=', null)->get();
 
-//dd($parcialReception);
+//dd($fullRecepction);
                     if ($fullRecepction == $parcialReception) {
                         
                         $dSolicitud = DetailSolicitud::where('ordenCompra_id', $id);

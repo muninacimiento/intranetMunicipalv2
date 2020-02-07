@@ -221,7 +221,7 @@
 
                                                     <a href="#" class="btn btn-primary btn-sm recepcionarProducto" data-toggle="tooltip" data-placement="bottom" title="Recepcion Producto">
                                                                     
-                                                            <i class="fas fa-check"></i>
+                                                        <i class="fas fa-check"></i>
 
                                                     </a>
 

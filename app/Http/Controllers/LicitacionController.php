@@ -307,6 +307,41 @@ class LicitacionController extends Controller
             return redirect('/siscom/licitacion')->with('info', 'Licitación Confirmada con éxito !');
         }
 
+        // Confirmar Órden de Compra
+        else if ($request->flag == 'AnularLicitacion') {
+
+            try {
+
+                DB::beginTransaction();
+
+                    $licitacion = Licitacion::findOrFail($id);
+                    $licitacion->estado_id                      = 38;
+                    $licitacion->motivoAnulacion                = $request->motivoAnulacion;
+
+                    //dd($solicitud);
+
+                    $licitacion->save(); //Guardamos la Solicitud
+
+                    //Guardamos los datos de Movimientos de la Solicitud
+                    $move = new MoveLicitacion;
+                    $move->licitacion_id                = $licitacion->id;
+                    $move->estadoLicitacion_id          = 38;
+                    $move->fecha                        = $licitacion->updated_at;
+                    $move->user_id                      = Auth::user()->id;
+
+                    $move->save(); //Guardamos el Movimiento de la Solicitud    
+
+                DB::commit();
+                
+            } catch (Exception $e) {
+
+                db::rollback();
+                
+            }
+
+            return redirect('/siscom/licitacion')->with('info', 'Licitación Anulada con éxito !');
+        }
+
         // Recepcionar y Órden de Compra en Revisión por C&S
         else if ($request->flag == 'RecepcionarLicitacion') {
 

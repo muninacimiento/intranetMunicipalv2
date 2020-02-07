@@ -165,25 +165,7 @@
 
                                     <td>
 
-                                        <div class="btn-group" role="group" aria-label="Basic example">
-
-                                            {{-- Asignar Solicitud para Registrar los Productos a la Órden de Compra --}}
-
-                                                    @if($licitacion->Estado === 'Creada')
-
-                                                        <a href="#" class="asignar" data-toggle="tooltip" data-placement="bottom" title="Asignar Solicitud para Agregar Productos">
-                                            
-                                                            <button class="btn btn-info btn-sm mr-1 " type="button">
-                                                            
-                                                                <i class="fas fa-shopping-basket"></i>
-
-                                                            </button>
-
-                                                        </a>
-
-                                                    @else
-
-                                                    @endif
+                                        @if($licitacion->Estado === 'Anulada')
 
                                             <a href="{{ route('licitacion.show', $licitacion->id) }}" data-toggle="tooltip" data-placement="bottom" title="Ver el Detalle de la Licitación">
 
@@ -194,99 +176,132 @@
                                                 </button>
 
                                             </a>
+                                        @else
 
-                                            {{-- Recepcionar Licitacion por C&S --}}
+                                            <div class="btn-group" role="group" aria-label="Basic example">
 
-                                                @if($licitacion->Estado == 'Confirmada')
+                                                {{-- Asignar Solicitud para Registrar los Productos a la Órden de Compra --}}
 
-                                                    <a href="#" class="recepcionar" data-toggle="tooltip" data-placement="bottom" title="Recepcionar Licitación">
+                                                        @if($licitacion->Estado === 'Creada')
 
-                                                        <button class="btn btn-success btn-sm mr-1" type="button">
-                                                        
-                                                            <i class="fas fa-clipboard-check"></i>
+                                                            <a href="#" class="asignar" data-toggle="tooltip" data-placement="bottom" title="Asignar Solicitud para Agregar Productos">
+                                                
+                                                                <button class="btn btn-info btn-sm mr-1 " type="button">
+                                                                
+                                                                    <i class="fas fa-shopping-basket"></i>
 
-                                                        </button>
+                                                                </button>
 
-                                                    </a>
+                                                            </a>
 
-                                                @else
+                                                        @else
 
-                                                @endif
+                                                        @endif
 
-                                                {{-- Recepcionar Adjudicacion Licitacion por C&S --}}
+                                                <a href="{{ route('licitacion.show', $licitacion->id) }}" data-toggle="tooltip" data-placement="bottom" title="Ver el Detalle de la Licitación">
 
-                                                @if($licitacion->Estado == 'Cerrada')
+                                                    <button class="btn btn-secondary btn-sm mr-1">
+                                                                
+                                                        <i class="fas fa-eye"></i>
 
-                                                    <a href="#" class="recepcionarADJ" data-toggle="tooltip" data-placement="bottom" title="Recepcionar Adjudicacion de Licitación">
+                                                    </button>
 
-                                                        <button class="btn btn-success btn-sm mr-1" type="button">
-                                                        
-                                                            <i class="fas fa-clipboard-check"></i>
+                                                </a>
 
-                                                        </button>
+                                                {{-- Recepcionar Licitacion por C&S --}}
 
-                                                    </a>
+                                                    @if($licitacion->Estado == 'Confirmada')
 
-                                                @else
+                                                        <a href="#" class="recepcionar" data-toggle="tooltip" data-placement="bottom" title="Recepcionar Licitación">
 
-                                                @endif
-
-                                            {{-- Validar Licitación --}}
-
-                                                @if($licitacion->Estado == 'Creada' || $licitacion->Estado == 'Confirmada' || $licitacion->Estado == 'Lista para Publicar' || $licitacion->Estado == 'Publicada' || $licitacion->Estado == 'Cerrada')
-
-                                                @else
-
-                                                    <a href="{{ route('licitacion.validar', $licitacion->id) }}" data-toggle="tooltip" data-placement="bottom" title="Válidar Licitación">
-                                        
-                                                        <button class="btn btn-warning btn-sm mr-1 " type="button">
-                                                        
-                                                            <i class="fas fa-thumbs-up"></i>
-
-                                                        </button>
-
-                                                    </a>
-
-                                                @endif
-
-                                                {{-- Publicar Licitación --}}
-
-                                                @if($licitacion->Estado == 'Lista para Publicar')
-
-                                                    <a href="#" class="publicar" data-toggle="tooltip" data-placement="bottom" title="Publicar Licitación">
-                                        
-                                                        <button class="btn btn-light btn-sm mr-1 " type="button">
-                                                        
-                                                            <i class="fas fa-cloud-upload-alt"></i>
-
-                                                        </button>
-
-                                                    </a>
-
-
-                                                @else
-
-                                                @endif
-
-                                            <a href="#" class="edit" data-toggle="tooltip" data-placement="bottom" title="Modificar la Órden de Compra">
-
-                                                <button class="btn btn-primary btn-sm mr-1  " type="button">
+                                                            <button class="btn btn-success btn-sm mr-1" type="button">
                                                             
-                                                    <i class="fas fa-edit"></i>
+                                                                <i class="fas fa-clipboard-check"></i>
 
-                                                </button>
+                                                            </button>
 
-                                            </a>
+                                                        </a>
 
-                                            <a href="#" class="delete" data-toggle="tooltip" data-placement="bottom" title="Anular Órden de Compra">
+                                                    @else
 
-                                                <button class="btn btn-danger btn-sm " type="button">
+                                                    @endif
+
+                                                    {{-- Recepcionar Adjudicacion Licitacion por C&S --}}
+
+                                                    @if($licitacion->Estado == 'Cerrada')
+
+                                                        <a href="#" class="recepcionarADJ" data-toggle="tooltip" data-placement="bottom" title="Recepcionar Adjudicacion de Licitación">
+
+                                                            <button class="btn btn-success btn-sm mr-1" type="button">
                                                             
-                                                    <i class="fas fa-trash"></i>
+                                                                <i class="fas fa-clipboard-check"></i>
 
-                                                </button>
+                                                            </button>
 
-                                            </a>
+                                                        </a>
+
+                                                    @else
+
+                                                    @endif
+
+                                                {{-- Validar Licitación --}}
+
+                                                    @if($licitacion->Estado == 'Creada' || $licitacion->Estado == 'Confirmada' || $licitacion->Estado == 'Lista para Publicar' || $licitacion->Estado == 'Publicada' || $licitacion->Estado == 'Cerrada')
+
+                                                    @else
+
+                                                        <a href="{{ route('licitacion.validar', $licitacion->id) }}" data-toggle="tooltip" data-placement="bottom" title="Válidar Licitación">
+                                            
+                                                            <button class="btn btn-warning btn-sm mr-1 " type="button">
+                                                            
+                                                                <i class="fas fa-thumbs-up"></i>
+
+                                                            </button>
+
+                                                        </a>
+
+                                                    @endif
+
+                                                    {{-- Publicar Licitación --}}
+
+                                                    @if($licitacion->Estado == 'Lista para Publicar')
+
+                                                        <a href="#" class="publicar" data-toggle="tooltip" data-placement="bottom" title="Publicar Licitación">
+                                            
+                                                            <button class="btn btn-light btn-sm mr-1 " type="button">
+                                                            
+                                                                <i class="fas fa-cloud-upload-alt"></i>
+
+                                                            </button>
+
+                                                        </a>
+
+
+                                                    @else
+
+                                                    @endif
+
+                                                <a href="#" class="edit" data-toggle="tooltip" data-placement="bottom" title="Modificar la Órden de Compra">
+
+                                                    <button class="btn btn-primary btn-sm mr-1  " type="button">
+                                                                
+                                                        <i class="fas fa-edit"></i>
+
+                                                    </button>
+
+                                                </a>
+
+                                                <a href="#" class="delete" data-toggle="tooltip" data-placement="bottom" title="Anular Órden de Compra">
+
+                                                    <button class="btn btn-danger btn-sm " type="button">
+                                                                
+                                                        <i class="fas fa-trash"></i>
+
+                                                    </button>
+
+                                                </a>
+
+                                            @endif
 
                                         </div>
 
@@ -953,6 +968,98 @@
 </div>
 <!-- END UPDATE Modal Licitación -->
 
+<!-- Anular Modal Licitacion -->
+<div class="modal fade" id="deleteLicitacionModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+
+    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+
+        <div class="modal-content">
+
+            <div class="modal-header bg-danger text-white">
+
+                <p class="modal-title" id="exampleModalLabel" style="font-size: 1.2em"><i class="far fa-times-circle"></i> Anular Licitación</p>
+
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+
+                    <span aria-hidden="true" class="text-white">&times;</span>
+
+                </button>
+
+            </div>
+
+
+            <form method="POST" action="#" class="was-validated" id="deleteLicitacionForm">
+
+                @csrf
+                @method('PUT')
+
+                <input type="hidden" name="flag" value="AnularLicitacion">
+
+                <div class="modal-body">
+
+                    <div class="form-row mb-3">
+
+                        <label class="col-sm-3 col-form-label text-muted">ID Licitación</label><br>
+                                                                        
+                        <label class="col-sm-9 col-form-label h5" id="ordenCompra_id_Delete">ID Licitacion</label>
+
+                    </div>
+
+                    <div class="form-row mb-3">
+
+                        <label class="col-sm-3 col-form-label text-muted">Fecha Licitación</label><br>
+                                                                        
+                        <label class="col-sm-9 col-form-label h5" id="fechaOrdenCompra_delete">Fecha Licitación</label>
+
+                    </div>
+
+                    <div class="form-row">
+
+                        <div class="col-md-12 mb-3">
+                                                                                                              
+                            <label for="Motivo">Motivo Anulación</label>
+
+                            <textarea type="text" class="form-control" id="motivoAnulacion" name="motivoAnulacion" placeholder="Ingrese el Motivo del porqué va a ANULAR la Licitación" required></textarea>
+
+                            <div class="invalid-feedback">
+                                                                                                                            
+                                Por favor ingrese el Motivo de la Anulación de la Licitación
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    <div class="mb-3 form-row">
+
+                        <button class="btn btn-danger btn-block" type="submit">
+
+                            <i class="far fa-times-circle"></i> Anular Licitación
+
+                        </button>
+
+                        <button type="button" class="btn btn-block btn-secondary" data-dismiss="modal" aria-label="Close">
+
+                            <i class="fas fa-arrow-left"></i>
+
+                            Cancelar
+
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</div>
+<!-- End Modal Anular Licitacion -->
+
 @endsection
 
 @push('scripts')
@@ -1219,8 +1326,8 @@
                 document.getElementById('ordenCompra_id_Delete').innerHTML = data[1];
                 document.getElementById('fechaOrdenCompra_delete').innerHTML = data[3];
                 
-                $('#deleteOrdenCompraForm').attr('action', '/siscom/ordenCompra/' + data[0]);
-                $('#deleteOrdenCompraModal').modal('show');
+                $('#deleteLicitacionForm').attr('action', '/siscom/licitacion/anular/' + data[0]);
+                $('#deleteLicitacionModal').modal('show');
 
             });
             //End Delete Record

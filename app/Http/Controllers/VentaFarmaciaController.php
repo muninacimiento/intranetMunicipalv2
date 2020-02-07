@@ -150,7 +150,7 @@ class VentaFarmaciaController extends Controller
          * Definimos el Objeto que contendrá TODOS los Medicamentos
          */
         $medicamentos = DB::table('medicamentos')
-                    ->select(DB::raw('CONCAT(medicamentos.id, " ) ", medicamentos.medicamento, " / ", medicamentos.lote, " / ", medicamentos.fechaVencimiento) as Medicamento'), 'medicamentos.id')
+                    ->select(DB::raw('CONCAT(medicamentos.id, " ) ", medicamentos.medicamento, " / ", medicamentos.principioActivo, " / ", medicamentos.lote, " / ", medicamentos.fechaVencimiento) as Medicamento'), 'medicamentos.id')
                     ->get();
 
         $detalleVenta = DB::table('venta_detalle_farmacias')
