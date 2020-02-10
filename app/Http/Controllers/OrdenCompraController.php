@@ -1078,9 +1078,6 @@ class OrdenCompraController extends Controller
                                         ->count();
 
 
-                    //DetailSolicitud::where('ordenCompra_id', '=', $id)->where('userReceive_id', '=', null)->get();
-
-//dd($fullRecepction);
                     if ($fullRecepction == $parcialReception) {
                         
                         $dSolicitud = DetailSolicitud::where('ordenCompra_id', $id);

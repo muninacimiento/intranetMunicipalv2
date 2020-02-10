@@ -123,7 +123,7 @@
 
                                     <td>{{ $factura->ordenCompra_id }}</td>
 
-                                    <td>{{ $factura->estado_id }}</td>
+                                    <td>{{ $factura->Estado }}</td>
 
                                     <td>{{ $factura->Dependencia }}</td>
 
@@ -166,6 +166,31 @@
                             </tbody>
 
                         </table>
+
+                    </div>
+
+                    <div class="form-row">
+
+                        <div class="col-md-12 mb-2">
+                                
+                            <form method="POST" action="{{ route('ordenCompra.confirmarRecepcion', $ordenCompra->id) }}">
+
+                                @csrf
+                                @method('PUT')
+
+                                <input type="hidden" name="flag" value="FacturarTodosProductos">
+
+                                <button type="submit" class="btn btn-success btn-block"> 
+
+                                    <i class="fas fa-check-circle"></i>
+
+                                    Confirmar Facturación de TODOS los Productos de la O.C.
+
+                                </button>
+
+                            </form>    
+
+                        </div>
 
                     </div>
 

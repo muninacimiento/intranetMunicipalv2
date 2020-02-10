@@ -219,7 +219,7 @@
 
                                                     @if($ds->obsRecepcion === NULL)
 
-                                                    <a href="#" class="btn btn-primary btn-sm recepcionarProducto" data-toggle="tooltip" data-placement="bottom" title="Recepcion Producto">
+                                                    <a href="#" class="btn btn-primary btn-sm recepcionarProducto" data-toggle="tooltip" data-placement="bottom" title="Recepcionar solo este Producto">
                                                                     
                                                         <i class="fas fa-check"></i>
 
@@ -262,7 +262,7 @@
 
                                             <i class="fas fa-check-circle"></i>
 
-                                            Confirmar Recepción de Productos
+                                            Confirmar Recepción de TODOS los Productos
 
                                         </button>
 
