@@ -100,7 +100,7 @@
 
                             </div>
 
-                            <div>
+                            <div class="mb-5">
                             
                                 <table class="display" id="detalleFactura">
                                     
@@ -187,7 +187,7 @@
 
                                 <div class="col-md-12 mb-2">
                                         
-                                    <form method="POST" action="{{ route('factura.facturarTodos', $factura->id) }}">
+                                    <form method="POST" action="{{ route('factura.facturarTodos', $dS->solicitud_id) }}" id="facturarProductoForm">
 
                                         @csrf
                                         @method('PUT')

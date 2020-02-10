@@ -239,6 +239,20 @@
 
                     <div class="form-row">
 
+                        <div class="col-sm-6 mb-3">
+
+                            <label for="nombreActividad">Fecha Oficina de Parte</label>
+
+                            <input type="text" id="fechaOficinaParte" name="fechaOficinaParte" class="form-control" placeholder="Fecha de Recepción en Oficina de Parte?" required/>
+
+                            <div class="invalid-feedback">
+                                                                                                        
+                                Por favor ingrese la Fecha de Recepción de Oficina de Parte
+
+                            </div>
+
+                        </div>
+
                         <div class="col-md-6 mb-3">
                                                                               
                             <label for="tipoDocumento">Tipo Documento</label>
@@ -259,6 +273,10 @@
 
                         </div>
 
+                    </div>
+
+                    <div class="form-row">
+
                         <div class="col-md-6 mb-3">
                                                 
                             <label for="proveedor_id">Proveedor</label>
@@ -275,10 +293,6 @@
 
                         </div>
 
-                    </div>
-
-                    <div class="form-row">
-
                         <div class="col-md-6 mb-3">
                                                                               
                             <label for="NoOC">No. OC</label>
@@ -293,6 +307,10 @@
 
                         </div>
 
+                    </div>
+
+                    <div class="form-row">
+                        
                         <div class="col-md-6 mb-3">
                                                                               
                             <label for="total">Total $</label>
@@ -627,6 +645,14 @@
 <script type="text/javascript">
         
         $(document).ready(function () {
+
+            $( "#fechaOficinaParte" ).datepicker({
+                dateFormat: "yy-mm-dd",
+                firstDay: 1,
+                dayNamesMin: [ "Dom", "Lun", "Mar", "Mier", "Jue", "Vie", "Sab" ],
+                monthNames: [ "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre" ],
+                numberOfMonths: 1,
+            });
 
             // Start Configuration DataTable
             var table = $('#facturasTable').DataTable({

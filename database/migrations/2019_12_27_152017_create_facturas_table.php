@@ -24,6 +24,7 @@ class CreateFacturasTable extends Migration
             $table->bigInteger('totalFactura');
             $table->unsignedBigInteger('estado_id'); //foreing key estadoFactura
             $table->string('obsAnulacion')->nullable(); //OBS Anulacion Factura
+            $table->datetime('fechaOficinaParte');
             $table->timestamps();
 
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');

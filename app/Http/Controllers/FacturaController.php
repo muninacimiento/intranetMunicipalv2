@@ -85,6 +85,7 @@ class FacturaController extends Controller
                     $factura->proveedor_id      = $request->proveedor_id;
                     $factura->ordenCompra_id    = $request->ordenCompra_id;
                     $factura->totalFactura      = $request->totalFactura;
+                    $factura->fechaOficinaParte = $request->fechaOficinaParte;
                     $factura->user_id           = Auth::user()->id;
                     $factura->estado_id         = 1;
 
@@ -228,48 +229,43 @@ class FacturaController extends Controller
 
                     //Traemos todos los productos de la OC
                     $fullFactura = DB::table('detail_solicituds')
-                                    ->where('detail_solicituds.ordenCompra_id', '=', $id)
+                                    ->where('detail_solicituds.solicitud_id', '=', $id)
                                     ->count();
 
                     $parcialFactura = DB::table('detail_solicituds')
-                                        ->where('detail_solicituds.ordenCompra_id', '=', $id)
-                                        ->where('detail_solicituds.obsRecepcion', '=', null)
+                                        ->where('detail_solicituds.solicitud_id', '=', $id)
+                                        ->where('detail_solicituds.factura_id', '=', null)
                                         ->count();
 
 
-                    if ($fullRecepction == $parcialReception) {
+                    if ($fullFactura == $parcialFactura) {
                         
-                        $dSolicitud = DetailSolicitud::where('ordenCompra_id', $id);
-                        $dSolicitud->update(['userReceive_id' => Auth::user()->id], ['fechaRecepcion' => $dateCarbon]);
-
-                        $dSolicitud = DetailSolicitud::where('ordenCompra_id', $id);
-                        $dSolicitud->update(['fechaRecepcion' => $dateCarbon]);
-                        
-                        
+                        $dSolicitud = DetailSolicitud::where('solicitud_id', $id);
+                        $dSolicitud->update(['factura_id'=> $request->factura_id]);
 
                         //Buscamos la Solicitud relacionada con la OC a recepcionar
                         $s = DB::table('solicituds')
                                     ->join('detail_solicituds', 'solicituds.id', '=', 'detail_solicituds.solicitud_id')
                                     ->join('orden_compras', 'detail_solicituds.ordenCompra_id', '=', 'orden_compras.id')
-                                    ->where('orden_compras.id', '=', $id)
+                                    ->where('solicituds.id', '=', $id)
                                     ->first();
 
                         //dd($s->id);
                         //Actualizmos el estado de la Solicitud
                         $solicitud = Solicitud::findOrFail($s->id);            
-                        $solicitud->estado_id                   = 9;
+                        $solicitud->estado_id                   = 10;
                         $solicitud->update();
 
                         //Actualizamos el estado de la OC
                         $oc = OrdenCompra::findOrFail($id);
-                        $oc->estado_id                          = 19;
+                        $oc->estado_id                          = 20;
                         $oc->save();
 
 
                         //Guardamos el Movimientos de la Solicitud
                         $move = new MoveSolicitud;
                         $move->solicitud_id                     = $solicitud->id;
-                        $move->estadoSolicitud_id               = 9;
+                        $move->estadoSolicitud_id               = 10;
                         $move->fecha                            = $solicitud->updated_at;
                         $move->user_id                          = Auth::user()->id;
                         $move->save();
@@ -277,44 +273,7 @@ class FacturaController extends Controller
                         //Guardamos el Movimientos de la OC
                         $move = new MoveOC;
                         $move->ordenCompra_id                   = $oc->id;
-                        $move->estadoOrdenCompra_id             = 19;
-                        $move->fecha                            = $oc->updated_at;
-                        $move->user_id                          = Auth::user()->id;
-                        $move->save();      
-
-                    }else{
-
-                        //Buscamos la Solicitud relacionada con la OC a recepcionar
-                        $s = DB::table('solicituds')
-                                    ->join('detail_solicituds', 'solicituds.id', '=', 'detail_solicituds.solicitud_id')
-                                    ->join('orden_compras', 'detail_solicituds.ordenCompra_id', '=', 'orden_compras.id')
-                                    ->where('orden_compras.id', '=', $id)
-                                    ->first();
-
-                        //dd($solicitud->id);
-                        //Actualizmos el estado de la Solicitud
-                        $solicitud = Solicitud::findOrFail($s->id);            
-                        $solicitud->estado_id                   = 9;
-                        $solicitud->save();
-
-                        //Actualizamos el estado de la OC
-                        $oc = OrdenCompra::findOrFail($id);
-                        $oc->estado_id                          = 24;
-                        $oc->save();
-
-
-                        //Guardamos el Movimientos de la Solicitud
-                        $move = new MoveSolicitud;
-                        $move->solicitud_id                     = $solicitud->id;
-                        $move->estadoSolicitud_id               = 9;
-                        $move->fecha                            = $solicitud->updated_at;
-                        $move->user_id                          = Auth::user()->id;
-                        $move->save();
-
-                        //Guardamos el Movimientos de la OC
-                        $move = new MoveOC;
-                        $move->ordenCompra_id                   = $oc->id;
-                        $move->estadoOrdenCompra_id             = 24;
+                        $move->estadoOrdenCompra_id             = 20;
                         $move->fecha                            = $oc->updated_at;
                         $move->user_id                          = Auth::user()->id;
                         $move->save();      
@@ -331,7 +290,7 @@ class FacturaController extends Controller
                 
             }
 
-            return redirect('/siscom/ordenCompra')->with('info', 'Productos de Órden de Compra Recepcionados con éxito !');
+            return redirect('/siscom/factura')->with('info', 'Productos de Órden de Compra Facturados con éxito !');
         }  
 
     }
