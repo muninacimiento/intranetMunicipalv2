@@ -162,13 +162,14 @@ class FacturaController extends Controller
                         ->get();
 
         $factura = DB::table('facturas')
+                    ->join('status_facturas', 'facturas.estado_id', '=', 'status_facturas.id')
                     ->join('proveedores', 'facturas.proveedor_id', '=', 'proveedores.id')
                     ->join('orden_compras', 'facturas.ordenCompra_id', '=', 'orden_compras.id')
                     ->join('detail_solicituds', 'orden_compras.id', '=', 'detail_solicituds.ordenCompra_id')
                     ->join('solicituds', 'detail_solicituds.solicitud_id', '=', 'solicituds.id')
                     ->join('users', 'facturas.user_id', '=', 'users.id')
                     ->join('dependencies', 'users.dependency_id', '=', 'dependencies.id')
-                    ->select('facturas.*', 'proveedores.razonSocial as RazonSocial', 'dependencies.name as Dependencia', 'users.name as userName')
+                    ->select('facturas.*', 'proveedores.razonSocial as RazonSocial', 'dependencies.name as Dependencia', 'users.name as userName', 'status_facturas.estado as Estado')
                     ->where('facturas.id', '=', $id)
                     ->first();
 
@@ -337,6 +338,102 @@ class FacturaController extends Controller
 
             return redirect('/siscom/factura')->with('info', 'Productos de Órden de Compra Facturados con éxito !');
         }  
+
+        // Enviada a VB
+        else if ($request->flag == 'EnviadaVB') {
+
+            try {
+
+                DB::beginTransaction();
+
+                    $factura = Factura::findOrFail($id);
+                    $factura->estado_id                  = 2;
+                    $factura->save();
+
+                    //Guardamos los datos de Movimientos de la Factura
+                    $move = new MoveFactura;
+                    $move->factura_id                    = $factura->id;
+                    $move->estadoFactura_id              = 2;
+                    $move->fecha                         = $factura->updated_at;
+                    $move->user_id                       = Auth::user()->id;
+
+                    $move->save();
+
+
+                DB::commit();
+                
+            } catch (Exception $e) {
+
+                db::rollback();
+                
+            }
+
+            return back();
+        } 
+
+        // Recepcionada con VB
+        else if ($request->flag == 'RecepcionarVB') {
+
+            try {
+
+                DB::beginTransaction();
+
+                    $factura = Factura::findOrFail($id);
+                    $factura->estado_id                  = 3;
+                    $factura->save();
+
+                    //Guardamos los datos de Movimientos de la Factura
+                    $move = new MoveFactura;
+                    $move->factura_id                    = $factura->id;
+                    $move->estadoFactura_id              = 3;
+                    $move->fecha                         = $factura->updated_at;
+                    $move->user_id                       = Auth::user()->id;
+
+                    $move->save();
+
+
+                DB::commit();
+                
+            } catch (Exception $e) {
+
+                db::rollback();
+                
+            }
+
+            return back();
+        } 
+
+        // Enviada a VB
+        else if ($request->flag == 'EnviarPago') {
+
+            try {
+
+                DB::beginTransaction();
+
+                    $factura = Factura::findOrFail($id);
+                    $factura->estado_id                  = 4;
+                    $factura->save();
+
+                    //Guardamos los datos de Movimientos de la Factura
+                    $move = new MoveFactura;
+                    $move->factura_id                    = $factura->id;
+                    $move->estadoFactura_id              = 4;
+                    $move->fecha                         = $factura->updated_at;
+                    $move->user_id                       = Auth::user()->id;
+
+                    $move->save();
+
+
+                DB::commit();
+                
+            } catch (Exception $e) {
+
+                db::rollback();
+                
+            }
+
+            return back();
+        } 
 
     }
 
