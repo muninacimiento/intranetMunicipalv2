@@ -1077,35 +1077,21 @@ class OrdenCompraController extends Controller
                                         ->where('detail_solicituds.obsRecepcion', '=', null)
                                         ->count();
 
-
                     if ($fullRecepction == $parcialReception) {
                         
                         $dSolicitud = DetailSolicitud::where('ordenCompra_id', $id);
-                        $dSolicitud->update(['userReceive_id' => Auth::user()->id], ['fechaRecepcion' => $dateCarbon]);
-
-                        $dSolicitud = DetailSolicitud::where('ordenCompra_id', $id);
-                        $dSolicitud->update(['fechaRecepcion' => $dateCarbon]);
-                        
-                        
-
+                        $dSolicitud->update(['userReceive_id' => Auth::user()->id, 'fechaRecepcion' => $dateCarbon]);                      
                         //Buscamos la Solicitud relacionada con la OC a recepcionar
                         $s = DB::table('solicituds')
-                                    ->join('detail_solicituds', 'solicituds.id', '=', 'detail_solicituds.solicitud_id')
+                                    ->join('detail_solicituds', 'solicituds.id', 'detail_solicituds.solicitud_id')
                                     ->join('orden_compras', 'detail_solicituds.ordenCompra_id', '=', 'orden_compras.id')
-                                    ->where('orden_compras.id', '=', $id)
+                                    ->where('detail_solicituds.ordenCompra_id', '=', $id)
                                     ->first();
 
-                        //dd($s->id);
                         //Actualizmos el estado de la Solicitud
-                        $solicitud = Solicitud::findOrFail($s->id);            
+                        $solicitud = Solicitud::findOrFail($s->solicitud_id);            
                         $solicitud->estado_id                   = 9;
-                        $solicitud->update();
-
-                        //Actualizamos el estado de la OC
-                        $oc = OrdenCompra::findOrFail($id);
-                        $oc->estado_id                          = 19;
-                        $oc->save();
-
+                        $solicitud->save();
 
                         //Guardamos el Movimientos de la Solicitud
                         $move = new MoveSolicitud;
@@ -1114,6 +1100,15 @@ class OrdenCompraController extends Controller
                         $move->fecha                            = $solicitud->updated_at;
                         $move->user_id                          = Auth::user()->id;
                         $move->save();
+
+                        //Actualizamos el estado de la OC
+                        $oc = OrdenCompra::findOrFail($s->id);
+                        //dd($oc);
+                        $oc->estado_id                          = 19;
+                        $oc->save();
+
+
+                        
 
                         //Guardamos el Movimientos de la OC
                         $move = new MoveOC;

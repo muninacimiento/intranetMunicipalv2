@@ -56,7 +56,7 @@ class SCM_AdminSolicitudController extends Controller
                     ->orderBy('solicituds.id', 'desc')
                     ->get();
             
-        }else if (Auth::user()->email == 'carolina.medina@nacimiento.cl' || Auth::user()->email == 'monica.alvarez@nacimiento.cl' || Auth::user()->email == 'juan.fuentealba@nacimiento.cl') {
+        }else if (Auth::user()->email == 'carolina.medina@nacimiento.cl' || Auth::user()->email == 'cecilia.castro@nacimiento.cl' || Auth::user()->email == 'juan.fuentealba@nacimiento.cl') {
 
         /*
          * Definimos variable que contendrá la fecha actual del sistema

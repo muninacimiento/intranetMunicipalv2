@@ -116,7 +116,7 @@ Route::middleware(['auth'])->group( function() {
 	Route::put('/siscom/ordenCompra/recepcionar/{oc}', 'OrdenCompraController@update')->name('ordenCompra.recepcionar')->middleware('can:ordenCompra.recepcionar');
 	Route::put('/siscom/ordenCompra/enviarExcepcion/{oc}', 'OrdenCompraController@update')->name('ordenCompra.enviarExcepcion')->middleware('can:ordenCompra.enviarExcepcion');
 	Route::put('/siscom/ordenCompra/anular/{oc}', 'OrdenCompraController@update')->name('ordenCompra.anular')->middleware('can:ordenCompra.anular');
-	Route::get('/siscom/ordenCompra/recepcionarProductos/{oc}', 'OrdenCompraController@recepcionarProductos')->name('ordenCompra.recepcionarProductos')->middleware('can:ordenCompra.recepcionarProductos');
+	Route::get('/siscom/ordenCompra/recepcionarProductos/{oc}', 'OrdenCompraController@recepcionarProductos')->name('ordenCompra.recepcionarProductos')->middleware('can:ordenCompra.recepcionarProducto');
 	Route::put('/siscom/ordenCompra/confirmarRecepcion/{oc}', 'OrdenCompraController@update')->name('ordenCompra.confirmarRecepcion')->middleware('can:ordenCompra.confirmarRecepcion');
 	Route::put('/siscom/ordenCompra/recepcionarProducto/{oc}', 'OrdenCompraController@update')->name('ordenCompra.recepcionarProducto')->middleware('can:ordenCompra.recepcionarProducto');
 
