@@ -30,7 +30,7 @@
 
                         <a href="{{ route('factura.index') }}" class="btn btn-link text-decoration-none float-right"> <i class="far fa-arrow-alt-circle-left"></i> Volver</a>
 
-                        <h4> Factura No.  <input type="text" value="{{ $factura->id }}" readonly class="h4" style="border:0;" name="factura_id" form="facturarProductoForm"> </h4>
+                        <h4> Factura No.  <input type="text" value="{{ $factura->id }}" readonly class="h4" style="border:0;" name="factura_id" form="1"> </h4>
 
                          <hr style="background-color: #d7d7d7">
 
@@ -66,7 +66,23 @@
 
                             <div class="form-row mb-3">
 
-                                <div class="col-md-4 mb-3">
+                                <div class="col-md-3 mb-3">
+                                
+                                    <label class="text-muted">Unidad Solicitante</label>
+                                                                
+                                    <h5>{{ $factura->Dependencia }}</h5> 
+
+                                </div>
+
+                                <div class="col-md-3 mb-3">
+                                
+                                    <label class="text-muted">No. Órden de Compra</label>
+                                                                
+                                    <input type="hidden" value="{{ $factura->ordenCompra_id }}" readonly class="h5" style="border:0;" name="ordenCompra_id" form="facturarProductoForm"> 
+
+                                </div>
+
+                                <div class="col-md-3 mb-3">
                                                           
                                     <label class="text-muted">Proveedor</label> <br>
 
@@ -74,15 +90,7 @@
 
                                 </div>
 
-                                <div class="col-md-4 mb-3">
-                                
-                                    <label class="text-muted">No. Órden de Compra</label>
-                                                                
-                                    <h5>{{ $factura->ordenCompra_id }}</h5> 
-
-                                </div>
-
-                                <div class="col-md-4 mb-3">
+                                <div class="col-md-3 mb-3">
 
                                     <label class="text-muted">Factura Gestionada por</label>
                                                                 
@@ -108,7 +116,7 @@
                                         
                                         <tr>
                                             
-                                            <th style="display: none;">ID</th>
+                                            <th>ID</th>
                                             <th>No.Solicitud</th>
                                             <th>Producto</th>
                                             <th>Especificación</th>
@@ -130,7 +138,7 @@
 
                                         <tr>
                                             
-                                            <td style="display: none;">{{ $dS->id }}</td>
+                                            <td>{{ $dS->id }}</td>
                                             <td>{{ $dS->solicitud_id }}</td>
                                             <td>{{ $dS->Producto }}</td>
                                             <td>{{ $dS->especificacion }}</td>
@@ -153,11 +161,21 @@
 
                                                     @if($dS->factura_id == NULL)
 
-                                                        <a href="#" class="btn btn-primary btn-sm mr-1 facturar" data-toggle="tooltip" data-placement="bottom" title="Facturar Producto">
-                                                                    
-                                                            <i class="fas fa-check"></i>
+                                                    <form method="POST" action="{{ route('factura.update', $dS->id) }}" id="1">
 
-                                                        </a>
+                                                        @csrf
+                                                        @method('PUT')
+
+                                                        <input type="hidden" name="flag" value="FacturarProducto">
+
+                                                            <button class="btn btn-primary btn-sm mr-1" type="submit">
+                                                            
+                                                                <i class="fas fa-check"></i>    
+
+                                                            </button>
+
+                                                    </form>
+                                                                    
 
                                                     @else
 
@@ -187,12 +205,13 @@
 
                                 <div class="col-md-12 mb-2">
                                         
-                                    <form method="POST" action="{{ route('factura.facturarTodos', $dS->solicitud_id) }}" id="facturarProductoForm">
+                                    <form method="POST" action="{{ route('factura.facturarTodos', $dS->ordenCompra_id) }}" id="facturarTodosProductoForm">
 
                                         @csrf
                                         @method('PUT')
 
                                         <input type="hidden" name="flag" value="FacturarTodosProductos">
+                                        <input type="hidden" value="{{ $factura->id }}" readonly name="factura_id">
 
                                         <button type="submit" class="btn btn-success btn-block"> 
 
@@ -241,7 +260,7 @@
             </div>
 
 
-            <form method="POST" action="#" class="was-validated" id="facturarProductoForm">
+            <form method="POST" action="{{ url('/siscom/factura/facturarProducto/') }}" class="was-validated" id="facturarProductoForm">
 
                 @csrf
                 @method('PUT')
@@ -294,7 +313,7 @@
             </div>
 
 
-            <form method="POST" action="#" class="was-validated" id="facturarProductoForm">
+            <form method="POST" action="#" class="was-validated" id="nofacturarProductoForm">
 
                 @csrf
                 @method('PUT')
@@ -409,7 +428,7 @@
 
                 $('#Producto').val(dataDetalle[2]);
 
-                $('#facturarProductoForm').attr('action', '/siscom/factura/' + dataDetalle[0]);
+                $('#facturarProductoForm').attr('action', '/siscom/factura/facturarProducto/' + dataDetalle[0]);
                 $('#facturarProductoModal').modal('show');
 
             });
@@ -432,7 +451,7 @@
 
                 $('#productDelete').val(dataDetalle[2]);
                 
-                $('#facturarProductoForm').attr('action', '/siscom/factura/' + dataDetalle[0]);
+                $('#nofacturarProductoForm').attr('action', '/siscom/factura/' + dataDetalle[0]);
                 $('#nofacturarProductoModal').modal('show');
 
             });

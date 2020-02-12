@@ -41,18 +41,17 @@ class FacturaController extends Controller
                         ->select(DB::raw('CONCAT(proveedores.id, " ) ", proveedores.razonSocial) as RazonSocial'), 'proveedores.id')
                         ->get();
 
+        $ocs = DB::table('orden_compras')
+                    ->select(DB::raw('CONCAT(orden_compras.id, " ) ", orden_compras.ordenCompra_id) as OC'), 'orden_compras.id')
+                    ->get();
+
         $facturas = DB::table('facturas')
                     ->join('status_facturas', 'facturas.estado_id', '=', 'status_facturas.id')
                     ->join('proveedores', 'facturas.proveedor_id', '=', 'proveedores.id')
-                    ->join('orden_compras', 'facturas.ordenCompra_id', '=', 'orden_compras.ordenCompra_id')
-                    ->join('detail_solicituds', 'orden_compras.id', '=', 'detail_solicituds.ordenCompra_id')
-                    ->join('solicituds', 'detail_solicituds.solicitud_id', '=', 'solicituds.id')
-                    ->join('users', 'solicituds.user_id', '=', 'users.id')
-                    ->join('dependencies', 'users.dependency_id', '=', 'dependencies.id')
-                    ->select('facturas.*', 'proveedores.razonSocial as RazonSocial', 'dependencies.name as Dependencia', 'status_facturas.estado as Estado')
+                    ->select('facturas.*', 'proveedores.razonSocial as RazonSocial', 'status_facturas.estado as Estado')
                     ->get();
 
-        return view('siscom.factura.index', compact('facturas', 'proveedores', 'dateCarbon'));
+        return view('siscom.factura.index', compact('facturas', 'proveedores', 'dateCarbon', 'ocs'));
     }
 
     /**
@@ -130,10 +129,10 @@ class FacturaController extends Controller
 
         $factura = DB::table('facturas')
                     ->join('proveedores', 'facturas.proveedor_id', '=', 'proveedores.id')
-                    ->join('orden_compras', 'facturas.ordenCompra_id', '=', 'orden_compras.ordenCompra_id')
+                    ->join('orden_compras', 'facturas.ordenCompra_id', '=', 'orden_compras.id')
                     ->join('detail_solicituds', 'orden_compras.id', '=', 'detail_solicituds.ordenCompra_id')
                     ->join('solicituds', 'detail_solicituds.solicitud_id', '=', 'solicituds.id')
-                    ->join('users', 'solicituds.user_id', '=', 'users.id')
+                    ->join('users', 'facturas.user_id', '=', 'users.id')
                     ->join('dependencies', 'users.dependency_id', '=', 'dependencies.id')
                     ->select('facturas.*', 'proveedores.razonSocial as RazonSocial', 'dependencies.name as Dependencia', 'users.name as userName')
                     ->where('facturas.id', '=', $id)
@@ -147,12 +146,44 @@ class FacturaController extends Controller
                     ->leftjoin('licitacions', 'detail_solicituds.licitacion_id', '=', 'licitacions.id')
                     ->leftjoin('status_licitacions', 'licitacions.estado_id', '=', 'status_licitacions.id')
                     ->select('detail_solicituds.*', 'products.name as Producto', DB::raw('(detail_solicituds.cantidad * detail_solicituds.valorUnitario) as SubTotal'), 'orden_compras.ordenCompra_id as NoOC', 'status_o_c_s.estado as EstadoOC', 'licitacions.licitacion_id as NoLicitacion', 'status_licitacions.estado as EstadoLicitacion')
-                     ->where('orden_compras.ordenCompra_id', '=', $factura->ordenCompra_id)
+                     ->where('orden_compras.id', '=', $id)
                     ->get();
 
-                    //dd($detalleSolicitud);
-
         return view('siscom.factura.show', compact('factura', 'proveedores', 'dateCarbon', 'detalleSolicituds'));
+
+    }
+
+        public function validar($id)
+    {
+        $dateCarbon = Carbon::now()->locale('es')->isoFormat('dddd D, MMMM YYYY');
+
+        $proveedores = DB::table('proveedores')
+                        ->select(DB::raw('CONCAT(proveedores.id, " ) ", proveedores.razonSocial) as RazonSocial'), 'proveedores.id')
+                        ->get();
+
+        $factura = DB::table('facturas')
+                    ->join('proveedores', 'facturas.proveedor_id', '=', 'proveedores.id')
+                    ->join('orden_compras', 'facturas.ordenCompra_id', '=', 'orden_compras.id')
+                    ->join('detail_solicituds', 'orden_compras.id', '=', 'detail_solicituds.ordenCompra_id')
+                    ->join('solicituds', 'detail_solicituds.solicitud_id', '=', 'solicituds.id')
+                    ->join('users', 'facturas.user_id', '=', 'users.id')
+                    ->join('dependencies', 'users.dependency_id', '=', 'dependencies.id')
+                    ->select('facturas.*', 'proveedores.razonSocial as RazonSocial', 'dependencies.name as Dependencia', 'users.name as userName')
+                    ->where('facturas.id', '=', $id)
+                    ->first();
+
+        $detalleSolicituds = DB::table('detail_solicituds')
+                    ->join('products', 'detail_solicituds.product_id', 'products.id')
+                    ->join('solicituds', 'detail_solicituds.solicitud_id', '=', 'solicituds.id')
+                    ->leftjoin('orden_compras', 'detail_solicituds.ordenCompra_id', '=', 'orden_compras.id')
+                    ->leftjoin('status_o_c_s', 'orden_compras.estado_id', '=', 'status_o_c_s.id')
+                    ->leftjoin('licitacions', 'detail_solicituds.licitacion_id', '=', 'licitacions.id')
+                    ->leftjoin('status_licitacions', 'licitacions.estado_id', '=', 'status_licitacions.id')
+                    ->select('detail_solicituds.*', 'products.name as Producto', DB::raw('(detail_solicituds.cantidad * detail_solicituds.valorUnitario) as SubTotal'), 'orden_compras.ordenCompra_id as NoOC', 'status_o_c_s.estado as EstadoOC', 'licitacions.licitacion_id as NoLicitacion', 'status_licitacions.estado as EstadoLicitacion')
+                     ->where('orden_compras.id', '=', $id)
+                    ->get();
+
+        return view('siscom.factura.validar', compact('factura', 'proveedores', 'dateCarbon', 'detalleSolicituds'));
 
     }
 
@@ -179,32 +210,46 @@ class FacturaController extends Controller
 
         if ($request->flag == 'FacturarProducto') {
 
-            $facturar = DetailSolicitud::findOrFail($id);
-            $facturar->factura_id       = $request->factura_id;
-            $facturar->save();
+            try {
 
-            $move = new MoveOC;
-            $move->ordenCompra_id                           = $facturar->ordenCompra_id;
-            $move->estadoOrdenCompra_id                     = 21;
-            $move->fecha                                    = $facturar->updated_at;
-            $move->user_id                                  = Auth::user()->id;
-            $move->save();
+                DB::beginTransaction();
 
-            $oc = OrdenCompra::findOrFail($facturar->ordenCompra_id);
-            $oc->estado_id                                  = 21;
-            $oc->save();
+                    $facturar = DetailSolicitud::findOrFail($id);
+                    $facturar->factura_id       = $request->factura_id;
+                    $facturar->save();
 
-            $moveSolicitud = new MoveSolicitud;
-            $moveSolicitud->solicitud_id                     = $facturar->solicitud_id;
-            $moveSolicitud->estadoSolicitud_id               = 10;
-            $moveSolicitud->fecha                            = $facturar->updated_at;
-            $moveSolicitud->user_id                          = Auth::user()->id;
-            $moveSolicitud->save();
+                    $oc = OrdenCompra::findOrFail($facturar->ordenCompra_id);
+                    $oc->estado_id                                  = 21;
+                    $oc->save();
 
-            $solicitud = Solicitud::findOrFail($facturar->solicitud_id);
-            $solicitud->estado_id                           =10;
-            $solicitud->save();
+                    $move = new MoveOC;
+                    $move->ordenCompra_id                           = $facturar->ordenCompra_id;
+                    $move->estadoOrdenCompra_id                     = 21;
+                    $move->fecha                                    = $facturar->updated_at;
+                    $move->user_id                                  = Auth::user()->id;
+                    $move->save();
 
+                    $solicitud = Solicitud::findOrFail($facturar->solicitud_id);
+                    $solicitud->estado_id                           =10;
+                    $solicitud->save();
+
+                    $moveSolicitud = new MoveSolicitud;
+                    $moveSolicitud->solicitud_id                     = $facturar->solicitud_id;
+                    $moveSolicitud->estadoSolicitud_id               = 10;
+                    $moveSolicitud->fecha                            = $facturar->updated_at;
+                    $moveSolicitud->user_id                          = Auth::user()->id;
+                    $moveSolicitud->save();
+
+                    
+
+                DB::commit();
+                
+            } catch (Exception $e) {
+
+                db::rollback();
+                
+            }
+            
             return back()->with('info', 'Producto Órden de Compra Facturado Correctamente!');
 
         }else if ($request->flag == 'NoFacturarProducto') {
@@ -240,7 +285,7 @@ class FacturaController extends Controller
 
                     if ($fullFactura == $parcialFactura) {
                         
-                        $dSolicitud = DetailSolicitud::where('solicitud_id', $id);
+                        $dSolicitud = DetailSolicitud::where('ordenCompra_id', $id);    
                         $dSolicitud->update(['factura_id'=> $request->factura_id]);
 
                         //Buscamos la Solicitud relacionada con la OC a recepcionar

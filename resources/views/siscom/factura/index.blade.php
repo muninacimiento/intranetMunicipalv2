@@ -97,8 +97,6 @@
 
                                     <th>Estado</th>
 
-                                    <th>Unidad Solicitante</th>
-
                                     <th>Tipo Documento</th>
 
                                     <th>Proveedor</th>
@@ -125,8 +123,6 @@
 
                                     <td>{{ $factura->Estado }}</td>
 
-                                    <td>{{ $factura->Dependencia }}</td>
-
                                     <td>{{ $factura->tipoDocumento }}</td>
 
                                     <td>{{ $factura->RazonSocial }}</td>
@@ -142,6 +138,19 @@
                                                 <i class="fas fa-eye"></i>
 
                                             </a>
+
+                                            {{-- Validar fACTURA --}}
+
+                                                        <a href="{{ route('factura.validar', $factura->id) }}" data-toggle="tooltip" data-placement="bottom" title="Válidar Factura">
+                                            
+                                                            <button class="btn btn-warning btn-sm mr-1 " type="button">
+                                                            
+                                                                <i class="fas fa-thumbs-up"></i>
+
+                                                            </button>
+
+                                                        </a>
+
 
                                             <a href="#" class="btn btn-outline-primary btn-sm mr-1 edit" data-toggle="tooltip" data-placement="bottom" title="Modificar Proveedor">
                                         
@@ -294,16 +303,18 @@
                         </div>
 
                         <div class="col-md-6 mb-3">
-                                                                              
-                            <label for="NoOC">No. OC</label>
+                                                
+                            <label for="ordenCompra_id">No. Órden de Compra</label>
 
-                            <input type="text" class="form-control" id="ordenCompra_idCreate" name="ordenCompra_id" placeholder="0123" required>
+                            <select name="ordenCompra_id" id="ordenCompra_id" class="form-control selectpicker" data-live-search="true" title="Seleccione el No. de su Órden de Compra" required>
 
-                            <div class="invalid-feedback">
-                                                                                            
-                                Por favor ingrese el Número de la Órden de Compra
+                                @foreach($ocs as $oc)
 
-                            </div>
+                                    <option value="{{ $oc->id }}">{{ $oc->OC }}</option>
+                                                                
+                                @endforeach
+
+                            </select>
 
                         </div>
 

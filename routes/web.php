@@ -141,6 +141,7 @@ Route::middleware(['auth'])->group( function() {
 	//Facturas
 	Route::resource('/siscom/factura', 'FacturaController')->middleware('can:factura.index');
 	Route::get('/siscom/factura/{factura}', 'FacturaController@show')->name('factura.show')->middleware('can:factura.show');
+	Route::get('/siscom/factura/validar/{factura}', 'FacturaController@validar')->name('factura.validar')->middleware('can:factura.validar');
 	Route::put('/siscom/factura/facturar/{factura}', 'FacturaController@update')->name('factura.facturarTodos')->middleware('can:factura.facturarTodos');
 	
 
