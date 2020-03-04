@@ -100,17 +100,7 @@
                                                             
                             </div>
 
-                             <div class="form-row mb-3">
-
-                                <div>
-                                
-                                    <label class="text-muted">Registrado por</label>
-                                                                
-                                    <h5>{{ $role->user->name }}</h5> 
-
-                                </div>
-                                                            
-                            </div>
+                            
 
                             <div class="form-row">
 

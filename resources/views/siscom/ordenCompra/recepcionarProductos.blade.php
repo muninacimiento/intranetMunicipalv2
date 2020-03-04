@@ -250,6 +250,8 @@
                             <div class="form-row">
 
                                 <div class="col-md-12 mb-2">
+
+                                    @can('ordenCompra.confirmarRecepcionProductos')
                                 
                                     <form method="POST" action="{{ route('ordenCompra.confirmarRecepcion', $ordenCompra->id) }}">
 
@@ -266,7 +268,9 @@
 
                                         </button>
 
-                                    </form>    
+                                    </form>
+
+                                    @endcan
 
                                 </div>
 

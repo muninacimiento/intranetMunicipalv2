@@ -30,7 +30,7 @@
 
                         <a href="{{ route('factura.index') }}" class="btn btn-link text-decoration-none float-right"> <i class="far fa-arrow-alt-circle-left"></i> Volver</a>
 
-                        <h4> Factura No.  <input type="text" value="{{ $factura->id }}" readonly class="h4" style="border:0;" name="factura_id" form="1"> </h4>
+                        <h4> Factura No.  <input type="text" value="{{ $factura->factura_id }}" readonly class="h4" style="border:0;" name="factura_id" form="1"> </h4>
 
                          <hr style="background-color: #d7d7d7">
 
@@ -116,7 +116,7 @@
                                         
                                         <tr>
                                             
-                                            <th>ID</th>
+                                            <th style="display: none;">ID</th>
                                             <th>No.Solicitud</th>
                                             <th>Producto</th>
                                             <th>Especificación</th>
@@ -138,7 +138,7 @@
 
                                         <tr>
                                             
-                                            <td>{{ $dS->id }}</td>
+                                            <td style="display: none;">{{ $dS->id }}</td>
                                             <td>{{ $dS->solicitud_id }}</td>
                                             <td>{{ $dS->Producto }}</td>
                                             <td>{{ $dS->especificacion }}</td>

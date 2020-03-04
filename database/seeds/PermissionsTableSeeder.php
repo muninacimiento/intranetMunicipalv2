@@ -501,9 +501,27 @@ class PermissionsTableSeeder extends Seeder
 
         Permission::create([
 
+            'name'          => 'Recepcionar Producto',
+            'slug'          => 'ordenCompra.recepcionarProducto',
+            'description'   => 'Permiso que autoriza Recepcionar parcialmente los produtos de la Órden de Compra',
+            'user_id'      =>  1,
+
+        ]);
+
+        Permission::create([
+
             'name'          => 'Recepcionar Productos',
             'slug'          => 'ordenCompra.recepcionarProductos',
-            'description'   => 'Permiso que autoriza Recepcionar los produtos de la Órden de Compra',
+            'description'   => 'Permiso que autoriza Recepcionar TODOS los produtos de la Órden de Compra',
+            'user_id'      =>  1,
+
+        ]);
+
+        Permission::create([
+
+            'name'          => 'Confirmar Recepción de Productos',
+            'slug'          => 'ordenCompra.confirmarRecepcionProductos',
+            'description'   => 'Permiso que confirma la Recepción de los Productos de la Órden de Compra',
             'user_id'      =>  1,
 
         ]);

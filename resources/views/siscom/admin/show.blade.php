@@ -916,7 +916,6 @@
 
         $( "#fechaActividad" ).datepicker({
             dateFormat: "yy-mm-dd",
-            minDate: "+14d",
             firstDay: 1,
             dayNamesMin: [ "Dom", "Lun", "Mar", "Mier", "Jue", "Vie", "Sab" ],
             monthNames: [ "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre" ],
