@@ -265,7 +265,7 @@
 
                                             <i class="fas fa-check-circle"></i>
 
-                                            Confirmar Facturación de TODOS los Productos de la O.C.
+                                            Confirmar Facturación de los Productos de la O.C.
 
                                         </button>
 

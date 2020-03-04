@@ -374,32 +374,23 @@
 
                                                 @endif
 
-                                                <td>{{ $detalle->factura_id }}</td>
+                                                <td>{{ $detalle->factura_id }}</td>                                            
 
-
-                                                @if( $solicitud->estado_id < 3)                                             
-
-                                                    <td>
+                                                <td>
                                                             
-                                                        <a href="#" class="btn btn-primary btn-sm editDetalle" data-toggle="tooltip" data-placement="bottom" title="Editar Producto">
+                                                    <a href="#" class="btn btn-primary btn-sm editDetalle" data-toggle="tooltip" data-placement="bottom" title="Editar Producto">
                                                                     
-                                                            <i class="far fa-edit"></i>
+                                                        <i class="far fa-edit"></i>
 
-                                                        </a>
+                                                    </a>
 
-                                                        <a href="#" class="btn btn-danger btn-sm deleteDetalle" data-toggle="tooltip" data-placement="bottom" title="Eliminar Producto">
+                                                    <a href="#" class="btn btn-danger btn-sm deleteDetalle" data-toggle="tooltip" data-placement="bottom" title="Eliminar Producto">
                                                                     
-                                                            <i class="far fa-trash-alt"></i>
+                                                        <i class="far fa-trash-alt"></i>
 
-                                                        </a>
+                                                    </a>
 
-                                                    </td>
-
-                                                @else
-
-                                                    <td></td>
-
-                                                @endif
+                                                </td>
 
                                             </tr>
 
