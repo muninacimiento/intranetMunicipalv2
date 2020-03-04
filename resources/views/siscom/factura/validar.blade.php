@@ -30,7 +30,7 @@
 
                         <a href="{{route('factura.index')}}" class="btn btn-link text-decoration-none float-right"> <i class="far fa-arrow-alt-circle-left"></i> Volver</a>
 
-                        <h4> Factura No.  <input type="text" value="{{ $factura->id }}" readonly class="h4" style="border:0;" name="factura_id" id="factura_id" form="validarFacturaForm">
+                        <h4> Factura No.  <input type="text" value="{{ $factura->factura_id }}" readonly class="h4" style="border:0;" name="factura_id" id="factura_id" form="validarFacturaForm">
 
                         </h4>
 
@@ -88,7 +88,7 @@
                                             
                                             <label class=" col-sm-3 col-form-label text-muted">No. OC</label>
                                                                         
-                                            <label class=" col-sm-9 col-form-label">{{ $factura->ordenCompra_id }}</label>     
+                                            <label class=" col-sm-9 col-form-label">{{ $factura->NoOC }}</label>     
 
                                         </div>
 
@@ -202,55 +202,63 @@
 
                             </div>
 
-                            <hr style="background-color: #d7d7d7">
-
                         </div>
 
                         <div>
-                            <div class="mb-5">
-                                    
-                                <h5>Detalle Órden de Compra</h5>   
+                            
+                            <hr style="background-color: #d7d7d7">
+
+                            <div class="mt-5 text-center">
+                                
+                                <h5>Detalle Factura</h5>
 
                             </div>
+
+                            <div class="mb-5">
                             
-
-                            <div>
-
-                                <table class="display" id="detalleSolicitudValidar" width="100%">
-
+                                <table class="display" id="detalleFactura">
+                                    
                                     <thead>
-
+                                        
                                         <tr>
-
+                                            
                                             <th style="display: none;">ID</th>
-
-                                            <th>No. Solicitud</th>
-
+                                            <th>No.Solicitud</th>
                                             <th>Producto</th>
-
                                             <th>Especificación</th>
-
                                             <th>Cantidad</th>
+                                            <th>Órden de Compra</th>
+                                            <th>Estado O.C.</th>
+                                            <th>Recepcionado?</th>
+                                            <th>Licitación</th>
+                                            <th>Estado Licitación</th>
 
                                         </tr>
 
                                     </thead>
 
                                     <tbody>
-
-                                        @foreach($detalleSolicituds as $ds)
+                                        
+                                        @foreach($detalleSolicituds as $dS)
 
                                         <tr>
+                                            
+                                            <td style="display: none;">{{ $dS->id }}</td>
+                                            <td>{{ $dS->solicitud_id }}</td>
+                                            <td>{{ $dS->Producto }}</td>
+                                            <td>{{ $dS->especificacion }}</td>
+                                            <td>{{ $dS->cantidad }}</td>
+                                            <td>{{ $dS->NoOC }}</td>
+                                            <td>{{ $dS->EstadoOC }}</td>
 
-                                            <td style="display: none;">{{ $ds->id }}</td>
+                                            @if($dS->fechaRecepcion == NULL)
+                                                 <td>No</td>
+                                            @else
+                                                 <td>Si</td>
+                                            @endif
 
-                                            <td>{{ $ds->solicitud_id }}</td>
-
-                                            <td>{{ $ds->Producto }}</td>
-
-                                            <td>{{ $ds->especificacion }}</td>
-
-                                            <td>{{ $ds->cantidad }}</td>                                            
+                                            <td>{{ $dS->NoLicitacion}}</td>
+                                            <td>{{ $dS->EstadoLicitacion }}</td>
 
                                         </tr>
 
@@ -258,7 +266,7 @@
 
                                     </tbody>
 
-                                </table>
+                                </table>     
 
                             </div>
 
@@ -535,7 +543,7 @@
             $('#allWindow').height(height);
 
             // Start Configuration DataTable Detalle Solicitud
-            var table = $('#detalleSolicitudValidar').DataTable({
+            var table = $('#detalleFactura').DataTable({
                 "paginate"  : true,
 
                 "ordering": false,

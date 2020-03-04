@@ -66,7 +66,7 @@
 
                             <div class="form-row mb-3">
 
-                                <div class="col-md-3 mb-3">
+                                <div class="col-md-6 mb-3">
                                 
                                     <label class="text-muted">Unidad Solicitante</label>
                                                                 
@@ -74,7 +74,7 @@
 
                                 </div>
 
-                                <div class="col-md-3 mb-3">
+                                <div class="col-md-3 mb-3" style="display: none;">
                                 
                                     <label class="text-muted">No. Órden de Compra</label>
                                                                 
@@ -101,6 +101,54 @@
                             </div>
 
                              <hr style="background-color: #d7d7d7">
+
+                            <div style="font-size: 0.8em;" class="bg-warning rounded-top rounded-bottom shadow p-3" class="col">
+
+                                <h5 class="text-center">
+
+                                    <i class="fas fa-hourglass-half px-2"></i>
+
+                                    TimeLine Factura
+
+                                </h5>
+                                        
+                                <table class="table table-striped table-sm table-hover" width="100%">
+                                                
+                                    <thead>
+                                            
+                                        <tr>
+                                                
+                                            <th>Fecha</th>
+                                            <th>Estado</th>
+                                            <th>Responsable</th>
+                                            <th>Obs. Rechazo</th>
+                                                    
+                                        </tr>
+
+                                    </thead>
+
+                                    <tbody>
+
+                                        @foreach($move as $m)
+                                                
+                                        <tr>
+
+                                            <td>{{ date('d-m-Y H:i:s', strtotime($m->date)) }}</td>
+                                            <td>{{ $m->status }}</td>
+                                            <td>{{ $m->name }}</td>
+                                            <td>{{ $m->obsRechazoValidacion }}</td>
+
+                                        </tr>
+
+                                        @endforeach
+
+                                    </tbody>
+
+                                </table>
+
+                            </div>
+
+                            <hr style="background-color: #d7d7d7">
 
                             <div class="mt-5 text-center">
                                 

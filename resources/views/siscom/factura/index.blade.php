@@ -91,13 +91,13 @@
 
                                     <th style="display:none;">ID</th>
 
+                                    <th>Tipo Documento</th>
+
                                     <th>No. Factura</th>
 
+                                    <th>Estado Factura</th>
+
                                     <th>No. OC</th>
-
-                                    <th>Estado</th>
-
-                                    <th>Tipo Documento</th>
 
                                     <th>Proveedor</th>
 
@@ -117,13 +117,13 @@
 
                                     <td style="display: none;">{{ $factura->id }}</td>
 
-                                    <td>{{ $factura->factura_id }}</td>
+                                    <td>{{ $factura->tipoDocumento }}</td>
 
-                                    <td>{{ $factura->ordenCompra_id }}</td>
+                                    <td>{{ $factura->factura_id }}</td>
 
                                     <td>{{ $factura->Estado }}</td>
 
-                                    <td>{{ $factura->tipoDocumento }}</td>
+                                    <td>{{ $factura->NoOC }}</td>
 
                                     <td>{{ $factura->RazonSocial }}</td>
 
@@ -133,7 +133,7 @@
 
                                         <div class="btn-group" role="group" aria-label="Basic example">
 
-                                            <a href="{{ route('factura.show', $factura->id) }}" class="btn btn-outline-secondary btn-sm mr-1" data-toggle="tooltip" data-placement="bottom" title="Ver Detalle de la Factura">
+                                            <a href="{{ route('factura.show', $factura->id) }}" class="btn btn-secondary btn-sm mr-1" data-toggle="tooltip" data-placement="bottom" title="Ver Detalle de la Factura">
                                         
                                                 <i class="fas fa-eye"></i>
 
@@ -141,24 +141,23 @@
 
                                             {{-- Validar fACTURA --}}
 
-                                                        <a href="{{ route('factura.validar', $factura->id) }}" data-toggle="tooltip" data-placement="bottom" title="Válidar Factura">
+                                            <a href="{{ route('factura.validar', $factura->id) }}" data-toggle="tooltip" data-placement="bottom" title="Válidar Factura">
                                             
-                                                            <button class="btn btn-warning btn-sm mr-1 " type="button">
+                                                <button class="btn btn-warning btn-sm mr-1 " type="button">
                                                             
-                                                                <i class="fas fa-thumbs-up"></i>
+                                                    <i class="fas fa-thumbs-up"></i>
 
-                                                            </button>
+                                                </button>
 
-                                                        </a>
+                                            </a>
 
-
-                                            <a href="#" class="btn btn-outline-primary btn-sm mr-1 edit" data-toggle="tooltip" data-placement="bottom" title="Modificar Proveedor">
+                                            <a href="#" class="btn btn-primary btn-sm mr-1 edit" data-toggle="tooltip" data-placement="bottom" title="Modificar Proveedor">
                                         
                                                 <i class="fas fa-edit"></i>
 
                                             </a>
 
-                                            <a href="#" class="btn btn-outline-danger btn-sm delete" data-toggle="tooltip" data-placement="bottom" title="Eliminar Proveedor">
+                                            <a href="#" class="btn btn-danger btn-sm delete" data-toggle="tooltip" data-placement="bottom" title="Eliminar Proveedor">
 
                                                 <i class="fas fa-trash"></i>
 
