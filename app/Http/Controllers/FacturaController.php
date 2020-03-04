@@ -134,8 +134,9 @@ class FacturaController extends Controller
                     ->join('detail_solicituds', 'orden_compras.id', '=', 'detail_solicituds.ordenCompra_id')
                     ->join('solicituds', 'detail_solicituds.solicitud_id', '=', 'solicituds.id')
                     ->join('users', 'facturas.user_id', '=', 'users.id')
+                    ->join('status_facturas', 'facturas.estado_id', '=', 'status_facturas.id')
                     ->join('dependencies', 'users.dependency_id', '=', 'dependencies.id')
-                    ->select('facturas.*', 'proveedores.razonSocial as RazonSocial', 'dependencies.name as Dependencia', 'users.name as userName')
+                    ->select('facturas.*', 'proveedores.razonSocial as RazonSocial', 'dependencies.name as Dependencia', 'users.name as userName', 'status_facturas.estado as Estado')
                     ->where('facturas.id', '=', $id)
                     ->first();
 
@@ -170,16 +171,23 @@ class FacturaController extends Controller
                         ->get();
 
         $factura = DB::table('facturas')
-                    ->join('status_facturas', 'facturas.estado_id', '=', 'status_facturas.id')
                     ->join('proveedores', 'facturas.proveedor_id', '=', 'proveedores.id')
                     ->join('orden_compras', 'facturas.ordenCompra_id', '=', 'orden_compras.id')
                     ->join('detail_solicituds', 'orden_compras.id', '=', 'detail_solicituds.ordenCompra_id')
                     ->join('solicituds', 'detail_solicituds.solicitud_id', '=', 'solicituds.id')
                     ->join('users', 'facturas.user_id', '=', 'users.id')
                     ->join('dependencies', 'users.dependency_id', '=', 'dependencies.id')
-                    ->select('facturas.*', 'proveedores.razonSocial as RazonSocial', 'dependencies.name as Dependencia', 'users.name as userName', 'status_facturas.estado as Estado','orden_compras.ordenCompra_id as NoOC')
+                     ->join('status_facturas', 'facturas.estado_id', '=', 'status_facturas.id')
+                    ->select('facturas.*', 'proveedores.razonSocial as RazonSocial', 'dependencies.name as Dependencia', 'users.name as userName', 'status_facturas.estado as Estado')
                     ->where('facturas.id', '=', $id)
                     ->first();
+
+        $move = DB::table('move_facturas') 
+                ->join('status_facturas', 'move_facturas.estadoFactura_id', 'status_facturas.id')               
+                ->join('users', 'move_facturas.user_id', 'users.id')
+                ->select('move_facturas.*', 'status_facturas.estado as status', 'users.name as name', 'move_facturas.created_at as date')
+                ->where('move_facturas.factura_id', '=', $id)
+                ->get();
 
         $detalleSolicituds = DB::table('detail_solicituds')
                     ->join('products', 'detail_solicituds.product_id', 'products.id')
@@ -188,11 +196,11 @@ class FacturaController extends Controller
                     ->leftjoin('status_o_c_s', 'orden_compras.estado_id', '=', 'status_o_c_s.id')
                     ->leftjoin('licitacions', 'detail_solicituds.licitacion_id', '=', 'licitacions.id')
                     ->leftjoin('status_licitacions', 'licitacions.estado_id', '=', 'status_licitacions.id')
-                    ->select('detail_solicituds.*', 'products.name as Producto', DB::raw('(detail_solicituds.cantidad * detail_solicituds.valorUnitario) as SubTotal'), 'orden_compras.ordenCompra_id as NoOC', 'status_o_c_s.estado as EstadoOC', 'licitacions.licitacion_id as NoLicitacion', 'status_licitacions.estado as EstadoLicitacion')
-                     ->where('orden_compras.id', '=', $id)
+                    ->select('detail_solicituds.*', 'products.name as Producto', 'orden_compras.ordenCompra_id as NoOC', 'status_o_c_s.estado as EstadoOC', 'licitacions.licitacion_id as NoLicitacion', 'status_licitacions.estado as EstadoLicitacion')
+                     ->where('detail_solicituds.ordenCompra_id', $factura->ordenCompra_id)
                     ->get();
 
-        return view('siscom.factura.validar', compact('factura', 'proveedores', 'dateCarbon', 'detalleSolicituds'));
+        return view('siscom.factura.validar', compact('factura', 'proveedores', 'dateCarbon', 'detalleSolicituds', 'move'));
 
     }
 

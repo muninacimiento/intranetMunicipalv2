@@ -40,69 +40,97 @@
 
                             <div class="container">
 
-                                <div class="form-row">
-
-                                    <div class="col-6 mb-3">
-
-                                        <div class="form-row">
-                                            
-                                            <label class="col-sm-3 col-form-label text-muted">Tipo Documento</label>
-                                                                        
-                                            <label class="col-sm-9 col-form-label">{{ $factura->tipoDocumento }}</label>
-
-                                        </div>
-
-                                        <div class="form-row">
-                                            
-                                            <label class="col-sm-3 col-form-label text-muted">Estado Actual</label>
-                                                                        
-                                            <label class="col-sm-9 col-form-label">{{ $factura->Estado }}</label>
-
-                                        </div>
-
-                                        <div class="form-row">
-                                            
-                                            <label class=" col-sm-3 col-form-label text-muted">Fecha Recepción Oficina de Parte</label>
-                                                                        
-                                            <label class=" col-sm-9 col-form-label">{{ $factura->fechaOficinaParte }}</label>     
-
-                                        </div>
-
-                                        <div class="form-row">
+                                <div class="row">
+                                    
+                                    <div class="col">
                                         
-                                            <label class=" col-sm-3 col-form-label text-muted">Fecha Recepción C&S</label>
+                                        <div class="form-row mb-3">
 
-                                            <label class="col-sm-9 col-form-label">{{ $factura->created_at }}</label>
+                                            <div class="col-md-6 mb-3">
+
+                                                <label class="text-muted">Tipo Documento</label>
+                                                                                            
+                                                <h5>{{ $factura->tipoDocumento }}</h5>
+
+                                            </div>
+                                                                                    
+                                        </div>
+
+                                        <div class="form-row mb-3">
+
+                                            <div class="col-md-6 mb-3">
+                                                                                  
+                                                <label class="text-muted">Fecha Oficina de Parte</label> <br>
+
+                                                <h5>{{ date('d-m-Y H:i:s', strtotime($factura->created_at)) }}</h5>
+
+                                            </div>
 
                                         </div>
 
-                                        <div class="form-row">
-                                            
-                                            <label class=" col-sm-3 col-form-label text-muted">Unidad Solicitante</label>
-                                                                        
-                                            <label class=" col-sm-9 col-form-label">{{ $factura->Dependencia }}</label>     
+                                         <div class="form-row mb-3">
+
+                                            <div class="col-md-6 mb-3">
+                                                        
+                                                <label class="text-muted">Fecha Recepción C&S</label>
+                                                                                            
+                                                <h5>{{ date('d-m-Y H:i:s', strtotime($factura->created_at)) }}</h5> 
+
+                                            </div>
 
                                         </div>
 
-                                        <div class="form-row">
-                                            
-                                            <label class=" col-sm-3 col-form-label text-muted">No. OC</label>
-                                                                        
-                                            <label class=" col-sm-9 col-form-label">{{ $factura->NoOC }}</label>     
+                                         <div class="form-row mb-3">
+
+                                            <div class="col-md-6 mb-3">
+                                                        
+                                                <label class="text-muted">Unidad Solicitante</label>
+                                                                                            
+                                                <h5>{{ $factura->Dependencia }}</h5> 
+
+                                            </div>
 
                                         </div>
 
-                                        <div class="form-row">
-                                            
-                                            <label class=" col-sm-3 col-form-label text-muted">Proveedor</label>
-                                                                        
-                                            <label class=" col-sm-9 col-form-label">{{ $factura->RazonSocial }}</label>     
+                                        <div class="form-row mb-3">
 
+                                            <div class="col-md-6 mb-3" style="display: none;">
+                                                        
+                                                <label class="text-muted">No. Órden de Compra</label>
+                                                                                            
+                                                <input type="hidden" value="{{ $factura->ordenCompra_id }}" readonly class="h5" style="border:0;" name="ordenCompra_id" form="facturarProductoForm"> 
+
+                                            </div>
+
+                                        </div>
+
+                                        <div class="form-row mb-3">
+
+                                            <div class="col-md-6 mb-3">
+                                                                                  
+                                                <label class="text-muted">Proveedor</label> <br>
+
+                                                <h5>{{ $factura->RazonSocial }}</h5> 
+
+                                            </div>
+
+                                        </div>
+
+                                        <div class="form-row mb-3">
+
+                                            <div class="col-md-6 mb-3">
+
+                                                <label class="text-muted">Factura Gestionada por</label>
+                                                                                            
+                                                <h5>{{ $factura->userName }}</h5>
+
+                                            </div>
+                                                                                    
                                         </div>
 
                                     </div>
 
-                                    <div class="col-6">
+                                    <div class="col">
 
                                         @if($factura->Estado == 'Recepcionada')
 
