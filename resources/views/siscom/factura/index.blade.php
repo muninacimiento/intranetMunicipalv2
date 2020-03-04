@@ -141,6 +141,10 @@
 
                                             {{-- Validar fACTURA --}}
 
+                                            @if($factura->Estado ===s 'Enviada a Pago')
+
+                                            @else
+
                                             <a href="{{ route('factura.validar', $factura->id) }}" data-toggle="tooltip" data-placement="bottom" title="Válidar Factura">
                                             
                                                 <button class="btn btn-warning btn-sm mr-1 " type="button">
@@ -150,6 +154,8 @@
                                                 </button>
 
                                             </a>
+
+                                            @endif
 
                                             <a href="#" class="btn btn-primary btn-sm mr-1 edit" data-toggle="tooltip" data-placement="bottom" title="Modificar Proveedor">
                                         

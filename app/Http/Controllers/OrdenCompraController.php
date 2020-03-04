@@ -933,13 +933,22 @@ class OrdenCompraController extends Controller
 
                                 Mail::to( $correo->MailProveedor )
                                 ->cc($correo->MailComprador)
-                                ->bcc('erwin.castillo@nacimiento.cl')
+                                ->bcc('heraldo.munoz@nacimiento.cl')
                                 ->send(new OrdenDeCompraRecibida($id, $detalleSolicitud, $ocMail, $solicitud));
                             }
 
                         }else if($ocMail->mercadoPublico == 'Si'){
 
-                            //No hace Nada
+                            if ($correo->deptoRecepcion == 'Bodega Talleres Municipales, San Martin #649 Nacimiento'){
+
+                                Mail::to( $correo->MailProveedor )
+                                ->cc($correo->MailComprador)
+                                ->bcc('heraldo.munoz@nacimiento.cl')
+                                ->send(new OrdenDeCompraRecibida($id, $detalleSolicitud, $ocMail, $solicitud));
+                            }else{
+
+                                //no hace nada
+                            }
 
                         }
 

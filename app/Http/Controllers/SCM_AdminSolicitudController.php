@@ -110,7 +110,8 @@ class SCM_AdminSolicitudController extends Controller
                     ->leftjoin('status_o_c_s', 'orden_compras.estado_id', '=', 'status_o_c_s.id')
                     ->leftjoin('licitacions', 'detail_solicituds.licitacion_id', '=', 'licitacions.id')
                     ->leftjoin('status_licitacions', 'licitacions.estado_id', '=', 'status_licitacions.id')
-                    ->select('detail_solicituds.*', 'products.name as Producto', DB::raw('(detail_solicituds.cantidad * detail_solicituds.valorUnitario) as SubTotal'), 'orden_compras.ordenCompra_id as NoOC', 'status_o_c_s.estado as EstadoOC', 'licitacions.licitacion_id as NoLicitacion', 'status_licitacions.estado as EstadoLicitacion')
+                    ->leftjoin('facturas', 'detail_solicituds.factura_id', 'facturas.id')
+                    ->select('detail_solicituds.*', 'products.name as Producto', DB::raw('(detail_solicituds.cantidad * detail_solicituds.valorUnitario) as SubTotal'), 'orden_compras.ordenCompra_id as NoOC', 'status_o_c_s.estado as EstadoOC', 'licitacions.licitacion_id as NoLicitacion', 'status_licitacions.estado as EstadoLicitacion', 'facturas.factura_id as NoFactura')
                      ->where('solicituds.id', '=', $id) //Revisar la vista y el envio de los datos a la tabla de Detalle de la Solicitud
                     ->get();
 

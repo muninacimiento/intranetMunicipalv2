@@ -374,7 +374,7 @@
 
                                                 @endif
 
-                                                <td>{{ $detalle->factura_id }}</td>                                            
+                                                <td>{{ $detalle->NoFactura }}</td>                                            
 
                                                 <td>
                                                             

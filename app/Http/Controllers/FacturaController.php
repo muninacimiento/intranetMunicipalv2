@@ -162,7 +162,7 @@ class FacturaController extends Controller
 
     }
 
-        public function validar($id)
+    public function validar($id)
     {
         $dateCarbon = Carbon::now()->locale('es')->isoFormat('dddd D, MMMM YYYY');
 
