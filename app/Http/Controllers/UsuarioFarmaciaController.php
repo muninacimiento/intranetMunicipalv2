@@ -55,12 +55,9 @@ class UsuarioFarmaciaController extends Controller
 
         $usuario->rut                   = $request->rut;
         $usuario->name                  = $request->name;
-        $usuario->fechaNacto            = $request->fechaNacto;
         $usuario->direccion             = $request->direccion;
         $usuario->poblacion             = $request->poblacion;
         $usuario->telefono              = $request->telefono;
-        $usuario->rsh                   = $request->rsh;
-        $usuario->puntajeRsh            = $request->puntajeRsh;
         $usuario->sistemaPrevisional    = $request->sistemaPrevisional;
         $usuario->user_id               = Auth::user()->id;
 
@@ -106,12 +103,9 @@ class UsuarioFarmaciaController extends Controller
 
         $usuario->rut                   = $request->rut;
         $usuario->name                  = $request->name;
-        $usuario->fechaNacto            = $request->fechaNacto;
         $usuario->direccion             = $request->direccion;
         $usuario->poblacion             = $request->poblacion;
         $usuario->telefono              = $request->telefono;
-        $usuario->rsh                   = $request->rsh;
-        $usuario->puntajeRsh            = $request->puntajeRsh;
         $usuario->sistemaPrevisional    = $request->sistemaPrevisional;
 
         $usuario->save();

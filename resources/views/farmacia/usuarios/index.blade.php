@@ -95,17 +95,11 @@
 
                                     <th>Nombre</th>
 
-                                    <th>Fecha Nacto</th>
-
                                     <th>Dirección</th>
 
                                     <th>Población</th>
                                     
                                     <th>Teléfono</th>
-                                    
-                                    <th>R.S.H.</th>
-
-                                    <th>Puntaje</th>
 
                                     <th>Previsión</th>
 
@@ -127,17 +121,11 @@
 
                                     <td>{{ $usuario->name }}</td>
 
-                                    <td>{{ $usuario->fechaNacto }}</td>
-
                                     <td>{{ $usuario->direccion }}</td>
 
                                     <td>{{ $usuario->poblacion }}</td>
 
                                     <td>{{ $usuario->telefono }}</td>
-
-                                    <td>{{ $usuario->rsh }}</td>
-
-                                    <td>{{ $usuario->puntajeRsh }}</td>
 
                                     <td>{{ $usuario->sistemaPrevisional  }}</td>
 
@@ -174,12 +162,6 @@
                             <tfoot>
 
                                 <tr class="table-active">
-
-                                    <td></td>
-
-                                    <td></td>
-
-                                    <td></td>
 
                                     <td></td>
 
@@ -242,154 +224,104 @@
                 
                 <div class="form-row">
 
-                        <div class="col-md-4 mb-3">
+                    <div class="col-md-4 mb-3">
                                                                               
-                            <label for="id">Rut Usuario</label>
+                        <label for="id">Rut Usuario</label>
 
-                            <input type="text" class="form-control" id="rut" name="rut" placeholder="12.3456.789.0" required>
+                        <input type="text" class="form-control" id="rut" name="rut" placeholder="12.3456.789.0" required>
 
-                            <div class="invalid-feedback">
+                        <div class="invalid-feedback">
 
-                                Por favor Ingrese el Rut
-
-                            </div>
+                            Por favor Ingrese el Rut
 
                         </div>
-
-                        <div class="col-md-8 mb-3">
-                                                                              
-                            <label for="name">Nombre</label>
-
-                            <input type="text" class="form-control" id="userName" name="name" placeholder="Viviana La Regla" required>
-
-                            <div class="invalid-feedback">
-
-                                Por favor Ingrese el Nombre
-
-                            </div>
-
-                        </div>
-
+                    
                     </div>
 
-                    <div class="form-row">
-
-                        <div class="col-sm-4">
-
-                            <label for="fechaNacto">Fecha de Nacimiento</label>
-
-                            <input type="text" id="fechaNacto" name="fechaNacto" class="form-control" placeholder="01-01-1900" required/>
-
-                            <div class="invalid-feedback">
-                                                                                                        
-                                Por favor ingrese la Fecha de Nacimiento
-
-                            </div>
-
-                        </div>
-
-                        <div class="col-md-8 mb-3">
+                    <div class="col-md-8 mb-3">
                                                                               
-                            <label for="direccion">Dirección</label>
+                        <label for="name">Nombre</label>
 
-                            <input type="text" class="form-control" id="direccion" name="direccion" placeholder="Freire 614" required>
+                        <input type="text" class="form-control" id="userName" name="name" placeholder="Viviana La Regla" required>
 
-                            <div class="invalid-feedback">
-                                                                                                        
-                                Por favor ingrese la Dirección
+                        <div class="invalid-feedback">
 
-                            </div>
-
-                        </div>
-
-                    </div>
-
-                    <div class="form-row">
+                            Por favor Ingrese el Nombre
                         
-                        <div class="col-md-6 mb-3">
-                                                                              
-                            <label for="poblacion">Población</label>
-
-                            <input type="text" class="form-control" id="poblacion" name="poblacion" placeholder="Centro" required>
-
-                            <div class="invalid-feedback">
-                                                                                                        
-                                Por favor ingrese la Población 
-
-                            </div>
-
                         </div>
 
-                        <div class="col-md-6 mb-3">
+                    </div>
+
+                </div>
+
+                <div class="form-row">
+
+                    <div class="col-md-6 mb-3">
                                                                               
-                            <label for="telefono">Teléfono</label>
+                        <label for="direccion">Dirección</label>
 
-                            <input type="text" class="form-control" id="telefono" name="telefono" placeholder="987654321" required>
+                        <input type="text" class="form-control" id="direccion" name="direccion" placeholder="Freire 614" required>
 
-                            <div class="invalid-feedback">
+                        <div class="invalid-feedback">
                                                                                                         
-                                Por favor ingrese un Teléfono 
-
-                            </div>
+                            Por favor ingrese la Dirección
 
                         </div>
 
                     </div>
 
-                    <div class="form-row">
-
-                        <div class="col-md-6 mb-3">
+                    <div class="col-md-6 mb-3">
                                                                               
-                            <label for="rsh">Registro Social de Hogares</label>
+                        <label for="poblacion">Población</label>
 
-                            <select name="rsh" id="rsh" class="form-control selectpicker" title="Seleccione..." required>
+                        <input type="text" class="form-control" id="poblacion" name="poblacion" placeholder="Centro" required>
 
-                                <option>Si</option>
-                                <option>No</option>
-
-                            </select>
-
-                        </div>
+                        <div class="invalid-feedback">
+                                                                                                        
+                            Por favor ingrese la Población 
                         
-                        <div class="col-md-6 mb-3">
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div class="form-row">
+                        
+                    <div class="col-md-6 mb-3">
                                                                               
-                            <label for="puntaje">Puntaje RSH</label>
+                        <label for="telefono">Teléfono</label>
 
-                            <input type="number" class="form-control" id="puntajeRsh" name="puntajeRsh" placeholder="123456" required>
+                        <input type="text" class="form-control" id="telefono" name="telefono" placeholder="987654321" required>
 
-                            <div class="invalid-feedback">
+                        <div class="invalid-feedback">
                                                                                                         
-                                Por favor ingrese el Puntaje 
-
-                            </div>
+                            Por favor ingrese un Teléfono 
 
                         </div>
 
                     </div>
 
-                    <div class="form-row">
-
-                        <div class="col-md-6 mb-3">
+                    <div class="col-md-6 mb-3">
                                                                               
-                            <label for="sistemaPrevisional">Sistema Previsional</label>
+                        <label for="sistemaPrevisional">Sistema Previsional</label>
 
-                            <select name="sistemaPrevisional" id="sistemaPrevisional" class="form-control selectpicker" title="Seleccione..." required>
+                        <select name="sistemaPrevisional" id="sistemaPrevisional" class="form-control selectpicker" title="Seleccione..." required>
 
-                                <option>Fonasa - A</option>
-                                <option>Fonasa - B</option>
-                                <option>Fonasa - C</option>
-                                <option>Fonasa - D</option>
-                                <option>Isapre</option>
-                                <option>Dipreca</option>
-                                <option>No Sabe</option>
+                            <option>Fonasa - A</option>
+                            <option>Fonasa - B</option>
+                            <option>Fonasa - C</option>
+                            <option>Fonasa - D</option>
+                            <option>Isapre</option>
+                            <option>Dipreca</option>
+                            <option>No Sabe</option>
 
-                            </select>
-
-                        </div>
+                        </select>
 
                     </div>
+
+                </div>
                 
-
                 <div class="form-row">
 
                     <button type="submit" class="btn btn-success btn-block">
@@ -446,34 +378,34 @@
 
                 @method('PUT')
             
-            <div class="modal-body">
+                <div class="modal-body">
                 
-                <div class="form-row">
+                    <div class="form-row">
 
                         <div class="col-md-4 mb-3">
-                                                                              
+                                                                                  
                             <label for="id">Rut Usuario</label>
 
-                            <input type="text" class="form-control" id="rutUpdate" name="rut" placeholder="12.3456.789.0" required>
+                            <input type="text" class="form-control" id="rut" name="rut" placeholder="12.3456.789.0" required>
 
                             <div class="invalid-feedback">
 
                                 Por favor Ingrese el Rut
 
                             </div>
-
+                        
                         </div>
 
                         <div class="col-md-8 mb-3">
-                                                                              
+                                                                                  
                             <label for="name">Nombre</label>
 
-                            <input type="text" class="form-control" id="userNameUpdate" name="name" placeholder="Viviana La Regla" required>
+                            <input type="text" class="form-control" id="userName" name="name" placeholder="Viviana La Regla" required>
 
                             <div class="invalid-feedback">
 
                                 Por favor Ingrese el Nombre
-
+                            
                             </div>
 
                         </div>
@@ -482,106 +414,57 @@
 
                     <div class="form-row">
 
-                        <div class="col-sm-4">
-
-                            <label for="fechaNacto">Fecha de Nacimiento</label>
-
-                            <input type="text" id="fechaNactoUpdate" name="fechaNacto" class="form-control" placeholder="1900-01-01" required/>
-
-                            <div class="invalid-feedback">
-                                                                                                        
-                                Por favor ingrese la Fecha de Nacimiento
-
-                            </div>
-
-                        </div>
-
-                        <div class="col-md-8 mb-3">
-                                                                              
+                        <div class="col-md-6 mb-3">
+                                                                                  
                             <label for="direccion">Dirección</label>
 
-                            <input type="text" class="form-control" id="direccionUpdate" name="direccion" placeholder="Freire 614" required>
+                            <input type="text" class="form-control" id="direccion" name="direccion" placeholder="Freire 614" required>
 
                             <div class="invalid-feedback">
-                                                                                                        
+                                                                                                            
                                 Por favor ingrese la Dirección
 
                             </div>
 
                         </div>
 
-                    </div>
-
-                    <div class="form-row">
-                        
                         <div class="col-md-6 mb-3">
-                                                                              
+                                                                                  
                             <label for="poblacion">Población</label>
 
-                            <input type="text" class="form-control" id="poblacionUpdate" name="poblacion" placeholder="Centro" required>
+                            <input type="text" class="form-control" id="poblacion" name="poblacion" placeholder="Centro" required>
 
                             <div class="invalid-feedback">
-                                                                                                        
+                                                                                                            
                                 Por favor ingrese la Población 
-
+                            
                             </div>
 
                         </div>
 
+                    </div>
+
+                    <div class="form-row">
+                            
                         <div class="col-md-6 mb-3">
-                                                                              
+                                                                                  
                             <label for="telefono">Teléfono</label>
 
-                            <input type="text" class="form-control" id="telefonoUpdate" name="telefono" placeholder="987654321" required>
+                            <input type="text" class="form-control" id="telefono" name="telefono" placeholder="987654321" required>
 
                             <div class="invalid-feedback">
-                                                                                                        
+                                                                                                            
                                 Por favor ingrese un Teléfono 
 
                             </div>
 
                         </div>
 
-                    </div>
-
-                    <div class="form-row">
-
                         <div class="col-md-6 mb-3">
-                                                                              
-                            <label for="rsh">Registro Social de Hogares</label>
-
-                            <select name="rsh" id="rshUpdate" class="form-control" required>
-
-                                <option>Si</option>
-                                <option>No</option>
-
-                            </select>
-
-                        </div>
-                        
-                        <div class="col-md-6 mb-3">
-                                                                              
-                            <label for="puntaje">Puntaje RSH</label>
-
-                            <input type="number" class="form-control" id="puntajeRshUpdate" name="puntajeRsh" placeholder="123456" required>
-
-                            <div class="invalid-feedback">
-                                                                                                        
-                                Por favor ingrese el Puntaje 
-
-                            </div>
-
-                        </div>
-
-                    </div>
-
-                    <div class="form-row">
-
-                        <div class="col-md-6 mb-3">
-                                                                              
+                                                                                  
                             <label for="sistemaPrevisional">Sistema Previsional</label>
 
-                            <select name="sistemaPrevisional" id="sistemaPrevisionalUpdate" class="form-control" required>
+                            <select name="sistemaPrevisional" id="sistemaPrevisional" class="form-control selectpicker" title="Seleccione..." required>
 
                                 <option>Fonasa - A</option>
                                 <option>Fonasa - B</option>
@@ -596,29 +479,28 @@
                         </div>
 
                     </div>
+                    
+                    <div class="form-row">
+
+                        <button type="submit" class="btn btn-success btn-block">
+
+                            <i class="fas fa-check-circle"></i>
+
+                            Guardar Usuario
+
+                        </button>
+                    
+                        <button type="button" class="btn btn-block btn-secondary" data-dismiss="modal" aria-label="Close">
+
+                            <i class="fas fa-arrow-left"></i>
+
+                            Cancelar
+
+                        </button>
+
+                    </div>
                 
-
-                <div class="form-row">
-
-                    <button type="submit" class="btn btn-success btn-block">
-
-                        <i class="fas fa-check-circle"></i>
-
-                        Actualizar Usuario
-
-                    </button>
-                
-                    <button type="button" class="btn btn-block btn-secondary" data-dismiss="modal" aria-label="Close">
-
-                        <i class="fas fa-arrow-left"></i>
-
-                        Cancelar
-
-                    </button>
-
                 </div>
-            
-            </div>
 
             </form>
 
@@ -717,31 +599,16 @@ $(document).ready(function () {
 
         $('#rutUpdate').val(data[1]);
         $('#userNameUpdate').val(data[2]);
-        $('#fechaNactoUpdate').val(data[3]);
-        $('#direccionUpdate').val(data[4]);
-        $('#poblacionUpdate').val(data[5]);
-        $('#telefonoUpdate').val(data[6]);
+        $('#direccionUpdate').val(data[3]);
+        $('#poblacionUpdate').val(data[4]);
+        $('#telefonoUpdate').val(data[5]);
 
-        if (($('#rshUpdate').val(data[7]))==='Si') {
-
-            $('#rshUpdate').val();    
-        
-        }
-        else if (($('#rshUpdate').val(data[7]))==='No'){
-
-            $('#rshUpdate').val();       
-    
-        }
-
-        $('#rshUpdate').val(data[7]);
-        $('#puntajeRshUpdate').val(data[8]);
-
-        if (($('#sistemaPrevisionalUpdate').val(data[9]))==='Si') {
+        if (($('#sistemaPrevisionalUpdate').val(data[6]))==='Si') {
 
             $('#sistemaPrevisionalUpdate').val();    
         
         }
-        else if (($('#sistemaPrevisionalUpdate').val(data[9]))==='No'){
+        else if (($('#sistemaPrevisionalUpdate').val(data[6]))==='No'){
 
             $('#sistemaPrevisionalUpdate').val();       
     
