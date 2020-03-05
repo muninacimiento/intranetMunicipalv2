@@ -842,13 +842,22 @@ class OrdenCompraController extends Controller
 
                             Mail::to( $correo->MailProveedor )
                             ->cc($correo->MailComprador)
-                            ->bcc('erwin.castillo@nacimiento.cl')
+                            ->bcc('heraldo.medina@nacimiento.cl')
                             ->send(new OrdenDeCompraRecibida($id, $detalleSolicitud, $ocMail, $solicitud));
                         }
 
                     }else if($oc->mercadoPublico == 'Si'){
 
-                        //No hace Nada
+                         if ($correo->deptoRecepcion == 'Bodega Talleres Municipales, San Martin #649 Nacimiento'){
+
+                                Mail::to( $correo->MailProveedor )
+                                ->cc($correo->MailComprador)
+                                ->bcc('heraldo.medina@nacimiento.cl')
+                                ->send(new OrdenDeCompraRecibida($id, $detalleSolicitud, $ocMail, $solicitud));
+                            }else{
+
+                                //no hace nada
+                            }
 
                     }
 
@@ -920,6 +929,7 @@ class OrdenCompraController extends Controller
                                     ->where('orden_compras.id', '=', $id)
                                     ->first();
 
+
                         //dd($ocMail);
                         if ($ocMail->mercadoPublico == 'No') {
 
@@ -933,7 +943,7 @@ class OrdenCompraController extends Controller
 
                                 Mail::to( $correo->MailProveedor )
                                 ->cc($correo->MailComprador)
-                                ->bcc('heraldo.munoz@nacimiento.cl')
+                                ->bcc('heraldo.medina@nacimiento.cl')
                                 ->send(new OrdenDeCompraRecibida($id, $detalleSolicitud, $ocMail, $solicitud));
                             }
 
@@ -943,7 +953,7 @@ class OrdenCompraController extends Controller
 
                                 Mail::to( $correo->MailProveedor )
                                 ->cc($correo->MailComprador)
-                                ->bcc('heraldo.munoz@nacimiento.cl')
+                                ->bcc('heraldo.medina@nacimiento.cl')
                                 ->send(new OrdenDeCompraRecibida($id, $detalleSolicitud, $ocMail, $solicitud));
                             }else{
 

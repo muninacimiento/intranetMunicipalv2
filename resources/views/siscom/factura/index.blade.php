@@ -141,7 +141,7 @@
 
                                             {{-- Validar fACTURA --}}
 
-                                            @if($factura->Estado ===s 'Enviada a Pago')
+                                            @if($factura->Estado === 'Enviada a Pago')
 
                                             @else
 
@@ -157,17 +157,29 @@
 
                                             @endif
 
+                                            @if($factura->Estado === 'Enviada a Pago')
+
+                                            @else
+
                                             <a href="#" class="btn btn-primary btn-sm mr-1 edit" data-toggle="tooltip" data-placement="bottom" title="Modificar Proveedor">
                                         
                                                 <i class="fas fa-edit"></i>
 
                                             </a>
 
+                                            @endif
+
+                                            @if($factura->Estado === 'Enviada a Pago')
+
+                                            @else
+
                                             <a href="#" class="btn btn-danger btn-sm delete" data-toggle="tooltip" data-placement="bottom" title="Eliminar Proveedor">
 
                                                 <i class="fas fa-trash"></i>
 
                                             </a>
+
+                                            @endif
 
                                         </div>
 
