@@ -137,8 +137,6 @@
 
                                     <th style="display: none">Mercado Publico</th>
 
-                                    <th style="display: none">ID Licitación</th>
-
                                     <th>Acciones</th>
 
                                 </tr>
@@ -180,8 +178,6 @@
                                     <td style="display: none">{{ $oc->deptoRecepcion }}</td>
 
                                     <td style="display: none">{{ $oc->mercadoPublico }}</td>
-
-                                    <td style="display: none">{{ $oc->licitacion_id }}</td>
 
                                     @if( $oc->Estado == 'Anulada')
 
@@ -382,8 +378,6 @@
                                     <th style="display: none">Depto. que Recepciona</th>
 
                                     <th style="display: none">Mercado Público</th>
-
-                                    <th style="display: none">ID Licitación</th>
 
                                     <th>Acciones</th>
 
@@ -1374,7 +1368,6 @@
                 }
 
                 $('#mercadoPublicoUpdate').val(data[14]);
-                $('#licitacionUpdate').val(data[15]);
 
 
                 $('#updateOrdenCompraForm').attr('action', '/siscom/ordenCompra/' + data[0]);
