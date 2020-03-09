@@ -247,5 +247,11 @@ class StatusLicitacionTableSeeder extends Seeder
 
         ]);
 
+        StatusLicitacion::create([
+
+            'estado'     =>  'Revocada',
+
+        ]);
+
     }
 }

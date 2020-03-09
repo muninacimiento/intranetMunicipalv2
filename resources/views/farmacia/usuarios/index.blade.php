@@ -386,7 +386,7 @@
                                                                                   
                             <label for="id">Rut Usuario</label>
 
-                            <input type="text" class="form-control" id="rut" name="rut" placeholder="12.3456.789.0" required>
+                            <input type="text" class="form-control" id="rut" name="rutUpdate" placeholder="12.3456.789.0" required>
 
                             <div class="invalid-feedback">
 
@@ -400,7 +400,7 @@
                                                                                   
                             <label for="name">Nombre</label>
 
-                            <input type="text" class="form-control" id="userName" name="name" placeholder="Viviana La Regla" required>
+                            <input type="text" class="form-control" id="userNameUpdate" name="name" placeholder="Viviana La Regla" required>
 
                             <div class="invalid-feedback">
 
@@ -418,7 +418,7 @@
                                                                                   
                             <label for="direccion">Dirección</label>
 
-                            <input type="text" class="form-control" id="direccion" name="direccion" placeholder="Freire 614" required>
+                            <input type="text" class="form-control" id="direccionUpdate" name="direccion" placeholder="Freire 614" required>
 
                             <div class="invalid-feedback">
                                                                                                             
@@ -432,7 +432,7 @@
                                                                                   
                             <label for="poblacion">Población</label>
 
-                            <input type="text" class="form-control" id="poblacion" name="poblacion" placeholder="Centro" required>
+                            <input type="text" class="form-control" id="poblacionUpdate" name="poblacion" placeholder="Centro" required>
 
                             <div class="invalid-feedback">
                                                                                                             
@@ -464,7 +464,7 @@
                                                                                   
                             <label for="sistemaPrevisional">Sistema Previsional</label>
 
-                            <select name="sistemaPrevisional" id="sistemaPrevisional" class="form-control selectpicker" title="Seleccione..." required>
+                            <select name="sistemaPrevisional" id="sistemaPrevisionalUpdate" class="form-control selectpicker" title="Seleccione..." required>
 
                                 <option>Fonasa - A</option>
                                 <option>Fonasa - B</option>
@@ -526,22 +526,6 @@
 <script>
 
 $(document).ready(function () {
-
-    $( "#fechaNacto" ).datepicker({
-                dateFormat: "yy-mm-dd",
-                firstDay: 1,
-                dayNamesMin: [ "Dom", "Lun", "Mar", "Mier", "Jue", "Vie", "Sab" ],
-                monthNames: [ "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre" ],
-                numberOfMonths: 1,
-            });
-
-    $( "#fechaNactoUpdate" ).datepicker({
-                dateFormat: "yy-mm-dd",
-                firstDay: 1,
-                dayNamesMin: [ "Dom", "Lun", "Mar", "Mier", "Jue", "Vie", "Sab" ],
-                monthNames: [ "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre" ],
-                numberOfMonths: 1,
-            });
 
     // Start Configuration DataTable
     var table = $('#userTable').DataTable({

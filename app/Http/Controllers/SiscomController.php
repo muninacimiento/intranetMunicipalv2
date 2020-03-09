@@ -30,7 +30,7 @@ class SiscomController extends Controller
         //$l = DB::table('licitacions')
 
         //Consultar por las licitaciones con fecha de cierre igual a Carbon->now
-        $licitacion = Licitacion::whereDate('fechaCierre', '=', Carbon::now()->format('Y-m-d'));
+        $licitacion = Licitacion::where('fechaCierre', '=', Carbon::now()->format('Y-m-d'))->where('estado_id', '=', 18);
 
         //dd($licitacion);
             

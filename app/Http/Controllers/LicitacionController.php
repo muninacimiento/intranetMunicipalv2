@@ -35,14 +35,19 @@ class LicitacionController extends Controller
          */
         $dateCarbon = Carbon::now()->locale('es')->isoFormat('dddd D, MMMM YYYY');
 
+        $ocs = DB::table('orden_compras')
+                    ->select(DB::raw('CONCAT(orden_compras.id, " ) ", orden_compras.ordenCompra_id) as OC'), 'orden_compras.id')
+                    ->get();
+
         $licitaciones = DB::table('licitacions')
                     ->join('status_licitacions', 'licitacions.estado_id', '=', 'status_licitacions.id')
-                    ->select('licitacions.*', 'status_licitacions.estado as Estado')
+                    ->leftjoin('orden_compras', 'licitacions.ordenCompra_id', 'orden_compras.id')
+                    ->select('licitacions.*', 'status_licitacions.estado as Estado', 'orden_compras.ordenCompra_id as NoOC')
                     ->get();
 
         //dd($licitaciones);
 
-        return view('siscom.licitacion.index', compact('licitaciones', 'dateCarbon'));
+        return view('siscom.licitacion.index', compact('licitaciones', 'dateCarbon', 'ocs'));
 
     }
 
@@ -1093,7 +1098,108 @@ class LicitacionController extends Controller
             }
 
             return redirect('/siscom/licitacion')->with('info', 'Licitación Aprobada por Administración con éxito !');
-        } 
+        }
+
+        // Resolver Licitación (Adjudicada-Desierta-Inadmisible-Revocada)
+        else if ($request->flag == 'ResolverLicitacion') {
+
+            try {
+
+                DB::beginTransaction();
+
+                $fechaResolucion = Carbon::now()->format('Y-m-d');
+
+                //Preguntar si es Adjudicada
+                if ($request->Resolucion == 'Adjudicada') {
+                    
+                    $licitacion = Licitacion::findOrFail($id);
+                    $licitacion->estado_id                      = 35;
+                    $licitacion->ordenCompra_id                 = $request->ordenCompra_id;
+                    $licitacion->fechaResolucion                = $fechaResolucion;
+
+                    $licitacion->save();
+
+                    //Guardamos los datos de Movimientos de la Solicitud
+                    $move = new MoveLicitacion;
+                    $move->licitacion_id                = $licitacion->id;
+                    $move->estadoLicitacion_id          = 35;
+                    $move->fecha                        = $licitacion->updated_at;
+                    $move->user_id                      = Auth::user()->id;
+
+                    $move->save(); //Guardamos el Movimiento de la Solicitud    
+
+                }
+
+                //Preguntar si es Desierta
+                else if($request->Resolucion == 'Desierta'){
+
+                    $licitacion = Licitacion::findOrFail($id);
+                    $licitacion->estado_id                      = 36;
+                    $licitacion->fechaResolucion                = $fechaResolucion;
+
+                    $licitacion->save();
+
+                    //Guardamos los datos de Movimientos de la Solicitud
+                    $move = new MoveLicitacion;
+                    $move->licitacion_id                = $licitacion->id;
+                    $move->estadoLicitacion_id          = 36;
+                    $move->fecha                        = $licitacion->updated_at;
+                    $move->user_id                      = Auth::user()->id;
+
+                    $move->save();
+
+                }
+                
+                //Preguntar si es Inadmisible
+                else if($request->Resolucion == 'Inadmisible'){
+
+                    $licitacion = Licitacion::findOrFail($id);
+                    $licitacion->estado_id                      = 37;
+                    $licitacion->fechaResolucion                = $fechaResolucion;
+
+                    $licitacion->save();
+
+                    //Guardamos los datos de Movimientos de la Solicitud
+                    $move = new MoveLicitacion;
+                    $move->licitacion_id                = $licitacion->id;
+                    $move->estadoLicitacion_id          = 37;
+                    $move->fecha                        = $licitacion->updated_at;
+                    $move->user_id                      = Auth::user()->id;
+
+                    $move->save();
+
+                }
+
+                //Preguntar si es Revocada
+                else if($request->Resolucion == 'Revocada'){
+
+                    $licitacion = Licitacion::findOrFail($id);
+                    $licitacion->estado_id                      = 40;
+                    $licitacion->fechaResolucion                = $fechaResolucion;
+
+                    $licitacion->save();
+
+                    //Guardamos los datos de Movimientos de la Solicitud
+                    $move = new MoveLicitacion;
+                    $move->licitacion_id                = $licitacion->id;
+                    $move->estadoLicitacion_id          = 40;
+                    $move->fecha                        = $licitacion->updated_at;
+                    $move->user_id                      = Auth::user()->id;
+
+                    $move->save();
+
+                }
+
+                DB::commit();
+                
+            } catch (Exception $e) {
+
+                db::rollback();
+                
+            }
+
+            return redirect('/siscom/licitacion')->with('info', 'Licitación Confirmada con éxito !');
+        }
 
     }
 

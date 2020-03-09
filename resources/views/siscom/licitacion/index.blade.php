@@ -111,6 +111,8 @@
 
                                     <th>ID Licitación</th>
 
+                                    <th>No OC</th>
+
                                     <th>IDDOC</th>
 
                                     <th>Creada</th>
@@ -143,21 +145,35 @@
 
                                     <td>{{ $licitacion->licitacion_id }}</td>
 
+                                    @if($licitacion->NoOC === NULL)
+
+                                        <td>N/A</td>
+
+                                    @else
+
+                                        <td>{{ $licitacion->NoOC }}</td>
+
+                                    @endif
+
                                     <td>{{ $licitacion->iddoc }}</td>
 
-                                    <td>{{ $licitacion->created_at }}</td>
+                                    <td>{{ date('d-m-Y H:i:s', strtotime($licitacion->created_at)) }}</td>
 
                                     <td>{{ $licitacion->Estado }}</td>
 
-                                    <td>{{ $licitacion->fechaPublicacion }}</td>
+                                    <td>{{ date('d-m-Y H:i:s', strtotime($licitacion->fechaPublicacion)) }}</td>
 
-                                    <td>{{ $licitacion->fechaCierre }}</td>
+                                    <td>{{ date('d-m-Y', strtotime($licitacion->fechaCierre)) }}</td>
 
-                                    {{-- 
-                                        Join con la Tabla MoveLicitacion para obtener la FECHA de  Adjudicacion/Desierta/Inadmisible
+                                     @if($licitacion->fechaResolucion === NULL)
 
-                                    --}}
-                                    <td></td>
+                                        <td></td>
+
+                                    @else
+
+                                        <td>{{ date('d-m-Y', strtotime($licitacion->fechaResolucion)) }}</td>
+
+                                    @endif
 
                                     <td>{{ $licitacion->valorEstimado }}</td>
 
@@ -165,7 +181,7 @@
 
                                     <td>
 
-                                        @if($licitacion->Estado === 'Anulada')
+                                        @if($licitacion->Estado === 'Anulada' || $licitacion->Estado === 'Adjudicada' || $licitacion->Estado === 'Desierta' || $licitacion->Estado === 'Inadmisible' || $licitacion->Estado === 'Revocada')
 
                                             <a href="{{ route('licitacion.show', $licitacion->id) }}" data-toggle="tooltip" data-placement="bottom" title="Ver el Detalle de la Licitación">
 
@@ -246,7 +262,7 @@
 
                                                 {{-- Validar Licitación --}}
 
-                                                    @if($licitacion->Estado == 'Creada' || $licitacion->Estado == 'Confirmada' || $licitacion->Estado == 'Lista para Publicar' || $licitacion->Estado == 'Publicada' || $licitacion->Estado == 'Cerrada')
+                                                    @if($licitacion->Estado == 'Creada' || $licitacion->Estado == 'Confirmada' || $licitacion->Estado == 'Lista para Publicar' || $licitacion->Estado == 'Publicada' || $licitacion->Estado == 'Cerrada' || $licitacion->Estado == 'Lista para Adjudicar')
 
                                                     @else
 
@@ -281,25 +297,49 @@
 
                                                     @endif
 
-                                                <a href="#" class="edit" data-toggle="tooltip" data-placement="bottom" title="Modificar la Órden de Compra">
+                                                    {{-- Resolver Licitación --}}
 
-                                                    <button class="btn btn-primary btn-sm mr-1  " type="button">
-                                                                
-                                                        <i class="fas fa-edit"></i>
+                                                    @if($licitacion->Estado <> 'Lista para Adjudicar')
 
-                                                    </button>
+                                                    @else
 
-                                                </a>
+                                                        <a href="#" class="resolver" data-toggle="tooltip" data-placement="bottom" title="Válidar Licitación">
+                                            
+                                                            <button class="btn btn-danger btn-sm mr-1 " type="button">
+                                                            
+                                                                <i class="fas fa-gavel"></i>
 
-                                                <a href="#" class="delete" data-toggle="tooltip" data-placement="bottom" title="Anular Órden de Compra">
+                                                            </button>
 
-                                                    <button class="btn btn-danger btn-sm " type="button">
-                                                                
-                                                        <i class="fas fa-trash"></i>
+                                                        </a>
 
-                                                    </button>
+                                                    @endif
 
-                                                </a>
+                                                @if($licitacion->Estado == 'Lista para Adjudicar')
+
+                                                @else
+
+                                                    <a href="#" class="edit" data-toggle="tooltip" data-placement="bottom" title="Modificar la Órden de Compra">
+
+                                                        <button class="btn btn-primary btn-sm mr-1  " type="button">
+                                                                    
+                                                            <i class="fas fa-edit"></i>
+
+                                                        </button>
+
+                                                    </a>
+
+                                                    <a href="#" class="delete" data-toggle="tooltip" data-placement="bottom" title="Anular Órden de Compra">
+
+                                                        <button class="btn btn-danger btn-sm " type="button">
+                                                                    
+                                                            <i class="fas fa-trash"></i>
+
+                                                        </button>
+
+                                                    </a>
+
+                                                @endif
 
                                             @endif
 
@@ -318,6 +358,8 @@
                                 <tr class="table-active">
 
                                     <th style="display: none"></th>
+
+                                    <th></th>
 
                                     <th></th>
 
@@ -838,6 +880,113 @@
 </div>
 <!-- Publicar Licitación Modal -->
 
+<!-- Resolver Licitacion MODAL -->
+<div class="modal fade" id="resolverLicitacionModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+
+    <div class="modal-dialog modal-dialog-centered" role="document">
+ 
+        <div class="modal-content">
+
+            <div class="modal-header bg-danger">
+
+                <p class="modal-title text-white" id="exampleModalLabel" style="font-size: 1.2em" ><i class="fas fa-gavel"></i> Resolver Licitación</p>
+
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+
+                    <span aria-hidden="true" class="text-white">&times;</span>
+
+                </button>
+
+            </div>
+
+
+            <form method="POST" action="{{ url('/siscom/licitacion') }}" class="was-validated" id="resolverLicitacionForm">
+
+                @csrf
+                @method('PUT')
+
+                <input type="hidden" name="flag" value="ResolverLicitacion">
+
+                <div class="modal-body">
+
+                    <div class="form-row mb-3">
+
+                        <label for="ID" class="col-form-label text-muted">No. de Licitación</label>
+                             
+                        <input type="" name="licitacion_id" id="licitacion_id_resolver" readonly class="form-control-plaintext">
+
+                    </div>
+
+
+                    <div class="form-row mb-3">
+                                                
+                        <label for="ordenCompra_id">No. Órden de Compra</label>
+
+                        <select name="ordenCompra_id" id="ordenCompra_id" class="form-control selectpicker" data-live-search="true" title="Seleccione el No. de su Órden de Compra">
+
+                            @foreach($ocs as $oc)
+
+                                <option value="{{ $oc->id }}">{{ $oc->OC }}</option>
+                                                                
+                            @endforeach
+
+                        </select>
+
+                    </div>
+
+                    <div class="form-row mb-3">
+                                                                              
+                        <label for="valorEstimado" class="col-form-label text-muted">Resolución</label>
+
+                        <select name="Resolucion" class="form-control selectpicker" title="Resolución de la Licitación?" required>
+
+                            <option>Adjudicada</option>
+                            <option>Desierta</option>
+                            <option>Inadmisible</option>
+                            <option>Revocada</option>
+
+                        </select>
+
+                        <div class="invalid-feedback">
+                                                                                            
+                            Por favor ingrese el Valor Estimado de la Licitación
+
+                        </div>
+
+                    </div>
+
+                    <div class="form-row">
+
+                        <button class="btn btn-success btn-block" type="submit">
+
+                            <i class="fas fa-check-circle"></i>
+
+                            Resolver Licitación
+
+                        </button>
+
+
+                        <button type="button" class="btn btn-block btn-secondary" data-dismiss="modal" aria-label="Close">
+
+                            <i class="fas fa-arrow-left"></i>
+
+                            Cancelar
+
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</div>
+<!-- Resolver Licitación Modal -->
+
 <!-- UPDATE Modal Licitación -->
 <div class="modal fade" id="updateModalLicitacion" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
 
@@ -1281,7 +1430,30 @@
                 $('#publicarLicitacionModal').modal('show');
 
             });
-            //Fin Recepción de la Solicitud
+            //Fin de la Publicacion de la Licitacion
+
+            //Comienzo de la Resolucion de la Licitación
+            table.on('click', '.resolver', function () {
+
+                $tr = $(this).closest('tr');
+
+                if ($($tr).hasClass('child')) {
+
+                    $tr = $tr.prev('.parent');
+
+                }
+
+                var data = table.row($tr).data();
+
+                console.log(data);
+
+                $('#licitacion_id_resolver').val(data[1]);
+
+                $('#resolverLicitacionForm').attr('action', '/siscom/licitacion/resolucion/' + data[0]);
+                $('#resolverLicitacionModal').modal('show');
+
+            });
+            //Fin de la Resolucion de la Licitacion
 
             //Start Edit Record
             table.on('click', '.asignar', function () {

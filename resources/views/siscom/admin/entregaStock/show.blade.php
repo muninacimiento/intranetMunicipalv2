@@ -255,7 +255,7 @@
 
                                         @else
 
-                                            <button type="submit" class="btn btn-success btn-block"> 
+                                            <button  class="btn btn-success btn-block"> 
 
                                                 <i class="fas fa-check-circle"></i>
 
@@ -269,11 +269,27 @@
 
                                 </div>
 
+                                <div class="col-md-12 mb-2">
+                                    
+                                    <a href="{{ route('reporteEntregaStock.pdf', $solicitud->id) }}" class="text-decoration-none" data-toggle="tooltip" data-placement="bottom" title="Imprimir Reporte Entrega Stock">
+
+                                        <button type="button" class="btn btn-warning btn-block">
+                                            
+                                            <i class="fas fa-print"></i>
+
+                                            Imprimir Reporte Entrega Stock
+
+                                        </button>
+
+                                    </a>
+
+                                </div>
+
                                 <div class="col-md-12">
                                     
                                     <a href="{{url('/siscom/admin')}}" class="text-decoration-none">
 
-                                        <button type="submit" class="btn btn-secondary btn-block"> 
+                                        <button type="button" class="btn btn-secondary btn-block"> 
 
                                             <i class="fas fa-arrow-left"></i>
                                             

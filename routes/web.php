@@ -103,8 +103,9 @@ Route::middleware(['auth'])->group( function() {
 	Route::put('/siscom/admin/cerrarSolicitud/{solicitud}', 'SCM_AdminSolicitudController@update')->name('admin.cerrar')->middleware('can:admin.cerrar');
 
 
-	//Vista PDF
+	//Vistas PDF
 	Route::get('VerSolicitud/{solicitud}', 'SCM_SolicitudController@exportarPdf')->name('solicitud.pdf');
+	Route::get('reporteEntregaStock/{solicitud}', 'SCM_AdminSolicitudController@reporteEntregaStock')->name('reporteEntregaStock.pdf');
 
 
 	//Órdenes de Compra
@@ -137,6 +138,7 @@ Route::middleware(['auth'])->group( function() {
 	Route::get('/siscom/licitacion/validar/{licitacion}', 'LicitacionController@validar')->name('licitacion.validar')->middleware('can:licitacion.validar');
 	Route::put('/siscom/licitacion/publicar/{licitacion}', 'LicitacionController@update')->name('licitacion.publicar')->middleware('can:licitacion.publicar');
 	Route::put('/siscom/licitacion/anular/{licitacion}', 'LicitacionController@update')->name('licitacion.anular')->middleware('can:licitacion.anular');
+	Route::put('/siscom/licitacion/resolucion/{licitacion}', 'LicitacionController@update')->name('licitacion.resolucion')->middleware('can:licitacion.resolucion');
 
 	//Facturas
 	Route::resource('/siscom/factura', 'FacturaController')->middleware('can:factura.index');

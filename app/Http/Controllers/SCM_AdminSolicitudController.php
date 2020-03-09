@@ -12,6 +12,9 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
+/* Invocamos la clase para exportar la vista a un archivo PDF */
+use Barryvdh\DomPDF\Facade as PDF;
+
 /* Invocamos la clase Carbon para trabajar con fechas */
 use Carbon\Carbon;
 
@@ -509,6 +512,45 @@ class SCM_AdminSolicitudController extends Controller
 
         /* Retornamos a la vista los resultados psanadolos por parametros */
         return view('siscom.consulta.index', compact('dateCarbon', 'solicituds'));
+    }
+
+    public function reporteEntregaStock($id)
+    {       
+
+        /*
+         * Declaramos un Objeto para obtener acceso a los datos de la tabla DetalleSolicitud
+         */
+        $detalleSolicitud = DB::table('detail_solicituds')
+                    ->join('products', 'detail_solicituds.product_id', 'products.id')
+                    ->join('solicituds', 'detail_solicituds.solicitud_id', '=', 'solicituds.id')
+                    ->select('detail_solicituds.*', 'products.name as Producto', DB::raw('(detail_solicituds.cantidad * detail_solicituds.valorUnitario) as SubTotal'), DB::raw('(detail_solicituds.cantidad - detail_solicituds.cantidadEntregada) as Saldo'))
+                     ->where('solicituds.id', '=', $id) //Revisar la vista y el envio de los datos a la tabla de Detalle de la Solicitud
+                    ->get();
+
+        $products = DB::table('products as productos')
+                    ->select(DB::raw('CONCAT(productos.id, " ) ", productos.name) as Producto'), 'productos.id')
+                    ->get();
+
+        $solicitud = DB::table('solicituds')
+                   ->join('users', 'solicituds.user_id', '=', 'users.id')
+                   ->join('dependencies', 'users.dependency_id', '=', 'dependencies.id')
+                   ->join('status_solicituds', 'solicituds.estado_id', '=', 'status_solicituds.id')
+                   ->select('solicituds.*', 'users.name as nameUser', 'status_solicituds.estado', 'dependencies.name as dependencyUser')
+                   ->where('solicituds.id', '=', $id)
+                   ->first();
+
+        $move = DB::table('move_solicituds') 
+                ->join('status_solicituds', 'move_solicituds.estadoSolicitud_id', 'status_solicituds.id')               
+                ->join('users', 'move_solicituds.user_id', 'users.id')
+                ->select('status_solicituds.estado as status', 'users.name as name', 'move_solicituds.created_at as date')
+                ->where('move_solicituds.solicitud_id', '=', $id)
+                ->get();
+
+
+        $pdf = PDF::loadView('pdf.entregaStock', compact('solicitud', 'detalleSolicitud'));
+        return $pdf->stream('entregaStock.pdf');
+                     
+
     }
 
 }

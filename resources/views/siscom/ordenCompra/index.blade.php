@@ -137,6 +137,8 @@
 
                                     <th style="display: none">Mercado Publico</th>
 
+                                    <th style="display: none">ID Licitación</th>
+
                                     <th>Acciones</th>
 
                                 </tr>
@@ -178,6 +180,8 @@
                                     <td style="display: none">{{ $oc->deptoRecepcion }}</td>
 
                                     <td style="display: none">{{ $oc->mercadoPublico }}</td>
+
+                                    <td style="display: none">{{ $oc->licitacion_id }}</td>
 
                                     @if( $oc->Estado == 'Anulada')
 
@@ -378,6 +382,8 @@
                                     <th style="display: none">Depto. que Recepciona</th>
 
                                     <th style="display: none">Mercado Público</th>
+
+                                    <th style="display: none">ID Licitación</th>
 
                                     <th>Acciones</th>
 
@@ -957,12 +963,12 @@
                     </div>
 
                     <div class="form-row">
-
+                        
                         <div class="col-md-6 mb-3">
                                                                               
                             <label for="tipoOrdenCompra">Tipo de Órden de Compra</label>
 
-                            <select name="tipoOrdenCompra" id="tipoOrdenCompraUpdate" class="form-control" title="Tipo de Órden de Compra ?" required>
+                            <select name="tipoOrdenCompra" id="tipoOrdenCompraUpdate" class="form-control selectpicker" title="Tipo de Órden de Compra ?" required>
 
                                 <option>Menor a 3 UTM</option>
                                 <option>Trato Directo</option>
@@ -971,14 +977,8 @@
 
                             </select>
 
-                            <div class="invalid-feedback">
-                                                                                            
-                                Por favor seleccione el Tipo de Órden de Compra
-
-                            </div>
-
                         </div>
-                        
+
                         <div class="col-md-6 mb-3">
                                                                               
                             <label for="mercadoPublico">Mercado Público</label>
@@ -1374,6 +1374,7 @@
                 }
 
                 $('#mercadoPublicoUpdate').val(data[14]);
+                $('#licitacionUpdate').val(data[15]);
 
 
                 $('#updateOrdenCompraForm').attr('action', '/siscom/ordenCompra/' + data[0]);

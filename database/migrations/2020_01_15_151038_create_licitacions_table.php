@@ -16,10 +16,12 @@ class CreateLicitacionsTable extends Migration
         Schema::create('licitacions', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('licitacion_id');
+            $table->string('ordenCompra_id')->nullable();
             $table->unsignedBigInteger('user_id');
             $table->bigInteger('iddoc');
             $table->datetime('fechaPublicacion')->nullable();
             $table->date('fechaCierre')->nullable();
+            $table->date('fechaResolucion')->nullable();
             $table->unsignedBigInteger('estado_id');
             $table->string('valorEstimado');
             $table->string('proposito');
