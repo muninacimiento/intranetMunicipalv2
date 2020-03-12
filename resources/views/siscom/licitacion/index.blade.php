@@ -262,6 +262,8 @@
 
                                                 {{-- Validar Licitación --}}
 
+                                                @can('licitacion.validar')
+
                                                     @if($licitacion->Estado == 'Creada' || $licitacion->Estado == 'Confirmada' || $licitacion->Estado == 'Lista para Publicar' || $licitacion->Estado == 'Publicada' || $licitacion->Estado == 'Cerrada' || $licitacion->Estado == 'Lista para Adjudicar')
 
                                                     @else
@@ -278,35 +280,42 @@
 
                                                     @endif
 
-                                                    {{-- Publicar Licitación --}}
+                                                @endcan
+
+                                                {{-- Publicar Licitación --}}
+
+                                                @can('licitacion.publicar')
 
                                                     @if($licitacion->Estado == 'Lista para Publicar')
 
                                                         <a href="#" class="publicar" data-toggle="tooltip" data-placement="bottom" title="Publicar Licitación">
-                                            
+                                                
                                                             <button class="btn btn-light btn-sm mr-1 " type="button">
-                                                            
+                                                                
                                                                 <i class="fas fa-cloud-upload-alt"></i>
 
                                                             </button>
 
                                                         </a>
 
-
                                                     @else
 
                                                     @endif
 
-                                                    {{-- Resolver Licitación --}}
+                                                @endcan
+
+                                                {{-- Resolver Licitación --}}
+
+                                                @can('licitacion.resolucion')
 
                                                     @if($licitacion->Estado <> 'Lista para Adjudicar')
 
                                                     @else
 
                                                         <a href="#" class="resolver" data-toggle="tooltip" data-placement="bottom" title="Válidar Licitación">
-                                            
+                                                
                                                             <button class="btn btn-danger btn-sm mr-1 " type="button">
-                                                            
+                                                                
                                                                 <i class="fas fa-gavel"></i>
 
                                                             </button>
@@ -314,6 +323,8 @@
                                                         </a>
 
                                                     @endif
+
+                                                @endcan
 
                                                 @if($licitacion->Estado == 'Lista para Adjudicar')
 

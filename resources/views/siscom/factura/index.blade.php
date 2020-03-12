@@ -417,15 +417,29 @@
 
                     <div class="form-row">
 
-                        <div class="col-md-12 mb-3">
+                        <div class="col-md-6 mb-3">
                                                                               
-                            <label for="Rut">Rut</label>
+                            <label for="factura">No. Factura</label>
 
-                            <input type="text" class="form-control" id="rutUpdate" name="rut" placeholder="Ingrese el Rut del Proveedor" required>
+                            <input type="text" class="form-control" id="facturaUpdate" name="factura_id" placeholder="000124578" required>
 
                             <div class="invalid-feedback">
                                                                                             
-                                Por favor ingrese el Rut del Proveedor
+                                Por favor ingrese el Número de la Factura
+
+                            </div>
+
+                        </div>
+
+                        <div class="col-md-6 mb-3">
+                                                                              
+                            <label for="Iddoc">IDDOC</label>
+
+                            <input type="text" class="form-control" id="iddocUpdate" name="iddoc" placeholder="456123" required>
+
+                            <div class="invalid-feedback">
+                                                                                            
+                                Por favor ingrese el IDDOC del Sistema de Correspondencia
 
                             </div>
 
@@ -435,33 +449,15 @@
 
                     <div class="form-row">
 
-                        <div class="col-md-12 mb-3">
-                                                                              
-                            <label for="RazonSocial">Razón Social</label>
+                        <div class="col-sm-6 mb-3">
 
-                            <input type="text" class="form-control" id="razonSocialUpdate" name="razonSocial" placeholder="Ingrese el Razón Social del Proveedor" required>
+                            <label for="nombreActividad">Fecha Oficina de Parte</label>
 
-                            <div class="invalid-feedback">
-                                                                                            
-                                Por favor ingrese el Razón Social del Proveedor
-
-                            </div>
-
-                        </div>
-
-                    </div>
-
-                    <div class="form-row">
-
-                        <div class="col-md-6 mb-3">
-                                                                              
-                            <label for="Alias">Alias</label>
-
-                            <input type="text" class="form-control" id="aliasUpdate" name="alias" placeholder="Ingrese el Alias del Proveedor" required>
+                            <input type="text" id="fechaOficinaUpdate" name="fechaOficinaParte" class="form-control" placeholder="Fecha de Recepción en Oficina de Parte?" required/>
 
                             <div class="invalid-feedback">
-                                                                                            
-                                Por favor ingrese el Alias del Proveedor
+                                                                                                        
+                                Por favor ingrese la Fecha de Recepción de Oficina de Parte
 
                             </div>
 
@@ -469,45 +465,19 @@
 
                         <div class="col-md-6 mb-3">
                                                                               
-                            <label for="Giro">Giro</label>
+                            <label for="tipoDocumento">Tipo Documento</label>
 
-                            <input type="text" class="form-control" id="giroUpdate" name="giro" placeholder="Ingrese el Giro del Proveedor" required>
+                            <select name="tipoDocumento" id="tipoDocumentoUpdate" class="form-control selectpicker" title="Tipo Documento ?" required>
 
-                            <div class="invalid-feedback">
-                                                                                            
-                                Por favor ingrese el Giro del Proveedor
+                                <option>Factura</option>
+                                <option>Boleta</option>
+                                <option>Recibo</option>
 
-                            </div>
-
-                        </div>
-
-                    </div>
-
-                    <div class="form-row">
-
-                        <div class="col-md-6 mb-3">
-                                                                              
-                            <label for="Dirección">Dirección</label>
-
-                            <input type="text" class="form-control" id="direccionUpdate" name="direccion" placeholder="Ingrese el Dirección del Proveedor" required>
+                            </select>
 
                             <div class="invalid-feedback">
                                                                                             
-                                Por favor ingrese el Dirección del Proveedor
-
-                            </div>
-
-                        </div>
-
-                        <div class="col-md-6 mb-3">
-                                                                              
-                            <label for="Ciudad">Ciudad</label>
-
-                            <input type="text" class="form-control" id="ciudadUpdate" name="ciudad" placeholder="Ingrese el Ciudad del Proveedor" required>
-
-                            <div class="invalid-feedback">
-                                                                                            
-                                Por favor ingrese el Ciudad del Proveedor
+                                Por favor ingrese el Tipo de Documento
 
                             </div>
 
@@ -518,28 +488,50 @@
                     <div class="form-row">
 
                         <div class="col-md-6 mb-3">
-                                                                              
-                            <label for="Teléfono">Teléfono</label>
+                                                
+                            <label for="proveedor_id">Proveedor</label>
 
-                            <input type="text" class="form-control" id="telefonoUpdate" name="telefono" placeholder="Ingrese el Teléfono del Proveedor" required>
+                            <select name="proveedor_id" id="proveedor_id" class="form-control selectpicker" data-live-search="true" title="Seleccione el Proveedor de su Órden de Compra" required>
 
-                            <div class="invalid-feedback">
-                                                                                            
-                                Por favor ingrese el Teléfono del Proveedor
+                                @foreach($proveedores as $proveedor)
 
-                            </div>
+                                    <option value="{{ $proveedor->id }}">{{ $proveedor->RazonSocial }}</option>
+                                                                
+                                @endforeach
+
+                            </select>
 
                         </div>
 
                         <div class="col-md-6 mb-3">
-                                                                              
-                            <label for="Correo">Correo</label>
+                                                
+                            <label for="ordenCompra_id">No. Órden de Compra</label>
 
-                            <input type="email" class="form-control" id="correoUpdate" name="correo" placeholder="Ingrese el Correo del Proveedor" required>
+                            <select name="ordenCompra_id" id="ordenCompra_idUpdate" class="form-control selectpicker" data-live-search="true" title="Seleccione el No. de su Órden de Compra" required>
+
+                                @foreach($ocs as $oc)
+
+                                    <option value="{{ $oc->id }}">{{ $oc->OC }}</option>
+                                                                
+                                @endforeach
+
+                            </select>
+
+                        </div>
+
+                    </div>
+
+                    <div class="form-row">
+                        
+                        <div class="col-md-6 mb-3">
+                                                                              
+                            <label for="total">Total $</label>
+
+                            <input type="text" class="form-control" id="totalUpdate" name="totalFactura" placeholder="$ 123456789" required>
 
                             <div class="invalid-feedback">
                                                                                             
-                                Por favor ingrese el Correo del Proveedor
+                                Por favor ingrese el Total de la Factura
 
                             </div>
 
@@ -547,13 +539,13 @@
 
                     </div>
 
-                    <div class="mb-3 form-row">
+                    <div class="form-row">
 
-                        <button class="btn btn-success btn-block" type="submit">
+                        <button class="btn btn-success btn-block boton" type="submit">
 
                             <i class="fas fa-save"></i>
 
-                            Guardar Proveedor
+                            Guardar Factura
 
                         </button>
 
@@ -736,8 +728,25 @@
 
                 console.log(data);
 
-                $('#rutUpdate').val(data[1]);
-                $('#razonSocialUpdate').val(data[2]);
+                <th style="display:none;">ID</th>
+
+                                    <th>Tipo Documento</th>
+
+                                    <th>No. Factura</th>
+
+                                    <th>Estado Factura</th>
+
+                                    <th>No. OC</th>
+
+                                    <th>Proveedor</th>
+
+                                    <th>Total $</th>
+
+                                    <th>Acciones</th>
+
+
+                $('#tipoDocumentoUpdate').val(data[1]);
+                $('#facturaUpdate').val(data[2]);
                 $('#aliasUpdate').val(data[3]);
                 $('#giroUpdate').val(data[4]);
                 $('#direccionUpdate').val(data[5]);
