@@ -29,10 +29,10 @@ class VentaFarmaciaController extends Controller
          * Definimos variable que contendrá la fecha actual del sistema
          */
         $dateCarbon = Carbon::now()->locale('es')->isoFormat('dddd D, MMMM YYYY');
-
-         /*
-         * Definimos el Objeto que contendrá TODOS los usuarios del sistema de farmacia
-         */
+             
+        /*
+        * Definimos el Objeto que contendrá TODOS los usuarios del sistema de farmacia
+        */
         $usersVenta = DB::table('usuario_farmacias as UsersVenta')
                     ->select(DB::raw('CONCAT(UsersVenta.id, " ) ", UsersVenta.rut, " / ", UsersVenta.name) as Usuario'), 'UsersVenta.id')
                     ->get();
@@ -40,10 +40,36 @@ class VentaFarmaciaController extends Controller
         $venta = DB::table('venta_farmacias as Venta')
                 ->join('usuario_farmacias', 'Venta.userFarmacia_id', '=', 'usuario_farmacias.id')
                 ->join('users', 'Venta.user_id', '=', 'users.id')
-                ->select('Venta.*', 'usuario_farmacias.name as Comprador', 'users.name as Vendedor')
+                ->select('Venta.*', 'usuario_farmacias.name as Comprador', 'usuario_farmacias.rut as RutComprador', 'users.name as Vendedor')
+                ->where('Venta.created_at', '=', Carbon::now()->format('Y-m-d'))
                 ->get();
 
         return view('farmacia.ventas.index', compact('dateCarbon', 'usersVenta', 'venta'));
+
+    }
+
+    public function consulta()
+    {
+        /*
+         * Definimos variable que contendrá la fecha actual del sistema
+         */
+        $dateCarbon = Carbon::now()->locale('es')->isoFormat('dddd D, MMMM YYYY');
+             
+        /*
+        * Definimos el Objeto que contendrá TODOS los usuarios del sistema de farmacia
+        */
+        $usersVenta = DB::table('usuario_farmacias as UsersVenta')
+                    ->select(DB::raw('CONCAT(UsersVenta.id, " ) ", UsersVenta.rut, " / ", UsersVenta.name) as Usuario'), 'UsersVenta.id')
+                    ->get();
+
+        $venta = DB::table('venta_farmacias as Venta')
+                ->join('usuario_farmacias', 'Venta.userFarmacia_id', '=', 'usuario_farmacias.id')
+                ->join('users', 'Venta.user_id', '=', 'users.id')
+                ->select('Venta.*', 'usuario_farmacias.name as Comprador', 'usuario_farmacias.rut as RutComprador', 'users.name as Vendedor')
+                ->get();
+
+        return view('farmacia.consultaVentas.index', compact('dateCarbon', 'usersVenta', 'venta'));
+
     }
 
     /**

@@ -160,6 +160,7 @@ Route::middleware(['auth'])->group( function() {
 	Route::delete('/farmacia/ventas/{venta}', 'VentaFarmaciaController@destroy')->name('ventas.destroy')->middleware('can:ventas.destroy');
 	Route::post('/farmacia/ventas/{venta}', 'VentaFarmaciaController@show')->name('ventas.show')->middleware('can:ventas.show');
 	Route::put('/farmacia/ventas/medicamento/{venta}', 'VentaFarmaciaController@update')->name('ventas.update')->middleware('can:ventas.update');
+	Route::get('/farmacia/consultaVentas', 'VentaFarmaciaController@consulta')->name('ventas.consulta')->middleware('can:ventas.consulta'); 
 
 
 

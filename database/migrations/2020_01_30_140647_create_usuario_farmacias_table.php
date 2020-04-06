@@ -18,12 +18,9 @@ class CreateUsuarioFarmaciasTable extends Migration
             $table->unsignedBigInteger('user_id'); //foreing key users
             $table->string('rut');
             $table->string('name');
-            $table->date('fechaNacto');
             $table->string('direccion');
             $table->string('poblacion');
             $table->string('telefono');
-            $table->string('rsh');
-            $table->integer('puntajeRsh');
             $table->string('sistemaPrevisional');
             $table->timestamps();
 

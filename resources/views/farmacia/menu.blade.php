@@ -72,15 +72,35 @@
 
 
   	
-  	<li class="nav-item">
+  	<li class="nav-item dropdown">
+
+  		<a class="nav-link text-white dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
+	    		
+	    	<i class="fas fa-dollar-sign px-1"></i>
+
+	    	Venta de Medicamentos
+
+	    </a>
+
+	    <div class="dropdown-menu">
     
-    	<a class="nav-link text-white" href="{{ route('ventas.index') }}">
+	    	<a class="nav-link text-danger" href="{{ route('ventas.index') }}">
 
-    		<i class="fas fa-cash-register px-1"></i>
+	    		<i class="fas fa-cash-register px-1"></i>
 
-    		Punto de Venta
+	    		Realizar Venta
 
-    	</a>
+	    	</a>
+
+	    	<div class="dropdown-divider"></div>
+
+	    	<a class="nav-link text-danger" href="{{ route('ventas.consulta') }}">
+
+	    		<i class="fas fa-question px-1"></i>
+
+	    		Consultar Venta
+
+	    	</a>
   	
   	</li>
  	

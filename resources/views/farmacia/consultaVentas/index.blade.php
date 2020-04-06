@@ -1,8 +1,8 @@
 <!--
 /*
  *  JFuentealba @itux
- *  created at December 23, 2019 - 3:45 pm
- *  updated at December 23, 2019 - 3:47 pm
+ *  created at March 26, 2020 - 3:45 pm
+ *  updated at 
  */
 -->
 
@@ -31,7 +31,7 @@
 
                         <div class="col-md-6 text-center">
                             
-                            <h3>Punto de Venta de Medicamentos</h3>
+                            <h3>Consulta de Ventas de Medicamentos</h3>
 
                             <div class="text-secondary">
 
@@ -39,23 +39,6 @@
 
                             </div>
 
-                        </div>
-
-                        <!-- Button trigger Crear Usuario -->
-                        <div class="col-md-6">
-                            
-                            <a href="#" class="text-decoration-none" data-toggle="modal" data-target="#createVentaModal">
-
-                                <button class="btn btn-warning btn-block boton">
-
-                                    <i class="fas fa-dollar-sign px-2"></i>
-
-                                    Nueva Venta
-
-                                </button>
-
-                            </a>
-                            
                         </div>
 
                     </div>
@@ -125,27 +108,11 @@
 
                                         <div class="btn-group" role="group">
 
-                                            <a href="{{ route('ventas.show', $v->id) }}" class="btn btn-primary btn-sm mr-1" data-toggle="tooltip" data-placement="bottom" title="Agregar Medicamentos">
+                                            <a href="{{ route('ventas.show', $v->id) }}" class="btn btn-primary btn-sm mr-1" data-toggle="tooltip" data-placement="bottom" title="Ver Detalle Venta">
                                                     
                                                 <i class="fas fa-prescription-bottle-alt"></i>
 
                                             </a>
-
-                                            <a href="#" class="btn btn-warning btn-sm mr-1 actualizar" data-toggle="tooltip" data-placement="bottom" title="Actualizar Categoria">
-                                                    
-                                                <i class="fas fa-pencil-alt"></i>
-
-                                            </a>
-
-                                            {!! Form::open(['route'=> ['ventas.destroy', $v->id], 'method' => 'DELETE']) !!}
-
-                                                <button class="btn btn-danger btn-sm mr-1">
-
-                                                    <i class="fas fa-trash"></i>
-
-                                                </button>
-
-                                            {!! Form::close() !!}
                                             
                                         </div>
 

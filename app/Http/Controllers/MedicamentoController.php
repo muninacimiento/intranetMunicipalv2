@@ -34,7 +34,7 @@ class MedicamentoController extends Controller
         */
         $medicamentos = DB::table('medicamentos')
                         ->join('categoria_medicamentos', 'medicamentos.categoria_id', '=', 'categoria_medicamentos.id')
-                        ->select('medicamentos.*', 'categoria_medicamentos.name as Categoria')
+                        ->select('medicamentos.*', 'categoria_medicamentos.name as Categoria', DB::raw('medicamentos.stock * medicamentos.precioInventario as totalInventario'))
                         ->get();
 
          /*

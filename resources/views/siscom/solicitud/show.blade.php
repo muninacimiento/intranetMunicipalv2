@@ -440,8 +440,6 @@
 
                                             <input type="text" name="totalSolicitud" id="total" readonly style="border: 0;font-size: 1.5em;">
 
-                                            
-
                                         </div>
 
                                         <input type="hidden" name="flag" value="Confirmar">

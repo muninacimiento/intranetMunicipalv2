@@ -105,9 +105,9 @@
                                     
                                     <th>Stock</th>
 
-                                    <th>$ Comercio</th>
-
                                     <th>$ Inventario</th>
+
+                                    <th>Total Inventario</th>
 
                                     <th>Acciones</th>
 
@@ -137,9 +137,9 @@
 
                                     <td>{{ $medicamento->stock }}</td>
 
-                                    <td>{{ $medicamento->precioComercio }}</td>
-
                                     <td>{{ $medicamento->precioInventario  }}</td>
+
+                                    <td>{{ $medicamento->totalInventario }}</td>
 
                                     <td>
 
@@ -202,6 +202,14 @@
                             </tfoot>
 
                         </table>
+
+                        <div class="form-row mb-3 mt-3">
+                                            
+                            <h5 class="text-muted">Total Inventario :&nbsp;$&nbsp;</h5>
+
+                            <input type="text" name="totalInventario" id="total" readonly style="border: 0;font-size: 1.5em;">
+
+                        </div>
 
                     </div>
 
@@ -728,6 +736,16 @@ $(document).ready(function () {
 
     });
     //End Edit Record
+
+    var total = 0;
+        $('#medicamentosTable').DataTable().rows().data().each(function(el, index){
+          //Asumiendo que es la columna 5 de cada fila la que quieres agregar a la sumatoria
+          total += parseInt(el[9]);
+        });
+
+        $('#total').val(total);
+
+        console.log(total);
 });
 
 </script>
