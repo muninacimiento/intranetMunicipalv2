@@ -44,7 +44,7 @@ class SCM_AdminSolicitudController extends Controller
 
         if (Auth::user()->email == 'heraldo.medina@nacimiento.cl') {
 
-            /*
+        /*
          * Definimos variable que contendrá la fecha actual del sistema
          */
         $dateCarbon = Carbon::now()->locale('es')->isoFormat('dddd D, MMMM YYYY');
@@ -66,6 +66,12 @@ class SCM_AdminSolicitudController extends Controller
          */
         $dateCarbon = Carbon::now()->locale('es')->isoFormat('dddd D, MMMM YYYY');
 
+        /*
+         * Variable Fecha sistema para SEMAFORO
+         */
+        $fechaSistema = Carbon::today()->format('Y-m-d H:i:s');
+        //dd($fechaSistema);
+
         /* Declaramos la variable que contendrá todos los permisos existentes en la base de datos */
         $solicituds = DB::table('solicituds')
                     ->join('status_solicituds', 'solicituds.estado_id', '=', 'status_solicituds.id')
@@ -74,6 +80,7 @@ class SCM_AdminSolicitudController extends Controller
                     ->select('solicituds.*', 'status_solicituds.estado', 'dependencies.name')
                     ->orderBy('solicituds.id', 'desc')
                     ->get();
+
 
         }else {
 
@@ -92,7 +99,14 @@ class SCM_AdminSolicitudController extends Controller
                     ->orWhere('solicituds.compradorSuplencia', '=', Auth::user()->name)
                     ->orderBy('solicituds.id', 'desc')
                     ->get();
+
+        /*
+         *  Calculamos la Fecha para activar el SEMAFORO
+         */
+        
+
         }
+
          
 
         //dd($solicituds);
@@ -189,20 +203,56 @@ class SCM_AdminSolicitudController extends Controller
                 DB::beginTransaction();
 
                     $solicitud = Solicitud::findOrFail($id);
-                    $solicitud->iddoc                       = $request->iddoc;
-                    $solicitud->estado_id                   = 3;
 
-                    $solicitud->save();
+                    if ($solicitud->categoriaSolicitud == 'Stock de Aseo') {
+                        
+                        $solicitud->iddoc                       = $request->iddoc;
+                        $solicitud->estado_id                   = 3;   
 
-                    //Guardamos los datos de Movimientos de la Solicitud
-                    $move = new MoveSolicitud;
-                    $move->solicitud_id                     = $solicitud->id;
-                    $move->estadoSolicitud_id               = 3;
-                    $move->fecha                            = $solicitud->updated_at;
-                    $move->user_id                          = Auth::user()->id;
+                        $solicitud->save(); 
 
-                    $move->save(); //Guardamos el Movimiento de la Solicitud    
+                        //Guardamos los datos de Movimientos de la Solicitud
+                        $move = new MoveSolicitud;
+                        $move->solicitud_id                     = $solicitud->id;
+                        $move->estadoSolicitud_id               = 3;
+                        $move->fecha                            = $solicitud->updated_at;
+                        $move->user_id                          = Auth::user()->id;
 
+                        $move->save(); //Guardamos el Movimiento de la Solicitud    
+
+                        $solicitud->compradorTitular            = 'Ruth Rivera Jaque';
+                        $solicitud->estado_id                   = 4;
+
+                        $solicitud->save(); 
+
+                        //Guardamos los datos de Movimientos de la Solicitud
+                        $move = new MoveSolicitud;
+                        $move->solicitud_id                     = $solicitud->id;
+                        $move->estadoSolicitud_id               = 4;
+                        $move->fecha                            = $solicitud->updated_at;
+                        $move->user_id                          = Auth::user()->id;
+
+                        $move->save(); //Guardamos el Movimiento de la Solicitud    
+
+                    } else {
+
+                        $solicitud->iddoc                       = $request->iddoc;
+                        $solicitud->estado_id                   = 3;
+
+                        $solicitud->save();
+
+                        //Guardamos los datos de Movimientos de la Solicitud
+                        $move = new MoveSolicitud;
+                        $move->solicitud_id                     = $solicitud->id;
+                        $move->estadoSolicitud_id               = 3;
+                        $move->fecha                            = $solicitud->updated_at;
+                        $move->user_id                          = Auth::user()->id;
+
+                        $move->save(); //Guardamos el Movimiento de la Solicitud    
+
+                        
+                    }
+                    
                 DB::commit();
                 
             } catch (Exception $e) {
@@ -373,7 +423,8 @@ class SCM_AdminSolicitudController extends Controller
 
             $detalleSolicitud->cantidad             = $request->Cantidad;
             $detalleSolicitud->especificacion       = strtoupper($request->Especificacion);
-            $detalleSolicitud->valorUnitario        = $request->ValorUnitario;        
+            $detalleSolicitud->valorUnitario        = $request->ValorUnitario;   
+            $detalleSolicitud->obsActualizacion     = strtoupper($request->obsActualizacion);     
 
             //dd($solicitud);
 

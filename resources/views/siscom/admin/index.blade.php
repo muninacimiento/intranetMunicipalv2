@@ -80,6 +80,8 @@
 
                                     <th>Creada</th>
 
+                                    <th>D&iacute;as Transcurridos</th>
+
                                     <th>Comprador</th>
                                     
                                     <th>Motivo</th>
@@ -115,6 +117,32 @@
                                     <td>{{ $solicitud->iddoc }}</td>
 
                                     <td>{{ date('d-m-Y H:i:s', strtotime($solicitud->created_at)) }}</td>
+
+                                    @if( Carbon\Carbon::parse($solicitud->created_at)->diffInDays() <= 5)
+
+                                        <td style="background-color : #59d634 !important;color: white;text-align: center;">
+                                        
+                                            {{ Carbon\Carbon::parse($solicitud->created_at)->diffInDays() }}
+
+                                        </td>
+
+                                    @elseif( Carbon\Carbon::parse($solicitud->created_at)->diffInDays() > 5 &&  Carbon\Carbon::parse($solicitud->created_at)->diffInDays() <= 10)
+
+                                        <td style="background-color : #eac50b !important;color: black; text-align: center;">
+                                        
+                                            {{ Carbon\Carbon::parse($solicitud->created_at)->diffInDays() }}
+
+                                        </td>
+
+                                    @elseif( Carbon\Carbon::parse($solicitud->created_at)->diffInDays() > 10)
+
+                                        <td style="background-color : #ea0b0b !important;color: white;text-align: center;">
+                                        
+                                            {{ Carbon\Carbon::parse($solicitud->created_at)->diffInDays() }}
+
+                                        </td>
+
+                                    @endif
 
                                     <td>{{ $solicitud->compradorTitular }}</td>
 
@@ -324,6 +352,8 @@
                                     <th>IDDOC</th>
 
                                     <th>Creada</th>
+
+                                    <th>D&iacute;as Transcurridos</th>
 
                                     <th>Comprador</th>
                                     

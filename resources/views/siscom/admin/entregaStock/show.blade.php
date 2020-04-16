@@ -194,7 +194,7 @@
 
                                                 <td>{{ $detalle->cantidadEntregada }}</td>
 
-                                                <td>{{ $detalle->Saldo }}</td>
+                                                <td class="saldo">{{ $detalle->Saldo }}</td>
 
                                                 <td>{{ $detalle->obsEntrega }}</td>
 
@@ -228,13 +228,26 @@
 
                                 </div>
 
-                                
+                            </div>
+
+                            <div class="form-row mb-3">
+                                            
+                                <h5 class="text-muted">Saldo Pendiente :&nbsp;$&nbsp;</h5>
+
+                                <input type="text" name="saldoPendiente" id="saldoPendiente" readonly style="border: 0;font-size: 1.5em;">
 
                             </div>
 
                             <div class="form-row">
 
                                 <div class="col-md-12 mb-2">
+
+                                    {{--Condicionamos la disponibilidad del boton cerrar solicitud a: 
+
+                                        1.- Saldo Pendiente = 0 => Se habilita el boton, caso contrario esta deshabilitado
+                                        2.- Estado Solicitud = "Solicitud Entregada Completamente" => Se deshabilita el boton
+
+                                    --}}
                                 
                                     <form method="POST" action="{{ route('admin.cerrar', $solicitud->id) }}">
 
@@ -243,27 +256,7 @@
 
                                         <input type="hidden" name="flag" value="Cerrar">
 
-                                        @if($solicitud->estado === 'Solicitud Entregada Completamente')
-
-                                            <button type="submit" class="btn btn-success btn-block" disabled> 
-
-                                                <i class="fas fa-check-circle"></i>
-
-                                                Cerrar Solicitud
-
-                                            </button>
-
-                                        @else
-
-                                            <button  class="btn btn-success btn-block"> 
-
-                                                <i class="fas fa-check-circle"></i>
-
-                                                Cerrar Solicitud
-
-                                            </button>
-
-                                        @endif
+                                        <input type="submit" name="cerrarSolicitud" id="cerrarSolicitud" class="btn btn-block btn-info" value="Cerrar Solicitud" />
 
                                     </form>    
 
@@ -274,8 +267,6 @@
                                     <a href="{{ route('reporteEntregaStock.pdf', $solicitud->id) }}" class="text-decoration-none" data-toggle="tooltip" data-placement="bottom" title="Imprimir Reporte Entrega Stock">
 
                                         <button type="button" class="btn btn-warning btn-block">
-                                            
-                                            <i class="fas fa-print"></i>
 
                                             Imprimir Reporte Entrega Stock
 
@@ -290,10 +281,8 @@
                                     <a href="{{url('/siscom/admin')}}" class="text-decoration-none">
 
                                         <button type="button" class="btn btn-secondary btn-block"> 
-
-                                            <i class="fas fa-arrow-left"></i>
                                             
-                                            Atrás
+                                            Volver
 
                                         </button>
 
@@ -493,6 +482,29 @@
             });
             //End Edit Record Detalle Solicitud
 
+            //Recorremos la Tabla y Sumamos cada Subtotal
+            var cls = document.getElementById("detalleSolicitud").getElementsByTagName("td");
+            var sum = 0;
+            for (var i = 0; i < cls.length; i++){
+                if(cls[i].className == "saldo"){
+                    sum += isNaN(cls[i].innerHTML) ? 0 : parseInt(cls[i].innerHTML);
+                }
+            }
+
+            $('#saldoPendiente').val(sum);
+
+
+            //Habilitamos o Deshabilitamos boton CerrarSolicitud
+            var saldo = $('#saldoPendiente').val();
+
+            if (saldo == 0) {
+
+                document.getElementById('cerrarSolicitud').disabled=false;
+
+            }else{
+
+                document.getElementById('cerrarSolicitud').disabled=true;
+            }
         
     });
 

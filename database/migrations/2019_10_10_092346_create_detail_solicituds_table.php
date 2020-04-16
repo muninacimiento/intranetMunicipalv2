@@ -26,6 +26,7 @@ class CreateDetailSolicitudsTable extends Migration
             $table->integer('cantidad');
             $table->text('especificacion');
             $table->integer('valorUnitario');
+            $table->string('obsActualizacion')->nullable();
             $table->unsignedBigInteger('ordenCompra_id')->nullable(); //foreing key de OrdeCompra(autoIncrement)
             $table->unsignedBigInteger('licitacion_id')->nullable(); //foreing key de Licitacion(autoIncrement)
             $table->unsignedBigInteger('factura_id')->nullable(); //foreing key Factura que FALTA AGREGAR

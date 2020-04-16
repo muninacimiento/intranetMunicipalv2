@@ -730,21 +730,6 @@
 
                 <th style="display:none;">ID</th>
 
-                                    <th>Tipo Documento</th>
-
-                                    <th>No. Factura</th>
-
-                                    <th>Estado Factura</th>
-
-                                    <th>No. OC</th>
-
-                                    <th>Proveedor</th>
-
-                                    <th>Total $</th>
-
-                                    <th>Acciones</th>
-
-
                 $('#tipoDocumentoUpdate').val(data[1]);
                 $('#facturaUpdate').val(data[2]);
                 $('#aliasUpdate').val(data[3]);

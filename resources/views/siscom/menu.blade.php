@@ -148,4 +148,20 @@
 
   	@endcan
 
+  	<!--@can('factura.index')-->
+  	
+  	<li class="nav-item">
+    
+    	<a class="nav-link text-white" href="{{ route('reporte.index') }}">
+
+    		<i class="fas fa-copy px-1"></i>
+
+    		Reportes
+
+    	</a>
+  	
+  	</li>
+
+  	<!--@endcan-->
+
 </ul>

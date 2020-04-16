@@ -185,6 +185,56 @@ class OrdenCompraController extends Controller
                 ->get();
 
         $detalleSolicitud = DB::table('detail_solicituds')
+                                ->join('products', 'detail_solicituds.product_id', 'products.id')
+                                ->join('solicituds', 'detail_solicituds.solicitud_id', '=', 'solicituds.id')
+                                ->join('orden_compras', 'detail_solicituds.ordenCompra_id', '=', 'orden_compras.id')
+                                ->select('detail_solicituds.*', 'products.name as Producto')
+                                ->where('detail_solicituds.ordenCompra_id', '=', $id)
+                                ->get();
+
+        
+                    //dd($ordenCompra);
+
+                     /* Retornamos a la vista los resultados psanadolos por parametros */
+        return view('siscom.ordenCompra.show', compact('ordenCompra', 'dateCarbon', 'proveedores', 'move', 'detalleSolicitud', 'assign'));
+
+    }
+
+    public function agregarProductos($id)
+    {
+
+        /*
+         * Definimos variable que contendrá la fecha actual del sistema
+         */
+        $dateCarbon = Carbon::now()->locale('es')->isoFormat('dddd D, MMMM YYYY');
+
+        /* Declaramos la variable que contendrá todos los permisos existentes en la base de datos */
+        $ordenCompra = DB::table('orden_compras')
+                    ->join('users', 'orden_compras.user_id', '=', 'users.id')
+                    ->join('status_o_c_s', 'orden_compras.estado_id', '=', 'status_o_c_s.id')
+                    ->join('proveedores', 'orden_compras.proveedor_id', '=', 'proveedores.id')
+                    ->select('orden_compras.*', 'users.name as Comprador', 'status_o_c_s.estado as Estado', 'proveedores.razonSocial as RazonSocial')
+                    ->where('orden_compras.id', '=', $id)
+                    ->first();
+
+        $proveedores = DB::table('proveedores')
+                    ->select(DB::raw('CONCAT(proveedores.id, " ) ", proveedores.razonSocial) as RazonSocial'), 'proveedores.id')
+                    ->get();
+
+        $move = DB::table('move_o_c_s') 
+                ->join('status_o_c_s', 'move_o_c_s.estadoOrdenCompra_id', 'status_o_c_s.id')               
+                ->join('users', 'move_o_c_s.user_id', 'users.id')
+                ->select('move_o_c_s.*', 'status_o_c_s.estado as status', 'users.name as name', 'move_o_c_s.created_at as date')
+                ->where('move_o_c_s.ordenCompra_id', '=', $id)
+                ->get();
+
+        $assign = DB::table('assign_request_to_o_c_s')
+                ->join('orden_compras', 'assign_request_to_o_c_s.ordenCompra_id', '=', 'orden_compras.id')
+                ->select('assign_request_to_o_c_s.*', 'orden_compras.ordenCompra_id as NoOC')
+                ->where('assign_request_to_o_c_s.ordenCompra_id', '=', $ordenCompra->id)
+                ->get();
+
+        $detalleSolicitud = DB::table('detail_solicituds')
                     ->join('products', 'detail_solicituds.product_id', 'products.id')
                     ->join('solicituds', 'detail_solicituds.solicitud_id', '=', 'solicituds.id')
                     ->join('assign_request_to_o_c_s', 'detail_solicituds.solicitud_id', '=', 'assign_request_to_o_c_s.solicitud_id')
@@ -197,7 +247,58 @@ class OrdenCompraController extends Controller
                     //dd($ordenCompra);
 
                      /* Retornamos a la vista los resultados psanadolos por parametros */
-        return view('siscom.ordenCompra.show', compact('ordenCompra', 'dateCarbon', 'proveedores', 'move', 'detalleSolicitud', 'assign'));
+        return view('siscom.ordenCompra.agregarProductos', compact('ordenCompra', 'dateCarbon', 'proveedores', 'move', 'detalleSolicitud', 'assign'));
+
+    }
+
+    public function buscarSolicitud(Request $request, $id)
+    {
+
+        /*
+         * Definimos variable que contendrá la fecha actual del sistema
+         */
+        $dateCarbon = Carbon::now()->locale('es')->isoFormat('dddd D, MMMM YYYY');
+
+        /* Declaramos la variable que contendrá todos los permisos existentes en la base de datos */
+        $ordenCompra = DB::table('orden_compras')
+                    ->join('users', 'orden_compras.user_id', '=', 'users.id')
+                    ->join('status_o_c_s', 'orden_compras.estado_id', '=', 'status_o_c_s.id')
+                    ->join('proveedores', 'orden_compras.proveedor_id', '=', 'proveedores.id')
+                    ->select('orden_compras.*', 'users.name as Comprador', 'status_o_c_s.estado as Estado', 'proveedores.razonSocial as RazonSocial')
+                    ->where('orden_compras.id', '=', $id)
+                    ->first();
+
+        $proveedores = DB::table('proveedores')
+                    ->select(DB::raw('CONCAT(proveedores.id, " ) ", proveedores.razonSocial) as RazonSocial'), 'proveedores.id')
+                    ->get();
+
+        $move = DB::table('move_o_c_s') 
+                ->join('status_o_c_s', 'move_o_c_s.estadoOrdenCompra_id', 'status_o_c_s.id')               
+                ->join('users', 'move_o_c_s.user_id', 'users.id')
+                ->select('move_o_c_s.*', 'status_o_c_s.estado as status', 'users.name as name', 'move_o_c_s.created_at as date')
+                ->where('move_o_c_s.ordenCompra_id', '=', $id)
+                ->get();
+
+        $assign = DB::table('assign_request_to_o_c_s')
+                ->join('orden_compras', 'assign_request_to_o_c_s.ordenCompra_id', '=', 'orden_compras.id')
+                ->select('assign_request_to_o_c_s.*', 'orden_compras.ordenCompra_id as NoOC')
+                ->where('assign_request_to_o_c_s.ordenCompra_id', '=', $ordenCompra->id)
+                ->get();
+
+        $detalleSolicitud = DB::table('detail_solicituds')
+                    ->join('products', 'detail_solicituds.product_id', 'products.id')
+                    ->join('solicituds', 'detail_solicituds.solicitud_id', '=', 'solicituds.id')
+                    //->join('assign_request_to_o_c_s', 'detail_solicituds.solicitud_id', '=', 'assign_request_to_o_c_s.solicitud_id')
+                    //->join('orden_compras', 'detail_solicituds.ordenCompra_id', '=', 'orden_compras.id')
+                    ->select('detail_solicituds.*', 'products.name as Producto')
+                    ->where('detail_solicituds.solicitud_id', '=', $request->numeroSolicitud)
+                    ->get();    
+
+        
+                    //dd($ordenCompra);
+
+                     /* Retornamos a la vista los resultados psanadolos por parametros */
+        return view('siscom.ordenCompra.agregarProductos', compact('ordenCompra', 'dateCarbon', 'proveedores', 'move', 'detalleSolicitud', 'assign'));
 
     }
 

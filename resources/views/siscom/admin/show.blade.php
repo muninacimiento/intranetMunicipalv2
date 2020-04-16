@@ -332,68 +332,138 @@
 
                                             @foreach($detalleSolicitud as $detalle)
 
-                                            <tr>
+                                            @if($detalle->obsActualizacion === NULL)
 
-                                                <td style="display: none;">{{ $detalle->id }}</td>
+                                                <tr>
 
-                                                <td>{{ $detalle->Producto }}</td>
+                                                    <td style="display: none;">{{ $detalle->id }}</td>
 
-                                                <td>{{ $detalle->especificacion }}</td>
+                                                    <td>{{ $detalle->Producto }}</td>
 
-                                                <td>{{ $detalle->cantidad }}</td>
+                                                    <td>{{ $detalle->especificacion }}</td>
 
-                                                <td>{{ $detalle->valorUnitario }}</td>
+                                                    <td>{{ $detalle->cantidad }}</td>
 
-                                                <td class="subtotal">{{ $detalle->SubTotal }}</td>  
+                                                    <td>{{ $detalle->valorUnitario }}</td>
 
-                                                <td>{{ $detalle->NoOC }}</td>
+                                                    <td class="subtotal">{{ $detalle->SubTotal }}</td>  
 
-                                                <td>{{ $detalle->EstadoOC }}</td>
+                                                    <td>{{ $detalle->NoOC }}</td>
 
-                                                <td>{{ $detalle->NoLicitacion}}</td>
+                                                    <td>{{ $detalle->EstadoOC }}</td>
 
-                                                <td>{{ $detalle->EstadoLicitacion }}</td>
+                                                    <td>{{ $detalle->NoLicitacion}}</td>
 
-                                                @if($detalle->fechaRecepcion == NULL)
+                                                    <td>{{ $detalle->EstadoLicitacion }}</td>
 
-                                                    <td>No</td>
+                                                    @if($detalle->fechaRecepcion == NULL)
 
-                                                @else
+                                                        <td>No</td>
 
-                                                    <td>Si</td>
+                                                    @else
 
-                                                @endif
+                                                        <td>Si</td>
 
-                                                @if($detalle->factura_id == NULL)
+                                                    @endif
 
-                                                    <td>No</td>
+                                                    @if($detalle->factura_id == NULL)
 
-                                                @else
+                                                        <td>No</td>
 
-                                                    <td>Si</td>
+                                                    @else
 
-                                                @endif
+                                                        <td>Si</td>
 
-                                                <td>{{ $detalle->NoFactura }}</td>                                            
+                                                    @endif
 
-                                                <td>
-                                                            
-                                                    <a href="#" class="btn btn-primary btn-sm editDetalle" data-toggle="tooltip" data-placement="bottom" title="Editar Producto">
-                                                                    
-                                                        <i class="far fa-edit"></i>
+                                                    <td>{{ $detalle->NoFactura }}</td>                                            
 
-                                                    </a>
+                                                    <td>
+                                                                
+                                                        <a href="#" class="btn btn-primary btn-sm editDetalle" data-toggle="tooltip" data-placement="bottom" title="Editar Producto">
+                                                                        
+                                                            <i class="far fa-edit"></i>
 
-                                                    <a href="#" class="btn btn-danger btn-sm deleteDetalle" data-toggle="tooltip" data-placement="bottom" title="Eliminar Producto">
-                                                                    
-                                                        <i class="far fa-trash-alt"></i>
+                                                        </a>
 
-                                                    </a>
+                                                        <a href="#" class="btn btn-danger btn-sm deleteDetalle" data-toggle="tooltip" data-placement="bottom" title="Eliminar Producto">
+                                                                        
+                                                            <i class="far fa-trash-alt"></i>
 
-                                                </td>
+                                                        </a>
 
-                                            </tr>
+                                                    </td>
 
+                                                </tr>
+
+                                            @else
+
+                                                <tr style="background-color:DodgerBlue;color: white;">
+
+                                                    <td style="display: none;">{{ $detalle->id }}</td>
+
+                                                    <td>{{ $detalle->Producto }}</td>
+
+                                                    <td>{{ $detalle->especificacion }}</td>
+
+                                                    <td>{{ $detalle->cantidad }}</td>
+
+                                                    <td>{{ $detalle->valorUnitario }}</td>
+
+                                                    <td class="subtotal">{{ $detalle->SubTotal }}</td>  
+
+                                                    <td>{{ $detalle->NoOC }}</td>
+
+                                                    <td>{{ $detalle->EstadoOC }}</td>
+
+                                                    <td>{{ $detalle->NoLicitacion}}</td>
+
+                                                    <td>{{ $detalle->EstadoLicitacion }}</td>
+
+                                                    @if($detalle->fechaRecepcion == NULL)
+
+                                                        <td>No</td>
+
+                                                    @else
+
+                                                        <td>Si</td>
+
+                                                    @endif
+
+                                                    @if($detalle->factura_id == NULL)
+
+                                                        <td>No</td>
+
+                                                    @else
+
+                                                        <td>Si</td>
+
+                                                    @endif
+
+                                                    <td>{{ $detalle->NoFactura }}</td>                                            
+
+                                                    <td>
+                                                                
+                                                        <a href="#" class="btn btn-primary btn-sm editDetalle" data-toggle="tooltip" data-placement="bottom" title="Editar Producto">
+                                                                        
+                                                            <i class="far fa-edit"></i>
+
+                                                        </a>
+
+                                                        <a href="#" class="btn btn-danger btn-sm deleteDetalle" data-toggle="tooltip" data-placement="bottom" title="Eliminar Producto">
+                                                                        
+                                                            <i class="far fa-trash-alt"></i>
+
+                                                        </a>
+
+                                                    </td>
+
+                                                </tr>
+
+
+                                            @endif
+
+                                            
                                             @endforeach
 
                                         </tbody>
@@ -417,8 +487,6 @@
                                             <h5 class="text-muted">Total Solicitud :&nbsp;$&nbsp;</h5>
 
                                             <input type="text" name="totalSolicitud" id="total" readonly style="border: 0;font-size: 1.5em;">
-
-                                            
 
                                         </div>
 
@@ -788,6 +856,14 @@
 
                         <input type="number" name="ValorUnitario" id="ValorUnitario" class="form-control" required>
 
+                    </div>
+
+                    <div class="col-md-12 mb-3">
+                                                
+                        <label for="obsActualizacion">Observación de Actualizacion</label>
+
+                        <textarea type="text" class="form-control" name="obsActualizacion" id="obsActualizacion" required></textarea>
+                        
                     </div>
 
                     <div class="mb-3 form-row">

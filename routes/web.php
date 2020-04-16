@@ -107,6 +107,9 @@ Route::middleware(['auth'])->group( function() {
 	Route::get('VerSolicitud/{solicitud}', 'SCM_SolicitudController@exportarPdf')->name('solicitud.pdf');
 	Route::get('reporteEntregaStock/{solicitud}', 'SCM_AdminSolicitudController@reporteEntregaStock')->name('reporteEntregaStock.pdf');
 
+	Route::resource('/siscom/reporte', 'ReporteSisCoMController')->middleware('can:reporte.index');
+
+
 
 	//Órdenes de Compra
 	Route::resource('/siscom/ordenCompra', 'OrdenCompraController')->middleware('can:ordenCompra.index');
@@ -120,6 +123,10 @@ Route::middleware(['auth'])->group( function() {
 	Route::get('/siscom/ordenCompra/recepcionarProductos/{oc}', 'OrdenCompraController@recepcionarProductos')->name('ordenCompra.recepcionarProductos')->middleware('can:ordenCompra.recepcionarProducto');
 	Route::put('/siscom/ordenCompra/confirmarRecepcion/{oc}', 'OrdenCompraController@update')->name('ordenCompra.confirmarRecepcion')->middleware('can:ordenCompra.confirmarRecepcionProductos');
 	Route::put('/siscom/ordenCompra/recepcionarProducto/{oc}', 'OrdenCompraController@update')->name('ordenCompra.recepcionarProducto')->middleware('can:ordenCompra.recepcionarProducto');
+
+	Route::get('/siscom/ordenCompra/agregarProductos/{oc}', 'OrdenCompraController@agregarProductos')->name('ordenCompra.agregarProductos')->middleware('can:ordenCompra.agregarProductos');
+
+	Route::get('/siscom/ordenCompra/buscarSolicitud/{oc}', 'OrdenCompraController@buscarSolicitud')->name('ordenCompra.buscarSolicitud')->middleware('can:ordenCompra.buscarSolicitud');
 
 
 	//Productos
