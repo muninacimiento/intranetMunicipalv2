@@ -205,17 +205,6 @@
 
                                             <div class="btn-group" role="group" aria-label="Basic example">
 
-                                                {{-- Agregar Productos de la Solicitud a la Orden de Compra --}}
-
-                                                <a href="{{ route('ordenCompra.agregarProductos', $oc->id) }}">
-                                                    
-                                                    <button class="btn btn-danger btn-sm mr-1 " type="button">
-                                                            
-                                                        <i class="fas fa-shopping-basket"></i>
-
-                                                    </button>
-
-                                                </a>
 
                                                 {{-- Asignar Solicitud para Registrar los Productos a la Órden de Compra --}}
 
@@ -223,10 +212,12 @@
 
                                                     @if($oc->Estado === 'Emitida')
 
-                                                        <a href="#" class="asignar" data-toggle="tooltip" data-placement="bottom" title="Asignar Solicitud para Agregar Productos">
-                                            
-                                                            <button class="btn btn-info btn-sm mr-1 " type="button">
+                                                       {{-- Agregar Productos de la Solicitud a la Orden de Compra --}}
+
+                                                        <a href="{{ route('ordenCompra.agregarProductos', $oc->id) }}">
                                                             
+                                                            <button class="btn btn-danger btn-sm mr-1 " type="button">
+                                                                    
                                                                 <i class="fas fa-shopping-basket"></i>
 
                                                             </button>
