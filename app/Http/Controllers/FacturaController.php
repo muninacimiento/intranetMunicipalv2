@@ -225,7 +225,37 @@ class FacturaController extends Controller
     public function update(Request $request, $id)
     {
 
-        if ($request->flag == 'FacturarProducto') {
+        if ($request->flag == 'Actualizar') {
+
+            try {
+
+                    DB::beginTransaction();
+
+                        $factura = Factura::findOrFail($id);;
+                        $factura->factura_id        = $request->factura_id;
+                        $factura->iddoc             = $request->iddoc;
+                        $factura->tipoDocumento     = $request->tipoDocumento;
+                        $factura->proveedor_id      = $request->proveedor_id;
+                        $factura->ordenCompra_id    = $request->ordenCompra_id;
+                        $factura->totalFactura      = $request->totalFactura;
+                        $factura->fechaOficinaParte = $request->fechaOficinaParte;
+                        $factura->user_id           = Auth::user()->id;
+
+                        $factura->save();
+
+                    DB::commit();
+                    
+            } catch (Exception $e) {
+
+                DB::rollback();
+                    
+            }
+
+            return back();
+
+        }
+
+        else if ($request->flag == 'FacturarProducto') {
 
             try {
 
@@ -461,6 +491,8 @@ class FacturaController extends Controller
      */
     public function destroy(Factura $factura)
     {
-        //
+        $factura->delete();
+
+        return back()->with('info', 'Factura Eliminada correctamente !');
     }
 }

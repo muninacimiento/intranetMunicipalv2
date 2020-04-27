@@ -66,21 +66,23 @@ class SCM_AdminSolicitudController extends Controller
          */
         $dateCarbon = Carbon::now()->locale('es')->isoFormat('dddd D, MMMM YYYY');
 
-        /*
-         * Variable Fecha sistema para SEMAFORO
-         */
-        $fechaSistema = Carbon::today()->format('Y-m-d H:i:s');
-        //dd($fechaSistema);
-
         /* Declaramos la variable que contendrá todos los permisos existentes en la base de datos */
         $solicituds = DB::table('solicituds')
+                    ->join('move_solicituds', 'solicituds.id', 'move_solicituds.solicitud_id')
                     ->join('status_solicituds', 'solicituds.estado_id', '=', 'status_solicituds.id')
                     ->join('users', 'solicituds.user_id', '=', 'users.id')
                     ->join('dependencies', 'users.dependency_id', '=', 'dependencies.id')
-                    ->select('solicituds.*', 'status_solicituds.estado', 'dependencies.name')
+                    ->select('solicituds.*', 'move_solicituds.*', 'status_solicituds.estado', 'dependencies.name')
                     ->orderBy('solicituds.id', 'desc')
                     ->get();
 
+        $fechaRecepcion = DB::table('solicituds')
+                        ->join('move_solicituds', 'solicituds.id', 'move_solicituds.solicitud_id')
+                        ->select('solicituds.id', 'move_solicituds.created_at')
+                        ->where('move_solicituds.estadoSolicitud_id', 3)
+                        ->get();
+
+        //dd($fechaRecepcion);
 
         }else {
 
@@ -100,10 +102,11 @@ class SCM_AdminSolicitudController extends Controller
                     ->orderBy('solicituds.id', 'desc')
                     ->get();
 
-        /*
-         *  Calculamos la Fecha para activar el SEMAFORO
-         */
-        
+        $fechaRecepcion = DB::table('solicituds')
+                        ->join('move_solicituds', 'solicituds.id', 'move_solicituds.solicitud_id')
+                        ->select('solicituds.id', 'move_solicituds.created_at')
+                        ->where('move_solicituds.estadoSolicitud_id', 3)
+                        ->get();
 
         }
 
@@ -112,7 +115,7 @@ class SCM_AdminSolicitudController extends Controller
         //dd($solicituds);
 
         /* Retornamos a la vista los resultados psanadolos por parametros */
-        return view('siscom.admin.index', ['solicituds' => $solicituds, 'dateCarbon' => $dateCarbon]);
+        return view('siscom.admin.index', compact('solicituds', 'dateCarbon', 'fechaRecepcion'));
     }
 
     public function show($id)

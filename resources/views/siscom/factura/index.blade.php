@@ -97,6 +97,10 @@
 
                                     <th>Estado Factura</th>
 
+                                    <th>IDDOC</th>
+
+                                    <th>Fecha Recepción Of.Partes</th>
+
                                     <th>No. OC</th>
 
                                     <th>Proveedor</th>
@@ -122,6 +126,10 @@
                                     <td>{{ $factura->factura_id }}</td>
 
                                     <td>{{ $factura->Estado }}</td>
+
+                                    <td>{{ $factura->iddoc }}</td>
+
+                                    <td>{{ $factura->fechaOficinaParte }}</td>
 
                                     <td>{{ $factura->NoOC }}</td>
 
@@ -161,7 +169,7 @@
 
                                             @else
 
-                                            <a href="#" class="btn btn-primary btn-sm mr-1 edit" data-toggle="tooltip" data-placement="bottom" title="Modificar Proveedor">
+                                            <a href="#" class="btn btn-primary btn-sm mr-1 edit" data-toggle="tooltip" data-placement="bottom" title="Modificar Factura">
                                         
                                                 <i class="fas fa-edit"></i>
 
@@ -173,11 +181,16 @@
 
                                             @else
 
-                                            <a href="#" class="btn btn-danger btn-sm delete" data-toggle="tooltip" data-placement="bottom" title="Eliminar Proveedor">
+                                                {!! Form::open(['route'=> ['factura.destroy', $factura->id], 'method' => 'DELETE']) !!}
 
-                                                <i class="fas fa-trash"></i>
+                                                    <button class="btn btn-danger btn-sm delete" style="font-size: 90%;">
 
-                                            </a>
+                                                        <i class="fas fa-trash"></i>
+
+                                                    </button>
+
+                                                {!! Form::close() !!}
+
 
                                             @endif
 
@@ -395,7 +408,7 @@
 
             <div class="modal-header bg-primary text-white">
 
-                <h3 class="modal-title" id="exampleModalLabel"> Actualizar Proveedor <i class="fas fa-edit"></i></h3>
+                <h3 class="modal-title" id="exampleModalLabel"> Actualizar Factura <i class="fas fa-edit"></i></h3>
 
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
 
@@ -406,7 +419,7 @@
             </div>
 
 
-            <form method="POST" action="{{ url('/siscom/proveedores') }}" class="was-validated" id="updateForm">
+            <form method="POST" action="#" class="was-validated" id="updateForm">
 
                 @csrf
                 @method('PUT')
@@ -467,7 +480,7 @@
                                                                               
                             <label for="tipoDocumento">Tipo Documento</label>
 
-                            <select name="tipoDocumento" id="tipoDocumentoUpdate" class="form-control selectpicker" title="Tipo Documento ?" required>
+                            <select name="tipoDocumento" id="tipoDocumentoUpdate1" class="custom-select" required>
 
                                 <option>Factura</option>
                                 <option>Boleta</option>
@@ -568,18 +581,18 @@
     </div>
 
 </div>
-<!-- END Update Modal Proveedor -->
+<!-- END Update Modal Factura -->
 
-<!-- DELETE Modal Proveedor -->
+<!-- DELETE Modal Factura -->
 <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
 
-    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+    <div class="modal-dialog modal-dialog-centered" role="document">
 
         <div class="modal-content">
 
             <div class="modal-header bg-danger text-white">
 
-                <h3 class="modal-title" id="exampleModalLabel"> Eliminar Proveedor <i class="fas fa-times-circle"></i></h3>
+                <h3 class="modal-title" id="exampleModalLabel"> Eliminar Factura <i class="fas fa-times-circle"></i></h3>
 
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
 
@@ -590,7 +603,7 @@
             </div>
 
 
-            <form method="POST" action="{{ url('/siscom/proveedores') }}" class="was-validated" id="deleteForm">
+            <form method="POST" action="#" class="was-validated" id="deleteForm">
 
                 @csrf
                 @method('PUT')
@@ -601,17 +614,17 @@
 
                     <div class="form-row">                        
 
-                            <label class="col-sm-2 col-form-label text-muted">Rut</label><br>
+                            <label class="col-sm-4 col-form-label text-muted">Tipo de Documento</label><br>
                                                                         
-                            <label class="col-sm-10 col-form-label" id="rutDelete">Rut Proveedor</label>
+                            <label class="col-sm-6 col-form-label" id="rutDelete">Tipo de Documento</label>
                                                                      
                     </div>
 
                     <div class="form-row">
 
-                        <label class="col-sm-2 col-form-label text-muted">Razón Social</label><br>
+                        <label class="col-sm-4 col-form-label text-muted">No. Factura</label><br>
                                                                         
-                        <label class="col-sm-10 col-form-label" id="razonSocialDelete">Razón Social</label>
+                        <label class="col-sm-6 col-form-label" id="razonSocialDelete">No. Factura</label>
 
                     </div>
 
@@ -619,7 +632,7 @@
 
                         <button class="btn btn-danger btn-block" type="submit">
 
-                            <i class="fas fa-times-circle"></i> Eliminar Proveedor
+                            <i class="fas fa-times-circle"></i> Eliminar Factura
 
                         </button>
 
@@ -728,18 +741,15 @@
 
                 console.log(data);
 
-                <th style="display:none;">ID</th>
-
-                $('#tipoDocumentoUpdate').val(data[1]);
+                
+                
+                $('#tipoDocumentoUpdate1').val(data[1]);
                 $('#facturaUpdate').val(data[2]);
-                $('#aliasUpdate').val(data[3]);
-                $('#giroUpdate').val(data[4]);
-                $('#direccionUpdate').val(data[5]);
-                $('#ciudadUpdate').val(data[6]);
-                $('#telefonoUpdate').val(data[7]);
-                $('#correoUpdate').val(data[8]);
+                $('#iddocUpdate').val(data[4]);
+                $('#fechaOficinaUpdate').val(data[5]);
+                $('#totalUpdate').val(data[8]);
 
-                $('#updateForm').attr('action', '/siscom/proveedores/' + data[0]);
+                $('#updateForm').attr('action', '/siscom/factura/' + data[0]);
                 $('#updateModal').modal('show');
 
             });
@@ -763,7 +773,7 @@
                 document.getElementById('rutDelete').innerHTML = data[1];
                 document.getElementById('razonSocialDelete').innerHTML = data[2];
                 
-                $('#deleteForm').attr('action', '/siscom/proveedores/' + data[0]);
+                $('#deleteForm').attr('action', '/siscom/factura/' + data[0]);
                 $('#deleteModal').modal('show');
 
             });
