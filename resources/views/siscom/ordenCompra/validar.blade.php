@@ -503,7 +503,7 @@
                                             
                                 <label class=" col-sm-6 col-form-label text-muted">Id Órden de Compra</label>
                                                                         
-                                <label class=" col-sm-6 col-form-label"><input type="text" value="{{ $ordenCompra->ordenCompra_id }}" readonly style="border:0;" name="ordenCompraID" id="ordenCompra_id_excepcion"></label>     
+                                <label class=" col-sm-6 col-form-label"><input type="text" value="{{ $ordenCompra->ordenCompra_id }}" readonly style="border:0;" name="ordenCompraID" id="ordenCompra_id_excepcion" class="h5"></label>     
 
                             </div>
 
@@ -582,7 +582,7 @@
                                             
                                 <label class=" col-sm-6 col-form-label text-muted">Id Órden de Compra</label>
                                                                         
-                                <label class=" col-sm-6 col-form-label"><input type="text" value="{{ $ordenCompra->ordenCompra_id }}" readonly style="border:0;" name="ordenCompraID" id="ordenCompraID"></label>     
+                                <label class=" col-sm-6 col-form-label"><input type="text" value="{{ $ordenCompra->ordenCompra_id }}" readonly style="border:0;" name="ordenCompraID" id="ordenCompraID" class="h5" size="13"></label>     
 
                             </div>
 
@@ -660,7 +660,7 @@
                                             
                                 <label class=" col-sm-6 col-form-label text-muted">Id Órden de Compra</label>
                                                                         
-                                <label class=" col-sm-6 col-form-label"><input type="text" value="{{ $ordenCompra->ordenCompra_id }}" readonly style="border:0;" name="ordenCompraID" id="ordenCompraID"></label>     
+                                <label class=" col-sm-6 col-form-label"><input type="text" value="{{ $ordenCompra->ordenCompra_id }}" readonly style="border:0;" name="ordenCompraID" id="ordenCompraID" class="h5" size="13"></label>     
 
                             </div>
 
@@ -756,7 +756,7 @@
                                             
                                 <label class=" col-sm-6 col-form-label text-muted">Id Órden de Compra</label>
                                                                         
-                                <label class=" col-sm-6 col-form-label"><input type="text" value="{{ $ordenCompra->ordenCompra_id }}" readonly style="border:0;" name="ordenCompraID" id="ordenCompraID"></label>     
+                                <label class=" col-sm-6 col-form-label"><input type="text" value="{{ $ordenCompra->ordenCompra_id }}" readonly style="border:0;" name="ordenCompraID" id="ordenCompraID" class="h5" size="13"></label>     
 
                             </div>
 
@@ -834,7 +834,7 @@
                                             
                                 <label class=" col-sm-6 col-form-label text-muted">Id Órden de Compra</label>
                                                                         
-                                <label class=" col-sm-6 col-form-label"><input type="text" value="{{ $ordenCompra->ordenCompra_id }}" readonly style="border:0;" name="ordenCompraID" id="ordenCompraID"></label>     
+                                <label class=" col-sm-6 col-form-label"><input type="text" value="{{ $ordenCompra->ordenCompra_id }}" readonly style="border:0;" name="ordenCompraID" id="ordenCompraID" class="h5" size="13"></label>     
 
                             </div>
 
@@ -930,7 +930,7 @@
                                             
                                 <label class=" col-sm-6 col-form-label text-muted">Id Órden de Compra</label>
                                                                         
-                                <label class=" col-sm-6 col-form-label"><input type="text" value="{{ $ordenCompra->ordenCompra_id }}" readonly style="border:0;" name="ordenCompraID" id="ordenCompraID"></label>     
+                                <label class=" col-sm-6 col-form-label"><input type="text" value="{{ $ordenCompra->ordenCompra_id }}" readonly style="border:0;" name="ordenCompraID" id="ordenCompraID" class="h5" size="13"></label>     
 
                             </div>
 
@@ -1008,7 +1008,7 @@
                                             
                                 <label class=" col-sm-6 col-form-label text-muted">Id Órden de Compra</label>
                                                                         
-                                <label class=" col-sm-6 col-form-label"><input type="text" value="{{ $ordenCompra->ordenCompra_id }}" readonly style="border:0;" name="ordenCompraID" id="ordenCompraID"></label>     
+                                <label class=" col-sm-6 col-form-label"><input type="text" value="{{ $ordenCompra->ordenCompra_id }}" readonly style="border:0;" name="ordenCompraID" id="ordenCompraID" class="h5" size="13"></label>     
 
                             </div>
 
@@ -1104,7 +1104,7 @@
                                             
                                 <label class=" col-sm-6 col-form-label text-muted">Id Órden de Compra</label>
                                                                         
-                                <label class=" col-sm-6 col-form-label"><input type="text" value="{{ $ordenCompra->ordenCompra_id }}" readonly style="border:0;" name="ordenCompraID" id="ordenCompraID"></label>     
+                                <label class=" col-sm-6 col-form-label"><input type="text" value="{{ $ordenCompra->ordenCompra_id }}" readonly style="border:0;" name="ordenCompraID" id="ordenCompraID" class="h5" size="13"></label>     
 
                             </div>
 
@@ -1182,7 +1182,7 @@
                                             
                                 <label class=" col-sm-6 col-form-label text-muted">Id Órden de Compra</label>
                                                                         
-                                <label class=" col-sm-6 col-form-label"><input type="text" value="{{ $ordenCompra->ordenCompra_id }}" readonly style="border:0;" name="ordenCompraID" id="ordenCompraID"></label>     
+                                <label class=" col-sm-6 col-form-label"><input type="text" value="{{ $ordenCompra->ordenCompra_id }}" readonly style="border:0;" name="ordenCompraID" id="ordenCompraID" class="h5" size="13"></label>     
 
                             </div>
 
@@ -1262,7 +1262,7 @@
                                             
                                 <label class=" col-sm-6 col-form-label text-muted">Id Órden de Compra</label>
                                                                         
-                                <label class=" col-sm-6 col-form-label"><input type="text" value="{{ $ordenCompra->ordenCompra_id }}" readonly style="border:0;" name="ordenCompraID" id="ordenCompraID"></label>     
+                                <label class=" col-sm-6 col-form-label"><input type="text" value="{{ $ordenCompra->ordenCompra_id }}" readonly style="border:0;" name="ordenCompraID" id="ordenCompraID" class="h5" size="13"></label>     
 
                             </div>
 

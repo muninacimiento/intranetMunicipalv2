@@ -31,7 +31,7 @@
 
                         <div class="col-md-12 text-center">
                             
-                            <h3>Administración de las Solicitudes Realizadas</h3>
+                            <h3>Recepcionar las Solicitudes Realizadas</h3>
 
                             <div class="text-secondary">
 
@@ -64,7 +64,7 @@
                     @endif
 
                     
-                    <div>
+                    <div class="form-row mb-5 col-md-12">
 
                         <table class="display" id="solicitudsTable" style="font-size: 0.9em;" width="100%">
 
@@ -78,17 +78,13 @@
 
                                     <th>IDDOC</th>
 
-                                    <th>Recepcionada</th>
-
-                                    <th>D&iacute;as Transcurridos</th>
+                                    <th>Creada</th>
 
                                     <th>Comprador</th>
                                     
                                     <th>Motivo</th>
                                     
                                     <th>Tipo</th>
-
-                                    <th>Fecha Actividad</th>
                                     
                                     <th>Categoria</th>
 
@@ -98,7 +94,7 @@
 
                                     <th style="display: none">Nombre Programa</th>
 
-                                    <th>Acciones</th>
+                                    <th >Acciones</th>
 
                                 </tr>
 
@@ -108,227 +104,59 @@
 
                                 @foreach($solicituds as $solicitud)
 
-                                    @foreach($fechaRecepcion as $recepcionada)
+                                <tr>
 
-                                        @if($solicitud->id === $recepcionada->id)
+                                    <td>{{ $solicitud->id }}</td>
 
-                                            <tr>
+                                    <td>{{ $solicitud->estado }}</td>
 
-                                                <td>{{ $solicitud->id }}</td>
+                                    <td>{{ $solicitud->iddoc }}</td>
 
-                                                <td>{{ $solicitud->estado }}</td>
+                                    <td>{{ date('d-m-Y H:i:s', strtotime($solicitud->created_at)) }}</td>
 
-                                                <td>{{ $solicitud->iddoc }}</td>
+                                    <td>{{ $solicitud->compradorTitular }}</td>
 
-                                                <td>{{ date('d-m-Y H:i:s', strtotime($recepcionada->created_at)) }}</td>
+                                    <td>{{ $solicitud->motivo }}</td>
 
-                                                @if( Carbon\Carbon::parse($recepcionada->created_at)->diffInDays() <= 7)
+                                    <td>{{ $solicitud->tipoSolicitud }}</td>
+                                    
+                                    <td>{{ $solicitud->categoriaSolicitud }}</td>
 
-                                                    <td style="background-color : #59d634 !important;color: white;text-align: center;">
-                                                    
-                                                        {{ Carbon\Carbon::parse($recepcionada->created_at)->diffInDays() }}
+                                    <td>{{ $solicitud->name }}</td>
 
-                                                    </td>
+                                    <td style="display: none">{{ $solicitud->decretoPrograma }}</td>
 
-                                                @elseif( Carbon\Carbon::parse($recepcionada->created_at)->diffInDays() > 7 &&  Carbon\Carbon::parse($recepcionada->created_at)->diffInDays() <= 10)
+                                    <td style="display: none">{{ $solicitud->nombrePrograma }}</td>
 
-                                                    <td style="background-color : #eac50b !important;color: black; text-align: center;">
-                                                    
-                                                        {{ Carbon\Carbon::parse($recepcionada->created_at)->diffInDays() }}
+                                    <td>
 
-                                                    </td>
+                                        <a href="{{ route('admin.show', $solicitud->id) }}" class="btn btn-secondary btn-sm mr-1" data-toggle="tooltip" data-placement="bottom" title="Ver el Detalle de la Solicitud">
 
-                                                @elseif( Carbon\Carbon::parse($recepcionada->created_at)->diffInDays() > 10)
+                                            <i class="fas fa-eye"></i>
 
-                                                    <td style="background-color : #ea0b0b !important;color: white;text-align: center;">
-                                                    
-                                                        {{ Carbon\Carbon::parse($recepcionada->created_at)->diffInDays() }}
+                                        </a>
 
-                                                    </td>
+                                        {{--Habilitar Recepcion--}}
 
-                                                @endif
+                                        @can('admin.recepcionarSolicitud')
 
-                                                <td>{{ $solicitud->compradorTitular }}</td>
+                                            @if($solicitud->estado === 'Pendiente')
 
-                                                <td>{{ $solicitud->motivo }}</td>
+                                                <a href="#" class="btn btn-success btn-sm mr-1 recepcionar" data-toggle="tooltip" data-placement="bottom" title="Recepcionar Solicitud">
+                                                            
+                                                    <i class="fas fa-clipboard-check"></i>
 
-                                                @if($solicitud->tipoSolicitud === 'Actividad')
-
-                                                    <td style="background-color : #483D8B !important;color: white;">{{ $solicitud->tipoSolicitud }}</td>
-
-                                                @else
-
-                                                    <td>{{ $solicitud->tipoSolicitud }}</td>
+                                                </a>
                                                 
-                                                @endif
+                                            @else
 
-                                                @if($solicitud->fechaActividad === NULL)
+                                            @endif
 
-                                                    <td>No Aplica</td>
+                                        @endcan
 
-                                                @else
-                                                    
-                                                    <td style="background-color : #483D8B !important;color: white;">{{ date('d-m-Y', strtotime($solicitud->fechaActividad)) }}</td>
+                                    </td>
 
-                                                @endif
-                                                
-                                                <td>{{ $solicitud->categoriaSolicitud }}</td>
-
-                                                <td>{{ $solicitud->name }}</td>
-
-                                                <td style="display: none">{{ $solicitud->decretoPrograma }}</td>
-
-                                                <td style="display: none">{{ $solicitud->nombrePrograma }}</td>
-
-                                                @if( $solicitud->estado == 'Anulada' || $solicitud->estado == 'Creada')
-
-                                                    <td>
-
-                                                        @can('admin.show')
-
-                                                            <a href="{{ route('admin.show', $solicitud->id) }}" class="btn btn-outline-secondary btn-sm mr-1" data-toggle="tooltip" data-placement="bottom" title="Ver el Detalle de la Solicitud">
-
-                                                                <i class="fas fa-eye"></i>
-
-                                                            </a>
-
-                                                        @endcan
-
-                                                    </td>
-
-                                                @else
-
-                                                    <td>
-
-                                                        <div class="btn-group" role="group">
-
-                                                            {{-- Visualizar Solicitud--}}
-
-                                                            @can('admin.show')
-
-                                                                @if($solicitud->estado === 'En Proceso de Entrega' || $solicitud->estado === 'Solicitud Entregada Completamente')
-
-                                                                    <a href="{{ route('admin.stock', $solicitud->id) }}" class="btn btn-secondary btn-sm mr-1" data-toggle="tooltip" data-placement="bottom" title="Ver el Detalle de la Solicitud">
-
-                                                                        <i class="fas fa-eye"></i>
-
-                                                                    </a>
-
-                                                                @else
-
-                                                                    <a href="{{ route('admin.show', $solicitud->id) }}" class="btn btn-secondary btn-sm mr-1" data-toggle="tooltip" data-placement="bottom" title="Ver el Detalle de la Solicitud">
-
-                                                                        <i class="fas fa-eye"></i>
-
-                                                                    </a>
-
-                                                                @endif
-
-                                                            @endcan
-
-                                                            {{--Habilitar Entrega Stock--}}
-
-                                                            @can('admin.stock')
-
-                                                                @if(($solicitud->estado === 'Asignada a Comprador' || $solicitud->estado === 'Re-Asignada a Comprador') && ($solicitud->categoriaSolicitud === 'Stock de Oficina' || $solicitud->categoriaSolicitud === 'Stock de Aseo' || $solicitud->categoriaSolicitud === 'Stock de Gas'))
-                                                                    
-                                                                    <a href="#" class="btn btn-primary btn-sm mr-1 entregar" data-toggle="tooltip" data-placement="bottom" title="Entregar Productos Stock">
-                                                            
-                                                                        <i class="fas fa-dolly"></i>
-
-                                                                    </a>
-
-                                                                @else
-
-                                                                @endif
-
-                                                            @endcan
-
-                                                            {{--Habilitar Asignacion--}}
-
-                                                            @can('admin.asignar')
-
-                                                                @if($solicitud->estado === 'Recepcionada' && $solicitud->categoriaSolicitud != 'Stock de Aseo')
-
-                                                                    <a href="#" class="btn btn-warning btn-sm mr-1 asignar" data-toggle="tooltip" data-placement="bottom" title="Asignar Solicitud">
-                                                            
-                                                                        <i class="fas fa-inbox"></i>
-
-                                                                    </a>
-
-                                                                @else
-
-                                                                @endif
-
-                                                            {{--Habilitar ReAsignacion--}}
-
-                                                                @if($solicitud->categoriaSolicitud === 'Stock de Aseo')
-
-                                                                @elseif( $solicitud->estado === 'Asignada a Comprador' || $solicitud->estado === 'En Proceso de Entrega' || $solicitud->estado === 'En Proceso de Compra')
-
-                                                                    <a href="#" class="btn btn-dark btn-sm mr-1 reasignar" data-toggle="tooltip" data-placement="bottom" title="ReAsignar Solicitud">
-                                                            
-                                                                        <i class="fas fa-inbox"></i>
-
-                                                                    </a>
-
-                                                                @endif
-
-                                                             @endcan
-
-                                                            {{-- Preguntamos si tiene Decreto de Programa para poder determinar que EDICIÓN se debe hacer --}}
-
-                                                            @can('admin.update')
-
-                                                                @if($solicitud->decretoPrograma === NULL)
-
-                                                                    <a href="#" class="btn btn-primary btn-sm mr-1 editInterna" data-toggle="tooltip" data-placement="bottom" title="Modificar la Solicitud">
-                                                            
-                                                                        <i class="fas fa-edit"></i>
-
-                                                                    </a>
-
-                                                                @else
-
-                                                                    <a href="#" class="btn btn-primary btn-sm mr-1 editPrograma" data-toggle="tooltip" data-placement="bottom" title="Modificar la Solicitud">
-                                                            
-                                                                        <i class="fas fa-edit"></i>
-
-                                                                    </a>
-
-                                                                @endif
-
-                                                            @endcan
-
-                                                            @can('admin.anular')
-
-                                                                @if($solicitud->estado === 'Solicitud Entregada Completamente' || $solicitud->estado === 'Solicitud Gestionada Completamente')
-
-                                                                @else
-
-                                                                    <a href="#" class="btn btn-danger btn-sm anular" data-toggle="tooltip" data-placement="bottom" title="Anular Solicitud">
-
-                                                                        <i class="fas fa-trash"></i>
-
-                                                                    </a>
-
-                                                                @endif
-
-                                                            @endcan
-
-                                                        </div>
-
-                                                    </td>
-
-                                                @endif
-
-                                            </tr>
-                                        
-                                        
-                                        @endif
-
-                                    @endforeach
-       
+                                </tr>
 
                                 @endforeach
 
@@ -344,9 +172,7 @@
 
                                     <th>IDDOC</th>
 
-                                    <th>Recepcionada</th>
-
-                                    <th>D&iacute;as Transcurridos</th>
+                                    <th>Creada</th>
 
                                     <th>Comprador</th>
                                     
@@ -355,8 +181,6 @@
                                     <th>Tipo</th>
                                     
                                     <th>Categoria</th>
-
-                                    <th>Fecha Actividad</th>
 
                                     <th>Dependencia</th>
 
@@ -477,7 +301,7 @@
             </div>
 
 
-            <form method="POST" action="{{ url('/siscom/admin/recepcionar') }}" class="was-validated" id="recepcionarForm">
+            <form method="POST" action="{{ url('/siscom/admin') }}" class="was-validated" id="recepcionarForm">
 
                 @csrf
                 @method('PUT')
@@ -512,7 +336,7 @@
 
                          <div class="col-sm-8">
 
-                            <input type="nummber" name="iddoc" required class="form-control">
+                            <input type="number" name="iddoc" required class="form-control">
 
                             <div class="invalid-feedback">
 
@@ -559,7 +383,7 @@
 <!-- Asignar Solicitud Modal -->
 <div class="modal fade" id="asignarSolicitudModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
 
-    <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
 
         <div class="modal-content">
 
@@ -576,7 +400,7 @@
             </div>
 
 
-            <form method="POST" action="{{ url('/siscom/admin/asignar') }}" class="was-validated" id="asignarForm">
+            <form method="POST" action="{{ url('/siscom/admin') }}" class="was-validated" id="asignarForm">
 
                 @csrf
                 @method('PUT')
@@ -587,17 +411,17 @@
 
                     <div class="form-row">
                         
-                        <label for="fechaRecepcion" class="col-sm-4 col-form-label text-muted">Fecha Recepción</label>
+                        <label for="fechaRecepcion" class="col-sm-3 col-form-label text-muted">Fecha Recepción</label>
 
-                        <label for="fechaRecepcion" class="col-sm-8 col-form-label">{{ $dateCarbon }}</label>
+                        <label for="fechaRecepcion" class="col-sm-9 col-form-label">{{ $dateCarbon }}</label>
 
                     </div>
 
                     <div class="form-row">
 
-                        <label for="ID" class="col-sm-4 col-form-label text-muted">No. Solicitud</label>
+                        <label for="ID" class="col-sm-3 col-form-label text-muted">No. Solicitud</label>
 
-                        <div class="col-sm-8">
+                        <div class="col-sm-9">
                              
                             <input type="" name="solicitud_id" id="solicitud_id" readonly class="form-control-plaintext">
                                  
@@ -607,9 +431,9 @@
 
                     <div class="form-row mb-5">
 
-                        <label for="ID" class="col-sm-4 col-form-label text-muted">Compador</label>
+                        <label for="ID" class="col-sm-3 col-form-label text-muted">Compador</label>
 
-                        <div class="col-sm-8">
+                        <div class="col-sm-9">
 
                             <select name="compradorTitular" id="compradorTitular" class="custom-select" required>
 
@@ -635,7 +459,7 @@
 
                     <div class="mb-3 form-row">
 
-                        <button class="btn btn-warning btn-block" type="submit">
+                        <button class="btn btn-success btn-block" type="submit">
 
                             <i class="fas fa-check-circle"></i> Asignar Solicitud
 
@@ -665,7 +489,7 @@
 <!-- REAsignar Solicitud Modal -->
 <div class="modal fade" id="reasignarSolicitudModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
 
-    <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
 
         <div class="modal-content">
 
@@ -682,7 +506,7 @@
             </div>
 
 
-            <form method="POST" action="{{ url('/siscom/admin/reasignar') }}" class="was-validated" id="reasignarForm">
+            <form method="POST" action="{{ url('/siscom/admin') }}" class="was-validated" id="reasignarForm">
 
                 @csrf
                 @method('PUT')
@@ -693,17 +517,17 @@
 
                     <div class="form-row">
                         
-                        <label for="fechaRecepcion" class="col-sm-4 col-form-label text-muted">Fecha Recepción</label>
+                        <label for="fechaRecepcion" class="col-sm-3 col-form-label text-muted">Fecha Recepción</label>
 
-                        <label for="fechaRecepcion" class="col-sm-8 col-form-label">{{ $dateCarbon }}</label>
+                        <label for="fechaRecepcion" class="col-sm-9 col-form-label">{{ $dateCarbon }}</label>
 
                     </div>
 
                     <div class="form-row">
 
-                        <label for="ID" class="col-sm-4 col-form-label text-muted">No. Solicitud</label>
+                        <label for="ID" class="col-sm-3 col-form-label text-muted">No. Solicitud</label>
 
-                        <div class="col-sm-8">
+                        <div class="col-sm-9">
                              
                             <input type="" name="solicitud_id" id="solicitud_id_reasignar" readonly class="form-control-plaintext">
                                  
@@ -713,9 +537,9 @@
 
                     <div class="form-row mb-5">
 
-                        <label for="ID" class="col-sm-4 col-form-label text-muted">Compador</label>
+                        <label for="ID" class="col-sm-3 col-form-label text-muted">Compador</label>
 
-                        <div class="col-sm-8">
+                        <div class="col-sm-9">
 
                             <select name="compradorSuplencia" id="compradorSuplencia" class="custom-select" required>
 
@@ -741,7 +565,7 @@
 
                     <div class="mb-3 form-row">
 
-                        <button class="btn btn-warning btn-block" type="submit">
+                        <button class="btn btn-success btn-block" type="submit">
 
                             <i class="fas fa-check-circle"></i> ReAsignar Solicitud
 
@@ -768,290 +592,10 @@
 </div>
 <!-- End Asignar Solicitud Modal -->
 
-<!-- Actualizamos Solicitud de Gestión Interna -->
-<div class="modal fade" id="updateSolicitudInterna" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-
-    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
-
-        <div class="modal-content">
-
-            <div class="modal-header bg-primary text-white">
-
-                <h3 class="modal-title" id="exampleModalLabel"> Actualizar Solicitud <i class="fas fa-edit"></i></h3>
-
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-
-                    <span aria-hidden="true" class="text-white">&times;</span>
-
-                </button>
-
-            </div>
-
-
-            <form method="POST" action="{{ url('/siscom/solicitud') }}" class="was-validated" id="updateFormInterna">
-
-                @csrf
-                @method('PUT')
-
-                <input type="hidden" name="flag" value="ActualizarInterna">
-
-                <div class="modal-body">
-
-                    <div class="form-row">
-
-                        <div class="col-md-12 mb-3">
-                                                                              
-                            <label for="Motivo">Motivo</label>
-
-                            <textarea type="text" class="form-control" id="motivo_update_interna" name="motivo" placeholder="Ingrese el Motivo de su Solicitud" required></textarea>
-
-                            <div class="invalid-feedback">
-                                                                                            
-                                Por favor ingrese el Motivo de la Solicitud
-
-                            </div>
-
-                        </div>
-
-                    </div>
-
-                    <div class="form-row mb-5">
-
-                        <div class="form-group col-md-6 mb-3">
-
-                            <label for="tipoSolicitud">Tipo Solicitud</label>
-
-                            <select name="tipoSolicitud" id="tipoSolicitud_update_interna" class="custom-select" required>
-
-                                <option>Operacional</option>
-                                <option>Actividad</option>
-
-                            </select>
-
-                            <div class="invalid-feedback">
-
-                                Por favor seleccione el Tipo de Solicitud
-
-                            </div>
-
-                        </div>
-
-                        <div class="form-group col-md-6 mb-3">
-
-                            <label for="categoriaSolicitud">Categoria Solicitud</label>
-
-                            <select name="categoriaSolicitud" id="categoriaSolicitud_update_interna" class="custom-select" required>
-
-                                <option>Stock de Oficina</option>
-                                <option>Stock de Aseo</option>                                
-                                <option>Stock de Gas</option>                               
-                                <option>Compra</option>                                
-
-                            </select>
-                                                                                        
-                            <div class="invalid-feedback">
-                                                                                            
-                                Por favor seleccione la Categoria de la Solicitud
-
-                            </div>
-                                                                            
-                        </div>  
-
-                    </div>
-
-                    <div class="form-row">
-
-                        <button class="btn btn-success btn-block" type="submit">
-
-                            <i class="fas fa-save"></i>
-
-                            Guardar Solicitud
-
-                        </button>
-
-                        <button type="button" class="btn btn-block btn-secondary" data-dismiss="modal" aria-label="Close">
-
-                            <i class="fas fa-arrow-left"></i>
-
-                            Cancelar
-
-                        </button>
-
-                    </div>
-
-                </div>
-
-            </form>
-
-        </div>
-
-    </div>
-
-</div>
-<!-- Actualizamos Solicitud de Gestión Interna -->
-
-<!-- Actualizamos Solicitud de Gestión de Programa -->
-<div class="modal fade" id="updateSolicitudPrograma" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-
-    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
-
-        <div class="modal-content">
-
-            <div class="modal-header bg-primary text-white">
-
-                <h3 class="modal-title" id="exampleModalLabel"> Actualizar Solicitud <i class="fas fa-edit"></i></h3>
-
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-
-                    <span aria-hidden="true" class="text-white">&times;</span>
-
-                </button>
-
-            </div>
-
-
-            <form method="POST" action="{{ url('/siscom/solicitud') }}" class="was-validated" id="updateFormPrograma">
-
-                @csrf
-                @method('PUT')
-
-                <input type="hidden" name="flag" value="ActualizarPrograma">
-
-                <div class="modal-body">
-
-                    <div class="form-row">
-
-                        <div class="col-md-12 mb-3">
-                                                                              
-                            <label for="Motivo">Motivo</label>
-
-                            <textarea type="text" class="form-control" id="motivo_update_programa" name="motivo" placeholder="Ingrese el Motivo de su Solicitud" required></textarea>
-
-                            <div class="invalid-feedback">
-                                                                                            
-                                Por favor ingrese el Motivo de la Solicitud
-
-                            </div>
-
-                        </div>
-
-                    </div>
-
-                    <div class="form-row mb-5">
-
-                        <div class="form-group col-md-6 mb-3">
-
-                            <label for="tipoSolicitud">Tipo Solicitud</label>
-
-                            <select name="tipoSolicitud" id="tipoSolicitud_update_programa" class="custom-select" required>
-
-                                <option>Operacional</option>
-                                <option>Actividad</option>
-
-                            </select>
-
-                            <div class="invalid-feedback">
-
-                                Por favor seleccione el Tipo de Solicitud
-
-                            </div>
-
-                        </div>
-
-                        <div class="form-group col-md-6 mb-3">
-
-                            <label for="categoriaSolicitud">Categoria Solicitud</label>
-
-                            <select name="categoriaSolicitud" id="categoriaSolicitud_update_programa" class="custom-select" required>
-
-                                <option>Stock de Oficina</option>
-                                <option>Stock de Aseo</option>                                
-                                <option>Stock de Gas</option>                               
-                                <option>Compra</option>                                
-
-                            </select>
-                                                                                        
-                            <div class="invalid-feedback">
-                                                                                            
-                                Por favor seleccione la Categoria de la Solicitud
-
-                            </div>
-                                                                            
-                        </div>  
-
-                    </div>
-
-                    <div class="form-row mb-5">
-
-                        <div class="col-md-6">
-                                                                                          
-                            <label for="decretoActividad">No. Decreto del Programa</label>
-
-                            <input type="text" id="decretoPrograma_update_programa" name="decretoPrograma" class="form-control" placeholder="Cuál es el Número de su Decreto?" required/>
-
-                            <div class="invalid-feedback">
-                                                                                                        
-                                Por favor ingrese el No. de Decreto de su Programa
-
-                            </div>
-
-                        </div>
-
-                        <div class="col-md-6">
-                                                                                          
-                            <label for="nombrePrograma">Nombre del Programa 
-
-                                <small class="text-muted">(Programa Presupuestario)</small>
-
-                            </label>
-
-                            <input type="text" id="nombrePrograma_update_programa" name="nombrePrograma" class="form-control" placeholder="Cuál es el Nombre del Programa a Ejecutar?" required/>
-                            
-                            <div class="invalid-feedback">
-                                                                                                        
-                                Por favor ingrese el Nombre de su Programa
-
-                            </div>
-
-                        </div>
-                    
-                    </div>
-
-                    <div class="form-row">
-
-                        <button class="btn btn-success btn-block" type="submit">
-
-                            <i class="fas fa-save"></i>
-
-                            Guardar Solicitud
-
-                        </button>
-
-                        <button type="button" class="btn btn-block btn-secondary" data-dismiss="modal" aria-label="Close">
-
-                            <i class="fas fa-arrow-left"></i>
-
-                            Cancelar
-
-                        </button>
-
-                    </div>
-
-                </div>
-
-            </form>
-
-        </div>
-
-    </div>
-
-</div>
-<!-- ACtualizamos Solicitud de Gestión de Programa -->
-
 <!-- Anular Modal Solicitud -->
 <div class="modal fade" id="anularSolicitudModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
 
-    <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
 
         <div class="modal-content">
 
@@ -1068,7 +612,7 @@
             </div>
 
 
-            <form method="POST" action="{{ url('/siscom/admin/anular') }}" class="was-validated" id="anularForm">
+            <form method="POST" action="{{ url('/siscom/admin') }}" class="was-validated" id="anularForm">
 
                 @csrf
                 @method('PUT')
@@ -1180,7 +724,6 @@
             var height = $(window).height();
             $('#allWindow').height(height);
 
-
             $( "#fechaActividad" ).datepicker({
                 dateFormat: "yy-mm-dd",
                 minDate: "+14d",
@@ -1206,6 +749,7 @@
                 var title = $(this).text();
                 $(this).html( '<input type="text" placeholder="Buscar">' );
             } );
+
 
             // Start Configuration DataTable
             var table = $('#solicitudsTable').DataTable({
@@ -1246,7 +790,7 @@
             });
             //End Configuration DataTable
 
-            // Apply the search
+             // Apply the search
             table.columns().every( function () {
                 var that = this;
          
@@ -1258,108 +802,6 @@
                     }
                 } );
             } );
-
-            //Start Edit Record
-            table.on('click', '.editInterna', function () {
-
-                $tr = $(this).closest('tr');
-
-                if ($($tr).hasClass('child')) {
-
-                    $tr = $tr.prev('.parent');
-
-                }
-
-                var data = table.row($tr).data();
-
-                console.log(data);
-
-                $('#motivo_update_interna').val(data[5]);
-
-                if (($('#tipoSolicitud_update_interna').val(data[6]))==='Solicitud General') {
-
-                    $('#tipoSolicitud_update_interna').val();    
-                }
-                else if (($('#tipoSolicitud_update_interna').val(data[6]))==='Solicitud de Actividad'){
-
-                    $('#tipoSolicitud_update_interna').val();       
-                }
-                
-                if (($('#categoriaSolicitud_update_interna').val(data[7]))==='Stock de Oficina') {
-
-                    $('#categoriaSolicitud_update_interna').val();    
-                }
-                else if (($('#categoriaSolicitud_update_interna').val(data[7]))==='Stock de Aseo'){
-
-                    $('#categoriaSolicitud_update_interna').val();       
-                }
-                else if (($('#categoriaSolicitud_update_interna').val(data[7]))==='Stock de Gas'){
-
-                    $('#categoriaSolicitud_update_interna').val();       
-                }
-                else if (($('#categoriaSolicitud_update_interna').val(data[7]))==='Compra'){
-
-                    $('#categoriaSolicitud_update_interna').val();       
-                }               
-
-                $('#updateFormInterna').attr('action', '/siscom/solicitud/' + data[0]);
-                $('#updateSolicitudInterna').modal('show');
-
-            });
-            //End Edit Record
-
-            //Start Edit Record
-            table.on('click', '.editPrograma', function () {
-
-                $tr = $(this).closest('tr');
-
-                if ($($tr).hasClass('child')) {
-
-                    $tr = $tr.prev('.parent');
-
-                }
-
-                var data = table.row($tr).data();
-
-                console.log(data);
-
-                $('#motivo_update_programa').val(data[5]);
-
-                if (($('#tipoSolicitud_update_programa').val(data[6]))==='Solicitud General') {
-
-                    $('#tipoSolicitud_update_programa').val();    
-                }
-                else if (($('#tipoSolicitud_update_programa').val(data[6]))==='Solicitud de Actividad'){
-
-                    $('#tipoSolicitud_update_programa').val();       
-                }
-                
-                if (($('#categoriaSolicitud_update_programa').val(data[7]))==='Stock de Oficina') {
-
-                    $('#categoriaSolicitud_update_programa').val();    
-                }
-                else if (($('#categoriaSolicitud_update_programa').val(data[7]))==='Stock de Aseo'){
-
-                    $('#categoriaSolicitud_update_programa').val();       
-                }
-                else if (($('#categoriaSolicitud_update_programa').val(data[7]))==='Stock de Gas'){
-
-                    $('#categoriaSolicitud_update_programa').val();       
-                }
-                else if (($('#categoriaSolicitud_update_programa').val(data[7]))==='Compra'){
-
-                    $('#categoriaSolicitud_update_programa').val();       
-                }
-
-                $('#decretoPrograma_update_programa').val(data[8]);
-                $('#nombrePrograma_update_programa').val(data[9]);
-               
-
-                $('#updateFormPrograma').attr('action', '/siscom/solicitud/' + data[0]);
-                $('#updateSolicitudPrograma').modal('show');
-
-            });
-            //End Edit Record
 
             //Comienzo de Confirmar Entrega Productos de la Solicitud
             table.on('click', '.entregar', function () {
@@ -1401,7 +843,7 @@
 
                 $('#solicitudID').val(data[0]);
 
-                $('#recepcionarForm').attr('action', '/siscom/admin/recepcionar/' + data[0]);
+                $('#recepcionarForm').attr('action', '/siscom/admin/' + data[0]);
                 $('#recepcionarModal').modal('show');
 
             });
@@ -1424,7 +866,7 @@
 
                 $('#solicitud_id').val(data[0]);
                 
-                $('#asignarForm').attr('action', '/siscom/admin/asignar/' + data[0]);
+                $('#asignarForm').attr('action', '/siscom/admin/' + data[0]);
                 $('#asignarSolicitudModal').modal('show');
 
             });
@@ -1447,7 +889,7 @@
 
                 $('#solicitud_id_reasignar').val(data[0]);
                 
-                $('#reasignarForm').attr('action', '/siscom/admin/reasignar/' + data[0]);
+                $('#reasignarForm').attr('action', '/siscom/admin/' + data[0]);
                 $('#reasignarSolicitudModal').modal('show');
 
             });
@@ -1473,7 +915,7 @@
                 document.getElementById('tipoSolicitud_anular').innerHTML = data[6];
                 document.getElementById('categoriaSolicitud_anular').innerHTML = data[7];
                 
-                $('#anularForm').attr('action', '/siscom/admin/anular/' + data[0]);
+                $('#anularForm').attr('action', '/siscom/admin/' + data[0]);
                 $('#anularSolicitudModal').modal('show');
 
             });

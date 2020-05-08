@@ -48,6 +48,20 @@
 
 		    @endcan
 
+		    @can('admin.recepcionarSolicitud')
+
+		   	<div class="dropdown-divider"></div>
+
+		   	<a class="dropdown-item text-primary" href="{{ route('admin.recepcionarSolicitud') }}">
+
+		    	<i class="fas fa-inbox px-1"></i>
+
+		    	Recepcionar Solicitudes
+
+		    </a>
+
+		    @endcan		
+
 		    @can('admin.index')
 
 		   	<div class="dropdown-divider"></div>

@@ -38,88 +38,86 @@
 
                             <div class="container">
 
-                                <div class="form-row">
+                              <div class="row">
 
-                                    <div class="col mb-3">
+                                <div class="col">
 
-                                        <div class="form-row">
-                                            
-                                            <label class="col-sm-3 col-form-label text-muted">IDDOC</label>
+                                    <div>
+                                      
+                                        <label class="col-sm-6 col-form-label text-muted">IDDOC</label>
                                                                         
-                                            <label class="col-sm-9 col-form-label">{{ $ordenCompra->iddoc }}</label>
+                                        <label class="col-sm-6 h5">{{ $ordenCompra->iddoc }}</label>
 
-                                        </div>
+                                    </div>
 
-                                        <div class="form-row">
-                                            
-                                            <label class=" col-sm-3 col-form-label text-muted">Estado</label>
-                                                                        
-                                            <label class=" col-sm-9 col-form-label">{{ $ordenCompra->Estado }}</label>     
+                                    <div>
+                                       
+                                        <label class="col-sm-6 col-form-label text-muted">Razón Social</label>
 
-                                        </div>
+                                        <label class="col-sm-6 h5">{{ $ordenCompra->RazonSocial }}</label>
 
-                                        <div class="form-row">
+                                    </div>
+
+                                    <div>
                                         
-                                            <label class=" col-sm-3 col-form-label text-muted">Razón Social</label>
-
-                                            <label class="col-sm-9 col-form-label">{{ $ordenCompra->RazonSocial }}</label>
-
-                                        </div>
-
-                                        <div class="form-row">
-                                            
-                                            <label class=" col-sm-3 col-form-label text-muted">Tipo</label>
+                                        <label class=" col-sm-6 col-form-label text-muted">Valor Estimado</label>
                                                                         
-                                            <label class=" col-sm-9 col-form-label">{{ $ordenCompra->tipoOrdenCompra }}</label>     
+                                        <label class=" col-sm-6 h5">{{ $ordenCompra->valorEstimado }}</label>   
 
-                                        </div>
+                                    </div>
 
-                                        <div class="form-row">
-                                            
-                                            <label class=" col-sm-3 col-form-label text-muted">Valor Estimado</label>
+                                    <div>
+                                        
+                                        <label class=" col-sm-6 col-form-label text-muted">Con Excepción</label>
                                                                         
-                                            <label class=" col-sm-9 col-form-label">{{ $ordenCompra->valorEstimado }}</label>     
+                                        <label class=" col-sm-6 h5">{{ $ordenCompra->excepcion }}</label>     
 
-                                        </div>
+                                    </div>
+                                    
 
-                                        <div class="form-row">
-                                            
-                                            <label class=" col-sm-3 col-form-label text-muted">Valor Total ($)</label>
+                                </div>
+
+                                <div class="col">
+
+                                    <div>
+                                        
+                                        <label class="col-sm-6 col-form-label text-muted">Estado</label>
                                                                         
-                                            <label class=" col-sm-9 col-form-label">{{ $ordenCompra->totalOrdenCompra }}</label>     
+                                        <label class="col-sm-9 h5">{{ $ordenCompra->Estado }}</label>
 
-                                        </div>
+                                    </div>
 
-                                        <div class="form-row">
-                                            
-                                            <label class=" col-sm-3 col-form-label text-muted">Con Excepción</label>
+                                    <div>
+                                        
+                                        <label class="col-sm-3 col-form-label text-muted">Tipo</label>
                                                                         
-                                            <label class=" col-sm-9 col-form-label">{{ $ordenCompra->excepcion }}</label>     
+                                        <label class="col-sm-9 h5">{{ $ordenCompra->tipoOrdenCompra }}</label>
 
-                                        </div>
+                                    </div>
 
-                                        <div class="form-row">
+                                    <div>
+                                        
+                                        <label class=" col-sm-6 col-form-label text-muted">Valor Total ($)</label>
+                                                                        
+                                        <label class=" col-sm-6 h5">{{ $ordenCompra->totalOrdenCompra }}</label>     
+
+                                    </div>
+
+                                    <div>
                                             
-                                            <label class=" col-sm-3 col-form-label text-muted">Enviada Proveedor</label>
+                                            <label class=" col-sm-6 col-form-label text-muted">Enviada Proveedor</label>
 
                                             @if( $ordenCompra->enviadaProveedor == 0 )
-                                                <label class=" col-sm-9 col-form-label">No</label>
+                                                <label class=" col-sm-6 h5">No</label>
                                             @elseif( $ordenCompra->enviadaProveedor == 1 )
-                                                <label class=" col-sm-9 col-form-label">Si</label>
+                                                <label class=" col-sm-6 h5">Si</label>
                                             @endif
 
                                         </div>
 
-                                        <div class="form-row">
-                                            
-                                            <label class=" col-sm-3 col-form-label text-muted">Depto. que Recepciona</label>
-                                                                        
-                                            <label class=" col-sm-9 col-form-label">{{ $ordenCompra->deptoRecepcion }}</label>     
+                                </div>
 
-                                        </div>
-
-                                                                    
-                                    </div>
+                                <div class="col">
 
                                     <div class="card text-white bg-secondary mb-3" style="max-width: 30rem;">
 
@@ -133,9 +131,9 @@
 
                                             <div class="form-row align-items-center">
                                                 
-                                                <div class="col-sm-3 my-1">
+                                                <div class="col-sm-5 my-1">
                                                     
-                                                    <input type="number" class="form-control" id="numeroSolicitud" name="numeroSolicitud">
+                                                    <input type="number" class="form-control" id="numeroSolicitud" name="numeroSolicitud" value="{{ $solicitudNo }}">
                                                 
                                                 </div>
          
@@ -155,6 +153,16 @@
 
                                 </div>
 
+                              </div>
+
+                            </div>
+
+                            <div class="container">
+                                        
+                                <label class=" col-sm-6 col-form-label text-muted">Depto. que Recepciona</label>
+                                                                        
+                                <label class=" col-sm-6 h5">{{ $ordenCompra->deptoRecepcion }}</label>     
+
                             </div>
 
                             <hr style="background-color: #d7d7d7">
@@ -167,7 +175,7 @@
 
                                  <a href="#" data-toggle="modal" data-target="#asignarTODOSModal" title="Asignar Producto a la órden de Compra" disabled>
 
-                                    <button class="btn btn-primary btn-sm float-right" disabled>
+                                    <button class="btn btn-primary btn-sm float-right">
 
                                         <i class="fas fa-check-double"></i> 
 
@@ -178,7 +186,11 @@
 
                                 </a>
                                     
-                                <h5>Detalle Órden de Compra</h5>   
+                                <h5>
+
+                                    Detalle de la Órden de Compra
+
+                                </h5>   
 
                             </div>
                             
@@ -339,7 +351,7 @@
 <!-- UPDATE Modal Detalle Solicitud-->
 <div class="modal fade" id="asignarTODOSModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
 
-    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+    <div class="modal-dialog modal-dialog-centered" role="document">
 
         <div class="modal-content">
 
@@ -356,7 +368,7 @@
             </div>
 
 
-            <form method="POST" action="{{ route('ordenCompra.update', $ordenCompra->id) }}" class="was-validated">
+            <form method="POST" action="{{ route('solicitud.update', $ordenCompra->id) }}" class="was-validated">
 
                 @csrf
                 @method('PUT')
@@ -367,9 +379,7 @@
         
                     <div class="mb-3">
                         
-                        Esta usted seguro de quere agregar TODOS los Productos a esta Órden de Compra ?
-
-                        <input type="text" value="{{ $ordenCompra->ordenCompra_id }}" readonly class="h4" style="border:0;" name="ordenCompraID" id="ordenCompraID">
+                        Esta usted segur@ de quere agregar TODOS los Productos de la Solicitud No. <input type="text" value="{{ $solicitudNo }}" readonly class="h5" style="border:0;" name="noSolicitud" id="noSolicitud" size="3">
 
                     </div>
 

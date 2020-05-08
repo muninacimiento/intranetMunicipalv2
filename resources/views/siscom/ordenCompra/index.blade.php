@@ -206,13 +206,11 @@
                                             <div class="btn-group" role="group" aria-label="Basic example">
 
 
-                                                {{-- Asignar Solicitud para Registrar los Productos a la Órden de Compra --}}
+                                                {{-- Agregar Productos a la Órden de Compra --}}
 
                                                 @can('ordenCompra.asignar')
 
                                                     @if($oc->Estado === 'Emitida')
-
-                                                       {{-- Agregar Productos de la Solicitud a la Orden de Compra --}}
 
                                                         <a href="{{ route('ordenCompra.agregarProductos', $oc->id) }}">
                                                             
@@ -270,7 +268,7 @@
 
                                                 @can('ordenCompra.validar')
 
-                                                    @if($oc->Estado == 'Emitida' || $oc->Estado == 'Confirmada' || $oc->Estado == 'Enviada a Proveedor')
+                                                    @if($oc->Estado == 'Emitida' || $oc->Estado == 'Confirmada' || $oc->Estado == 'Enviada a Proveedor' || $oc->Estado == 'Productos Recepcionados')
 
                                                     @else
 
@@ -292,7 +290,9 @@
 
                                                 @can('ordenCompra.recepcionarProducto')
 
-                                                    
+                                                    @if($oc->Estado == 'Emitida' || $oc->Estado == 'Confirmada' || $oc->Estado == 'Recepcionada y en Revisión por C&S' || $oc->Estado == 'Productos Recepcionados')
+
+                                                    @else
 
                                                         <a href="{{ route('ordenCompra.recepcionarProductos', $oc->id) }}" data-toggle="tooltip" data-placement="bottom" title="Recepcionar Productos de la OC">
                                             
@@ -304,35 +304,47 @@
 
                                                         </a>
 
-
+                                                    @endif
 
                                                 @endcan
 
                                                 @can('ordenCompra.update')
 
-                                                    <a href="#" class="edit" data-toggle="tooltip" data-placement="bottom" title="Modificar la Órden de Compra">
+                                                    @if($oc->Estado == 'Productos Recepcionados')
 
-                                                        <button class="btn btn-primary btn-sm mr-1  " type="button">
-                                                            
-                                                            <i class="fas fa-edit"></i>
+                                                    @else
 
-                                                        </button>
+                                                        <a href="#" class="edit" data-toggle="tooltip" data-placement="bottom" title="Modificar la Órden de Compra">
 
-                                                    </a>
+                                                            <button class="btn btn-primary btn-sm mr-1  " type="button">
+                                                                
+                                                                <i class="fas fa-edit"></i>
+
+                                                            </button>
+
+                                                        </a>
+
+                                                    @endif
 
                                                 @endcan
 
                                                 @can('ordenCompra.anular')
 
-                                                    <a href="#" class="delete" data-toggle="tooltip" data-placement="bottom" title="Anular Órden de Compra">
+                                                    @if($oc->Estado == 'Productos Recepcionados')
 
-                                                        <button class="btn btn-danger btn-sm " type="button">
-                                                            
-                                                             <i class="fas fa-trash"></i>
+                                                    @else
 
-                                                        </button>
+                                                        <a href="#" class="delete" data-toggle="tooltip" data-placement="bottom" title="Anular Órden de Compra">
 
-                                                    </a>
+                                                            <button class="btn btn-danger btn-sm " type="button">
+                                                                
+                                                                 <i class="fas fa-trash"></i>
+
+                                                            </button>
+
+                                                        </a>
+
+                                                    @endif
 
                                                 @endcan
 
@@ -618,17 +630,17 @@
 
                     <div class="form-row">
                         
-                        <label for="fechaRecepcion" class="col-sm-3 col-form-label text-muted">Fecha Recepción</label>
+                        <label for="fechaRecepcion" class="col-sm-4 col-form-label text-muted">Fecha Recepción</label>
 
-                        <label for="fechaRecepcion" class="col-sm-9 col-form-label">{{ $dateCarbon }}</label>
+                        <label for="fechaRecepcion" class="col-sm-8 col-form-label">{{ $dateCarbon }}</label>
 
                     </div>
 
                     <div class="form-row">
 
-                        <label for="ID" class="col-sm-3 col-form-label text-muted">No. Órden de Compra</label>
+                        <label for="ID" class="col-sm-4 col-form-label text-muted">No. Órden de Compra</label>
 
-                         <div class="col-sm-9">
+                         <div class="col-sm-8">
                              
                             <input type="" name="ordenCompra_id" id="ordenCompra_id" readonly class="form-control-plaintext">
                                  

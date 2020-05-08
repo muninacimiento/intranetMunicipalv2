@@ -181,7 +181,7 @@
 
                                  <a href="#" data-toggle="modal" data-target="#asignarTODOSModal" title="Asignar Producto a la órden de Compra" disabled>
 
-                                    <button class="btn btn-primary btn-sm float-right" disabled>
+                                    <button class="btn btn-primary btn-sm float-right">
 
                                         <i class="fas fa-check-double"></i> 
 

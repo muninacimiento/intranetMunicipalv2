@@ -200,7 +200,7 @@ class OrdenCompraController extends Controller
 
     }
 
-    public function agregarProductos($id)
+    public function agregarProductos($id, Request $request)
     {
 
         /*
@@ -243,11 +243,13 @@ class OrdenCompraController extends Controller
                     ->where('assign_request_to_o_c_s.ordenCompra_id', '=', $ordenCompra->id)
                     ->get();    
 
+        $solicitudNo = $request->numeroSolicitud;
+
         
                     //dd($ordenCompra);
 
                      /* Retornamos a la vista los resultados psanadolos por parametros */
-        return view('siscom.ordenCompra.agregarProductos', compact('ordenCompra', 'dateCarbon', 'proveedores', 'move', 'detalleSolicitud', 'assign'));
+        return view('siscom.ordenCompra.agregarProductos', compact('ordenCompra', 'dateCarbon', 'proveedores', 'move', 'detalleSolicitud', 'assign', 'solicitudNo'));
 
     }
 
@@ -294,11 +296,13 @@ class OrdenCompraController extends Controller
                     ->where('detail_solicituds.solicitud_id', '=', $request->numeroSolicitud)
                     ->get();    
 
+        $solicitudNo = $request->numeroSolicitud;
+
         
-                    //dd($ordenCompra);
+                    //dd($solicitudNo);
 
                      /* Retornamos a la vista los resultados psanadolos por parametros */
-        return view('siscom.ordenCompra.agregarProductos', compact('ordenCompra', 'dateCarbon', 'proveedores', 'move', 'detalleSolicitud', 'assign'));
+        return view('siscom.ordenCompra.agregarProductos', compact('ordenCompra', 'dateCarbon', 'proveedores', 'move', 'detalleSolicitud', 'assign', 'solicitudNo'));
 
     }
 

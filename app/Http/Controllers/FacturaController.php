@@ -42,7 +42,8 @@ class FacturaController extends Controller
                         ->get();
 
         $ocs = DB::table('orden_compras')
-                    ->select(DB::raw('CONCAT(orden_compras.id, " ) ", orden_compras.ordenCompra_id) as OC'), 'orden_compras.id')
+                    ->join('status_o_c_s', 'orden_compras.estado_id', 'status_o_c_s.id')
+                    ->select(DB::raw('CONCAT(orden_compras.id, " ) ", orden_compras.ordenCompra_id, " / ", status_o_c_s.estado) as OC'), 'orden_compras.id')
                     ->get();
 
         $facturas = DB::table('facturas')
@@ -52,7 +53,14 @@ class FacturaController extends Controller
                     ->select('facturas.*', 'proveedores.razonSocial as RazonSocial', 'status_facturas.estado as Estado', 'orden_compras.ordenCompra_id as NoOC')
                     ->get();
 
-        return view('siscom.factura.index', compact('facturas', 'proveedores', 'dateCarbon', 'ocs'));
+        $moveFacturas = DB::table('move_facturas') 
+                ->join('facturas', 'move_facturas.factura_id', 'facturas.id')
+                ->select('move_facturas.*')
+                ->get();
+
+        //dd($facturas);
+
+        return view('siscom.factura.index', compact('facturas', 'proveedores', 'dateCarbon', 'ocs', 'moveFacturas'));
     }
 
     /**

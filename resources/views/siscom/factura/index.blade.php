@@ -95,11 +95,17 @@
 
                                     <th>No. Factura</th>
 
-                                    <th>Estado Factura</th>
+                                    <th>IDDOC</th>                                    
 
-                                    <th>IDDOC</th>
+                                    <th>Recepción Factura</th>
 
                                     <th>Fecha Recepción Of.Partes</th>
+
+                                    <th>Estado Factura</th>
+
+                                    <th>Días Trasncurridos (Por Estado)</th>
+
+                                    <th>Días Transcurridos (Total)</th>
 
                                     <th>No. OC</th>
 
@@ -117,88 +123,221 @@
 
                                 @foreach($facturas as $factura)
 
-                                <tr>
+                                    @foreach($moveFacturas as $move)
 
-                                    <td style="display: none;">{{ $factura->id }}</td>
+                                        @if($factura->id === $move->factura_id)
 
-                                    <td>{{ $factura->tipoDocumento }}</td>
+                                        @if($factura->estado_id === $move->estadoFactura_id)
 
-                                    <td>{{ $factura->factura_id }}</td>
+                                            <tr>
 
-                                    <td>{{ $factura->Estado }}</td>
+                                                <td style="display: none;">{{ $factura->id }}</td>
 
-                                    <td>{{ $factura->iddoc }}</td>
+                                                <td>{{ $factura->tipoDocumento }}</td>
 
-                                    <td>{{ $factura->fechaOficinaParte }}</td>
+                                                <td>{{ $factura->factura_id }}</td>
 
-                                    <td>{{ $factura->NoOC }}</td>
+                                                <td>{{ $factura->iddoc }}</td>
 
-                                    <td>{{ $factura->RazonSocial }}</td>
+                                                <td>{{ date('d-m-Y', strtotime($factura->created_at)) }}</td>
 
-                                    <td>{{ $factura->totalFactura }}</td>
+                                                <td>{{ date('d-m-Y', strtotime($factura->fechaOficinaParte)) }}</td>
 
-                                    <td>
+                                                <td>{{ $factura->Estado }}</td>
 
-                                        <div class="btn-group" role="group" aria-label="Basic example">
+                                                {{-- Días Transcurridos por Estado --}}
 
-                                            <a href="{{ route('factura.show', $factura->id) }}" class="btn btn-secondary btn-sm mr-1" data-toggle="tooltip" data-placement="bottom" title="Ver Detalle de la Factura">
-                                        
-                                                <i class="fas fa-eye"></i>
+                                                        @if($factura->estado_id === 1)
 
-                                            </a>
+                                                            @if( Carbon\Carbon::parse($move->created_at)->diffInDays() <= 1)
 
-                                            {{-- Validar fACTURA --}}
+                                                                <td style="background-color : #59d634 !important;color: white;text-align: center;">
+                                                                    
+                                                                    {{ Carbon\Carbon::parse($move->created_at)->diffInDays() }}
 
-                                            @if($factura->Estado === 'Enviada a Pago')
+                                                                </td>
 
-                                            @else
+                                                            @elseif( Carbon\Carbon::parse($move->created_at)->diffInDays() > 1 && Carbon\Carbon::parse($move->created_at)->diffInDays() <= 2 )
 
-                                            <a href="{{ route('factura.validar', $factura->id) }}" data-toggle="tooltip" data-placement="bottom" title="Válidar Factura">
-                                            
-                                                <button class="btn btn-warning btn-sm mr-1 " type="button">
-                                                            
-                                                    <i class="fas fa-thumbs-up"></i>
+                                                                <td style="background-color : #eac50b !important;color: black; text-align: center;">
+                                                                    
+                                                                    {{ Carbon\Carbon::parse($move->created_at)->diffInDays() }}
 
-                                                </button>
+                                                                </td>
 
-                                            </a>
+                                                            @elseif( Carbon\Carbon::parse($move->created_at)->diffInDays() > 2)
 
-                                            @endif
+                                                                <td style="background-color : #ea0b0b !important;color: white;text-align: center;">
+                                                                    
+                                                                    {{ Carbon\Carbon::parse($move->created_at)->diffInDays() }}
 
-                                            @if($factura->Estado === 'Enviada a Pago')
+                                                                </td>
 
-                                            @else
+                                                            @endif
 
-                                            <a href="#" class="btn btn-primary btn-sm mr-1 edit" data-toggle="tooltip" data-placement="bottom" title="Modificar Factura">
-                                        
-                                                <i class="fas fa-edit"></i>
+                                                        @elseif($factura->estado_id === 2)
 
-                                            </a>
+                                                            @if( Carbon\Carbon::parse($move->created_at)->diffInDays() <= 3)
 
-                                            @endif
+                                                                <td style="background-color : #59d634 !important;color: white;text-align: center;">
+                                                                    
+                                                                    {{ Carbon\Carbon::parse($move->created_at)->diffInDays() }}
 
-                                            @if($factura->Estado === 'Enviada a Pago')
+                                                                </td>
 
-                                            @else
+                                                            @elseif( Carbon\Carbon::parse($move->created_at)->diffInDays() > 3 && Carbon\Carbon::parse($move->created_at)->diffInDays() <= 5 )
 
-                                                {!! Form::open(['route'=> ['factura.destroy', $factura->id], 'method' => 'DELETE']) !!}
+                                                                <td style="background-color : #eac50b !important;color: black; text-align: center;">
+                                                                    
+                                                                    {{ Carbon\Carbon::parse($move->created_at)->diffInDays() }}
 
-                                                    <button class="btn btn-danger btn-sm delete" style="font-size: 90%;">
+                                                                </td>
 
-                                                        <i class="fas fa-trash"></i>
+                                                            @elseif( Carbon\Carbon::parse($move->created_at)->diffInDays() > 5)
 
-                                                    </button>
+                                                                <td style="background-color : #ea0b0b !important;color: white;text-align: center;">
+                                                                    
+                                                                    {{ Carbon\Carbon::parse($move->created_at)->diffInDays() }}
 
-                                                {!! Form::close() !!}
+                                                                </td>
+
+                                                            @endif
+
+                                                        @elseif($factura->estado_id === 3)
+
+                                                            @if( Carbon\Carbon::parse($move->created_at)->diffInDays() <= 1)
+
+                                                                <td style="background-color : #59d634 !important;color: white;text-align: center;">
+                                                                    
+                                                                    {{ Carbon\Carbon::parse($move->created_at)->diffInDays() }}
+
+                                                                </td>
+
+                                                            @elseif( Carbon\Carbon::parse($move->created_at)->diffInDays() > 1 && Carbon\Carbon::parse($move->created_at)->diffInDays() <= 2 )
+
+                                                                <td style="background-color : #eac50b !important;color: black; text-align: center;">
+                                                                    
+                                                                    {{ Carbon\Carbon::parse($move->created_at)->diffInDays() }}
+
+                                                                </td>
+
+                                                            @elseif( Carbon\Carbon::parse($move->created_at)->diffInDays() > 2)
+
+                                                                <td style="background-color : #ea0b0b !important;color: white;text-align: center;">
+                                                                    
+                                                                    {{ Carbon\Carbon::parse($move->created_at)->diffInDays() }}
+
+                                                                </td>
+
+                                                            @endif
+
+                                                        @endif
 
 
-                                            @endif
+                                                {{-- Días Trasncurridos en su Totalidad --}}
 
-                                        </div>
+                                                    @if( Carbon\Carbon::parse($factura->created_at)->diffInDays() <= 15)
 
-                                    </td>
+                                                        <td style="background-color : #59d634 !important;color: white;text-align: center;">
+                                                                    
+                                                            {{ Carbon\Carbon::parse($factura->created_at)->diffInDays() }}
 
-                                </tr>
+                                                        </td>
+
+                                                    @elseif( Carbon\Carbon::parse($factura->created_at)->diffInDays() > 15 &&  Carbon\Carbon::parse($factura->created_at)->diffInDays() <= 30)
+
+                                                        <td style="background-color : #eac50b !important;color: black; text-align: center;">
+                                                                    
+                                                            {{ Carbon\Carbon::parse($factura->created_at)->diffInDays() }}
+
+                                                        </td>
+
+                                                    @elseif( Carbon\Carbon::parse($factura->created_at)->diffInDays() > 30)
+
+                                                        <td style="background-color : #ea0b0b !important;color: white;text-align: center;">
+                                                                    
+                                                            {{ Carbon\Carbon::parse($factura->created_at)->diffInDays() }}
+
+                                                        </td>
+
+                                                    @endif
+
+                                                {{-- Fin Días Trasncurridos en su Totalidad --}}
+
+                                                <td>{{ $factura->NoOC }}</td>
+
+                                                <td>{{ $factura->RazonSocial }}</td>
+
+                                                <td>{{ $factura->totalFactura }}</td>
+
+                                                <td>
+
+                                                    <div class="btn-group" role="group" aria-label="Basic example">
+
+                                                        <a href="{{ route('factura.show', $factura->id) }}" class="btn btn-secondary btn-sm mr-1" data-toggle="tooltip" data-placement="bottom" title="Ver Detalle de la Factura">
+                                                    
+                                                            <i class="fas fa-eye"></i>
+
+                                                        </a>
+
+                                                        {{-- Validar fACTURA --}}
+
+                                                        @if($factura->Estado === 'Enviada a Pago')
+
+                                                        @else
+
+                                                        <a href="{{ route('factura.validar', $factura->id) }}" data-toggle="tooltip" data-placement="bottom" title="Válidar Factura">
+                                                        
+                                                            <button class="btn btn-warning btn-sm mr-1 " type="button">
+                                                                        
+                                                                <i class="fas fa-thumbs-up"></i>
+
+                                                            </button>
+
+                                                        </a>
+
+                                                        @endif
+
+                                                        @if($factura->Estado === 'Enviada a Pago')
+
+                                                        @else
+
+                                                        <a href="#" class="btn btn-primary btn-sm mr-1 edit" data-toggle="tooltip" data-placement="bottom" title="Modificar Factura">
+                                                    
+                                                            <i class="fas fa-edit"></i>
+
+                                                        </a>
+
+                                                        @endif
+
+                                                        @if($factura->Estado === 'Enviada a Pago')
+
+                                                        @else
+
+                                                            {!! Form::open(['route'=> ['factura.destroy', $factura->id], 'method' => 'DELETE']) !!}
+
+                                                                <button class="btn btn-danger btn-sm delete" style="font-size: 90%;">
+
+                                                                    <i class="fas fa-trash"></i>
+
+                                                                </button>
+
+                                                            {!! Form::close() !!}
+
+
+                                                        @endif
+
+                                                    </div>
+
+                                                </td>
+
+                                            </tr>
+
+                                        @endif
+
+                                        @endif
+
+                                    @endforeach
 
                                 @endforeach
 

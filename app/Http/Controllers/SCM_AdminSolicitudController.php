@@ -56,23 +56,9 @@ class SCM_AdminSolicitudController extends Controller
                     ->join('dependencies', 'users.dependency_id', '=', 'dependencies.id')
                     ->select('solicituds.*', 'status_solicituds.estado', 'dependencies.name')
                     ->where('solicituds.categoriaSolicitud', '=', 'Stock de Aseo')
-                    ->orderBy('solicituds.id', 'desc')
-                    ->get();
-            
-        }else if (Auth::user()->email == 'carolina.medina@nacimiento.cl' || Auth::user()->email == 'cecilia.castro@nacimiento.cl' || Auth::user()->email == 'juan.fuentealba@nacimiento.cl') {
-
-        /*
-         * Definimos variable que contendrá la fecha actual del sistema
-         */
-        $dateCarbon = Carbon::now()->locale('es')->isoFormat('dddd D, MMMM YYYY');
-
-        /* Declaramos la variable que contendrá todos los permisos existentes en la base de datos */
-        $solicituds = DB::table('solicituds')
-                    ->join('move_solicituds', 'solicituds.id', 'move_solicituds.solicitud_id')
-                    ->join('status_solicituds', 'solicituds.estado_id', '=', 'status_solicituds.id')
-                    ->join('users', 'solicituds.user_id', '=', 'users.id')
-                    ->join('dependencies', 'users.dependency_id', '=', 'dependencies.id')
-                    ->select('solicituds.*', 'move_solicituds.*', 'status_solicituds.estado', 'dependencies.name')
+                    ->where('solicituds.estado_id', '!=', 10)
+                    ->where('solicituds.estado_id', '!=', 11)
+                    ->where('solicituds.estado_id', '!=', 12)
                     ->orderBy('solicituds.id', 'desc')
                     ->get();
 
@@ -82,7 +68,35 @@ class SCM_AdminSolicitudController extends Controller
                         ->where('move_solicituds.estadoSolicitud_id', 3)
                         ->get();
 
-        //dd($fechaRecepcion);
+                        //dd($fechaRecepcion);
+            
+        }else if (Auth::user()->email == 'carolina.medina@nacimiento.cl' || Auth::user()->email == 'cecilia.castro@nacimiento.cl' || Auth::user()->email == 'monica.alvarez@nacimiento.cl' || Auth::user()->email == 'juan.fuentealba@nacimiento.cl') {
+
+        /*
+         * Definimos variable que contendrá la fecha actual del sistema
+         */
+        $dateCarbon = Carbon::now()->locale('es')->isoFormat('dddd D, MMMM YYYY');
+
+        /* Declaramos la variable que contendrá todos los permisos existentes en la base de datos */
+        $solicituds = DB::table('solicituds')
+                    ->join('status_solicituds', 'solicituds.estado_id', '=', 'status_solicituds.id')
+                    ->join('users', 'solicituds.user_id', '=', 'users.id')
+                    ->join('dependencies', 'users.dependency_id', '=', 'dependencies.id')
+                    ->select('solicituds.*', 'status_solicituds.estado', 'dependencies.name')
+                    ->where('solicituds.estado_id', '!=', 10)
+                    ->where('solicituds.estado_id', '!=', 11)
+                    ->where('solicituds.estado_id', '!=', 12)
+                    ->orderBy('solicituds.id', 'desc')
+                    ->get();
+
+        $fechaRecepcion = DB::table('solicituds')
+                        ->join('move_solicituds', 'solicituds.id', 'move_solicituds.solicitud_id')
+                        ->select('solicituds.id', 'move_solicituds.created_at')
+                        ->where('move_solicituds.estadoSolicitud_id', 3)
+                        ->get();
+
+        //dd($fechaRecepcion); 
+        //dd($solicituds);
 
         }else {
 
@@ -99,6 +113,9 @@ class SCM_AdminSolicitudController extends Controller
                     ->select('solicituds.*', 'status_solicituds.estado', 'dependencies.name')
                     ->where('solicituds.compradorTitular', '=', Auth::user()->name)
                     ->orWhere('solicituds.compradorSuplencia', '=', Auth::user()->name)
+                    ->where('solicituds.estado_id', '!=', 10)
+                    ->where('solicituds.estado_id', '!=', 11)
+                    ->where('solicituds.estado_id', '!=', 12)
                     ->orderBy('solicituds.id', 'desc')
                     ->get();
 
@@ -196,6 +213,116 @@ class SCM_AdminSolicitudController extends Controller
 
     }
 
+    public function consulta()
+    {
+
+        /*
+         * Definimos variable que contendrá la fecha actual del sistema
+         */
+        $dateCarbon = Carbon::now()->locale('es')->isoFormat('dddd D, MMMM YYYY');
+
+        /* Declaramos la variable que contendrá todos los permisos existentes en la base de datos */
+        $solicituds = DB::table('solicituds')
+                    ->join('status_solicituds', 'solicituds.estado_id', '=', 'status_solicituds.id')
+                    ->join('users', 'solicituds.user_id', '=', 'users.id')
+                    ->join('dependencies', 'users.dependency_id', '=', 'dependencies.id')
+                    ->select('solicituds.*', 'status_solicituds.estado', 'dependencies.name')
+                    ->orderBy('solicituds.id', 'desc')
+                    ->get();         
+
+        //dd($solicituds);
+
+        /* Retornamos a la vista los resultados psanadolos por parametros */
+        return view('siscom.consulta.index', compact('dateCarbon', 'solicituds'));
+    }
+
+    public function recepcionar()
+    {
+
+        if (Auth::user()->email == 'heraldo.medina@nacimiento.cl') {
+
+        /*
+         * Definimos variable que contendrá la fecha actual del sistema
+         */
+        $dateCarbon = Carbon::now()->locale('es')->isoFormat('dddd D, MMMM YYYY');
+
+        /* Declaramos la variable que contendrá todos los permisos existentes en la base de datos */
+        $solicituds = DB::table('solicituds')
+                    ->join('status_solicituds', 'solicituds.estado_id', '=', 'status_solicituds.id')
+                    ->join('users', 'solicituds.user_id', '=', 'users.id')
+                    ->join('dependencies', 'users.dependency_id', '=', 'dependencies.id')
+                    ->select('solicituds.*', 'status_solicituds.estado', 'dependencies.name')
+                    ->where('solicituds.categoriaSolicitud', '=', 'Stock de Aseo')
+                    ->where('solicituds.estado_id', 1)
+                    ->orWhere('solicituds.estado_id', 2)
+                    ->orderBy('solicituds.id', 'desc')
+                    ->get();
+
+        $fechaRecepcion = DB::table('solicituds')
+                        ->join('move_solicituds', 'solicituds.id', 'move_solicituds.solicitud_id')
+                        ->select('solicituds.id', 'move_solicituds.created_at')
+                        ->where('move_solicituds.estadoSolicitud_id', 3)
+                        ->get();
+
+                        //dd($fechaRecepcion);
+            
+        }else if (Auth::user()->email == 'carolina.medina@nacimiento.cl' || Auth::user()->email == 'cecilia.castro@nacimiento.cl' || Auth::user()->email == 'juan.fuentealba@nacimiento.cl') {
+
+        /*
+         * Definimos variable que contendrá la fecha actual del sistema
+         */
+        $dateCarbon = Carbon::now()->locale('es')->isoFormat('dddd D, MMMM YYYY');
+
+       /* Declaramos la variable que contendrá todos los permisos existentes en la base de datos */
+        $solicituds = DB::table('solicituds')
+                    ->join('status_solicituds', 'solicituds.estado_id', '=', 'status_solicituds.id')
+                    ->join('users', 'solicituds.user_id', '=', 'users.id')
+                    ->join('dependencies', 'users.dependency_id', '=', 'dependencies.id')
+                    ->select('solicituds.*', 'status_solicituds.estado', 'dependencies.name')
+                    ->where('solicituds.estado_id', 1)
+                    ->orWhere('solicituds.estado_id', 2)
+                    ->orderBy('solicituds.id', 'desc')
+                    ->get();         
+
+        $fechaRecepcion = DB::table('solicituds')
+                        ->join('move_solicituds', 'solicituds.id', 'move_solicituds.solicitud_id')
+                        ->select('solicituds.id', 'move_solicituds.created_at')
+                        ->where('move_solicituds.estadoSolicitud_id', 3)
+                        ->get();
+
+        //dd($fechaRecepcion); 
+        //dd($solicituds);
+
+        }else {
+
+        /*
+         * Definimos variable que contendrá la fecha actual del sistema
+         */
+        $dateCarbon = Carbon::now()->locale('es')->isoFormat('dddd D, MMMM YYYY');
+
+        /* Declaramos la variable que contendrá todos los permisos existentes en la base de datos */
+        $solicituds = DB::table('solicituds')
+                    ->join('status_solicituds', 'solicituds.estado_id', '=', 'status_solicituds.id')
+                    ->join('users', 'solicituds.user_id', '=', 'users.id')
+                    ->join('dependencies', 'users.dependency_id', '=', 'dependencies.id')
+                    ->select('solicituds.*', 'status_solicituds.estado', 'dependencies.name')
+                    ->where('solicituds.estado_id', 1)
+                    ->orWhere('solicituds.estado_id', 2)
+                    ->orderBy('solicituds.id', 'desc')
+                    ->get();         
+
+        $fechaRecepcion = DB::table('solicituds')
+                        ->join('move_solicituds', 'solicituds.id', 'move_solicituds.solicitud_id')
+                        ->select('solicituds.id', 'move_solicituds.created_at')
+                        ->where('move_solicituds.estadoSolicitud_id', 3)
+                        ->get();
+
+        }
+
+        /* Retornamos a la vista los resultados psanadolos por parametros */
+        return view('siscom.recepcionarSolicitudes.index', compact('solicituds', 'dateCarbon', 'fechaRecepcion'));
+    }
+
     public function update(Request $request, $id)
     {
        // Actualizar ENCABEZADO Solicitud
@@ -264,7 +391,7 @@ class SCM_AdminSolicitudController extends Controller
                 
             }
 
-            return redirect('/siscom/admin')->with('info', 'Solicitud Recepcionada con éxito !');
+            return back()->with('info', 'Solicitud Recepcionada con éxito !');
         }
 
         // Asignar Solicitud
@@ -543,29 +670,6 @@ class SCM_AdminSolicitudController extends Controller
             }
         }
 
-    }
-
-    public function consulta()
-    {
-
-        /*
-         * Definimos variable que contendrá la fecha actual del sistema
-         */
-        $dateCarbon = Carbon::now()->locale('es')->isoFormat('dddd D, MMMM YYYY');
-
-        /* Declaramos la variable que contendrá todos los permisos existentes en la base de datos */
-        $solicituds = DB::table('solicituds')
-                    ->join('status_solicituds', 'solicituds.estado_id', '=', 'status_solicituds.id')
-                    ->join('users', 'solicituds.user_id', '=', 'users.id')
-                    ->join('dependencies', 'users.dependency_id', '=', 'dependencies.id')
-                    ->select('solicituds.*', 'status_solicituds.estado', 'dependencies.name')
-                    ->orderBy('solicituds.id', 'desc')
-                    ->get();         
-
-        //dd($solicituds);
-
-        /* Retornamos a la vista los resultados psanadolos por parametros */
-        return view('siscom.consulta.index', compact('dateCarbon', 'solicituds'));
     }
 
     public function reporteEntregaStock($id)

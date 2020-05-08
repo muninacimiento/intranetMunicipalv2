@@ -100,6 +100,7 @@ Route::middleware(['auth'])->group( function() {
 	Route::put('/siscom/admin/anular/{solicitud}', 'SCM_AdminSolicitudController@update')->name('admin.anular')->middleware('can:admin.anular');
 	Route::get('/siscom/admin/entregaStock/{solicitud}', 'SCM_AdminSolicitudController@entregaStock')->name('admin.stock')->middleware('can:admin.stock');
 	Route::get('/siscom/consulta', 'SCM_AdminSolicitudController@consulta')->name('admin.consulta')->middleware('can:admin.consulta');
+	Route::get('/siscom/recepionarSolicitudes', 'SCM_AdminSolicitudController@recepcionar')->name('admin.recepcionarSolicitud')->middleware('can:admin.recepcionarSolicitud');
 	Route::put('/siscom/admin/cerrarSolicitud/{solicitud}', 'SCM_AdminSolicitudController@update')->name('admin.cerrar')->middleware('can:admin.cerrar');
 
 

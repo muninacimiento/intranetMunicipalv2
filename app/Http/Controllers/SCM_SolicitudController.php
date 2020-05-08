@@ -362,13 +362,9 @@ class SCM_SolicitudController extends Controller
         // Actualizamos la OC en el Producto
         else if ($request->flag == 'AsignarTodosOC') {
 
-            $detalleSolicitud = DetailSolicitud::findOrFail($solicitud_id);
+            $detalleSolicitud = DetailSolicitud::where('solicitud_id', $request->noSolicitud)->where('ordenCompra_id', NULL);
 
-            $detalleSolicitud->ordenCompra_id       = $request->ordenCompraID;       
-
-            //dd($solicitud);
-
-            $detalleSolicitud->save(); //Guardamos la Solicitud
+            $detalleSolicitud->update(['ordenCompra_id' => $id]); 
 
             return back();
 
