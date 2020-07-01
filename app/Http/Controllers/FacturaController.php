@@ -189,7 +189,17 @@ class FacturaController extends Controller
                      ->where('detail_solicituds.ordenCompra_id', $factura->ordenCompra_id)
                     ->get();
 
-        return view('siscom.factura.show', compact('factura', 'proveedores', 'dateCarbon', 'detalleSolicituds', 'move'));
+        //Traemos todos los productos de la OC
+        $fullFactura = DB::table('detail_solicituds')
+            ->where('detail_solicituds.ordenCompra_id', '=', $id)
+            ->count();
+
+        $parcialFactura = DB::table('detail_solicituds')
+            ->where('detail_solicituds.ordenCompra_id', '=', $id)
+            ->where('detail_solicituds.factura_id', '=', null)
+            ->count();
+
+        return view('siscom.factura.show', compact('factura', 'proveedores', 'dateCarbon', 'detalleSolicituds', 'move', 'fullFactura', 'parcialFactura'));
 
     }
 

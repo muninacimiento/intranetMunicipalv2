@@ -251,29 +251,45 @@
 
                             <div class="form-row">
 
-                                <div class="col-md-12 mb-2">
-                                        
-                                    <form method="POST" action="{{ route('factura.facturarTodos', $dS->ordenCompra_id) }}" id="facturarTodosProductoForm">
+                                @if($fullFactura == $parcialFactura)
 
-                                        @csrf
-                                        @method('PUT')
+                                    <div class="col-md-12 mb-2">
+                                            
+                                        <form method="POST" action="{{ route('factura.facturarTodos', $dS->ordenCompra_id) }}" id="facturarTodosProductoForm">
 
-                                        <input type="hidden" name="flag" value="FacturarTodosProductos">
-                                        <input type="hidden" value="{{ $factura->id }}" readonly name="factura_id">
+                                            @csrf
+                                            @method('PUT')
 
-                                        <button type="submit" class="btn btn-success btn-block"> 
+                                            <input type="hidden" name="flag" value="FacturarTodosProductos">
+                                            <input type="hidden" value="{{ $factura->id }}" readonly name="factura_id">
+
+                                            <button type="submit" class="btn btn-success btn-block"> 
+
+                                                <i class="fas fa-check-circle"></i>
+
+                                                Confirmar Facturación de los Productos de la O.C.
+
+                                            </button>
+
+                                        </form>    
+
+                                    </div>
+
+                                @else
+
+                                    <div class="col-md-12 mb-2">
+
+                                        <button type="submit" class="btn btn-success btn-block" disabled> 
 
                                             <i class="fas fa-check-circle"></i>
 
-                                            {{--Contar os productos con FACTURA ID == NULL para deshabilitar el botón--}}
-
                                             Confirmar Facturación de los Productos de la O.C.
 
-                                        </button>
+                                        </button>  
 
-                                    </form>    
+                                    </div>
 
-                                </div>
+                                @endif
 
                             </div>
                            
