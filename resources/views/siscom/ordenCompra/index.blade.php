@@ -518,6 +518,7 @@
                                 <option>Trato Directo</option>
                                 <option>Licitación</option>
                                 <option>Convenio Marco / Suministro</option>
+                                <option>Compra Ágil</option>
 
                             </select>
 
@@ -983,6 +984,7 @@
                                 <option>Trato Directo</option>
                                 <option>Licitación</option>
                                 <option>Convenio Marco / Suministro</option>
+                                <option>Compra Ágil</option>
 
                             </select>
 
@@ -1102,6 +1104,7 @@
                 @method('PUT')
 
                 <input type="hidden" name="flag" value="Anular">
+                
 
                 <div class="modal-body">
 

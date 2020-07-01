@@ -35,7 +35,7 @@
 
                             <div class="text-secondary">
 
-                                
+                                {{$dateCarbon}}
 
                             </div>
 

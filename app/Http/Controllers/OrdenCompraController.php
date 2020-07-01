@@ -217,23 +217,6 @@ class OrdenCompraController extends Controller
                     ->where('orden_compras.id', '=', $id)
                     ->first();
 
-        $proveedores = DB::table('proveedores')
-                    ->select(DB::raw('CONCAT(proveedores.id, " ) ", proveedores.razonSocial) as RazonSocial'), 'proveedores.id')
-                    ->get();
-
-        $move = DB::table('move_o_c_s') 
-                ->join('status_o_c_s', 'move_o_c_s.estadoOrdenCompra_id', 'status_o_c_s.id')               
-                ->join('users', 'move_o_c_s.user_id', 'users.id')
-                ->select('move_o_c_s.*', 'status_o_c_s.estado as status', 'users.name as name', 'move_o_c_s.created_at as date')
-                ->where('move_o_c_s.ordenCompra_id', '=', $id)
-                ->get();
-
-        $assign = DB::table('assign_request_to_o_c_s')
-                ->join('orden_compras', 'assign_request_to_o_c_s.ordenCompra_id', '=', 'orden_compras.id')
-                ->select('assign_request_to_o_c_s.*', 'orden_compras.ordenCompra_id as NoOC')
-                ->where('assign_request_to_o_c_s.ordenCompra_id', '=', $ordenCompra->id)
-                ->get();
-
         $detalleSolicitud = DB::table('detail_solicituds')
                     ->join('products', 'detail_solicituds.product_id', 'products.id')
                     ->join('solicituds', 'detail_solicituds.solicitud_id', '=', 'solicituds.id')
@@ -243,13 +226,13 @@ class OrdenCompraController extends Controller
                     ->where('assign_request_to_o_c_s.ordenCompra_id', '=', $ordenCompra->id)
                     ->get();    
 
+        $existeOC = DetailSolicitud::where('ordenCompra_id', $id)->count();
+
         $solicitudNo = $request->numeroSolicitud;
 
-        
-                    //dd($ordenCompra);
+        //dd($existeOC);
 
-                     /* Retornamos a la vista los resultados psanadolos por parametros */
-        return view('siscom.ordenCompra.agregarProductos', compact('ordenCompra', 'dateCarbon', 'proveedores', 'move', 'detalleSolicitud', 'assign', 'solicitudNo'));
+        return view('siscom.ordenCompra.agregarProductos', compact('ordenCompra', 'dateCarbon', 'detalleSolicitud', 'solicitudNo', 'existeOC'));
 
     }
 
@@ -270,23 +253,7 @@ class OrdenCompraController extends Controller
                     ->where('orden_compras.id', '=', $id)
                     ->first();
 
-        $proveedores = DB::table('proveedores')
-                    ->select(DB::raw('CONCAT(proveedores.id, " ) ", proveedores.razonSocial) as RazonSocial'), 'proveedores.id')
-                    ->get();
-
-        $move = DB::table('move_o_c_s') 
-                ->join('status_o_c_s', 'move_o_c_s.estadoOrdenCompra_id', 'status_o_c_s.id')               
-                ->join('users', 'move_o_c_s.user_id', 'users.id')
-                ->select('move_o_c_s.*', 'status_o_c_s.estado as status', 'users.name as name', 'move_o_c_s.created_at as date')
-                ->where('move_o_c_s.ordenCompra_id', '=', $id)
-                ->get();
-
-        $assign = DB::table('assign_request_to_o_c_s')
-                ->join('orden_compras', 'assign_request_to_o_c_s.ordenCompra_id', '=', 'orden_compras.id')
-                ->select('assign_request_to_o_c_s.*', 'orden_compras.ordenCompra_id as NoOC')
-                ->where('assign_request_to_o_c_s.ordenCompra_id', '=', $ordenCompra->id)
-                ->get();
-
+        
         $detalleSolicitud = DB::table('detail_solicituds')
                     ->join('products', 'detail_solicituds.product_id', 'products.id')
                     ->join('solicituds', 'detail_solicituds.solicitud_id', '=', 'solicituds.id')
@@ -294,15 +261,15 @@ class OrdenCompraController extends Controller
                     //->join('orden_compras', 'detail_solicituds.ordenCompra_id', '=', 'orden_compras.id')
                     ->select('detail_solicituds.*', 'products.name as Producto')
                     ->where('detail_solicituds.solicitud_id', '=', $request->numeroSolicitud)
-                    ->get();    
+                    ->get();   
+
+        $existeOC = DetailSolicitud::where('ordenCompra_id', $id)->count();
 
         $solicitudNo = $request->numeroSolicitud;
 
-        
-                    //dd($solicitudNo);
-
-                     /* Retornamos a la vista los resultados psanadolos por parametros */
-        return view('siscom.ordenCompra.agregarProductos', compact('ordenCompra', 'dateCarbon', 'proveedores', 'move', 'detalleSolicitud', 'assign', 'solicitudNo'));
+        //dd($id);
+                    
+        return view('siscom.ordenCompra.agregarProductos', compact('ordenCompra', 'dateCarbon', 'detalleSolicitud', 'solicitudNo', 'existeOC'));
 
     }
 
@@ -518,9 +485,6 @@ class OrdenCompraController extends Controller
                     if ($oc->tipoOrdenCompra == "Trato Directo") {
                         
                         $oc->estado_id                                 = 9;
-
-                        //dd($solicitud);
-
                         $oc->save(); //Guardamos la Solicitud
 
                         //Guardamos los datos de Movimientos de la Solicitud
@@ -677,7 +641,7 @@ class OrdenCompraController extends Controller
 
                     $oc = OrdenCompra::findOrFail($id);
 
-                    if ($oc->valorEstimado == 'Mayor a 10 UTM' || $oc->tipoOrdenCompra == 'Convenio Marco / Suministro') {
+                    if ($oc->valorEstimado == 'Mayor a 10 UTM' || $oc->tipoOrdenCompra == 'Convenio Marco / Suministro' || $oc->tipoOrdenCompra == 'Compra Ágil') {
                         
                         $oc->estado_id                      = 12;
 
@@ -1090,6 +1054,11 @@ class OrdenCompraController extends Controller
 
                 DB::beginTransaction();
 
+                    //Establecemos el numero de la OC a NULL de los Productos de la Solicitud
+                    $dS = DetailSolicitud::where('ordenCompra_id', '=', $id);
+//dd($dS);
+                    $dS->update(['ordenCompra_id' => null]);    
+
                     $oc = OrdenCompra::findOrFail($id);
                     $oc->motivoAnulacion                = $request->motivoAnulacion;
                     $oc->estado_id                      = 22;
@@ -1106,6 +1075,8 @@ class OrdenCompraController extends Controller
                     $move->user_id                      = Auth::user()->id;
 
                     $move->save(); //Guardamos el Movimiento de la Solicitud    
+
+                    
 
                 DB::commit();
                 

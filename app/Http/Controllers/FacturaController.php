@@ -51,6 +51,7 @@ class FacturaController extends Controller
                     ->join('proveedores', 'facturas.proveedor_id', '=', 'proveedores.id')
                     ->join('orden_compras', 'facturas.ordenCompra_id', '=', 'orden_compras.id')
                     ->select('facturas.*', 'proveedores.razonSocial as RazonSocial', 'status_facturas.estado as Estado', 'orden_compras.ordenCompra_id as NoOC')
+                    ->where('facturas.estado_id', '!=', 4)
                     ->get();
 
         $moveFacturas = DB::table('move_facturas') 
@@ -61,6 +62,28 @@ class FacturaController extends Controller
         //dd($facturas);
 
         return view('siscom.factura.index', compact('facturas', 'proveedores', 'dateCarbon', 'ocs', 'moveFacturas'));
+    }
+
+    public function consulta()
+    {
+
+        /*
+         * Definimos variable que contendrá la fecha actual del sistema
+         */
+        $dateCarbon = Carbon::now()->locale('es')->isoFormat('dddd D, MMMM YYYY');
+
+        $facturas = DB::table('facturas')
+                    ->join('status_facturas', 'facturas.estado_id', '=', 'status_facturas.id')
+                    ->join('proveedores', 'facturas.proveedor_id', '=', 'proveedores.id')
+                    ->join('orden_compras', 'facturas.ordenCompra_id', '=', 'orden_compras.id')
+                    ->select('facturas.*', 'proveedores.razonSocial as RazonSocial', 'status_facturas.estado as Estado', 'orden_compras.ordenCompra_id as NoOC')
+                    ->orderBy('facturas.id', 'desc')
+                    ->get();
+
+        //dd($solicituds);
+
+        /* Retornamos a la vista los resultados psanadolos por parametros */
+        return view('siscom.factura.consulta', compact('dateCarbon', 'facturas'));
     }
 
     /**
@@ -329,14 +352,14 @@ class FacturaController extends Controller
 
                     //Traemos todos los productos de la OC
                     $fullFactura = DB::table('detail_solicituds')
-                                    ->where('detail_solicituds.solicitud_id', '=', $id)
+                                    ->where('detail_solicituds.ordenCompra_id', '=', $id)
                                     ->count();
 
                     $parcialFactura = DB::table('detail_solicituds')
-                                        ->where('detail_solicituds.solicitud_id', '=', $id)
+                                        ->where('detail_solicituds.ordenCompra_id', '=', $id)
                                         ->where('detail_solicituds.factura_id', '=', null)
                                         ->count();
-
+//dd($fullFactura);
 
                     if ($fullFactura == $parcialFactura) {
                         
@@ -344,20 +367,22 @@ class FacturaController extends Controller
                         $dSolicitud->update(['factura_id'=> $request->factura_id]);
 
                         //Buscamos la Solicitud relacionada con la OC a recepcionar
-                        $s = DB::table('solicituds')
-                                    ->join('detail_solicituds', 'solicituds.id', '=', 'detail_solicituds.solicitud_id')
-                                    ->join('orden_compras', 'detail_solicituds.ordenCompra_id', '=', 'orden_compras.id')
+                        $s = DB::table('detail_solicituds')
+                                    //->join('detail_solicituds', 'solicituds.id', '=', 'detail_solicituds.solicitud_id')
+                                    //->join('orden_compras', 'detail_solicituds.ordenCompra_id', '=', 'orden_compras.id')
+                                    ->select('detail_solicituds.solicitud_id')
                                     ->where('detail_solicituds.ordenCompra_id', '=', $id)
                                     ->first();
 
-                        //dd($s->id);
+//dd($s);
                         //Actualizmos el estado de la Solicitud
-                        $solicitud = Solicitud::findOrFail($s->solicitud_id);             
+                        $solicitud = Solicitud::findOrFail($s->solicitud_id); 
+//dd($solicitud);            
                         $solicitud->estado_id                   = 10;
                         $solicitud->update();
 
                         //Actualizamos el estado de la OC
-                        $oc = OrdenCompra::findOrFail($s->id);
+                        $oc = OrdenCompra::findOrFail($id);
                         $oc->estado_id                          = 20;
                         $oc->save();
 

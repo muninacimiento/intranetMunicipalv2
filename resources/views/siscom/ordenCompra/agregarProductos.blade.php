@@ -203,7 +203,7 @@
 
                                         <tr>
 
-                                            <th style="display: none;">ID</th>
+                                            <th >ID</th>
 
                                             <th>No.Solicitud</th>
 
@@ -225,7 +225,7 @@
 
                                         <tr>
 
-                                            <td style="display: none;">{{ $ds->id }}</td>
+                                            <td >{{ $ds->id }}</td>
 
                                             <td>{{ $ds->solicitud_id }}</td>
 
@@ -298,7 +298,7 @@
 
                                 <input type="hidden" name="flag" value="ConfirmarOC">
 
-                                @if($ordenCompra->Estado === 'Emitida')
+                                @if($existeOC > 0)
 
                                     <button type="submit" class="btn btn-success btn-block mb-3"> 
 

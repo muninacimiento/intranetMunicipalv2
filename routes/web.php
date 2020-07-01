@@ -155,6 +155,7 @@ Route::middleware(['auth'])->group( function() {
 	Route::get('/siscom/factura/validar/{factura}', 'FacturaController@validar')->name('factura.validar')->middleware('can:factura.validar');
 	Route::put('/siscom/factura/facturar/{factura}', 'FacturaController@update')->name('factura.facturarTodos')->middleware('can:factura.facturarTodos');
 	Route::delete('/siscom/factura/{factura}', 'FacturaController@destroy')->name('factura.destroy')->middleware('can:factura.destroy');
+	Route::get('/siscom/consultaFacturas', 'FacturaController@consulta')->name('factura.consulta')->middleware('can:factura.consulta');
 	
 
 	/*#############################################################################################################################################################

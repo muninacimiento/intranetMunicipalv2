@@ -161,6 +161,13 @@
 
                                              @endforeach
 
+                                             <tr>
+                                            
+                                                <td><strong>Observación Anulación</strong></td>
+                                                <td colspan="4"><em>{{ $ordenCompra->motivoAnulacion }}</em></td>
+
+                                            </tr>
+
                                             </tbody>
 
                                         </table>
@@ -178,19 +185,6 @@
                         <div class="mb-5">
 
                             <div class="mb-5">
-
-                                 <a href="#" data-toggle="modal" data-target="#asignarTODOSModal" title="Asignar Producto a la órden de Compra" disabled>
-
-                                    <button class="btn btn-primary btn-sm float-right">
-
-                                        <i class="fas fa-check-double"></i> 
-
-                                        Asignar a Todos
-
-                                    </button>
-                                        
-
-                                </a>
                                     
                                 <h5>Detalle Órden de Compra</h5>   
 
@@ -215,8 +209,6 @@
 
                                             <th>Cantidad</th>
 
-                                            <th>Acciones</th>
-
                                         </tr>
 
                                     </thead>
@@ -237,48 +229,6 @@
 
                                             <td>{{ $ds->cantidad }}</td>                                            
 
-                                            <td>                                                
-
-                                                @if($ds->ordenCompra_id == null)
-
-                                                {!! Form::open(['route'=> ['solicitud.update', $ds->id], 'method' => 'PUT']) !!}
-
-                                                    @csrf
-
-                                                    <input type="hidden" name="flag" value="AsignarOC">
-
-                                                    <input type="hidden" value="{{ $ordenCompra->id }}" name="ordenCompraID" id="ordenCompraID">
-
-                                                    <button class="btn btn-primary btn-sm mr-1">
-
-                                                        <i class="fas fa-check"></i>
-
-                                                    </button>
-
-                                                {!! Form::close() !!}
-                                                    
-                                                @elseif($ds->ordenCompra_id === $ordenCompra->id)
-
-                                                {!! Form::open(['route'=> ['solicitud.update', $ds->id], 'method' => 'PUT']) !!}
-
-                                                    <input type="hidden" name="flag" value="EliminarOC">
-
-                                                    <button class="btn btn-danger btn-sm mr-1">
-
-                                                        <i class="fas fa-trash-alt"></i>
-
-                                                    </button>
-
-                                                {!! Form::close() !!}
-
-                                                @else
-
-                                                    <label class="text-muted" style="font-size: 0.9em;">Producto Pertenece a otra OC</label>
-
-                                                @endif
-
-                                            </td>
-
                                         </tr>
 
                                         @endforeach
@@ -292,37 +242,6 @@
                         </div>
 
                         <div>
-
-                            <form method="POST" action="{{ route('ordenCompra.update', $ordenCompra->id) }}">
-
-                                @csrf
-                                @method('PUT')
-
-                                <input type="hidden" name="flag" value="ConfirmarOC">
-
-                                @if($ordenCompra->Estado === 'Emitida')
-
-                                    <button type="submit" class="btn btn-success btn-block mb-3"> 
-
-                                        <i class="fas fa-check-circle"></i>
-
-                                        Confirmar Órden de Compra
-
-                                    </button>
-
-                                @else
-
-                                    <button type="submit" class="btn btn-success btn-block mb-3" disabled> 
-
-                                        <i class="fas fa-check-circle"></i>
-
-                                        Confirmar Órden de Compra
-
-                                    </button>
-
-                                @endif
-
-                            </form>
 
                             <a href="{{ route('ordenCompra.index') }}" class="text-decoration-none">
 
@@ -350,253 +269,6 @@
         
 </div>
 
-<!-- UPDATE Modal Detalle Solicitud-->
-<div class="modal fade" id="asignarTODOSModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-
-    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
-
-        <div class="modal-content">
-
-            <div class="modal-header bg-primary text-white">
-
-                <p class="modal-title" id="exampleModalLabel" style="font-size: 1.2em"><i class="fas fa-edit"></i> Agregar Todos los Producto a Órden de Compra  </p>
-
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-
-                    <span aria-hidden="true">&times;</span>
-
-                </button>
-
-            </div>
-
-
-            <form method="POST" action="{{ route('ordenCompra.update', $ordenCompra->id) }}" class="was-validated">
-
-                @csrf
-                @method('PUT')
-
-                <input type="hidden" name="flag" value="AsignarTodosOC">
-
-                <div class="modal-body">
-        
-                    <div class="mb-3">
-                        
-                        Esta usted seguro de quere agregar TODOS los Productos a esta Órden de Compra ?
-
-                        <input type="text" value="{{ $ordenCompra->ordenCompra_id }}" readonly class="h4" style="border:0;" name="ordenCompraID" id="ordenCompraID">
-
-                    </div>
-
-                    <div class="mb-3 form-row">
-
-                        <button class="btn btn-success btn-block" type="submit">
-
-                            <i class="fas fa-save"></i>
-
-                            Agregar Producto Órden de Compra
-
-                        </button>
-
-                    </div>
-                            
-                </div>
-
-            </form>
-        </div>
-
-    </div>
-
-</div>
-
-<!-- UPDATE Modal Detalle Solicitud-->
-<div class="modal fade" id="asignarOCModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-
-    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
-
-        <div class="modal-content">
-
-            <div class="modal-header bg-primary text-white">
-
-               <p class="modal-title" id="exampleModalLabel" style="font-size: 1.2em"><i class="fas fa-plus-circle"></i> Agregar Producto a la Órden de Compra</p>
-
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-
-                    <span aria-hidden="true">&times;</span>
-
-                </button>
-
-            </div>
-
-
-            <form method="POST" action="{{ url('/siscom/solicitud') }}" class="was-validated" id="detalleOrdenCompraForm">
-
-                @csrf
-                @method('PUT')
-
-                <input type="hidden" name="flag" value="AsignarOC">
-
-                <div class="modal-body">
-        
-                    <div class="p-3">
-                        
-                        <label class="text-muted">Esta usted seguro de querer agregar este Producto? : </label><input type="text"  id="productAdd" readonly style="border:0;">
-
-                        <input type="hidden" value="{{ $ordenCompra->id }}" name="ordenCompraID" id="ordenCompraID">
-
-                    </div>
-
-                    <div class="form-row">
-
-                        <button class="btn btn-success btn-block" type="submit">
-
-                            <i class="fas fa-check-circle"></i>
-
-                            Agregar Producto Órden de Compra
-
-                        </button>
-
-                    </div>
-                            
-                </div>
-
-            </form>
-        </div>
-
-    </div>
-
-</div>
-<!-- UPDATE Modal Detalle Solicitud -->
-
-<!-- DELETE Modal Detalle Solicitud -->
-<div class="modal fade" id="deleteDetalleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-
-    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
-
-        <div class="modal-content">
-
-            <div class="modal-header bg-danger text-white">
-
-                <p class="modal-title" id="exampleModalLabel" style="font-size: 1.2em"><i class="fas fa-times-circle"></i> Eliminar Producto de la Solicitud </p>
-
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-
-                    <span aria-hidden="true" class="text-white">&times;</span>
-
-                </button>
-
-            </div>
-
-
-            <form method="POST" action="{{ url('/siscom/solicitud') }}" class="was-validated" id="deleteDetalleForm">
-
-                @csrf
-                @method('PUT')
-
-                <input type="hidden" name="flag" value="EliminarOC">
-
-                <div class="modal-body">
-
-                    <div class="p-3">
-
-                        <label class="text-muted">Esta usted seguro de querer eliminar este Producto? : </label><input type="text" name="Producto" id="productDelete" readonly style="border:0;">
-
-                    </div>
-                    
-                    <div class="form-row">
-
-                        <button class="btn btn-danger btn-block" type="submit">
-
-                            <i class="fas fa-times-circle"></i>
-
-                            Eliminar Producto
-
-                        </button>
-
-                    </div>
-
-                </div>
-
-            </form>
-
-        </div>
-
-    </div>
-
-</div>
-<!-- End Modal Create Solicitud -->
-
-<!-- Modal Create Product -->
-<div class="modal fade" id="createProductModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-
-    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
-
-        <div class="modal-content">
-
-            <div class="modal-header bg-success text-white">
-
-                <p class="modal-title" id="exampleModalLabel" style="font-size: 1.2em"><i class="fas fa-plus-circle"></i> Nuevo Producto</p>
-
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-
-                    <span aria-hidden="true" class="text-white">&times;</span>
-
-                </button>
-
-            </div>
-
-
-            <form method="POST" action="{{ action('SCM_SolicitudController@store') }}" class="was-validated" id="createForm">
-
-                @csrf
-
-                <input type="hidden" name="flag" value="Solicitud">
-
-                <div class="modal-body">
-
-                    <div class="col-md-12 mb-3">
-                                                
-                        <label for="Product">Producto</label>
-                        
-                        <input type="text" name="Product" class="form-control" required>
-
-                        <div class="invalid-feedback">
-                                                                                                    
-                                Por favor ingrese el Producto a solicitar
-
-                            </div>
-
-                    </div>
-
-                    <div class="form-row">
-
-                        <button class="btn btn-success btn-block boton" type="submit" form="createForm">
-
-                            <i class="fas fa-save"></i>
-
-                            Guardar Solicitud
-
-                        </button>
-
-                        <button type="button" class="btn btn-block btn-secondary" data-dismiss="modal" aria-label="Close">
-
-                            <i class="fas fa-arrow-left"></i>
-
-                            Cancelar
-
-                        </button>
-
-                    </div>
-
-                </div>
-
-            </form>
-
-        </div>
-
-    </div>
-
-</div>
-<!-- End Modal Create Solicitud -->
 
 @endsection
 
@@ -662,65 +334,6 @@
                             }
                         }
             });
-
-
-            //Start Edit Record Detalle Solicitud
-            table.on('click', '.asignarOC', function () {
-
-                $tr = $(this).closest('tr');
-
-                if ($($tr).hasClass('child')) {
-
-                    $tr = $tr.prev('.parent');
-
-                }
-
-                var dataDetalle = table.row($tr).data();
-
-                console.log(dataDetalle);
-
-                $('#productAdd').val(dataDetalle[3]);
-
-                $('#detalleOrdenCompraForm').attr('action', '/siscom/solicitud/' + dataDetalle[0]);
-                $('#asignarOCModal').modal('show');
-
-            });
-            //End Edit Record Detalle Solicitud
-            
-
-            //Start Delete Record Detalle Solicitud 
-            table.on('click', '.eliminarOC', function () {
-
-                $tr = $(this).closest('tr');
-
-                if ($($tr).hasClass('child')) {
-
-                    $tr = $tr.prev('.parent');
-
-                }
-
-                var dataDetalle = table.row($tr).data();
-
-                console.log(dataDetalle);
-
-                $('#productDelete').val(dataDetalle[3]);
-                
-                $('#deleteDetalleForm').attr('action', '/siscom/solicitud/' + dataDetalle[0]);
-                $('#deleteDetalleModal').modal('show');
-
-            });
-            //End Delete Record Detalle Solicitud
-
-        //Recorremos la Tabla y Sumamos cada Subtotal
-        var cls = document.getElementById("detalleSolicitud").getElementsByTagName("td");
-        var sum = 0;
-        for (var i = 0; i < cls.length; i++){
-            if(cls[i].className == "subtotal"){
-                sum += isNaN(cls[i].innerHTML) ? 0 : parseInt(cls[i].innerHTML);
-            }
-        }
-
-        $('#total').val(sum);
         
     });
 

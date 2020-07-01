@@ -290,7 +290,7 @@
 
                                 <div>
 
-                                    <table class="display" id="detalleSolicitud" width="100%">
+                                    <table class="display" id="detalleSolicitud" width="100%" style="font-size: 0.9em">
 
                                         <thead>
 
@@ -316,11 +316,13 @@
 
                                                 <th>Estado Licitación</th>
 
-                                                <th>Recepcionado?</th>
+                                                <th>Recep.?</th>
 
-                                                <th>Facturado?</th>
+                                                <th>Fact.?</th>
 
                                                 <th>No. Factura</th>
+
+                                                <th style="display: none;">Observacion Actualizacion</th>
 
                                                 <th>Acciones</th>
 
@@ -376,7 +378,9 @@
 
                                                     @endif
 
-                                                    <td>{{ $detalle->NoFactura }}</td>                                            
+                                                    <td>{{ $detalle->NoFactura }}</td>   
+
+                                                    <td style="display: none;">{{ $detalle->obsActualizacion }}</td>                                         
 
                                                     <td>
                                                                 
@@ -398,7 +402,7 @@
 
                                             @else
 
-                                                <tr style="background-color:DodgerBlue;color: white;">
+                                                <tr style="background-color:  #ef8207  ;color: white;">
 
                                                     <td style="display: none;">{{ $detalle->id }}</td>
 
@@ -440,21 +444,33 @@
 
                                                     @endif
 
-                                                    <td>{{ $detalle->NoFactura }}</td>                                            
+                                                    <td>{{ $detalle->NoFactura }}</td>    
+
+                                                    <td style="display: none;">{{ $detalle->obsActualizacion }}</td>                                         
 
                                                     <td>
+
+                                                        <div class="btn-group" role="group" aria-label="Basic example">
                                                                 
-                                                        <a href="#" class="btn btn-primary btn-sm editDetalle" data-toggle="tooltip" data-placement="bottom" title="Editar Producto">
-                                                                        
-                                                            <i class="far fa-edit"></i>
+                                                            <a href="#" class="btn btn-primary btn-sm editDetalle" data-toggle="tooltip" data-placement="bottom" title="Editar Producto">
+                                                                            
+                                                                <i class="far fa-edit"></i>
 
-                                                        </a>
+                                                            </a>
 
-                                                        <a href="#" class="btn btn-danger btn-sm deleteDetalle" data-toggle="tooltip" data-placement="bottom" title="Eliminar Producto">
-                                                                        
-                                                            <i class="far fa-trash-alt"></i>
+                                                            <a href="#" class="btn btn-danger btn-sm deleteDetalle" data-toggle="tooltip" data-placement="bottom" title="Eliminar Producto">
+                                                                            
+                                                                <i class="far fa-trash-alt"></i>
 
-                                                        </a>
+                                                            </a>
+
+                                                            <a href="#" class="btn btn-warning btn-sm verDetalle" data-toggle="tooltip" data-placement="bottom" title="Ver Producto">
+                                                                            
+                                                                <i class="far fa-eye"></i>
+
+                                                            </a>
+
+                                                        </div>
 
                                                     </td>
 
@@ -806,7 +822,7 @@
 
             <div class="modal-header bg-primary text-white">
 
-                <h3 class="modal-title" id="exampleModalLabel">Modificar Productos de la Solicitud <i class="fas fa-edit"></i>  </h3>
+                <p class="modal-title" id="exampleModalLabel" style="font-size: 1.2em"> Modificar Productos de la Solicitud <i class="fas fa-edit"></i></p>
 
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
 
@@ -897,7 +913,7 @@
 
             <div class="modal-header bg-danger text-white">
 
-                <h4 class="modal-title" id="exampleModalLabel"> Eliminar Producto de la Solicitud <i class="fas fa-times-circle"></i></h4>
+                <p class="modal-title" id="exampleModalLabel" style="font-size: 1.2em"> Eliminar Producto de la Solicitud <i class="fas fa-times-circle"></i></p>
 
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
 
@@ -949,6 +965,82 @@
 
 </div>
 <!-- End Modal Create Solicitud -->
+
+<!-- VER Modal Detalle Solicitud-->
+<div class="modal fade" id="verDetalleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+
+    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+
+        <div class="modal-content">
+
+            <div class="modal-header bg-warning">
+
+                <p class="modal-title" id="exampleModalLabel" style="font-size: 1.2em">Ver Detalle del Producto de la Solicitud <i class="fas fa-eye"></i></p>
+
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+
+                    <span aria-hidden="true">&times;</span>
+
+                </button>
+
+            </div>
+
+
+            <form method="POST" action="#" class="was-validated" id="verDetalleForm">
+
+                <input type="hidden" name="flag" value="UpdateProducts">
+
+                <div class="modal-body">
+        
+                    <div class="col-md-12 mb-3">
+                                                
+                        <label for="Producto">Producto</label>
+
+                        <input type="text" id="verProducto" class="form-control" disabled>
+                        
+                    </div>
+
+                    <div class="col-md-12 mb-3">
+                                                
+                        <label for="Especificacion">Especificacion</label>
+
+                        <textarea type="text" class="form-control" name="Especificacion" id="verEspecificacion" required disabled></textarea>
+                        
+                    </div>
+
+                    <div class="col-md-12 mb-3">
+                                                
+                        <label for="Cantidad">Cantidad</label>
+
+                        <input type="number" name="Cantidad" id="verCantidad" class="form-control" required disabled>
+
+                    </div>
+
+                    <div class="col-md-12 mb-3">
+                                                
+                        <label for="ValorUnitario">Valor Unitario $</label>
+
+                        <input type="number" name="ValorUnitario" id="verValorUnitario" class="form-control" required disabled>
+
+                    </div>
+
+                    <div class="col-md-12 mb-3">
+                                                
+                        <label for="obsActualizacion">Observación de Actualizacion</label>
+
+                        <textarea type="text" class="form-control" name="obsActualizacion" id="verobsActualizacion" required disabled></textarea>
+                        
+                    </div>
+                            
+                </div>
+
+            </form>
+        </div>
+
+    </div>
+
+</div>
+<!-- VER Modal Detalle Solicitud -->
 
 @endsection
 
@@ -1121,6 +1213,33 @@
 
             });
             //End Delete Record Detalle Solicitud
+
+             //Start SHOW Record Detalle Solicitud
+            table1.on('click', '.verDetalle', function () {
+
+                $tr = $(this).closest('tr');
+
+                if ($($tr).hasClass('child')) {
+
+                    $tr = $tr.prev('.parent');
+
+                }
+
+                var dataDetalle = table1.row($tr).data();
+
+                console.log(dataDetalle);
+
+                $('#verProducto').val(dataDetalle[1]);
+                $('#verEspecificacion').val(dataDetalle[2]);
+                $('#verCantidad').val(dataDetalle[3]);
+                $('#verValorUnitario').val(dataDetalle[4]);
+                $('#verobsActualizacion').val(dataDetalle[13]);
+
+                $('#verDetalleForm').attr('action', '/siscom/admin/' + dataDetalle[0]);
+                $('#verDetalleModal').modal('show');
+
+            });
+            //End Edit Record Detalle Solicitud
 
         //Recorremos la Tabla y Sumamos cada Subtotal
         var cls = document.getElementById("detalleSolicitud").getElementsByTagName("td");

@@ -136,6 +136,18 @@
 
                                         </a>
 
+                                        @if($solicitud->estado_id === 11 && $solicitud->categoriaSolicitud === 'Stock de Oficina')
+
+                                            <a href="{{ route('reporteEntregaStock.pdf', $solicitud->id) }}" class="btn btn-primary btn-sm mr-1" data-toggle="tooltip" data-placement="bottom" title="Imprimir Reporte Entrega Stock">
+
+                                                <i class="fas fa-print"></i>                                        
+
+                                            </a>
+
+                                        @else
+
+                                        @endif
+
                                     </td>
 
                                 </tr>

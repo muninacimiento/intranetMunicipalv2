@@ -366,6 +366,19 @@ class SCM_SolicitudController extends Controller
 
             $detalleSolicitud->update(['ordenCompra_id' => $id]); 
 
+            $solicitud = Solicitud::findOrFail($request->noSolicitud);
+            $solicitud->estado_id                   = 6;
+            $solicitud->save();
+
+            //Guardamos los datos de Movimientos de la Solicitud
+            $move = new MoveSolicitud;
+            $move->solicitud_id                     = $request->noSolicitud;
+            $move->estadoSolicitud_id               = 6;
+            $move->fecha                            = $solicitud->updated_at;
+            $move->user_id                          = Auth::user()->id;
+
+            $move->save();
+
             return back();
 
         } 
@@ -374,12 +387,21 @@ class SCM_SolicitudController extends Controller
         else if ($request->flag == 'AsignarOC') {
 
             $detalleSolicitud = DetailSolicitud::findOrFail($id);
-
             $detalleSolicitud->ordenCompra_id       = $request->ordenCompraID;       
+            $detalleSolicitud->save();
 
-            //dd($detalleSolicitud);
+            $solicitud = Solicitud::findOrFail($detalleSolicitud->solicitud_id);
+            $solicitud->estado_id                   = 6;
+            $solicitud->save();
 
-           $detalleSolicitud->save(); //Guardamos la Solicitud
+            //Guardamos los datos de Movimientos de la Solicitud
+            $move = new MoveSolicitud;
+            $move->solicitud_id                     = $solicitud->id;
+            $move->estadoSolicitud_id               = 6;
+            $move->fecha                            = $solicitud->updated_at;
+            $move->user_id                          = Auth::user()->id;
+
+            $move->save();
 
             return back();
 

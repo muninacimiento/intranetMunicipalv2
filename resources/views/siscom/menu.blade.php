@@ -146,21 +146,51 @@
 
   	@endcan
 
-  	@can('factura.index')
-  	
-  	<li class="nav-item">
-    
-    	<a class="nav-link text-white" href="{{ route('factura.index') }}">
+  	<li class="nav-item dropdown">
 
-    		<i class="fas fa-dollar-sign px-1"></i>
+	  	@can('factura.index')
 
-    		Facturas
+	  		<a class="nav-link text-white dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
 
-    	</a>
+	  			<i class="fas fa-dollar-sign px-1"></i>
+
+	  			Facturas
+
+	  		</a>
+
+	  	@endcan
+
+	  	<div class="dropdown-menu">
+
+	  		@can('factura.index')
+
+			<a class="dropdown-item text-primary" href="{{ route('factura.index') }}">
+
+			    <i class="fas fa-pencil-alt px-1"></i>
+
+			    Gestionar Facturas
+
+			</a>
+
+			@endcan
+
+			<div class="dropdown-divider"></div>
+
+			@can('factura.consulta')
+
+			<a class="dropdown-item text-primary" href="{{ route('factura.consulta') }}">
+
+			    <i class="fas fa-question px-1"></i>
+
+			    Consultar Facturas
+
+			</a>
+
+			@endcan
+
+		</div>
   	
   	</li>
-
-  	@endcan
 
   	<!--@can('factura.index')-->
   	

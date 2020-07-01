@@ -164,7 +164,7 @@
                                         
                                         <tr>
                                             
-                                            <th style="display: none;">ID</th>
+                                            <th>ID</th>
                                             <th>No.Solicitud</th>
                                             <th>Producto</th>
                                             <th>Especificación</th>
@@ -186,7 +186,7 @@
 
                                         <tr>
                                             
-                                            <td style="display: none;">{{ $dS->id }}</td>
+                                            <td>{{ $dS->id }}</td>
                                             <td>{{ $dS->solicitud_id }}</td>
                                             <td>{{ $dS->Producto }}</td>
                                             <td>{{ $dS->especificacion }}</td>
@@ -264,6 +264,8 @@
                                         <button type="submit" class="btn btn-success btn-block"> 
 
                                             <i class="fas fa-check-circle"></i>
+
+                                            {{--Contar os productos con FACTURA ID == NULL para deshabilitar el botón--}}
 
                                             Confirmar Facturación de los Productos de la O.C.
 
