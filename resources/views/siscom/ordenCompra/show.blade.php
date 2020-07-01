@@ -209,6 +209,8 @@
 
                                             <th>Cantidad</th>
 
+                                            <th></th>
+
                                         </tr>
 
                                     </thead>
@@ -227,7 +229,17 @@
 
                                             <td>{{ $ds->especificacion }}</td>
 
-                                            <td>{{ $ds->cantidad }}</td>                                            
+                                            <td>{{ $ds->cantidad }}</td>     
+
+                                            <td>
+                                                
+                                                <a href="#" class="btn btn-danger btn-sm deleteDetalle" data-toggle="tooltip" data-placement="bottom" title="Eliminar Producto">
+                                                                    
+                                                    <i class="far fa-trash-alt"></i>
+
+                                                </a>
+
+                                            </td>                                       
 
                                         </tr>
 
@@ -268,6 +280,68 @@
     </div>
         
 </div>
+
+<!-- DELETE Modal Detalle Solicitud -->
+<div class="modal fade" id="deleteDetalleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+
+    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+
+        <div class="modal-content">
+
+            <div class="modal-header bg-danger text-white">
+
+                <p class="modal-title" id="exampleModalLabel" style="font-size: 1.2em"> Eliminar Producto de la Solicitud <i class="fas fa-times-circle"></i></p>
+
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+
+                    <span aria-hidden="true" class="text-white">&times;</span>
+
+                </button>
+
+            </div>
+
+
+            <form method="POST" action="#" class="was-validated" id="deleteDetalleForm">
+
+                @csrf
+                @method('PUT')
+
+                <input type="hidden" name="flag" value="EliminarOC">
+
+                <div class="modal-body">
+
+                    <p>Esta Ud. segur@ de querer Eliminar el Producto : </p>
+
+                    <div class="form-row">
+
+                        <div class="col-md-12 mb-3">
+
+                            <label class="h5" id="deleteProducto">deleteProducto</label>
+
+                        </div>
+
+                    </div>
+                    
+                    <div class="form-row">
+
+                        <button class="btn btn-danger btn-block" type="submit">
+
+                            <i class="fas fa-times-circle"></i> Eliminar Producto
+
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</div>
+<!-- End Modal Create Solicitud -->
 
 
 @endsection
@@ -334,6 +408,30 @@
                             }
                         }
             });
+
+        //Start Delete Record Detalle Solicitud 
+            table.on('click', '.deleteDetalle', function () {
+
+                $tr = $(this).closest('tr');
+
+                if ($($tr).hasClass('child')) {
+
+                    $tr = $tr.prev('.parent');
+
+                }
+
+                var dataDetalle = table.row($tr).data();
+
+                console.log(dataDetalle);
+
+                document.getElementById('deleteProducto').innerHTML = dataDetalle[2];
+                
+                $('#deleteDetalleForm').attr('action', '/siscom/solicitud/' + dataDetalle[0]);
+                $('#deleteDetalleModal').modal('show');
+
+            });
+            //End Delete Record Detalle Solicitud
+
         
     });
 

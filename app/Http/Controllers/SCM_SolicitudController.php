@@ -411,12 +411,8 @@ class SCM_SolicitudController extends Controller
         else if ($request->flag == 'EliminarOC') {
 
             $detalleSolicitud = DetailSolicitud::findOrFail($id);
-
-            $detalleSolicitud->ordenCompra_id       = null;       
-
-            //dd($solicitud);
-
-            $detalleSolicitud->save(); //Guardamos la Solicitud
+//dd($detalleSolicitud);
+            $detalleSolicitud->update(['ordenCompra_id' => null]); 
 
             return back();
 
