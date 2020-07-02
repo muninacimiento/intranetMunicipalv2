@@ -130,23 +130,27 @@
 
                                     <td>
 
-                                        <a href="{{ route('admin.show', $solicitud->id) }}" class="btn btn-outline-secondary btn-sm mr-1" data-toggle="tooltip" data-placement="bottom" title="Ver el Detalle de la Solicitud">
+                                        <div class="btn-group" role="group" aria-label="Basic example">
 
-                                            <i class="fas fa-eye"></i>
+                                            <a href="{{ route('admin.show', $solicitud->id) }}" class="btn btn-outline-secondary btn-sm" data-toggle="tooltip" data-placement="bottom" title="Ver el Detalle de la Solicitud">
 
-                                        </a>
-
-                                        @if($solicitud->estado_id === 11 && $solicitud->categoriaSolicitud === 'Stock de Oficina')
-
-                                            <a href="{{ route('reporteEntregaStock.pdf', $solicitud->id) }}" class="btn btn-primary btn-sm mr-1" data-toggle="tooltip" data-placement="bottom" title="Imprimir Reporte Entrega Stock">
-
-                                                <i class="fas fa-print"></i>                                        
+                                                <i class="fas fa-eye"></i>
 
                                             </a>
 
-                                        @else
+                                            @if($solicitud->estado_id === 11 && $solicitud->categoriaSolicitud === 'Stock de Oficina')
 
-                                        @endif
+                                                <a href="{{ route('reporteEntregaStock.pdf', $solicitud->id) }}" class="btn btn-success btn-sm mr-1" data-toggle="tooltip" data-placement="bottom" title="Imprimir Reporte Entrega Stock">
+
+                                                    <i class="fas fa-print"></i>                                        
+
+                                                </a>
+
+                                            @else
+
+                                            @endif
+
+                                        </div>
 
                                     </td>
 

@@ -208,7 +208,7 @@
 
                                                                 @if($solicitud->estado === 'En Proceso de Entrega' || $solicitud->estado === 'Solicitud Entregada Completamente')
 
-                                                                    <a href="{{ route('admin.stock', $solicitud->id) }}" class="btn btn-secondary btn-sm mr-1" data-toggle="tooltip" data-placement="bottom" title="Ver el Detalle de la Solicitud">
+                                                                    <a href="{{ route('admin.stock', $solicitud->id) }}" class="btn btn-secondary btn-sm" data-toggle="tooltip" data-placement="bottom" title="Ver el Detalle de la Solicitud">
 
                                                                         <i class="fas fa-eye"></i>
 
@@ -216,7 +216,7 @@
 
                                                                 @else
 
-                                                                    <a href="{{ route('admin.show', $solicitud->id) }}" class="btn btn-secondary btn-sm mr-1" data-toggle="tooltip" data-placement="bottom" title="Ver el Detalle de la Solicitud">
+                                                                    <a href="{{ route('admin.show', $solicitud->id) }}" class="btn btn-secondary btn-sm" data-toggle="tooltip" data-placement="bottom" title="Ver el Detalle de la Solicitud">
 
                                                                         <i class="fas fa-eye"></i>
 
@@ -232,7 +232,7 @@
 
                                                                 @if(($solicitud->estado === 'Asignada a Comprador' || $solicitud->estado === 'Re-Asignada a Comprador') && ($solicitud->categoriaSolicitud === 'Stock de Oficina' || $solicitud->categoriaSolicitud === 'Stock de Aseo' || $solicitud->categoriaSolicitud === 'Stock de Gas'))
                                                                     
-                                                                    <a href="#" class="btn btn-primary btn-sm mr-1 entregar" data-toggle="tooltip" data-placement="bottom" title="Entregar Productos Stock">
+                                                                    <a href="#" class="btn btn-primary btn-sm entregar" data-toggle="tooltip" data-placement="bottom" title="Entregar Productos Stock">
                                                             
                                                                         <i class="fas fa-dolly"></i>
 
@@ -250,7 +250,7 @@
 
                                                                 @if($solicitud->estado === 'Recepcionada' && $solicitud->categoriaSolicitud != 'Stock de Aseo')
 
-                                                                    <a href="#" class="btn btn-warning btn-sm mr-1 asignar" data-toggle="tooltip" data-placement="bottom" title="Asignar Solicitud">
+                                                                    <a href="#" class="btn btn-warning btn-sm asignar" data-toggle="tooltip" data-placement="bottom" title="Asignar Solicitud">
                                                             
                                                                         <i class="fas fa-inbox"></i>
 
@@ -266,7 +266,7 @@
 
                                                                 @elseif( $solicitud->estado === 'Asignada a Comprador' || $solicitud->estado === 'En Proceso de Entrega' || $solicitud->estado === 'En Proceso de Compra')
 
-                                                                    <a href="#" class="btn btn-dark btn-sm mr-1 reasignar" data-toggle="tooltip" data-placement="bottom" title="ReAsignar Solicitud">
+                                                                    <a href="#" class="btn btn-dark btn-sm reasignar" data-toggle="tooltip" data-placement="bottom" title="ReAsignar Solicitud">
                                                             
                                                                         <i class="fas fa-inbox"></i>
 
@@ -282,7 +282,7 @@
 
                                                                 @if($solicitud->decretoPrograma === NULL)
 
-                                                                    <a href="#" class="btn btn-primary btn-sm mr-1 editInterna" data-toggle="tooltip" data-placement="bottom" title="Modificar la Solicitud">
+                                                                    <a href="#" class="btn btn-primary btn-sm editInterna" data-toggle="tooltip" data-placement="bottom" title="Modificar la Solicitud">
                                                             
                                                                         <i class="fas fa-edit"></i>
 
@@ -290,7 +290,7 @@
 
                                                                 @else
 
-                                                                    <a href="#" class="btn btn-primary btn-sm mr-1 editPrograma" data-toggle="tooltip" data-placement="bottom" title="Modificar la Solicitud">
+                                                                    <a href="#" class="btn btn-primary btn-sm editPrograma" data-toggle="tooltip" data-placement="bottom" title="Modificar la Solicitud">
                                                             
                                                                         <i class="fas fa-edit"></i>
 

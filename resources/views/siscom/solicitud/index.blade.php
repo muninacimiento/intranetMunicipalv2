@@ -167,7 +167,7 @@
 
                                                 @else
 
-                                                    <a href="{{ route('solicitud.pdf', $solicitud->id) }}" class="btn btn-outline-success btn-sm mr-1" data-toggle="tooltip" data-placement="bottom" title="Imprimir Solicitud">
+                                                    <a href="{{ route('solicitud.pdf', $solicitud->id) }}" class="btn btn-outline-success btn-sm" data-toggle="tooltip" data-placement="bottom" title="Imprimir Solicitud">
 
                                                         <i class="fas fa-print"></i>
 
@@ -177,7 +177,7 @@
 
                                                 @can('solicitud.show')
 
-                                                    <a href="{{ route('solicitud.show', $solicitud->id) }}" class="btn btn-outline-secondary btn-sm mr-1" data-toggle="tooltip" data-placement="bottom" title="Ver en Detalle la Solicitud y Agregar Productos">
+                                                    <a href="{{ route('solicitud.show', $solicitud->id) }}" class="btn btn-outline-secondary btn-sm" data-toggle="tooltip" data-placement="bottom" title="Ver en Detalle la Solicitud y Agregar Productos">
 
                                                         <i class="fas fa-eye"></i>
 
@@ -191,7 +191,7 @@
 
                                                     @if($solicitud->decretoPrograma === NULL)
 
-                                                        <a href="#" class="btn btn-outline-primary btn-sm mr-1 editInterna" data-toggle="tooltip" data-placement="bottom" title="Modificar la Solicitud">
+                                                        <a href="#" class="btn btn-outline-primary btn-sm editInterna" data-toggle="tooltip" data-placement="bottom" title="Modificar la Solicitud">
                                                 
                                                             <i class="fas fa-edit"></i>
 
@@ -199,7 +199,7 @@
 
                                                     @else
 
-                                                        <a href="#" class="btn btn-outline-primary btn-sm mr-1 editPrograma" data-toggle="tooltip" data-placement="bottom" title="Modificar la Solicitud">
+                                                        <a href="#" class="btn btn-outline-primary btn-sm editPrograma" data-toggle="tooltip" data-placement="bottom" title="Modificar la Solicitud">
                                                 
                                                             <i class="fas fa-edit"></i>
 

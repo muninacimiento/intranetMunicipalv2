@@ -130,29 +130,33 @@
 
                                     <td>
 
-                                        <a href="{{ route('admin.show', $solicitud->id) }}" class="btn btn-secondary btn-sm mr-1" data-toggle="tooltip" data-placement="bottom" title="Ver el Detalle de la Solicitud">
+                                        <div class="btn-group" role="group" aria-label="Basic example">
 
-                                            <i class="fas fa-eye"></i>
+                                            <a href="{{ route('admin.show', $solicitud->id) }}" class="btn btn-secondary btn-sm" data-toggle="tooltip" data-placement="bottom" title="Ver el Detalle de la Solicitud">
 
-                                        </a>
+                                                <i class="fas fa-eye"></i>
 
-                                        {{--Habilitar Recepcion--}}
+                                            </a>
 
-                                        @can('admin.recepcionarSolicitud')
+                                            {{--Habilitar Recepcion--}}
 
-                                            @if($solicitud->estado === 'Pendiente')
+                                            @can('admin.recepcionarSolicitud')
 
-                                                <a href="#" class="btn btn-success btn-sm mr-1 recepcionar" data-toggle="tooltip" data-placement="bottom" title="Recepcionar Solicitud">
-                                                            
-                                                    <i class="fas fa-clipboard-check"></i>
+                                                @if($solicitud->estado === 'Pendiente')
 
-                                                </a>
-                                                
-                                            @else
+                                                    <a href="#" class="btn btn-success btn-sm recepcionar" data-toggle="tooltip" data-placement="bottom" title="Recepcionar Solicitud">
+                                                                
+                                                        <i class="fas fa-clipboard-check"></i>
 
-                                            @endif
+                                                    </a>
+                                                    
+                                                @else
 
-                                        @endcan
+                                                @endif
+
+                                            @endcan
+
+                                        </div>
 
                                     </td>
 

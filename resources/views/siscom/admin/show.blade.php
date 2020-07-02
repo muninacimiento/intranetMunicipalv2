@@ -383,18 +383,22 @@
                                                     <td style="display: none;">{{ $detalle->obsActualizacion }}</td>                                         
 
                                                     <td>
+
+                                                        <div class="btn-group" role="group" aria-label="Basic example">
                                                                 
-                                                        <a href="#" class="btn btn-primary btn-sm editDetalle" data-toggle="tooltip" data-placement="bottom" title="Editar Producto">
-                                                                        
-                                                            <i class="far fa-edit"></i>
+                                                            <a href="#" class="btn btn-primary btn-sm editDetalle" data-toggle="tooltip" data-placement="bottom" title="Editar Producto">
+                                                                            
+                                                                <i class="far fa-edit"></i>
 
-                                                        </a>
+                                                            </a>
 
-                                                        <a href="#" class="btn btn-danger btn-sm deleteDetalle" data-toggle="tooltip" data-placement="bottom" title="Eliminar Producto">
-                                                                        
-                                                            <i class="far fa-trash-alt"></i>
+                                                            <a href="#" class="btn btn-danger btn-sm deleteDetalle" data-toggle="tooltip" data-placement="bottom" title="Eliminar Producto">
+                                                                            
+                                                                <i class="far fa-trash-alt"></i>
 
-                                                        </a>
+                                                            </a>
+
+                                                        </div>
 
                                                     </td>
 
