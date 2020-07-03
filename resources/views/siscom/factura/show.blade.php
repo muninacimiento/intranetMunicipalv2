@@ -164,7 +164,7 @@
                                         
                                         <tr>
                                             
-                                            <th>ID</th>
+                                            <th style="display: none;">ID</th>
                                             <th>No.Solicitud</th>
                                             <th>Producto</th>
                                             <th>Especificación</th>
@@ -186,7 +186,7 @@
 
                                         <tr>
                                             
-                                            <td>{{ $dS->id }}</td>
+                                            <td style="display: none;">{{ $dS->id }}</td>
                                             <td>{{ $dS->solicitud_id }}</td>
                                             <td>{{ $dS->Producto }}</td>
                                             <td>{{ $dS->especificacion }}</td>
