@@ -185,13 +185,9 @@
 
                                             @can('ordenCompra.show')
 
-                                                <a href="{{ route('ordenCompra.show', $oc->id) }}" data-toggle="tooltip" data-placement="bottom" title="Ver el Detalle de la Solicitud">
-
-                                                    <button class="btn btn-secondary btn-sm mr-1">
+                                                <a href="{{ route('ordenCompra.show', $oc->id) }}" class="btn btn-secondary btn-sm mr-1" data-toggle="tooltip" data-placement="bottom" title="Ver el Detalle de la Solicitud">
                                                         
-                                                        <i class="fas fa-eye"></i>
-
-                                                    </button>
+                                                    <i class="fas fa-eye"></i>
 
                                                 </a>
 
@@ -212,13 +208,9 @@
 
                                                     @if($oc->Estado === 'Emitida')
 
-                                                        <a href="{{ route('ordenCompra.agregarProductos', $oc->id) }}">
-                                                            
-                                                            <button class="btn btn-danger btn-sm mr-1 " type="button">
+                                                        <a href="{{ route('ordenCompra.agregarProductos', $oc->id) }}" class="btn btn-danger btn-sm">
                                                                     
-                                                                <i class="fas fa-shopping-basket"></i>
-
-                                                            </button>
+                                                            <i class="fas fa-shopping-basket"></i>
 
                                                         </a>
 
@@ -230,13 +222,9 @@
 
                                                 @can('ordenCompra.show')
 
-                                                    <a href="{{ route('ordenCompra.show', $oc->id) }}" data-toggle="tooltip" data-placement="bottom" title="Ver en Detalle la Órden de Compra y Agregar Productos">
-
-                                                        <button class="btn btn-secondary btn-sm mr-1" type="button">
+                                                    <a href="{{ route('ordenCompra.show', $oc->id) }}" class="btn btn-secondary btn-sm" data-toggle="tooltip" data-placement="bottom" title="Ver en Detalle la Órden de Compra y Agregar Productos">
                                                             
-                                                            <i class="fas fa-eye"></i>
-
-                                                        </button>
+                                                        <i class="fas fa-eye"></i>
 
                                                     </a>
 
@@ -248,13 +236,9 @@
 
                                                     @if($oc->Estado == 'Confirmada')
 
-                                                        <a href="#" class="recepcionar" data-toggle="tooltip" data-placement="bottom" title="Recepcionar Órden de Compra">
-
-                                                            <button class="btn btn-success btn-sm mr-1" type="button">
+                                                        <a href="#" class="btn btn-success btn-sm recepcionar" data-toggle="tooltip" data-placement="bottom" title="Recepcionar Órden de Compra">
                                                             
-                                                                <i class="fas fa-clipboard-check"></i>
-
-                                                            </button>
+                                                            <i class="fas fa-clipboard-check"></i>
 
                                                         </a>
 
@@ -272,13 +256,9 @@
 
                                                     @else
 
-                                                        <a href="{{ route('ordenCompra.validar', $oc->id) }}" data-toggle="tooltip" data-placement="bottom" title="Válidar Órden de Compra">
-                                            
-                                                            <button class="btn btn-warning btn-sm mr-1 " type="button">
+                                                        <a href="{{ route('ordenCompra.validar', $oc->id) }}" class="btn btn-warning btn-sm" data-toggle="tooltip" data-placement="bottom" title="Válidar Órden de Compra">
                                                             
-                                                                <i class="fas fa-thumbs-up"></i>
-
-                                                            </button>
+                                                            <i class="fas fa-thumbs-up"></i>
 
                                                         </a>
 
@@ -294,13 +274,9 @@
 
                                                     @else
 
-                                                        <a href="{{ route('ordenCompra.recepcionarProductos', $oc->id) }}" data-toggle="tooltip" data-placement="bottom" title="Recepcionar Productos de la OC">
-                                            
-                                                            <button class="btn btn-success btn-sm mr-1 " type="button">
+                                                        <a href="{{ route('ordenCompra.recepcionarProductos', $oc->id) }}" class="btn btn-info btn-sm" data-toggle="tooltip" data-placement="bottom" title="Recepcionar Productos de la OC">
                                                             
-                                                                <i class="fas fa-box-open"></i>
-
-                                                            </button>
+                                                            <i class="fas fa-box-open"></i>
 
                                                         </a>
 
@@ -314,13 +290,9 @@
 
                                                     @else
 
-                                                        <a href="#" class="edit" data-toggle="tooltip" data-placement="bottom" title="Modificar la Órden de Compra">
-
-                                                            <button class="btn btn-primary btn-sm mr-1  " type="button">
+                                                        <a href="#" class="btn btn-primary btn-sm edit" data-toggle="tooltip" data-placement="bottom" title="Modificar la Órden de Compra">
                                                                 
-                                                                <i class="fas fa-edit"></i>
-
-                                                            </button>
+                                                            <i class="fas fa-edit"></i>
 
                                                         </a>
 
@@ -334,13 +306,9 @@
 
                                                     @else
 
-                                                        <a href="#" class="delete" data-toggle="tooltip" data-placement="bottom" title="Anular Órden de Compra">
-
-                                                            <button class="btn btn-danger btn-sm " type="button">
+                                                        <a href="#" class="btn btn-danger btn-sm delete" data-toggle="tooltip" data-placement="bottom" title="Anular Órden de Compra">
                                                                 
-                                                                 <i class="fas fa-trash"></i>
-
-                                                            </button>
+                                                            <i class="fas fa-trash"></i>
 
                                                         </a>
 
