@@ -251,7 +251,7 @@
 
                             <div class="form-row">
 
-                                @if($fullFactura == $parcialFactura)
+                                @if($fullFactura < $parcialFactura)
 
                                     <div class="col-md-12 mb-2">
                                             

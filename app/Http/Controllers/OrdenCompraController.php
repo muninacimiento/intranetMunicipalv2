@@ -1166,15 +1166,16 @@ class OrdenCompraController extends Controller
                     $fullRecepction = DB::table('detail_solicituds')
                                     ->where('detail_solicituds.ordenCompra_id', '=', $id)
                                     ->count();
-
+//dd($fullRecepction);
                     $parcialReception = DB::table('detail_solicituds')
                                         ->where('detail_solicituds.ordenCompra_id', '=', $id)
                                         ->where('detail_solicituds.obsRecepcion', '=', null)
                                         ->count();
+//dd($parcialReception);
 
                     if ($fullRecepction == $parcialReception) {
                         
-                        $dSolicitud = DetailSolicitud::where('ordenCompra_id', $id);
+                        $dSolicitud = DetailSolicitud::where('ordenCompra_id', $id)->where('fechaRecepcion', null);
                         $dSolicitud->update(['userReceive_id' => Auth::user()->id, 'fechaRecepcion' => $dateCarbon]);                      
                         //Buscamos la Solicitud relacionada con la OC a recepcionar
                         $s = DB::table('solicituds')
@@ -1201,9 +1202,6 @@ class OrdenCompraController extends Controller
                         //dd($oc);
                         $oc->estado_id                          = 19;
                         $oc->save();
-
-
-                        
 
                         //Guardamos el Movimientos de la OC
                         $move = new MoveOC;
@@ -1275,12 +1273,25 @@ class OrdenCompraController extends Controller
                     $dateCarbon = Carbon::now();
 
                     $dSolicitud = DetailSolicitud::findOrFail($id);
-
+//dd($dSolicitud);
                     $dSolicitud->fechaRecepcion         = $dateCarbon;
                     $dSolicitud->userReceive_id         = Auth::user()->id;
                     $dSolicitud->obsRecepcion           = $request->obsRecepcion;
-
                     $dSolicitud->save();
+
+                    //Actualizamos el estado de la OC
+                    $oc = OrdenCompra::findOrFail($dSolicitud->ordenCompra_id);
+//dd($oc);
+                    $oc->estado_id                          = 24;
+                    $oc->save();
+
+                    //Guardamos el Movimientos de la OC
+                    $move = new MoveOC;
+                    $move->ordenCompra_id                   = $oc->id;
+                    $move->estadoOrdenCompra_id             = 24;
+                    $move->fecha                            = $oc->updated_at;
+                    $move->user_id                          = Auth::user()->id;
+                    $move->save();      
 
                 DB::commit();
                 

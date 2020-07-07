@@ -173,6 +173,19 @@
 
                                 <div>
 
+                                     <a href="#" data-toggle="modal" data-target="#asignarTODOSModal" title="Asignar Producto a la órden de Compra" disabled>
+
+                                    <button class="btn btn-primary btn-sm float-right">
+
+                                        <i class="fas fa-check-double"></i> 
+
+                                        Asignar a Todos
+
+                                    </button>
+                                        
+
+                                </a>
+
                                     <table class="display" id="detalleOrdenCompra" width="100%">
 
                                         <thead>
@@ -264,7 +277,7 @@
 
                                             <i class="fas fa-check-circle"></i>
 
-                                            Confirmar Recepción de TODOS los Productos
+                                            Guardar Recepción de los Productos
 
                                         </button>
 
@@ -338,7 +351,7 @@
                                                 
                         <label for="observacion">Observaciones</label>
 
-                        <textarea name="obsRecepcion" id="obsRecepcion" class="form-control" cols="3" placeholder="Por favor ingrese una observación si no se recepciona la totalidad del Producto o de ser necesaria"></textarea>
+                        <textarea name="obsRecepcion" id="obsRecepcion" class="form-control" cols="3" placeholder="Por favor ingrese una observación si no se recepciona la totalidad del Producto o de ser necesaria" required></textarea>
 
                     </div>
 

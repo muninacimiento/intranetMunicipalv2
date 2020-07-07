@@ -191,11 +191,11 @@ class FacturaController extends Controller
 
         //Traemos todos los productos de la OC
         $fullFactura = DB::table('detail_solicituds')
-            ->where('detail_solicituds.ordenCompra_id', '=', $id)
+            ->where('detail_solicituds.factura_id', '=', $id)
             ->count();
 
         $parcialFactura = DB::table('detail_solicituds')
-            ->where('detail_solicituds.ordenCompra_id', '=', $id)
+            ->where('detail_solicituds.ordenCompra_id', '=', $factura->ordenCompra_id)
             ->where('detail_solicituds.factura_id', '=', null)
             ->count();
 

@@ -617,7 +617,7 @@
 
                                 <option>Fabiola Macaya</option>
                                 <option>Marcela Torres</option>
-                                <option>Marcos Mella</option>
+                                <option>Luis Arancibia</option>
                                 <option>Cecilia Castro S</option>
                                 <option>Mónica Alvarez</option>
 
@@ -723,7 +723,7 @@
 
                                 <option>Fabiola Macaya</option>
                                 <option>Marcela Torres</option>
-                                <option>Marcos Mella</option>
+                                <option>Luis Arancibia</option>
                                 <option>Cecilia Castro S</option>
                                 <option>Mónica Alvarez</option>
 
