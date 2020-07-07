@@ -182,7 +182,6 @@
                                         Asignar a Todos
 
                                     </button>
-                                        
 
                                 </a>
                                     
