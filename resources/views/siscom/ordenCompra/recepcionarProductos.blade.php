@@ -171,18 +171,30 @@
 
                             <div class="py-5">
 
-                                <div>
+                                <div class="mb-5 float-right">
 
-                                     <a href="#" data-toggle="modal" data-target="#asignarTODOSModal" title="Asignar Producto a la órden de Compra" disabled>
+                                    @can('ordenCompra.confirmarRecepcionProductos')
+                                
+                                    <form method="POST" action="{{ route('ordenCompra.confirmarRecepcion', $ordenCompra->id) }}">
 
-                                    <button class="btn btn-primary btn-sm float-right">
+                                        @csrf
+                                        @method('PUT')
 
-                                        <i class="fas fa-check-double"></i> 
+                                        <input type="hidden" name="flag" value="RecepcionarTodosProductosOC">
 
-                                        Asignar a Todos
+                                        <button type="submit" class="btn btn-primary"> 
 
-                                    </button>
-                                        
+                                            <i class="fas fa-check-double"></i> 
+
+                                            Recepcionar Todos de los Productos
+
+                                        </button>
+
+                                    </form>
+
+                                    @endcan
+                                       
+                                </div> 
 
                                 </a>
 
@@ -264,26 +276,17 @@
 
                                 <div class="col-md-12 mb-2">
 
-                                    @can('ordenCompra.confirmarRecepcionProductos')
-                                
-                                    <form method="POST" action="{{ route('ordenCompra.confirmarRecepcion', $ordenCompra->id) }}">
+                                    <a href="{{ route('ordenCompra.index') }}" class="text-decoration-none">
 
-                                        @csrf
-                                        @method('PUT')
+                                        <button type="submit" class="btn btn-secondary btn-block"> 
 
-                                        <input type="hidden" name="flag" value="RecepcionarTodosProductosOC">
-
-                                        <button type="submit" class="btn btn-success btn-block"> 
-
-                                            <i class="fas fa-check-circle"></i>
-
-                                            Guardar Recepción de los Productos
+                                            <i class="fas fa-arrow-left"></i>
+                                                        
+                                            Aceptar
 
                                         </button>
 
-                                    </form>
-
-                                    @endcan
+                                    </a>
 
                                 </div>
 
