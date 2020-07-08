@@ -150,11 +150,43 @@
 
                             <hr style="background-color: #d7d7d7">
 
-                            <div class="mt-5 text-center">
-                                
-                                <h5>Detalle Factura</h5>
+                            <div class="mb-5 float-right">
 
-                            </div>
+                                @if($fullFactura == 0)
+
+                                    {{--@can('ordenCompra.confirmarRecepcionProductos')--}}
+                                    
+                                    <form method="POST" action="{{ route('factura.facturarTodos', $factura->ordenCompra_id) }}" id="facturarTodosProductoForm">
+
+                                        @csrf
+                                        @method('PUT')
+
+                                        <input type="hidden" name="flag" value="FacturarTodosProductos">
+                                        <input type="hidden" value="{{ $factura->id }}" readonly name="factura_id">
+
+                                        <button type="submit" class="btn btn-primary"> 
+                                            
+                                            <i class="fas fa-check-double"></i> 
+
+                                            Facturar Todos de los Productos de la O.C.
+
+                                        </button>
+
+                                    {{--@endcan--}}
+
+                                @else
+
+                                <button type="submit" class="btn btn-primary" disabled> 
+                                            
+                                    <i class="fas fa-check-double"></i> 
+
+                                    Facturar Todos de los Productos de la O.C.
+
+                                </button>
+
+                                @endif
+                                       
+                            </div> 
 
                             <div class="mb-5">
                             
@@ -209,12 +241,14 @@
 
                                                     @if($dS->factura_id == NULL)
 
-                                                    <form method="POST" action="{{ route('factura.update', $dS->id) }}" id="1">
+                                                    <form method="POST" action="{{ route('factura.update', $dS->id) }}" >
 
                                                         @csrf
                                                         @method('PUT')
 
                                                         <input type="hidden" name="flag" value="FacturarProducto">
+                                                        <input type="hidden" name="factura_id" value="{{ $factura->id }}">
+
 
                                                             <button class="btn btn-primary btn-sm mr-1" type="submit">
                                                             
@@ -223,7 +257,6 @@
                                                             </button>
 
                                                     </form>
-                                                                    
 
                                                     @else
 
@@ -251,45 +284,21 @@
 
                             <div class="form-row">
 
-                                @if($fullFactura < $parcialFactura)
+                                <div class="col-md-12 mb-2">
 
-                                    <div class="col-md-12 mb-2">
-                                            
-                                        <form method="POST" action="{{ route('factura.facturarTodos', $dS->ordenCompra_id) }}" id="facturarTodosProductoForm">
+                                    <a href="{{ route('factura.index') }}" class="text-decoration-none">
 
-                                            @csrf
-                                            @method('PUT')
+                                        <button type="submit" class="btn btn-secondary btn-block"> 
 
-                                            <input type="hidden" name="flag" value="FacturarTodosProductos">
-                                            <input type="hidden" value="{{ $factura->id }}" readonly name="factura_id">
+                                            <i class="fas fa-arrow-left"></i>
+                                                        
+                                            Aceptar
 
-                                            <button type="submit" class="btn btn-success btn-block"> 
+                                        </button>
 
-                                                <i class="fas fa-check-circle"></i>
+                                    </a>
 
-                                                Confirmar Facturación de los Productos de la O.C.
-
-                                            </button>
-
-                                        </form>    
-
-                                    </div>
-
-                                @else
-
-                                    <div class="col-md-12 mb-2">
-
-                                        <button type="submit" class="btn btn-success btn-block" disabled> 
-
-                                            <i class="fas fa-check-circle"></i>
-
-                                            Confirmar Facturación de los Productos de la O.C.
-
-                                        </button>  
-
-                                    </div>
-
-                                @endif
+                                </div>
 
                             </div>
                            

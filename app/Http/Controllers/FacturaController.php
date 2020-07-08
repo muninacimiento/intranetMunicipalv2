@@ -303,6 +303,7 @@ class FacturaController extends Controller
                 DB::beginTransaction();
 
                     $facturar = DetailSolicitud::findOrFail($id);
+//dd($request->factura_id);
                     $facturar->factura_id       = $request->factura_id;
                     $facturar->save();
 
