@@ -252,7 +252,7 @@
 
                                                 @can('ordenCompra.validar')
 
-                                                    @if($oc->Estado == 'Emitida' || $oc->Estado == 'Confirmada' || $oc->Estado == 'Enviada a Proveedor' || $oc->Estado == 'Productos Recepcionados')
+                                                    @if($oc->Estado == 'Emitida' || $oc->Estado == 'Confirmada' || $oc->Estado == 'Enviada a Proveedor' || $oc->Estado == 'Productos Recepcionados' || $oc->Estado == 'Facturada' || $oc->Estado == 'Parcialmente Facturada')
 
                                                     @else
 
@@ -270,7 +270,7 @@
 
                                                 @can('ordenCompra.recepcionarProducto')
 
-                                                    @if($oc->Estado == 'Emitida' || $oc->Estado == 'Confirmada' || $oc->Estado == 'Recepcionada y en Revisión por C&S' || $oc->Estado == 'Productos Recepcionados')
+                                                    @if($oc->Estado == 'Emitida' || $oc->Estado == 'Confirmada' || $oc->Estado == 'Recepcionada y en Revisión por C&S' || $oc->Estado == 'Productos Recepcionados' || $oc->Estado == 'Facturada')
 
                                                     @else
 
@@ -286,7 +286,7 @@
 
                                                 @can('ordenCompra.update')
 
-                                                    @if($oc->Estado == 'Productos Recepcionados')
+                                                    @if($oc->Estado == 'Productos Recepcionados' || $oc->Estado == 'Facturada')
 
                                                     @else
 
@@ -302,7 +302,7 @@
 
                                                 @can('ordenCompra.anular')
 
-                                                    @if($oc->Estado == 'Productos Recepcionados')
+                                                    @if($oc->Estado == 'Productos Recepcionados' || $oc->Estado == 'Facturada')
 
                                                     @else
 

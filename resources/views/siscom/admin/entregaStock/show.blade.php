@@ -156,7 +156,7 @@
 
                                 <div>
 
-                                    <table class="display" id="detalleSolicitud" width="100%">
+                                    <table class="display" id="detalleSolicitud" width="100%" style="font-size: 0.9em">
 
                                         <thead>
 

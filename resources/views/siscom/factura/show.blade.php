@@ -190,7 +190,7 @@
 
                             <div class="mb-5">
                             
-                                <table class="display" id="detalleFactura">
+                                <table class="display" id="detalleFactura" style="font-size: 0.9em">
                                     
                                     <thead>
                                         

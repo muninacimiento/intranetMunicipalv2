@@ -354,9 +354,25 @@
 
                                                     <td>{{ $detalle->EstadoOC }}</td>
 
-                                                    <td>{{ $detalle->NoLicitacion}}</td>
+                                                    @if($detalle->NoLicitacion == NULL)
 
-                                                    <td>{{ $detalle->EstadoLicitacion }}</td>
+                                                        <td>Sin Licitación</td>
+
+                                                    @else
+
+                                                        <td>{{ $detalle->NoLicitacion}}</td>
+
+                                                    @endif
+
+                                                    @if($detalle->EstadoLicitacion == NULL)
+
+                                                        <td>No Aplica</td>
+
+                                                    @else
+
+                                                        <td>{{ $detalle->EstadoLicitacion }}</td>
+
+                                                    @endif
 
                                                     @if($detalle->fechaRecepcion == NULL)
 

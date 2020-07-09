@@ -188,14 +188,17 @@ class OrdenCompraController extends Controller
                                 ->join('products', 'detail_solicituds.product_id', 'products.id')
                                 ->join('solicituds', 'detail_solicituds.solicitud_id', '=', 'solicituds.id')
                                 ->join('orden_compras', 'detail_solicituds.ordenCompra_id', '=', 'orden_compras.id')
-                                ->select('detail_solicituds.*', 'products.name as Producto')
+                                ->leftjoin('status_o_c_s', 'orden_compras.estado_id', '=', 'status_o_c_s.id')
+                                ->leftjoin('licitacions', 'detail_solicituds.licitacion_id', '=', 'licitacions.id')
+                                ->leftjoin('status_licitacions', 'licitacions.estado_id', '=', 'status_licitacions.id')
+                                ->leftjoin('facturas', 'detail_solicituds.factura_id', 'facturas.id')
+                                ->leftjoin('status_facturas', 'facturas.estado_id', '=', 'status_facturas.id')
+                                ->select('detail_solicituds.*', 'products.name as Producto', 'licitacions.licitacion_id as NoLicitacion', 'status_licitacions.estado as EstadoLicitacion', 'facturas.factura_id as NoFactura', 'status_facturas.estado as estadoFactura')
                                 ->where('detail_solicituds.ordenCompra_id', '=', $id)
                                 ->get();
+//dd($ordenCompra);
 
-        
-                    //dd($ordenCompra);
-
-                     /* Retornamos a la vista los resultados psanadolos por parametros */
+        /* Retornamos a la vista los resultados psanadolos por parametros */
         return view('siscom.ordenCompra.show', compact('ordenCompra', 'dateCarbon', 'proveedores', 'move', 'detalleSolicitud', 'assign'));
 
     }
@@ -341,7 +344,7 @@ class OrdenCompraController extends Controller
                                 ->join('products', 'detail_solicituds.product_id', 'products.id')
                                 ->join('solicituds', 'detail_solicituds.solicitud_id', '=', 'solicituds.id')
                                 ->join('orden_compras', 'detail_solicituds.ordenCompra_id', '=', 'orden_compras.id')
-                                ->select('detail_solicituds.*', 'products.name as Producto')
+                                ->select('detail_solicituds.*', 'products.name as Producto', DB::raw('(detail_solicituds.cantidad - detail_solicituds.cantidadRecepcionada) as Saldo'))
                                 ->where('detail_solicituds.ordenCompra_id', '=', $id)
                                 ->get();
 
@@ -1273,25 +1276,36 @@ class OrdenCompraController extends Controller
                     $dateCarbon = Carbon::now();
 
                     $dSolicitud = DetailSolicitud::findOrFail($id);
+                    $suma = $dSolicitud->cantidadRecepcionada;
+                    $suma = $suma + $request->cantidadRecepcionada;
 //dd($dSolicitud);
-                    $dSolicitud->fechaRecepcion         = $dateCarbon;
-                    $dSolicitud->userReceive_id         = Auth::user()->id;
-                    $dSolicitud->obsRecepcion           = $request->obsRecepcion;
-                    $dSolicitud->save();
 
-                    //Actualizamos el estado de la OC
-                    $oc = OrdenCompra::findOrFail($dSolicitud->ordenCompra_id);
-//dd($oc);
-                    $oc->estado_id                          = 24;
-                    $oc->save();
+                    if ($dSolicitud->cantidad >= $suma) {
 
-                    //Guardamos el Movimientos de la OC
-                    $move = new MoveOC;
-                    $move->ordenCompra_id                   = $oc->id;
-                    $move->estadoOrdenCompra_id             = 24;
-                    $move->fecha                            = $oc->updated_at;
-                    $move->user_id                          = Auth::user()->id;
-                    $move->save();      
+                        $dSolicitud->fechaRecepcion         = $dateCarbon;
+                        $dSolicitud->userReceive_id         = Auth::user()->id;
+                        $dSolicitud->cantidadRecepcionada   = $request->cantidadRecepcionada;
+                        $dSolicitud->obsRecepcion           = strtoupper($request->obsRecepcion);
+                        $dSolicitud->save();
+
+                        //Actualizamos el estado de la OC
+                        $oc = OrdenCompra::findOrFail($dSolicitud->ordenCompra_id);
+    //dd($oc);
+                        $oc->estado_id                          = 24;
+                        $oc->save();
+
+                        //Guardamos el Movimientos de la OC
+                        $move = new MoveOC;
+                        $move->ordenCompra_id                   = $oc->id;
+                        $move->estadoOrdenCompra_id             = 24;
+                        $move->fecha                            = $oc->updated_at;
+                        $move->user_id                          = Auth::user()->id;
+                        $move->save();      
+
+                    }else{
+
+                    return back()->with('danger', 'La Cantidad Recepcionada No puede ser mayor a la Solicitada');
+                }
 
                 DB::commit();
                 

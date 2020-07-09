@@ -193,7 +193,7 @@
 
                             <div>
 
-                                <table class="display" id="detalleSolicitud" width="100%">
+                                <table class="display" id="detalleSolicitud" width="100%" style="font-size: 0.9em;">
 
                                     <thead>
 
@@ -209,7 +209,15 @@
 
                                             <th>Cantidad</th>
 
-                                            <th></th>
+                                            <th>Recep.?</th>
+
+                                            <th>Fact.?</th>
+
+                                            <th>No. Factura</th>
+
+                                            <th>Estado Factura</th>
+
+                                            <th>Acciones</th>
 
                                         </tr>
 
@@ -229,7 +237,31 @@
 
                                             <td>{{ $ds->especificacion }}</td>
 
-                                            <td>{{ $ds->cantidad }}</td>     
+                                            <td>{{ $ds->cantidad }}</td>  
+
+                                            @if($ds->fechaRecepcion == NULL)
+
+                                                <td>No</td>
+
+                                            @else
+
+                                                <td>Si</td>
+
+                                            @endif
+
+                                            @if($ds->factura_id == NULL)
+
+                                                <td>No</td>
+
+                                            @else
+
+                                                <td>Si</td>
+
+                                            @endif
+
+                                            <td>{{ $ds->NoFactura }}</td>   
+                
+                                            <td>{{ $ds->estadoFactura }}</td>   
 
                                             <td>
                                                 

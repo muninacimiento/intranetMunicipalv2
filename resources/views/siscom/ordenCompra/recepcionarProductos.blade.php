@@ -198,7 +198,7 @@
 
                                 </a>
 
-                                    <table class="display" id="detalleOrdenCompra" width="100%">
+                                    <table class="display" id="detalleOrdenCompra" width="100%" style="font-size: 0.9em">
 
                                         <thead>
 
@@ -212,7 +212,11 @@
 
                                                 <th>Especificación</th>
 
-                                                <th>Cantidad</th>
+                                                <th>Cantidad Solicitada</th>
+
+                                                <th>Cantidad Recepcionada</th>
+
+                                                <th>Saldo</th>
 
                                                 <th>Observación</th>
 
@@ -238,11 +242,15 @@
 
                                                 <td>{{ $ds->cantidad }}</td> 
 
+                                                <td>{{ $ds->cantidadRecepcionada }}</td>
+
+                                                <td class="saldo">{{ $ds->Saldo }}</td>
+
                                                 <td>{{ $ds->obsRecepcion }}</td>
 
                                                 <td>
 
-                                                    @if($ds->obsRecepcion === NULL)
+                                                    @if($ds->fechaRecepcion === NULL)
 
                                                     <a href="#" class="btn btn-primary btn-sm recepcionarProducto" data-toggle="tooltip" data-placement="bottom" title="Recepcionar solo este Producto">
                                                                     
@@ -252,7 +260,7 @@
 
                                                     @else
 
-                                                        <label>Producto Recepcionado con Obervaciones</label>
+                                                        <label>Producto Recepcionado</label>
 
                                                     @endif
 
@@ -268,7 +276,13 @@
 
                                 </div>
 
-                                
+                                <div class="form-row mb-3">
+                                            
+                                <h5 class="text-muted">Saldo Pendiente :&nbsp;$&nbsp;</h5>
+
+                                <input type="text" name="saldoPendiente" id="saldoPendiente" readonly style="border: 0;font-size: 1.5em;">
+
+                            </div>
 
                             </div>
 
@@ -352,9 +366,23 @@
 
                     <div class="col-md-12 mb-3">
                                                 
+                        <label for="catidadEntregada">Cantidad a Entregar</label>
+
+                        <input type="number" name="cantidadRecepcionada" id="cantidadRecepcionada" class="form-control" required>
+
+                        <div class="invalid-feedback">
+
+                                Por favor la Cantidad a Entregar
+
+                            </div>
+
+                    </div>
+
+                    <div class="col-md-12 mb-3">
+                                                
                         <label for="observacion">Observaciones</label>
 
-                        <textarea name="obsRecepcion" id="obsRecepcion" class="form-control" cols="3" placeholder="Por favor ingrese una observación si no se recepciona la totalidad del Producto o de ser necesaria" required></textarea>
+                        <textarea name="obsRecepcion" id="obsRecepcion" class="form-control" cols="3" placeholder="Por favor ingrese una observación si no se recepciona la totalidad del Producto o de ser necesaria"></textarea>
 
                     </div>
 
@@ -548,6 +576,17 @@
 
             });
             //End Edit Record Detalle Solicitud
+
+             //Recorremos la Tabla y Sumamos cada Saldo
+            var cls = document.getElementById("detalleOrdenCompra").getElementsByTagName("td");
+            var sum = 0;
+            for (var i = 0; i < cls.length; i++){
+                if(cls[i].className == "saldo"){
+                    sum += isNaN(cls[i].innerHTML) ? 0 : parseInt(cls[i].innerHTML);
+                }
+            }
+
+            $('#saldoPendiente').val(sum);
 
             
     });
