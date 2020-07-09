@@ -179,7 +179,7 @@
 
                                     <td style="display: none">{{ $oc->mercadoPublico }}</td>
 
-                                    @if( $oc->Estado == 'Anulada')
+                                    @if( $oc->Estado == 'Anulada' || $oc->Estado == 'Facturada')
 
                                         <td>
 
@@ -206,7 +206,7 @@
 
                                                 @can('ordenCompra.asignar')
 
-                                                    @if($oc->Estado === 'Emitida')
+                                                    @if($oc->Estado === 'Emitida' ||  Auth::user()->name = 'Carolina Medina Ortega')
 
                                                         <a href="{{ route('ordenCompra.agregarProductos', $oc->id) }}" class="btn btn-danger btn-sm">
                                                                     
