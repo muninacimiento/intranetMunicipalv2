@@ -206,7 +206,7 @@
 
                                                 @can('ordenCompra.asignar')
 
-                                                    @if($oc->Estado === 'Emitida' ||  Auth::user()->name = 'Carolina Medina Ortega')
+                                                    @if($oc->Estado === 'Emitida' ||  Auth::user()->name === 'Carolina Medina Ortega')
 
                                                         <a href="{{ route('ordenCompra.agregarProductos', $oc->id) }}" class="btn btn-danger btn-sm">
                                                                     
