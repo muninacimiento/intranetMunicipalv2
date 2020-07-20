@@ -173,16 +173,9 @@
 
                                 <div class="mb-5 float-right">
 
-                                    @can('ordenCompra.confirmarRecepcionProductos')
-                                
-                                    <form method="POST" action="{{ route('ordenCompra.confirmarRecepcion', $ordenCompra->id) }}">
+                                    @if($fullReception != $parcialReception)
 
-                                        @csrf
-                                        @method('PUT')
-
-                                        <input type="hidden" name="flag" value="RecepcionarTodosProductosOC">
-
-                                        <button type="submit" class="btn btn-primary"> 
+                                        <button type="submit" class="btn btn-primary" disabled> 
 
                                             <i class="fas fa-check-double"></i> 
 
@@ -190,10 +183,31 @@
 
                                         </button>
 
-                                    </form>
+                                    @else
 
-                                    @endcan
-                                       
+                                        @can('ordenCompra.confirmarRecepcionProductos')
+                                    
+                                        <form method="POST" action="{{ route('ordenCompra.confirmarRecepcion', $ordenCompra->id) }}">
+
+                                            @csrf
+                                            @method('PUT')
+
+                                            <input type="hidden" name="flag" value="RecepcionarTodosProductosOC">
+
+                                            <button type="submit" class="btn btn-primary"> 
+
+                                                <i class="fas fa-check-double"></i> 
+
+                                                Recepcionar Todos de los Productos
+
+                                            </button>
+
+                                        </form>
+
+                                        @endcan
+
+                                    @endif
+                                           
                                 </div> 
 
                                 </a>
@@ -287,6 +301,45 @@
                             </div>
 
                             <div class="form-row">
+
+                                <div class="col-md-12 mb-2">
+
+                                    @if($parcialReception > 0)
+
+                                        <button type="submit" class="btn btn-success btn-block" disabled> 
+
+                                            <i class="fas fa-check-double"></i> 
+
+                                            Cerrar Proceso de "Recepción de Productos"
+
+                                        </button>
+
+                                    @else
+
+                                        @can('ordenCompra.confirmarRecepcionProductos')
+                                    
+                                        <form method="POST" action="{{ route('ordenCompra.confirmarRecepcion', $ordenCompra->id) }}">
+
+                                            @csrf
+                                            @method('PUT')
+
+                                            <input type="hidden" name="flag" value="RecepcionarTodosProductosOC">
+
+                                            <button type="submit" class="btn btn-success btn-block"> 
+
+                                                <i class="fas fa-check-double"></i> 
+
+                                                Cerrar Proceso de "Recepción de Productos"
+
+                                            </button>
+
+                                        </form>
+
+                                        @endcan
+
+                                    @endif
+                                       
+                                </div> 
 
                                 <div class="col-md-12 mb-2">
 

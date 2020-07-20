@@ -192,7 +192,23 @@
   	
   	</li>
 
-  	<!--@can('factura.index')-->
+  	@can('contratos.index')
+  	
+  	<li class="nav-item">
+    
+    	<a class="nav-link text-white" href="{{ route('contratos.index') }}">
+
+    		<i class="fas fa-marker px-1"></i>
+
+    		Contratos
+
+    	</a>
+  	
+  	</li>
+
+  	@endcan
+
+  	@can('reportes.index')
   	
   	<li class="nav-item">
     
@@ -206,6 +222,6 @@
   	
   	</li>
 
-  	<!--@endcan-->
+  	@endcan
 
 </ul>

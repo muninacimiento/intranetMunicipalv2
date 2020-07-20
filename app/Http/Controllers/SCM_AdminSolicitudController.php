@@ -670,6 +670,75 @@ class SCM_AdminSolicitudController extends Controller
             }
         }
 
+        // Rechazar Solicitud
+        else if ($request->flag == 'Rechazar') {
+
+            try {
+
+                DB::beginTransaction();
+
+                    $solicitud = Solicitud::findOrFail($id);
+                    $solicitud->obsRechazo                  = $request->obsRechazo;
+                    $solicitud->estado_id                   = 13;
+
+                    //dd($solicitud);
+
+                    $solicitud->save(); //Guardamos la Solicitud
+
+                     //Guardamos los datos de Movimientos de la Solicitud
+                    $move = new MoveSolicitud;
+                    $move->solicitud_id                     = $solicitud->id;
+                    $move->estadoSolicitud_id               = 13;
+                    $move->fecha                            = $solicitud->updated_at;
+                    $move->user_id                          = Auth::user()->id;
+
+                    $move->save(); //Guardamos el Movimiento de la Solicitud    
+
+                DB::commit();
+                
+            } catch (Exception $e) {
+
+                DB::rollback();
+                
+            }
+
+            return redirect('/siscom/admin')->with('info', 'Solicitud Rechazada con éxito !');
+        }  
+
+        // Subsanar Solicitud
+        else if ($request->flag == 'Subsanar') {
+
+            try {
+
+                DB::beginTransaction();
+
+                    $solicitud = Solicitud::findOrFail($id);
+                    $solicitud->estado_id                   = 14;
+
+                    //dd($solicitud);
+
+                    $solicitud->save(); //Guardamos la Solicitud
+
+                     //Guardamos los datos de Movimientos de la Solicitud
+                    $move = new MoveSolicitud;
+                    $move->solicitud_id                     = $solicitud->id;
+                    $move->estadoSolicitud_id               = 14;
+                    $move->fecha                            = $solicitud->updated_at;
+                    $move->user_id                          = Auth::user()->id;
+
+                    $move->save(); //Guardamos el Movimiento de la Solicitud    
+
+                DB::commit();
+                
+            } catch (Exception $e) {
+
+                DB::rollback();
+                
+            }
+
+            return redirect('/siscom/admin')->with('info', 'Solicitud Subsanada con éxito !');
+        }  
+
     }
 
     public function reporteEntregaStock($id)

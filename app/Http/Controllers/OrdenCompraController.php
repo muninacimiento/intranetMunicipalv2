@@ -103,7 +103,7 @@ class OrdenCompraController extends Controller
      */
     public function store(Request $request)
     {
-        
+
             try {
 
                 DB::beginTransaction();
@@ -142,6 +142,9 @@ class OrdenCompraController extends Controller
             }
             
             return redirect('/siscom/ordenCompra')->with('info', 'Órden de Compra Creada con Éxito !');
+
+        
+        
     }
 
     /**
@@ -348,11 +351,21 @@ class OrdenCompraController extends Controller
                                 ->where('detail_solicituds.ordenCompra_id', '=', $id)
                                 ->get();
 
+                            //Traemos todos los productos de la OC
+        $fullReception = DB::table('detail_solicituds')
+                        ->where('detail_solicituds.ordenCompra_id', '=', $id)
+                        ->count();
+//dd($fullRecepction);
+        $parcialReception = DB::table('detail_solicituds')
+                            ->where('detail_solicituds.ordenCompra_id', '=', $id)
+                            ->where('detail_solicituds.obsRecepcion', '=', null)
+                            ->count();
+//dd($parcialReception);
 
-                    //dd($detalleSolicituds);
+//dd($detalleSolicituds);
 
-                     /* Retornamos a la vista los resultados psanadolos por parametros */
-        return view('siscom.ordenCompra.recepcionarProductos', compact('ordenCompra', 'dateCarbon', 'move', 'detalleSolicitud'));
+        /* Retornamos a la vista los resultados psanadolos por parametros */
+        return view('siscom.ordenCompra.recepcionarProductos', compact('ordenCompra', 'dateCarbon', 'move', 'detalleSolicitud', 'fullReception', 'parcialReception'));
 
     }
 
@@ -1223,7 +1236,7 @@ class OrdenCompraController extends Controller
                                     ->where('orden_compras.id', '=', $id)
                                     ->first();
 
-                        //dd($solicitud->id);
+//dd($s);
                         //Actualizmos el estado de la Solicitud
                         $solicitud = Solicitud::findOrFail($s->id);            
                         $solicitud->estado_id                   = 9;
@@ -1231,7 +1244,8 @@ class OrdenCompraController extends Controller
 
                         //Actualizamos el estado de la OC
                         $oc = OrdenCompra::findOrFail($id);
-                        $oc->estado_id                          = 24;
+//dd($oc);
+                        $oc->estado_id                          = 19;
                         $oc->save();
 
 
@@ -1246,7 +1260,7 @@ class OrdenCompraController extends Controller
                         //Guardamos el Movimientos de la OC
                         $move = new MoveOC;
                         $move->ordenCompra_id                   = $oc->id;
-                        $move->estadoOrdenCompra_id             = 24;
+                        $move->estadoOrdenCompra_id             = 19;
                         $move->fecha                            = $oc->updated_at;
                         $move->user_id                          = Auth::user()->id;
                         $move->save();      

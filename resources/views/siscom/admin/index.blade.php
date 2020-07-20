@@ -232,9 +232,45 @@
 
                                                                 @if(($solicitud->estado === 'Asignada a Comprador' || $solicitud->estado === 'Re-Asignada a Comprador') && ($solicitud->categoriaSolicitud === 'Stock de Oficina' || $solicitud->categoriaSolicitud === 'Stock de Aseo' || $solicitud->categoriaSolicitud === 'Stock de Gas'))
                                                                     
-                                                                    <a href="#" class="btn btn-primary btn-sm entregar" data-toggle="tooltip" data-placement="bottom" title="Entregar Productos Stock">
+                                                                    <a href="#" class="btn btn-info btn-sm entregar" data-toggle="tooltip" data-placement="bottom" title="Entregar Productos Stock">
                                                             
                                                                         <i class="fas fa-dolly"></i>
+
+                                                                    </a>
+
+                                                                @else
+
+                                                                @endif
+
+                                                            @endcan
+
+                                                            {{--Rechazar Solicitud--}}
+
+                                                            @can('admin.rechazar')
+
+                                                                @if($solicitud->estado === 'Recepcionada' || $solicitud->estado === 'Subsanada')
+
+                                                                    <a href="#" class="btn btn-danger btn-sm rechazar" data-toggle="tooltip" data-placement="bottom" title="Rechazar Solicitud">
+                                                            
+                                                                        <i class="fas fa-ban"></i>
+
+                                                                    </a>
+
+                                                                @else
+
+                                                                @endif
+
+                                                            @endcan
+
+                                                            {{--Subsanar Solicitud--}}
+
+                                                            @can('admin.subsanar')
+
+                                                                @if($solicitud->estado === 'Rechazada')
+
+                                                                    <a href="#" class="btn btn-success btn-sm subsanar" data-toggle="tooltip" data-placement="bottom" title="Subsanar Solicitud">
+                                                            
+                                                                        <i class="fas fa-check"></i>
 
                                                                     </a>
 
@@ -248,7 +284,7 @@
 
                                                             @can('admin.asignar')
 
-                                                                @if($solicitud->estado === 'Recepcionada' && $solicitud->categoriaSolicitud != 'Stock de Aseo')
+                                                                @if(($solicitud->estado === 'Recepcionada' || $solicitud->estado === 'Subsanada') && $solicitud->categoriaSolicitud != 'Stock de Aseo')
 
                                                                     <a href="#" class="btn btn-warning btn-sm asignar" data-toggle="tooltip" data-placement="bottom" title="Asignar Solicitud">
                                                             
@@ -1161,6 +1197,169 @@
 </div>
 <!-- End Modal Anular Solicitud -->
 
+<!-- Rechazar Solicitud MODAL -->
+<div class="modal fade" id="rechazarModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+
+    <div class="modal-dialog modal-dialog-centered" role="document">
+
+        <div class="modal-content">
+
+            <div class="modal-header bg-danger text-white">
+
+                <p class="modal-title" id="exampleModalLabel" style="font-size: 1.2em"> Rechazar Solicitud <i class="fas fa-ban"></i></p>
+
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+
+                    <span aria-hidden="true" class="text-white">&times;</span>
+
+                </button>
+
+            </div>
+
+
+            <form method="POST" action="#" class="was-validated" id="rechazarForm">
+
+                @csrf
+                @method('PUT')
+
+                <input type="hidden" name="flag" value="Rechazar">
+
+                <div class="modal-body">
+
+                    <div class="form-row">
+                        
+                        <label for="fechaRecepcion" class="col-sm-4 col-form-label text-muted">Fecha Recepción</label>
+
+                        <label for="fechaRecepcion" class="col-sm-8 col-form-label">{{ $dateCarbon }}</label>
+
+                    </div>
+
+                    <div class="form-row">
+
+                        <label for="ID" class="col-sm-4 col-form-label text-muted">No. Solicitud</label>
+
+                         <div class="col-sm-8">
+                             
+                            <input type="" name="solicitudID" id="solicitudID_rechazar" readonly class="form-control-plaintext">
+                                 
+                         </div>
+
+                    </div>
+
+                    
+                    <div class="form-row">
+
+                        <label for="ID" class="col-sm-4 col-form-label text-muted">Motivo</label>
+
+                        <div class="col-sm-8 mb-2">
+                             
+                            <textarea type="text" class="form-control" id="obsRechazo" name="obsRechazo" placeholder="Ingrese el Motivo del Rechazo de su Solicitud" required></textarea>
+
+                            <div class="invalid-feedback">
+                                                                                                                            
+                                Por favor ingrese el Motivo del Rechazo de su Solicitud
+
+                            </div>
+                                 
+                        </div>
+
+                    </div>
+
+                    <div class="form-row">
+
+                        <button class="btn btn-danger btn-block" type="submit">
+
+                            <i class="fas fa-ban"></i>
+
+                            Rechazar Solicitud
+
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</div>
+<!-- End Rechazar Solicitud Modal -->
+
+<!-- Subsanar Solicitud MODAL -->
+<div class="modal fade" id="subsanarModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+
+    <div class="modal-dialog modal-dialog-centered" role="document">
+
+        <div class="modal-content">
+
+            <div class="modal-header bg-success text-white">
+
+                <p class="modal-title" id="exampleModalLabel" style="font-size: 1.2em"> Subsanar Solicitud <i class="fas fa-check-circle"></i></p>
+
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+
+                    <span aria-hidden="true" class="text-white">&times;</span>
+
+                </button>
+
+            </div>
+
+
+            <form method="POST" action="#" class="was-validated" id="subsanarForm">
+
+                @csrf
+                @method('PUT')
+
+                <input type="hidden" name="flag" value="Subsanar">
+
+                <div class="modal-body">
+
+                    <div class="form-row">
+                        
+                        <label for="fechaRecepcion" class="col-sm-4 col-form-label text-muted">Fecha Subsanar</label>
+
+                        <label for="fechaRecepcion" class="col-sm-8 col-form-label">{{ $dateCarbon }}</label>
+
+                    </div>
+
+                    <div class="form-row">
+
+                        <label for="ID" class="col-sm-4 col-form-label text-muted">No. Solicitud</label>
+
+                         <div class="col-sm-8">
+                             
+                            <input type="" name="solicitudID" id="solicitudID_subsanar" readonly class="form-control-plaintext">
+                                 
+                         </div>
+
+                    </div>
+
+                    <div class="form-row">
+
+                        <button class="btn btn-success btn-block" type="submit">
+
+                            <i class="fas fa-ban"></i>
+
+                            Subsanar Solicitud
+
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</div>
+<!-- End Subsanar Solicitud Modal -->
+
 @endsection
 
 @push('scripts')
@@ -1403,6 +1602,52 @@
 
                 $('#recepcionarForm').attr('action', '/siscom/admin/recepcionar/' + data[0]);
                 $('#recepcionarModal').modal('show');
+
+            });
+            //Fin Recepción de la Solicitud
+
+            //Rechazar Solicitud
+            table.on('click', '.rechazar', function () {
+
+                $tr = $(this).closest('tr');
+
+                if ($($tr).hasClass('child')) {
+
+                    $tr = $tr.prev('.parent');
+
+                }
+
+                var data = table.row($tr).data();
+
+                console.log(data);
+
+                $('#solicitudID_rechazar').val(data[0]);
+
+                $('#rechazarForm').attr('action', '/siscom/admin/rechazar/' + data[0]);
+                $('#rechazarModal').modal('show');
+
+            });
+            //Fin Recepción de la Solicitud
+
+            //Subsanar Solicitud
+            table.on('click', '.subsanar', function () {
+
+                $tr = $(this).closest('tr');
+
+                if ($($tr).hasClass('child')) {
+
+                    $tr = $tr.prev('.parent');
+
+                }
+
+                var data = table.row($tr).data();
+
+                console.log(data);
+
+                $('#solicitudID_subsanar').val(data[0]);
+
+                $('#subsanarForm').attr('action', '/siscom/admin/subsanar/' + data[0]);
+                $('#subsanarModal').modal('show');
 
             });
             //Fin Recepción de la Solicitud

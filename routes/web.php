@@ -102,6 +102,8 @@ Route::middleware(['auth'])->group( function() {
 	Route::get('/siscom/consulta', 'SCM_AdminSolicitudController@consulta')->name('admin.consulta')->middleware('can:admin.consulta');
 	Route::get('/siscom/recepionarSolicitudes', 'SCM_AdminSolicitudController@recepcionar')->name('admin.recepcionarSolicitud')->middleware('can:admin.recepcionarSolicitud');
 	Route::put('/siscom/admin/cerrarSolicitud/{solicitud}', 'SCM_AdminSolicitudController@update')->name('admin.cerrar')->middleware('can:admin.cerrar');
+	Route::put('/siscom/admin/rechazar/{solicitud}', 'SCM_AdminSolicitudController@update')->name('admin.rechazar')->middleware('can:admin.rechazar');
+	Route::put('/siscom/admin/subsanar/{solicitud}', 'SCM_AdminSolicitudController@update')->name('admin.subsanar')->middleware('can:admin.subsanar');
 
 
 	//Vistas PDF
@@ -156,6 +158,10 @@ Route::middleware(['auth'])->group( function() {
 	Route::put('/siscom/factura/facturar/{factura}', 'FacturaController@update')->name('factura.facturarTodos')->middleware('can:factura.facturarTodos');
 	Route::delete('/siscom/factura/{factura}', 'FacturaController@destroy')->name('factura.destroy')->middleware('can:factura.destroy');
 	Route::get('/siscom/consultaFacturas', 'FacturaController@consulta')->name('factura.consulta')->middleware('can:factura.consulta');
+
+	//Contratos
+	Route::resource('/siscom/contratos', 'ContratoController')->middleware('can:contratos.index');
+
 	
 
 	/*#############################################################################################################################################################
