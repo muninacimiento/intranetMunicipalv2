@@ -407,7 +407,7 @@ class SCM_SolicitudController extends Controller
 
         } 
 
-        // Actualizamos la OC en el Producto
+        // Eliminamos de la OC el Producto
         else if ($request->flag == 'EliminarOC') {
 
             $detalleSolicitud = DetailSolicitud::findOrFail($id);
@@ -425,7 +425,7 @@ class SCM_SolicitudController extends Controller
 
             $detalleSolicitud->licitacion_id       = $request->licitacion_id;       
 
-            //dd($detalleSolicitud);
+//dd($detalleSolicitud);
 
            $detalleSolicitud->save(); //Guardamos la Solicitud
 
@@ -433,14 +433,14 @@ class SCM_SolicitudController extends Controller
 
         } 
 
-        // Actualizamos la OC en el Producto
+        // Eliminamos de la Licitación el Producto
         else if ($request->flag == 'EliminarLicitacion') {
 
             $detalleSolicitud = DetailSolicitud::findOrFail($id);
 
             $detalleSolicitud->licitacion_id       = null;       
 
-            //dd($solicitud);
+//dd($solicitud);
 
             $detalleSolicitud->save(); //Guardamos la Solicitud
 

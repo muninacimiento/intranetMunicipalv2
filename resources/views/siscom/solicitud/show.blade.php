@@ -201,6 +201,13 @@
 
                                         </tr>
 
+                                        <tr>
+                                            
+                                            <td><strong>Observación Rechazo</strong></td>
+                                            <td colspan="4"><em>{{ $solicitud->obsRechazo }}</em></td>
+
+                                        </tr>
+
                                     </tbody>
 
                                 </table>

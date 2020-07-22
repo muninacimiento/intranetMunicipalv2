@@ -142,9 +142,9 @@
 
                             <div class="mb-5">
 
-                                 <a href="#" data-toggle="modal" data-target="#asignarTODOSModal" title="Asignar Producto a la órden de Compra" disabled>
+                                 <a href="#" data-toggle="modal" data-target="#asignarTODOSModal" title="Asignar Todos los Producto a la Licitación" disabled>
 
-                                    <button class="btn btn-primary btn-sm float-right" disabled>
+                                    <button class="btn btn-primary btn-sm float-right">
 
                                         <i class="fas fa-check-double"></i> 
 
@@ -207,12 +207,6 @@
                                                     <a href="#" class="btn btn-primary btn-sm asignarLicitacion" data-toggle="tooltip" data-placement="bottom" title="Asignar Producto a la Licitación">
                                                                     
                                                         <i class="fas fa-check"></i>
-
-                                                    </a>
-
-                                                    <a href="#" class="btn btn-danger btn-sm eliminarLicitacion" data-toggle="tooltip" data-placement="bottom" title="Eliminar Producto">
-                                                                    
-                                                        <i class="far fa-trash-alt"></i>
 
                                                     </a>
                                                     
@@ -331,8 +325,6 @@
                 <input type="hidden" name="flag" value="AsignarTodosLicitacion">
 
                 <div class="modal-body">
-        
-                    <div class="mb-3">
                         
                         Esta usted seguro de quere agregar TODOS los Productos a esta Órden de Compra ?
 
@@ -381,7 +373,7 @@
             </div>
 
 
-            <form method="POST" action="{{ url('/siscom/solicitud') }}" class="was-validated" id="detalleLicitacionForm">
+            <form method="POST" action="#" class="was-validated" id="detalleLicitacionForm">
 
                 @csrf
                 @method('PUT')
@@ -392,7 +384,9 @@
         
                     <div class="p-3">
                         
-                        <label class="text-muted">Esta usted seguro de querer agregar este Producto? : </label><input type="text"  id="productAdd" readonly style="border:0;">
+                        <label class="text-muted">Esta usted seguro de querer agregar este Producto? : </label>
+
+                        <input type="text"  id="productAdd" readonly style="border:0;">
 
                         <input type="hidden" value="{{ $licitacion->id }}" name="licitacion_id" id="licitacion_id_assign">
 
@@ -429,7 +423,7 @@
 
             <div class="modal-header bg-danger text-white">
 
-                <p class="modal-title" id="exampleModalLabel" style="font-size: 1.2em"><i class="fas fa-times-circle"></i> Eliminar Producto de la Licitación </p>
+                <p class="modal-title" id="exampleModalLabel" style="font-size: 1.2em"><i class="fas fa-trash-alt"></i> Eliminar Producto de la Licitación </p>
 
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
 
@@ -440,7 +434,7 @@
             </div>
 
 
-            <form method="POST" action="{{ url('/siscom/solicitud') }}" class="was-validated" id="deleteDetalleForm">
+            <form method="POST" action="#" class="was-validated" id="deleteDetalleForm">
 
                 @csrf
                 @method('PUT')
@@ -449,9 +443,15 @@
 
                 <div class="modal-body">
 
-                    <div class="p-3">
+                    <p>Esta usted seguro de querer eliminar este Producto? : </p>
 
-                        <label class="text-muted">Esta usted seguro de querer eliminar este Producto? : </label><input type="text" name="Producto" id="productDelete" readonly style="border:0;">
+                     <div class="form-row">
+
+                        <div class="col-md-12 mb-3">
+
+                            <label class="h5" id="productDelete">deleteProducto</label>
+
+                        </div>
 
                     </div>
                     
@@ -632,7 +632,7 @@
 
                 console.log(dataDetalle);
 
-                $('#productAdd').val(dataDetalle[3]);
+                $('#productAdd').val(dataDetalle[2]);
 
                 $('#detalleLicitacionForm').attr('action', '/siscom/solicitud/' + dataDetalle[0]);
                 $('#asignarLicitacionModal').modal('show');
@@ -656,7 +656,7 @@
 
                 console.log(dataDetalle);
 
-                $('#productDelete').val(dataDetalle[3]);
+                document.getElementById('productDelete').innerHTML = dataDetalle[2];
                 
                 $('#deleteDetalleForm').attr('action', '/siscom/solicitud/' + dataDetalle[0]);
                 $('#deleteDetalleModal').modal('show');
