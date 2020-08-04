@@ -657,9 +657,9 @@ class OrdenCompraController extends Controller
 
                     $oc = OrdenCompra::findOrFail($id);
 
-                    if ($oc->valorEstimado == 'Mayor a 10 UTM' || $oc->tipoOrdenCompra == 'Convenio Marco / Suministro' || $oc->tipoOrdenCompra == 'Compra Ágil') {
+                    if ($oc->valorEstimado == 'Menor a 10 UTM' || $oc->tipoOrdenCompra == 'Convenio Marco / Suministro' || $oc->tipoOrdenCompra == 'Compra Ágil') {
                         
-                        $oc->estado_id                      = 12;
+                        $oc->estado_id                      = 14;
 
                         //dd($solicitud);
 
@@ -675,9 +675,9 @@ class OrdenCompraController extends Controller
 
                         $move->save(); //Guardamos el Movimiento de la Solicitud    
                     
-                    } else if ($oc->valorEstimado == 'Menor o Igual a 10 UTM' || $oc->tipoOrdenCompra == 'Trato Directo') {
+                    } else if ($oc->valorEstimado == 'Mayor o Igual a 10 UTM' || $oc->tipoOrdenCompra == 'Trato Directo') {
                         
-                        $oc->estado_id                      = 14;
+                        $oc->estado_id                      = 12;
 
                         //dd($solicitud);
 

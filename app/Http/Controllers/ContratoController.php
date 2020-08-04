@@ -8,6 +8,8 @@ use Illuminate\Http\Request;
 /* Invocamos la clase Carbon para trabajar con fechas */
 use Carbon\Carbon;
 
+use App\OrdenCompra;
+
 class ContratoController extends Controller
 {
     /**
@@ -41,7 +43,42 @@ class ContratoController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        try {
+
+                DB::beginTransaction();
+
+                //Comenzamos a capturar desde la vista los datos a guardar los datos del Contrato
+                $contrato = new Contrato;
+                $contrato->user_id                        = Auth::user()->id;
+                $contrato->nombreContrato                 = $request->nombreContrato;
+                $contrato->ordenCompra_id                 = $request->ordenCompra_id;
+                $contrato->fechaInicio                    = $request->fechaInicio;
+                $contrato->fechaTermino                   = $request->fechaTermino;
+                $contrato->numeroBoleta                   = $request->numeroBoleta;
+                $contrato->banco                          = $request->banco;
+                $contrato->montoBoleta                    = $request->montoBoleta;
+                
+                $contrato->save(); //Guardamos el Contrato
+
+                //Guardamos los datos de Movimientos de la OC
+                $move = new MoveOC;
+                $move->ordenCompra_id               = $oc->id;
+                $move->estadoOrdenCompra_id         = 1;
+                $move->fecha                        = $oc->created_at;
+                $move->user_id                      = Auth::user()->id;
+
+                $move->save(); //Guardamos el Movimiento de la Solicitud    
+
+                DB::commit(); //Ejecutamos ambas sentencias y si todo resulta OK, guarda, sino ejecuta el catch
+                
+            } catch (Exception $e) {
+
+                DB::rollback();
+                
+            }
+            
+            return redirect('/siscom/ordenCompra')->with('info', 'Órden de Compra Creada con Éxito !');
+
     }
 
     /**

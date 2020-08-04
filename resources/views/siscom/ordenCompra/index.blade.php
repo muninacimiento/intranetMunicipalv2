@@ -457,8 +457,8 @@
 
                             <select name="valorEstimado" id="valorEstimadoCreate" class="form-control selectpicker" title="Valor Estimado de su Órden de Compra ?" required>
 
-                                <option>Mayor a 10 UTM</option>
-                                <option>Menor o Igual a 10 UTM</option>
+                                <option>Menor a 10 UTM</option>
+                                <option>Mayor o Igual a 10 UTM</option>
 
                             </select>
 
@@ -911,8 +911,8 @@
 
                             <select name="valorEstimado" id="valorEstimadoUpdate" class="form-control" title="Valor Estimado de su Órden de Compra ?" required>
 
-                                <option>Mayor a 10 UTM</option>
-                                <option>Menor o Igual a 10 UTM</option>
+                                <option>Menor a 10 UTM</option>
+                                <option>Mayor o Igual a 10 UTM</option>
 
                             </select>
 
