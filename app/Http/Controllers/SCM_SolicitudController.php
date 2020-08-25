@@ -418,35 +418,64 @@ class SCM_SolicitudController extends Controller
 
         } 
 
-        // Actualizamos la OC en el Producto
-        else if ($request->flag == 'AsignarLicitacion') {
+        // Actualizamos la Licitacion ID en TODOS los Productos de la Solicitud Invocada
+        else if ($request->flag == 'AsignarTodosLicitacion') {
 
-            $detalleSolicitud = DetailSolicitud::findOrFail($id);
+            $detalleSolicitud = DetailSolicitud::where('solicitud_id', $request->noSolicitud)->where('licitacion_id', NULL);
 
-            $detalleSolicitud->licitacion_id       = $request->licitacion_id;       
+            $detalleSolicitud->update(['licitacion_id' => $id]); 
 
-//dd($detalleSolicitud);
+            $solicitud = Solicitud::findOrFail($request->noSolicitud);
+            $solicitud->estado_id                   = 8;
+            $solicitud->save();
 
-           $detalleSolicitud->save(); //Guardamos la Solicitud
+            //Guardamos los datos de Movimientos de la Solicitud
+            $move = new MoveSolicitud;
+            $move->solicitud_id                     = $request->noSolicitud;
+            $move->estadoSolicitud_id               = 8;
+            $move->fecha                            = $solicitud->updated_at;
+            $move->user_id                          = Auth::user()->id;
+
+            $move->save();
 
             return back();
 
         } 
 
-        // Eliminamos de la Licitación el Producto
-        else if ($request->flag == 'EliminarLicitacion') {
+        // Actualizamos la Licitacion ID Producto a Producto
+        else if ($request->flag == 'AsignarLicitacion') {
 
             $detalleSolicitud = DetailSolicitud::findOrFail($id);
+            $detalleSolicitud->licitacion_id       = $request->licitacionID;       
+            $detalleSolicitud->save();
 
-            $detalleSolicitud->licitacion_id       = null;       
+            $solicitud = Solicitud::findOrFail($detalleSolicitud->solicitud_id);
+            $solicitud->estado_id                   = 8;
+            $solicitud->save();
 
-//dd($solicitud);
+            //Guardamos los datos de Movimientos de la Solicitud
+            $move = new MoveSolicitud;
+            $move->solicitud_id                     = $solicitud->id;
+            $move->estadoSolicitud_id               = 8;
+            $move->fecha                            = $solicitud->updated_at;
+            $move->user_id                          = Auth::user()->id;
 
-            $detalleSolicitud->save(); //Guardamos la Solicitud
+            $move->save();
 
             return back();
 
-        }       
+        } 
+
+        // Eliminamos de la OC el Producto
+        else if ($request->flag == 'EliminarLicitacion') {
+
+            $detalleSolicitud = DetailSolicitud::findOrFail($id);
+//dd($detalleSolicitud);
+            $detalleSolicitud->update(['licitacion_id' => null]); 
+
+            return back();
+
+        } 
 
     }
 

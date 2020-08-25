@@ -13,6 +13,8 @@ use App\MoveLicitacion;
 
 use App\AssignRequestToLicitacion;
 
+use App\DetailSolicitud;
+
 use App\Solicitud;
 
 /* Invocamos el modelo de la Entidad Movimiento de la Solicitud*/
@@ -130,15 +132,84 @@ class LicitacionController extends Controller
         $detalleSolicitud = DB::table('detail_solicituds')
                     ->join('products', 'detail_solicituds.product_id', 'products.id')
                     ->join('solicituds', 'detail_solicituds.solicitud_id', '=', 'solicituds.id')
+                    //->join('assign_request_to_licitacions', 'detail_solicituds.solicitud_id', '=', 'assign_request_to_licitacions.solicitud_id')
+                    //->join('orden_compras', 'detail_solicituds.ordenCompra_id', '=', 'orden_compras.id')
+                    ->select('detail_solicituds.*', 'products.name as Producto')
+                    ->where('detail_solicituds.licitacion_id', $id)
+                    ->get();    
+
+//dd($id);
+
+        return view('siscom.licitacion.show', compact('licitacion', 'move', 'detalleSolicitud'));
+
+    }
+
+    public function agregarProductos($id, Request $request)
+    {
+
+        /*
+         * Definimos variable que contendrá la fecha actual del sistema
+         */
+        $dateCarbon = Carbon::now()->locale('es')->isoFormat('dddd D, MMMM YYYY');
+
+        /* Declaramos la variable que contendrá todos los permisos existentes en la base de datos */
+        $licitacion = DB::table('licitacions')
+                     ->join('status_licitacions', 'licitacions.estado_id', '=', 'status_licitacions.id')
+                    ->select('licitacions.*', 'status_licitacions.estado as Estado')
+                    ->where('licitacions.id', '=', $id)
+                    ->first();
+
+        $detalleSolicitud = DB::table('detail_solicituds')
+                    ->join('products', 'detail_solicituds.product_id', 'products.id')
+                    ->join('solicituds', 'detail_solicituds.solicitud_id', '=', 'solicituds.id')
                     ->join('assign_request_to_licitacions', 'detail_solicituds.solicitud_id', '=', 'assign_request_to_licitacions.solicitud_id')
                     //->join('orden_compras', 'detail_solicituds.ordenCompra_id', '=', 'orden_compras.id')
                     ->select('detail_solicituds.*', 'products.name as Producto')
                     ->where('assign_request_to_licitacions.licitacion_id', '=', $licitacion->id)
-                    ->get();    
+                    ->get();     
 
-                //dd($detalleSolicitud);
+        $existeLicitacion = DetailSolicitud::where('licitacion_id', $id)->count();
 
-        return view('siscom.licitacion.show', compact('licitacion', 'move', 'detalleSolicitud'));
+        $solicitudNo = $request->numeroSolicitud;
+
+        //dd($existeOC);
+
+        return view('siscom.licitacion.agregarProductos', compact('licitacion', 'dateCarbon', 'detalleSolicitud', 'solicitudNo', 'existeLicitacion'));
+
+    }
+
+    public function buscarSolicitud(Request $request, $id)
+    {
+
+        /*
+         * Definimos variable que contendrá la fecha actual del sistema
+         */
+        $dateCarbon = Carbon::now()->locale('es')->isoFormat('dddd D, MMMM YYYY');
+
+        /* Declaramos la variable que contendrá todos los permisos existentes en la base de datos */
+        $licitacion = DB::table('licitacions')
+                     ->join('status_licitacions', 'licitacions.estado_id', '=', 'status_licitacions.id')
+                    ->select('licitacions.*', 'status_licitacions.estado as Estado')
+                    ->where('licitacions.id', '=', $id)
+                    ->first();
+
+        
+        $detalleSolicitud = DB::table('detail_solicituds')
+                    ->join('products', 'detail_solicituds.product_id', 'products.id')
+                    ->join('solicituds', 'detail_solicituds.solicitud_id', '=', 'solicituds.id')
+                    //->join('assign_request_to_o_c_s', 'detail_solicituds.solicitud_id', '=', 'assign_request_to_o_c_s.solicitud_id')
+                    //->join('orden_compras', 'detail_solicituds.ordenCompra_id', '=', 'orden_compras.id')
+                    ->select('detail_solicituds.*', 'products.name as Producto')
+                    ->where('detail_solicituds.solicitud_id', '=', $request->numeroSolicitud)
+                    ->get();   
+
+        $existeLicitacion = DetailSolicitud::where('licitacion_id', $id)->count();
+
+        $solicitudNo = $request->numeroSolicitud;
+
+        //dd($id);
+                    
+        return view('siscom.licitacion.agregarProductos', compact('licitacion', 'dateCarbon', 'detalleSolicitud', 'solicitudNo', 'existeLicitacion'));
 
     }
 
@@ -185,10 +256,10 @@ class LicitacionController extends Controller
         $detalleSolicitud = DB::table('detail_solicituds')
                     ->join('products', 'detail_solicituds.product_id', 'products.id')
                     ->join('solicituds', 'detail_solicituds.solicitud_id', '=', 'solicituds.id')
-                    ->join('assign_request_to_licitacions', 'detail_solicituds.solicitud_id', '=', 'assign_request_to_licitacions.solicitud_id')
+                    //->join('assign_request_to_licitacions', 'detail_solicituds.solicitud_id', '=', 'assign_request_to_licitacions.solicitud_id')
                     ->join('licitacions', 'detail_solicituds.licitacion_id', '=', 'licitacions.id')
                     ->select('detail_solicituds.*', 'products.name as Producto')
-                    ->where('assign_request_to_licitacions.licitacion_id', '=', $licitacion->id)
+                    ->where('detail_solicituds.licitacion_id', '=', $id)
                     ->get();    
 
 

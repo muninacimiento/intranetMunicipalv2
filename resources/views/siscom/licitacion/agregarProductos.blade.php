@@ -28,9 +28,9 @@
 
                         @endif
 
-                        <a href="{{action('LicitacionController@index')}}" class="btn btn-link text-decoration-none float-right"> <i class="far fa-arrow-alt-circle-left"></i> Volver</a>
+                        <a href="{{action('OrdenCompraController@index')}}" class="btn btn-link text-decoration-none float-right"> <i class="far fa-arrow-alt-circle-left"></i> Volver</a>
 
-                        <h4>No. Licitación  <input type="text" value="{{ $licitacion->licitacion_id }}" readonly class="h4" style="border:0;" name="licitacion_id" id="licitacion_id" form="detalleLicitacionForm"> </h4>
+                        <h4> Licitación No.  <input type="text" value="{{ $licitacion->licitacion_id }}" readonly class="h4" style="border:0;" name="licitacionID" id="licitacionID" form="detalleLicitacionForm"> </h4>
 
                          <hr style="background-color: #d7d7d7">
 
@@ -38,99 +38,82 @@
 
                             <div class="container">
 
-                                <div class="form-row">
+                              <div class="row">
 
-                                    <div class="col mb-3">
+                                <div class="col">
 
-                                        <div class="form-row">
-                                            
-                                            <label class="col-sm-3 col-form-label text-muted">Fecha Licitación</label>
+                                    <div>
+                                      
+                                        <label class="col-sm-6 col-form-label text-muted">IDDOC</label>
                                                                         
-                                            <label class="col-sm-9 col-form-label">{{ date('d-m-Y H:i:s', strtotime($licitacion->created_at)) }}</label>
+                                        <label class="col-sm-6 h5">{{ $licitacion->iddoc }}</label>
 
-                                        </div>
-
-                                        <div class="form-row">
-                                            
-                                            <label class="col-sm-3 col-form-label text-muted">IDDOC</label>
-                                                                        
-                                            <label class="col-sm-9 col-form-label">{{ $licitacion->iddoc }}</label>
-
-                                        </div>
-
-                                        <div class="form-row">
-                                            
-                                            <label class=" col-sm-3 col-form-label text-muted">Estado</label>
-                                                                        
-                                            <label class=" col-sm-9 col-form-label">{{ $licitacion->Estado }}</label>     
-
-                                        </div>
-
-                                        <div class="form-row">
-                                        
-                                            <label class=" col-sm-3 col-form-label text-muted">Propósito</label>
-
-                                            <label class="col-sm-9 col-form-label">{{ $licitacion->proposito }}</label>
-
-                                        </div>
-
-                                        <div class="form-row">
-                                            
-                                            <label class=" col-sm-3 col-form-label text-muted">Valor Estimado</label>
-                                                                        
-                                            <label class=" col-sm-9 col-form-label">{{ $licitacion->valorEstimado }}</label>     
-
-                                        </div>
-                                                                    
                                     </div>
 
-                                    <div style="font-size: 0.8em;" class="bg-warning rounded-top rounded-bottom shadow p-3" class="col">
+                                    <div>
+                                       
+                                        <label class="col-sm-6 col-form-label text-muted">Propósito</label>
 
-                                        <h5 class="text-center">
+                                        <label class="col-sm-6 h5">{{ $licitacion->proposito }}</label>
 
-                                            <i class="fas fa-hourglass-half px-2"></i>
+                                    </div>
 
-                                            TimeLine Licitación
-
-                                        </h5>
+                                    <div>
                                         
-                                        <table class="table table-striped table-sm table-hover" width="100%">
-                                                
-                                            <thead>
-                                                
-                                                <tr>
-                                                    
-                                                    <th>Fecha</th>
-                                                    <th>Estado</th>
-                                                    <th>Responsable</th>
-                                                    <th>Obs. Rechazo</th>
-                                                    
-                                                </tr>
+                                        <label class=" col-sm-6 col-form-label text-muted">Valor Estimado</label>
+                                                                        
+                                        <label class=" col-sm-6 h5">{{ $licitacion->valorEstimado }}</label>   
 
-                                            </thead>
+                                    </div>
 
-                                            <tbody>
 
-                                             @foreach($move as $m)
-                                                
-                                                <tr>
-
-                                                    <td>{{ date('d-m-Y H:i:s', strtotime($m->created_at)) }}</td>
-                                                    <td>{{ $m->status }}</td>
-                                                    <td>{{ $m->name }}</td>
-                                                    <td>{{ $m->obsRechazoValidacion }}</td>
-
-                                                </tr>
-
-                                             @endforeach
-
-                                            </tbody>
-
-                                        </table>
+                                    <div>
+                                            
+                                        <label class="col-sm-6 col-form-label text-muted">Estado</label>
+                                                                            
+                                        <label class="col-sm-9 h5">{{ $licitacion->Estado }}</label>
 
                                     </div>
 
                                 </div>
+
+                                <div class="col">
+
+                                    <div class="card text-white bg-secondary mb-3" style="max-width: 30rem;">
+
+                                      <div class="card-header h5">Agregar Productos a la Licitación</div>
+
+                                      <div class="card-body">
+
+                                        <p class="card-text">Ingresar n&uacute;mero de la Solicitud:</p>
+
+                                        <form method="GET" action="{{ route('licitacion.buscarSolicitud', $licitacion->id) }}">
+
+                                            <div class="form-row align-items-center">
+                                                
+                                                <div class="col-sm-5 my-1">
+                                                    
+                                                    <input type="number" class="form-control" id="numeroSolicitud" name="numeroSolicitud" value="{{ $solicitudNo }}">
+                                                
+                                                </div>
+         
+                                                <div class="col-auto my-1">
+
+                                                    <button type="submit" class="btn btn-warning">Buscar Solicitud</button>
+                                                
+                                                </div>
+                                            
+                                            </div>
+                                        
+                                        </form>
+
+                                      </div>
+
+                                    </div>
+
+                                </div>
+
+                              </div>
 
                             </div>
 
@@ -141,10 +124,24 @@
                         <div class="mb-5">
 
                             <div class="mb-5">
-                                        
+
+                                 <a href="#" data-toggle="modal" data-target="#asignarTODOSModal" title="Asignar Producto a la Licitación" disabled>
+
+                                    <button class="btn btn-primary btn-sm float-right">
+
+                                        <i class="fas fa-check-double"></i> 
+
+                                        Asignar a Todos
+
+                                    </button>
+
                                 </a>
                                     
-                                <h5>Detalle Órden de Compra</h5>   
+                                <h5>
+
+                                    Detalle de la Licitación
+
+                                </h5>   
 
                             </div>
                             
@@ -157,7 +154,7 @@
 
                                         <tr>
 
-                                            <th style="display: none;">ID</th>
+                                            <th >ID</th>
 
                                             <th>No.Solicitud</th>
 
@@ -166,6 +163,8 @@
                                             <th>Especificación</th>
 
                                             <th>Cantidad</th>
+
+                                            <th>Acciones</th>
 
                                         </tr>
 
@@ -177,7 +176,7 @@
 
                                         <tr>
 
-                                            <td style="display: none;">{{ $ds->id }}</td>
+                                            <td >{{ $ds->id }}</td>
 
                                             <td>{{ $ds->solicitud_id }}</td>
 
@@ -186,6 +185,48 @@
                                             <td>{{ $ds->especificacion }}</td>
 
                                             <td>{{ $ds->cantidad }}</td>                                            
+
+                                            <td>                                                
+
+                                                @if($ds->licitacion_id == null)
+
+                                                {!! Form::open(['route'=> ['solicitud.update', $ds->id], 'method' => 'PUT']) !!}
+
+                                                    @csrf
+
+                                                    <input type="hidden" name="flag" value="AsignarLicitacion">
+
+                                                    <input type="hidden" value="{{ $licitacion->id }}" name="licitacionID" id="licitacionID">
+
+                                                    <button class="btn btn-primary btn-sm mr-1">
+
+                                                        <i class="fas fa-check"></i>
+
+                                                    </button>
+
+                                                {!! Form::close() !!}
+                                                    
+                                                @elseif($ds->licitacion_id === $licitacion->id)
+
+                                                {!! Form::open(['route'=> ['solicitud.update', $ds->id], 'method' => 'PUT']) !!}
+
+                                                    <input type="hidden" name="flag" value="EliminarLicitacion">
+
+                                                    <button class="btn btn-danger btn-sm mr-1">
+
+                                                        <i class="fas fa-trash-alt"></i>
+
+                                                    </button>
+
+                                                {!! Form::close() !!}
+
+                                                @else
+
+                                                    <label class="text-muted" style="font-size: 0.9em;">Producto Pertenece a otra Licitación</label>
+
+                                                @endif
+
+                                            </td>
 
                                         </tr>
 
@@ -201,13 +242,44 @@
 
                         <div>
 
-                            <a href="{{ route('licitacion.index') }}" class="text-decoration-none">
+                            <form method="POST" action="{{ route('licitacion.update', $licitacion->id) }}">
 
-                                <button type="button" class="btn btn-success btn-block"> 
+                                @csrf
+                                @method('PUT')
+
+                                <input type="hidden" name="flag" value="ConfirmarLicitacion">
+
+                                @if($existeLicitacion > 0)
+
+                                    <button type="submit" class="btn btn-success btn-block mb-3"> 
+
+                                        <i class="fas fa-check-circle"></i>
+
+                                        Confirmar Órden de Compra
+
+                                    </button>
+
+                                @else
+
+                                    <button type="submit" class="btn btn-success btn-block mb-3" disabled> 
+
+                                        <i class="fas fa-check-circle"></i>
+
+                                        Confirmar Órden de Compra
+
+                                    </button>
+
+                                @endif
+
+                            </form>
+
+                            <a href="{{ route('ordenCompra.index') }}" class="text-decoration-none">
+
+                                <button type="submit" class="btn btn-secondary btn-block"> 
 
                                     <i class="fas fa-arrow-left"></i>
                                                 
-                                    Aceptar
+                                    Volver
 
                                 </button>
 
@@ -230,13 +302,13 @@
 <!-- UPDATE Modal Detalle Solicitud-->
 <div class="modal fade" id="asignarTODOSModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
 
-    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+    <div class="modal-dialog modal-dialog-centered" role="document">
 
         <div class="modal-content">
 
             <div class="modal-header bg-primary text-white">
 
-                <p class="modal-title" id="exampleModalLabel" style="font-size: 1.2em"><i class="fas fa-edit"></i> Agregar Todos los Producto a Órden de Compra  </p>
+                <p class="modal-title" id="exampleModalLabel" style="font-size: 1.2em"><i class="fas fa-edit"></i> Agregar Todos los Productos a la Licitación  </p>
 
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
 
@@ -247,7 +319,7 @@
             </div>
 
 
-            <form method="POST" action="{{ route('licitacion.update', $licitacion->id) }}" class="was-validated">
+            <form method="POST" action="{{ route('solicitud.update', $licitacion->id) }}" class="was-validated">
 
                 @csrf
                 @method('PUT')
@@ -255,10 +327,10 @@
                 <input type="hidden" name="flag" value="AsignarTodosLicitacion">
 
                 <div class="modal-body">
+        
+                    <div class="mb-3">
                         
-                        Esta usted seguro de quere agregar TODOS los Productos a esta Órden de Compra ?
-
-                        <input type="text" value="{{ $licitacion->licitacion_id }}" readonly class="h4" style="border:0;" name="licitacion_id" id="licitacion_id">
+                        Esta usted segur@ de quere agregar TODOS los Productos de la Solicitud No. <input type="text" value="{{ $solicitudNo }}" readonly class="h5" style="border:0;" name="noSolicitud" id="noSolicitud" size="3">
 
                     </div>
 
@@ -268,7 +340,7 @@
 
                             <i class="fas fa-save"></i>
 
-                            Agregar Producto Órden de Compra
+                            Agregar Producto a la Licitación
 
                         </button>
 
@@ -284,7 +356,7 @@
 </div>
 
 <!-- UPDATE Modal Detalle Solicitud-->
-<div class="modal fade" id="asignarLicitacionModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="asignarOCModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
 
     <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
 
@@ -303,7 +375,7 @@
             </div>
 
 
-            <form method="POST" action="#" class="was-validated" id="detalleLicitacionForm">
+            <form method="POST" action="{{ url('/siscom/solicitud') }}" class="was-validated" id="detalleLicitacionForm">
 
                 @csrf
                 @method('PUT')
@@ -314,11 +386,9 @@
         
                     <div class="p-3">
                         
-                        <label class="text-muted">Esta usted seguro de querer agregar este Producto? : </label>
+                        <label class="text-muted">Esta usted seguro de querer agregar este Producto? : </label><input type="text"  id="productAdd" readonly style="border:0;">
 
-                        <input type="text"  id="productAdd" readonly style="border:0;">
-
-                        <input type="hidden" value="{{ $licitacion->id }}" name="licitacion_id" id="licitacion_id_assign">
+                        <input type="hidden" value="{{ $licitacion->id }}" name="licitacionID" id="licitacionID">
 
                     </div>
 
@@ -353,7 +423,7 @@
 
             <div class="modal-header bg-danger text-white">
 
-                <p class="modal-title" id="exampleModalLabel" style="font-size: 1.2em"><i class="fas fa-trash-alt"></i> Eliminar Producto de la Licitación </p>
+                <p class="modal-title" id="exampleModalLabel" style="font-size: 1.2em"><i class="fas fa-times-circle"></i> Eliminar Producto de la Solicitud </p>
 
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
 
@@ -364,7 +434,7 @@
             </div>
 
 
-            <form method="POST" action="#" class="was-validated" id="deleteDetalleForm">
+            <form method="POST" action="{{ url('/siscom/solicitud') }}" class="was-validated" id="deleteDetalleForm">
 
                 @csrf
                 @method('PUT')
@@ -373,15 +443,9 @@
 
                 <div class="modal-body">
 
-                    <p>Esta usted seguro de querer eliminar este Producto? : </p>
+                    <div class="p-3">
 
-                     <div class="form-row">
-
-                        <div class="col-md-12 mb-3">
-
-                            <label class="h5" id="productDelete">deleteProducto</label>
-
-                        </div>
+                        <label class="text-muted">Esta usted seguro de querer eliminar este Producto? : </label><input type="text" name="Producto" id="productDelete" readonly style="border:0;">
 
                     </div>
                     
@@ -408,78 +472,7 @@
 </div>
 <!-- End Modal Create Solicitud -->
 
-<!-- Modal Create Product -->
-<div class="modal fade" id="createProductModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
 
-    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
-
-        <div class="modal-content">
-
-            <div class="modal-header bg-success text-white">
-
-                <p class="modal-title" id="exampleModalLabel" style="font-size: 1.2em"><i class="fas fa-plus-circle"></i> Nuevo Producto</p>
-
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-
-                    <span aria-hidden="true" class="text-white">&times;</span>
-
-                </button>
-
-            </div>
-
-
-            <form method="POST" action="{{ action('SCM_SolicitudController@store') }}" class="was-validated" id="createForm">
-
-                @csrf
-
-                <input type="hidden" name="flag" value="Solicitud">
-
-                <div class="modal-body">
-
-                    <div class="col-md-12 mb-3">
-                                                
-                        <label for="Product">Producto</label>
-                        
-                        <input type="text" name="Product" class="form-control" required>
-
-                        <div class="invalid-feedback">
-                                                                                                    
-                                Por favor ingrese el Producto a solicitar
-
-                            </div>
-
-                    </div>
-
-                    <div class="form-row">
-
-                        <button class="btn btn-success btn-block boton" type="submit" form="createForm">
-
-                            <i class="fas fa-save"></i>
-
-                            Guardar Solicitud
-
-                        </button>
-
-                        <button type="button" class="btn btn-block btn-secondary" data-dismiss="modal" aria-label="Close">
-
-                            <i class="fas fa-arrow-left"></i>
-
-                            Cancelar
-
-                        </button>
-
-                    </div>
-
-                </div>
-
-            </form>
-
-        </div>
-
-    </div>
-
-</div>
-<!-- End Modal Create Solicitud -->
 
 @endsection
 
@@ -520,7 +513,7 @@
                             "sProcessing":     "Procesando...",
                             "sLengthMenu":     "Mostrar _MENU_ registros",
                             "sZeroRecords":    "No se encontraron resultados",
-                            "sEmptyTable":     "No existen Productos en su Solicitud, aún...",
+                            "sEmptyTable":     "No ha buscado ninguna Solicitud aún...",
                             "sInfo":           "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
                             "sInfoEmpty":      "Mostrando registros del 0 al 0 de un total de 0 registros",
                             "sInfoFiltered":   "(filtrado de un total de _MAX_ registros)",
@@ -548,7 +541,7 @@
 
 
             //Start Edit Record Detalle Solicitud
-            table.on('click', '.asignarLicitacion', function () {
+            table.on('click', '.asignarOC', function () {
 
                 $tr = $(this).closest('tr');
 
@@ -562,17 +555,17 @@
 
                 console.log(dataDetalle);
 
-                $('#productAdd').val(dataDetalle[2]);
+                $('#productAdd').val(dataDetalle[3]);
 
-                $('#detalleLicitacionForm').attr('action', '/siscom/solicitud/' + dataDetalle[0]);
-                $('#asignarLicitacionModal').modal('show');
+                $('#detalleOrdenCompraForm').attr('action', '/siscom/solicitud/' + dataDetalle[0]);
+                $('#asignarOCModal').modal('show');
 
             });
             //End Edit Record Detalle Solicitud
             
 
             //Start Delete Record Detalle Solicitud 
-            table.on('click', '.eliminarLicitacion', function () {
+            table.on('click', '.eliminarOC', function () {
 
                 $tr = $(this).closest('tr');
 
@@ -586,7 +579,7 @@
 
                 console.log(dataDetalle);
 
-                document.getElementById('productDelete').innerHTML = dataDetalle[2];
+                $('#productDelete').val(dataDetalle[3]);
                 
                 $('#deleteDetalleForm').attr('action', '/siscom/solicitud/' + dataDetalle[0]);
                 $('#deleteDetalleModal').modal('show');

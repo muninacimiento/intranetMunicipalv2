@@ -145,7 +145,7 @@
 
                                     <td>{{ $licitacion->licitacion_id }}</td>
 
-                                    @if($licitacion->NoOC === NULL)
+                                    @if($licitacion->NoOC === 4)
 
                                         <td>N/A</td>
 
@@ -161,9 +161,25 @@
 
                                     <td>{{ $licitacion->Estado }}</td>
 
-                                    <td>{{ date('d-m-Y H:i:s', strtotime($licitacion->fechaPublicacion)) }}</td>
+                                    @if($licitacion->fechaPublicacion === NULL)
 
-                                    <td>{{ date('d-m-Y', strtotime($licitacion->fechaCierre)) }}</td>
+                                        <td></td>
+
+                                    @else
+
+                                        <td>{{ date('d-m-Y H:i:s', strtotime($licitacion->fechaPublicacion)) }}</td>
+
+                                    @endif
+
+                                    @if($licitacion->fechaCierre === NULL)
+
+                                        <td></td>
+
+                                    @else
+
+                                        <td>{{ date('d-m-Y', strtotime($licitacion->fechaCierre)) }}</td>
+
+                                    @endif
 
                                      @if($licitacion->fechaResolucion === NULL)
 
@@ -195,6 +211,24 @@
                                         @else
 
                                             <div class="btn-group" role="group" aria-label="Basic example">
+
+                                                {{-- Agregar Productos a la Órden de Compra --}}
+
+                                                @can('licitacion.asignar')
+
+                                                    @if($licitacion->Estado === 'Creada' ||  Auth::user()->name === 'Carolina Medina Ortega')
+
+                                                        <a href="{{ route('licitacion.agregarProductos', $licitacion->id) }}" class="btn btn-danger btn-sm">
+                                                                    
+                                                            <i class="fas fa-shopping-basket"></i>
+
+                                                        </a>
+
+                                                    @else
+
+                                                    @endif
+
+                                                @endcan
 
                                                 {{-- Asignar Solicitud para Registrar los Productos a la Órden de Compra --}}
 
