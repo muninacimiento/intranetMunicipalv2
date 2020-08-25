@@ -167,6 +167,8 @@
 
                                             <th>Cantidad</th>
 
+                                            <th>Acciones</th>
+
                                         </tr>
 
                                     </thead>
@@ -185,7 +187,12 @@
 
                                             <td>{{ $ds->especificacion }}</td>
 
-                                            <td>{{ $ds->cantidad }}</td>                                            
+                                            <td>{{ $ds->cantidad }}</td>     
+
+                                            <td>
+                                                
+
+                                            </td>                                       
 
                                         </tr>
 

@@ -216,7 +216,7 @@
 
                                                         <i class="fas fa-trash-alt"></i>
 
-                                                    </button>
+                                                    </button> 
 
                                                 {!! Form::close() !!}
 

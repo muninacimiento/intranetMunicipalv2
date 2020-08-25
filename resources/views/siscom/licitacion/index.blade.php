@@ -6,7 +6,7 @@
  */
 -->
 
-@extends('layouts.app')
+@extends('layouts.app') 
 
 @section('content')
 
@@ -214,7 +214,7 @@
 
                                                 {{-- Agregar Productos a la Órden de Compra --}}
 
-                                                @can('licitacion.asignar')
+                                                {{--@can('licitacion.asignar')--}}
 
                                                     @if($licitacion->Estado === 'Creada' ||  Auth::user()->name === 'Carolina Medina Ortega')
 
@@ -228,25 +228,7 @@
 
                                                     @endif
 
-                                                @endcan
-
-                                                {{-- Asignar Solicitud para Registrar los Productos a la Órden de Compra --}}
-
-                                                        @if($licitacion->Estado === 'Creada')
-
-                                                            <a href="#" class="asignar" data-toggle="tooltip" data-placement="bottom" title="Asignar Solicitud para Agregar Productos">
-                                                
-                                                                <button class="btn btn-info btn-sm mr-1 " type="button">
-                                                                
-                                                                    <i class="fas fa-shopping-basket"></i>
-
-                                                                </button>
-
-                                                            </a>
-
-                                                        @else
-
-                                                        @endif
+                                                {{-- @endcan --}}
 
                                                 <a href="{{ route('licitacion.show', $licitacion->id) }}" data-toggle="tooltip" data-placement="bottom" title="Ver el Detalle de la Licitación">
 

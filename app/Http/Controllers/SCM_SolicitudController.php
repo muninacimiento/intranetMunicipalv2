@@ -438,7 +438,7 @@ class SCM_SolicitudController extends Controller
 
             $move->save();
 
-            return back();
+            return back(); 
 
         } 
 
