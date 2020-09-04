@@ -27,12 +27,16 @@ class ContratoController extends Controller
 
         $dateCarbon = Carbon::now()->locale('es')->isoFormat('dddd D, MMMM YYYY');
 
+        $contratos = Contrato::join('orden_compras', 'contratos.ordenCompra_id', 'orden_compras.id')
+                ->select('contratos.*', 'orden_compras.ordenCompra_id as NoOC')
+                ->orderBy('id', 'DESC')->get();
+
         $ocs = DB::table('orden_compras')
             ->join('status_o_c_s', 'orden_compras.estado_id', 'status_o_c_s.id')
             ->select(DB::raw('CONCAT(orden_compras.id, " ) ", orden_compras.ordenCompra_id, " / ", status_o_c_s.estado) as OC'), 'orden_compras.id')
             ->get();
 
-        return view('siscom.contratos.index', compact('dateCarbon', 'ocs'));
+        return view('siscom.contratos.index', compact('dateCarbon', 'contratos', 'ocs'));
     }
 
     /**
@@ -101,7 +105,7 @@ class ContratoController extends Controller
      */
     public function show(Contrato $contrato)
     {
-        //
+        echo "SHOW";
     }
 
     /**

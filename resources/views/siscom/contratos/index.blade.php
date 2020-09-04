@@ -107,7 +107,7 @@
 
                                 <tr class="table-active">
 
-                                    <th>ID Contrato</th>
+                                    <th style="display: none;">ID Contrato</th>
 
                                     <th>Nombre Contrato</th>
 
@@ -123,8 +123,6 @@
 
                                     <th>Monto $</th>
 
-                                    <th>Fecha Registro</th>
-
                                     <th>Acciones</th>
 
                                 </tr>
@@ -133,55 +131,71 @@
 
                             <tbody>
 
+                                @foreach($contratos as $contrato)
+
                                 <tr>
 
-                                    <td></td>
+                                    <td style="display: none;">{{ $contrato->id }}</td>
 
-                                    <td></td>
+                                    <td>{{ $contrato->nombreContrato }}</td>
 
-                                    <td></td>
+                                    <td>{{ $contrato->NoOC }}</td>
 
-                                    <td></td>
+                                    <td>{{ date('d-m-Y', strtotime($contrato->fechaInicio)) }}</td>
 
-                                    <td></td>
+                                    <td>{{ date('d-m-Y', strtotime($contrato->fechaTermino)) }}</td>
 
-                                    <td></td>
+                                    <td>{{ $contrato->numeroBoleta }}</td>
 
-                                    <td></td>
+                                    <td>{{ $contrato->banco }}</td>
 
-                                    <td></td>
+                                    <td>{{ $contrato->montoBoleta}}</td>
 
-                                    <td></td>
+                                    <td>
 
-                                    <td></td>
+
+                                            <a href="#" class="btn btn-secondary btn-sm mr-1" data-toggle="tooltip" data-placement="bottom" title="Ver el Detalle del Contrato">
+                                                        
+                                                <i class="fas fa-eye"></i>
+
+                                            </a>
+
+
+                                            <a href="#" class="btn btn-primary btn-sm edit" data-toggle="tooltip" data-placement="bottom" title="Modificar la Órden de Compra">
+                                                                
+                                                <i class="fas fa-edit"></i>
+
+                                            </a>
+
+                                    </td>
 
                                 </tr>
+
+                                @endforeach
 
                             </tbody>
 
                             <tfoot>
 
-                                <tr>
+                                <tr class="table-active">
 
-                                    <td></td>
+                                    <th style="display: none;"></th>
 
-                                    <td></td>
+                                    <th></th>
 
-                                    <td></td>
+                                    <th></th>
 
-                                    <td></td>
+                                    <th></th>
 
-                                    <td></td>
+                                    <th></th>
 
-                                    <td></td>
+                                    <th></th>
 
-                                    <td></td>
+                                    <th></th>
 
-                                    <td></td>
+                                    <th></th>
 
-                                    <td></td>
-
-                                    <td></td>
+                                    <th></th>
 
                                 </tr>
 
@@ -398,18 +412,18 @@
     </div>
 
 </div>
-<!-- END CREATE Modal Órden de Compra -->
+<!-- END CREATE Modal Contrato -->
 
-<!-- Recepcionar Solicitud MODAL -->
-<div class="modal fade" id="recepcionarModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<!-- Update Modal Contrato -->
+<div class="modal fade" id="updateContratoModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
 
-    <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
 
         <div class="modal-content">
 
             <div class="modal-header bg-primary text-white">
 
-                <p class="modal-title" id="exampleModalLabel" style="font-size: 1.2em"><i class="fas fa-inbox"></i> Recepcionar Órden de Compra</p>
+                <p class="modal-title" id="exampleModalLabel" style="font-size: 1.2em"><i class="fas fa-edit"></i> Modificar Contrato</p>
 
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
 
@@ -420,216 +434,163 @@
             </div>
 
 
-            <form method="POST" action="{{ url('/siscom/ordenCompra/recepcionar') }}" class="was-validated" id="recepcionarForm">
+            <form method="POST" action="#" class="was-validated" id="updateContratoForm">
 
                 @csrf
                 @method('PUT')
 
-                <input type="hidden" name="flag" value="Recepcionar">
+                <input type="hidden" name="flag" value="Actualizar">
 
                 <div class="modal-body">
 
                     <div class="form-row">
-                        
-                        <label for="fechaRecepcion" class="col-sm-4 col-form-label text-muted">Fecha Recepción</label>
 
-                        <label for="fechaRecepcion" class="col-sm-8 col-form-label">{{ $dateCarbon }}</label>
+                        <div class="col-md-12 mb-3">
+                                                                              
+                            <label for="id">Nombre Contrato</label>
 
-                    </div>
+                            <input type="text" class="form-control" id="nombreContratoUpdate" name="nombreContrato" placeholder="Ingrese el Nombre del Contrato" required>
 
-                    <div class="form-row">
+                            <div class="invalid-feedback">
+                                                                                                        
+                                Por favor ingrese el Nombre del Contrato
 
-                        <label for="ID" class="col-sm-4 col-form-label text-muted">No. Órden de Compra</label>
+                            </div>
 
-                         <div class="col-sm-8">
-                             
-                            <input type="" name="ordenCompra_id" id="ordenCompra_id" readonly class="form-control-plaintext">
-                                 
-                         </div>
-
-                    </div>
-
-
-                    <div class="mb-3 form-row">
-
-                        <button class="btn btn-success btn-block" type="submit">
-
-                            <i class="fas fa-save"></i>
-
-                            Recepcionar Órden de Compra
-
-                        </button>
-
-
-                        <button type="button" class="btn btn-block btn-secondary" data-dismiss="modal" aria-label="Close">
-
-                            <i class="fas fa-arrow-left"></i>
-
-                            Cancelar
-
-                        </button>
-
-                    </div>
-
-                </div>
-
-            </form>
-
-        </div>
-
-    </div>
-
-</div>
-<!-- End Recepcinoar Solicitud Modal -->
-
-<!-- Recepcionar Productos de la Órden de Compra MODAL -->
-<div class="modal fade" id="confirmarRecepcionModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-
-    <div class="modal-dialog modal-dialog-centered" role="document">
-
-        <div class="modal-content">
-
-            <div class="modal-header bg-light">
-
-                <p class="modal-title" id="exampleModalLabel" style="font-size: 1.2em"><i class="fas fa-boxes"></i> Confirmar la Recepción de los Productos de la Órden de Compra</p>
-
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-
-                    <span aria-hidden="true" class="text-white">&times;</span>
-
-                </button>
-
-            </div>
-
-
-            <form method="POST" action="{{ url('/siscom/ordenCompra/confirmarRecepcion') }}" class="was-validated" id="recepcionarProductosForm">
-
-                @csrf
-                @method('PUT')
-
-                <input type="hidden" name="flag" value="ConfirmarRecepcionProductosOC">
-
-                <div class="modal-body">
-
-                    <div class="form-row">
-                        
-                        <label for="fechaRecepcion" class="col-sm-6 col-form-label text-muted">Fecha Recepción</label>
-
-                        <label for="fechaRecepcion" class="col-sm-6 col-form-label">{{ $dateCarbon }}</label>
-
-                    </div>
-
-                    <div class="form-row">
-
-                        <label for="ID" class="col-sm-6 col-form-label text-muted">No. Órden de Compra</label>
-
-                         <div class="col-sm-6">
-                             
-                            <input type="" name="ordenCompra_id" id="ordenCompra_id_recepcionar" readonly class="form-control-plaintext">
-                                 
-                         </div>
-
-                    </div>
-
-
-                    <div class="mb-3 form-row">
-
-                        <button class="btn btn-success btn-block" type="submit">
-
-                            <i class="fas fa-save"></i>
-
-                            Recepcionar Productos
-
-                        </button>
-
-
-                        <button type="button" class="btn btn-block btn-secondary" data-dismiss="modal" aria-label="Close">
-
-                            <i class="fas fa-arrow-left"></i>
-
-                            Cancelar
-
-                        </button>
-
-                    </div>
-
-                </div>
-
-            </form>
-
-        </div>
-
-    </div>
-
-</div>
-<!-- End Recepcionar Productos de la Órden de Compra Modal -->
-
-<!-- Modal Asignar Solicitud Órden de Compra -->
-<div class="modal fade" id="asignarSolicitudModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-
-    <div class="modal-dialog modal-dialog-centered" role="document">
-
-        <div class="modal-content">
-
-            <div class="modal-header bg-primary text-white">
-
-                <p class="modal-title" id="exampleModalLabel" style="font-size: 1.2em"><i class="fas fa-plus-circle"></i> Asignar Solicitud a la Órden de Compra</p>
-
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-
-                    <span aria-hidden="true" class="text-white">&times;</span>
-
-                </button>
-
-            </div>
-
-
-            <form method="POST" action="{{ url('/siscom/ordenCompra/asignar') }}" class="was-validated" id="asignarSolicitudForm">
-
-                @csrf
-                @method('PUT')
-
-                <input type="hidden" name="flag" value="Asignar">
-
-                <div class="modal-body">
-
-                    <div class="form-row mb-3">
-
-                        <label for="ID" class="col-sm-4 col-form-label text-muted">No. Órden de Compra</label>
-
-                        <div class="col-sm-8">
-                                 
-                            <input type="" name="ordenCompra_id_assign" id="ordenCompra_id_assign" readonly class="form-control-plaintext">
-                                     
                         </div>
 
                     </div>
 
-                    <div class="form-row mb-3">
+                    <div class="form-row">
+
+                        <div class="col-md-4 mb-3">
                                                                               
-                            <label for="solicitudID" class="col-sm-4 col-form-label text-muted">No. Solicitud</label>
+                            <label for="ordenCompra_id">No. Órden de Compra</label>
 
-                            <div class="col-sm-8">
+                            <select name="ordenCompra_id" id="ordenCompra_idUpdate" class="form-control selectpicker" data-live-search="true" title="Seleccione el No. de su Órden de Compra" required>
 
-                                <input type="text" class="form-control" id="solicitud_id_assign" name="solicitud_id_assign" placeholder="Ingrese el No. de la Solicitud" required>
+                                @foreach($ocs as $oc)
 
-                                <div class="invalid-feedback">
-                                                                                                
-                                    Por favor ingrese el No. de la Solicitud a Asignar a la Órden de Compra
+                                    <option value="{{ $oc->id }}">{{ $oc->OC }}</option>
+                                                                
+                                @endforeach
 
-                                </div>
+                            </select>
+
+                        </div>
+
+                        <div class="col-md-4 mb-3">
+                                                                              
+                            <label for="nombreActividad">Fecha Inicio Contrato</label>
+
+                            <input type="text" id="fechaInicioUpdate" name="fechaInicio" class="form-control" placeholder="Fecha de Inicio del Contrato" required/>
+
+                            <div class="invalid-feedback">
+                                                                                                        
+                                Por favor ingrese la Fecha de Inicio del Contrato
 
                             </div>
+
+                        </div>
+
+                        <div class="col-md-4 mb-3">
+                                                                              
+                            <label for="nombreActividad">Fecha Término Contrato</label>
+
+                            <input type="text" id="fechaTerminoUpdate" name="fechaTermino" class="form-control" placeholder="Fecha de Término del Contrato" required/>
+
+                            <div class="invalid-feedback">
+                                                                                                        
+                                Por favor ingrese la Fecha de Término del Contrato
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    <div class="form-row">
+                        
+                        <div class="col-md-4 mb-3">
+
+                            <label for="numeroBoleta">Número de Boleta de Garantía</label>
+                                                                              
+                            <input type="text" class="form-control" id="numeroBoletaUpdate" name="numeroBoleta" placeholder="Ingrese el Número de la Boleta" required>
+
+                            <div class="invalid-feedback">
+                                                                                                        
+                                Por favor ingrese el Número de la Boleta de Garantía
+
+                            </div>
+
+                        </div>
+
+                        <div class="col-md-4 mb-3">
+
+                            <label for="banco">Seleccione el Banco...</label>
+
+                            <select name="banco" id="bancoUpdate" class="form-control selectpicker" title="Banco" required>
+
+                                <option>Banco de Chile</option>
+                                <option>Banco Estado</option>
+                                <option>Banco Internacional</option>
+                                <option>Scotiabank Chile</option>
+                                <option>Banco de Crédito e Inversiones</option>
+                                <option>Banco de Crédito e Inversiones</option>
+                                <option>Corpbanca</option>
+                                <option>Banco Bice</option>
+                                <option>HSBC Bank (Chile)</option>
+                                <option>Banco Santander</option>
+                                <option>Banco Itaú Chile</option>
+                                <option>Banco Security</option>
+                                <option>Banco Falabella</option>
+                                <option>Deutsche Bank</option>
+                                <option>Banco RIpley</option>
+                                <option>Rabobank Chile</option>
+                                <option>Banco Consorcio</option>
+                                <option>Banco Penta</option>
+                                <option>Banco Paris</option>
+                                <option>Banco Bilbao Vizcaya Argentaria (BBVA)</option>
+                                <option>Banco BTG Pactual Chile</option>
+                                <option>Banco Do Brasil</option>
+                                <option>JP Morgan Chase Bank</option>
+                                <option>Banco de la Nacion Argentina</option>
+                                <option>The Bank of Tokyo-Mitsubishi UFJ</option>
+
+                            </select>
+                                                                              
+                            <div class="invalid-feedback">
+                                                                                                        
+                                Por favor ingrese el Banco de la Boleta de Garantía
+
+                            </div>
+
+                        </div>
+
+                        <div class="col-md-4 mb-3">
+                                                                              
+                            <label for="montoBoleta">Monto de Boleta de Garantía</label>
+                                                                              
+                            <input type="text" class="form-control" id="montoBoletaUpdate" name="montoBoleta" placeholder="Ingrese el Monto de la Boleta" required>
+
+                            <div class="invalid-feedback">
+                                                                                                        
+                                Por favor ingrese el Monto de la Boleta de Garantía
+
+                            </div>
+                        
+
+                        </div>
 
                     </div>
                     
                     <div class="form-row">
 
-                        <button class="btn btn-success btn-block boton" type="submit" form="asignarSolicitudForm">
+                        <button class="btn btn-success btn-block boton" type="submit" form="contratoForm">
 
                             <i class="fas fa-save"></i>
 
-                            Asignar Solicitud
+                            Guardar Contrato
 
                         </button>
 
@@ -643,6 +604,7 @@
 
                     </div>
 
+
                 </div>
 
             </form>
@@ -652,8 +614,7 @@
     </div>
 
 </div>
-<!-- End Modal Asignar Solicitud Órden de Compra -->
-
+<!-- End Modal Update Órden de Compra -->
 
 
 <!-- Anular Modal Órden de Compra -->
@@ -862,83 +823,16 @@
 
                 console.log(data);
 
-                $('#ordenCompra_id_update').val(data[1]);
-                $('#iddocUpdate').val(data[2]);
-                
-                if (($('#tipoOrdenCompraUpdate').val(data[6]))==='Menor a 3 UTM') {
-
-                    $('#tipoOrdenCompraUpdate').val();    
-                }
-                else if (($('#tipoOrdenCompraUpdate').val(data[6]))==='Trato Directo'){
-
-                    $('#tipoOrdenCompraUpdate').val();       
-                }
-                else if (($('#tipoOrdenCompraUpdate').val(data[6]))==='Convenio Marco / Suministro'){
-
-                    $('#tipoOrdenCompraUpdate').val();       
-                }
-
-                if (($('#valorEstimadoUpdate').val(data[7]))==='Mayor a 10 UTM') {
-
-                    $('#valorEstimadoUpdate').val();    
-                }
-                else if (($('#valorEstimadoUpdate').val(data[7]))==='Menor o Igual a 10 UTM'){
-
-                    $('#valorEstimadoUpdate').val();       
-                }
-
-                $('#totalOrdenCompraUpdate').val(data[8]);
-
-                if (($('#excepcionUpdate').val(data[9])) === 'Si') {
-
-                    $('#excepcionUpdate').val();    
-                }
-                else if (($('#excepcionUpdate').val(data[9])) === 'No'){
-
-                    $('#excepcionUpdate').val();       
-                }
-
-                if (($('#deptoReceptorUpdate').val(data[13]))=== 'Compras y Suministros') {
-
-                    $('#deptoReceptorUpdate').val();    
-                }
-                else if (($('#deptoReceptorUpdate').val(data[13]))=== 'Bodega Talleres Municipales'){
-
-                    $('#deptoReceptorUpdate').val();       
-                }
-
-                $('#mercadoPublicoUpdate').val(data[14]);
+                $('#nombreContratoUpdate').val(data[1]);
 
 
-                $('#updateOrdenCompraForm').attr('action', '/siscom/ordenCompra/' + data[0]);
-                $('#updateOrdenCompraModal').modal('show');
+                $('#updateContratoForm').attr('action', '/siscom/contratos/' + data[0]);
+                $('#updateContratoModal').modal('show');
 
             });
             //End Edit Record
 
-            //Start Delete Record
-            table.on('click', '.delete', function () {
-
-                $tr = $(this).closest('tr');
-
-                if ($($tr).hasClass('child')) {
-
-                    $tr = $tr.prev('.parent');
-
-                }
-
-                var data = table.row($tr).data();
-
-                console.log(data);
-
-                document.getElementById('ordenCompra_id_Delete').innerHTML = data[1];
-                document.getElementById('fechaOrdenCompra_delete').innerHTML = data[3];
-                
-                $('#deleteOrdenCompraForm').attr('action', '/siscom/ordenCompra/anular/' + data[0]);
-                $('#deleteOrdenCompraModal').modal('show');
-
-            });
-            //End Delete Record
+            
          });    
 
 </script>

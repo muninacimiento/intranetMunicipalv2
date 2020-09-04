@@ -163,7 +163,12 @@ Route::middleware(['auth'])->group( function() {
 	Route::get('/siscom/consultaFacturas', 'FacturaController@consulta')->name('factura.consulta')->middleware('can:factura.consulta');
 
 	//Contratos
-	Route::resource('/siscom/contratos', 'ContratoController')->middleware('can:contratos.index');
+	Route::resource('/siscom/contratos', 'ContratoController')->middleware('can:contrato.index');
+	Route::post('/siscom/contratos/{contrato}', 'ContratoController@show')->name('contrato.show')->middleware('can:contrato.show');
+	Route::post('/siscom/contratos/{contrato}', 'ContratoController@update')->name('contrato.update')->middleware('can:contrato.update');
+	Route::put('/siscom/contratos/anular/{contrato}', 'ContratoController@update')->name('contrato.anular')->middleware('can:contrato.anular');
+
+
 
 	
 
