@@ -47,7 +47,7 @@ class LicitacionController extends Controller
                     ->select('licitacions.*', 'status_licitacions.estado as Estado', 'orden_compras.ordenCompra_id as NoOC')
                     ->get();
 
-        //dd($licitaciones);
+        //dd(Auth::user()->id);
 
         return view('siscom.licitacion.index', compact('licitaciones', 'dateCarbon', 'ocs'));
 

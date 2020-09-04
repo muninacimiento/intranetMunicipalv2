@@ -44,7 +44,7 @@
                         <!-- Button trigger CrearSolicitudModal -->
                         <div class="col-md-6">
                             
-                            <a href="#" class="text-decoration-none" data-toggle="modal" data-target="#createModalOrdenCompra">
+                            <a href="#" class="text-decoration-none" data-toggle="modal" data-target="#createModalContrato">
 
                                 <button class="btn btn-success btn-block boton">
 
@@ -203,7 +203,7 @@
 
 
 <!-- CREATE Modal Órden de Compra -->
-<div class="modal fade" id="createModalOrdenCompra" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="createModalContrato" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
 
     <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
 
@@ -211,7 +211,7 @@
 
             <div class="modal-header bg-success text-white">
 
-                <p class="modal-title" id="exampleModalLabel" style="font-size: 1.2em"><i class="fas fa-plus-circle"></i> Nueva Órden de Compra</p>
+                <p class="modal-title" id="exampleModalLabel" style="font-size: 1.2em"><i class="fas fa-plus-circle"></i> Nuevo Contrato</p>
 
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
 
@@ -222,7 +222,7 @@
             </div>
 
 
-            <form method="POST" action="{{ action('OrdenCompraController@store') }}" class="was-validated" id="ordenCompraForm">
+            <form method="POST" action="{{ action('ContratoController@store') }}" class="was-validated" id="contratoForm">
 
                 @csrf
 
@@ -230,46 +230,65 @@
 
                     <div class="form-row">
 
-                        <div class="col-md-6 mb-3">
+                        <div class="col-md-12 mb-3">
                                                                               
-                            <label for="id">ID Órden de Compra</label>
+                            <label for="id">Nombre Contrato</label>
 
-                            <input type="text" class="form-control" id="ocCreate" name="ordenCompra_id" placeholder="Ingrese el No. de Órden de Compra" required>
+                            <input type="text" class="form-control" id="contratoCreate" name="nombreContrato" placeholder="Ingrese el Nonbre del Contrato" required>
 
-                        </div>
+                            <div class="invalid-feedback">
+                                                                                                        
+                                Por favor ingrese el Nombre del Contrato
 
-                        <div class="col-md-6 mb-3">
-                                                                              
-                            <label for="iddoc">IDDOC</label>
-
-                            <input type="number" min="0" class="form-control" id="iddocCreate" name="iddoc" placeholder="Ingrese el IDDOC" required>
+                            </div>
 
                         </div>
 
                     </div>
 
-                    
-
                     <div class="form-row">
 
-                        <div class="col-md-6 mb-3">
+                        <div class="col-md-4 mb-3">
                                                                               
-                            <label for="valorEstimado">Valor Estimado</label>
+                            <label for="ordenCompra_id">No. Órden de Compra</label>
 
-                            <select name="valorEstimado" id="valorEstimadoCreate" class="form-control selectpicker" title="Valor Estimado de su Órden de Compra ?" required>
+                            <select name="ordenCompra_id" id="ordenCompra_id" class="form-control selectpicker" data-live-search="true" title="Seleccione el No. de su Órden de Compra" required>
 
-                                <option>Mayor a 10 UTM</option>
-                                <option>Menor o Igual a 10 UTM</option>
+                                @foreach($ocs as $oc)
+
+                                    <option value="{{ $oc->id }}">{{ $oc->OC }}</option>
+                                                                
+                                @endforeach
 
                             </select>
 
                         </div>
 
-                        <div class="col-md-6 mb-3">
+                        <div class="col-md-4 mb-3">
                                                                               
-                            <label for="totalOrdenCompra">Total $</label>
+                            <label for="nombreActividad">Fecha Inicio Contrato</label>
 
-                            <input type="number" min="0" class="form-control" id="totalOrdenCompraCreate" name="totalOrdenCompra" placeholder="Ingrese el Total de su Órden de Compra" required>
+                            <input type="text" id="fechaInicio" name="fechaInicio" class="form-control" placeholder="Fecha de Inicio del Contrato" required/>
+
+                            <div class="invalid-feedback">
+                                                                                                        
+                                Por favor ingrese la Fecha de Inicio del Contrato
+
+                            </div>
+
+                        </div>
+
+                        <div class="col-md-4 mb-3">
+                                                                              
+                            <label for="nombreActividad">Fecha Término Contrato</label>
+
+                            <input type="text" id="fechaTermino" name="fechaTermino" class="form-control" placeholder="Fecha de Término del Contrato" required/>
+
+                            <div class="invalid-feedback">
+                                                                                                        
+                                Por favor ingrese la Fecha de Término del Contrato
+
+                            </div>
 
                         </div>
 
@@ -277,62 +296,74 @@
 
                     <div class="form-row">
                         
-                        <div class="col-md-6 mb-3">
+                        <div class="col-md-4 mb-3">
+
+                            <label for="numeroBoleta">Número de Boleta de Garantía</label>
                                                                               
-                            <label for="tipoOrdenCompra">Tipo de Órden de Compra</label>
+                            <input type="text" class="form-control" id="numeroBoletaCreate" name="numeroBoleta" placeholder="Ingrese el Número de la Boleta" required>
 
-                            <select name="tipoOrdenCompra" id="tipoOrdenCompraCreate" class="form-control selectpicker" title="Tipo de Órden de Compra ?" required>
+                            <div class="invalid-feedback">
+                                                                                                        
+                                Por favor ingrese el Número de la Boleta de Garantía
 
-                                <option>Menor a 3 UTM</option>
-                                <option>Trato Directo</option>
-                                <option>Licitación</option>
-                                <option>Convenio Marco / Suministro</option>
-                                <option>Compra Ágil</option>
-
-                            </select>
+                            </div>
 
                         </div>
 
-                        <div class="col-md-6 mb-3">
-                                                                              
-                            <label for="mercadoPublico">Mercado Público</label>
+                        <div class="col-md-4 mb-3">
 
-                            <select name="mercadoPublico" id="mercadoPublico" class="form-control selectpicker" title="Órden de Compra Mercado Público?" required>
+                            <label for="banco">Seleccione el Banco...</label>
 
-                                <option>Si</option>
-                                <option>No</option>
+                            <select name="banco" id="bancoCreate" class="form-control selectpicker" title="Banco" required>
+
+                                <option>Banco de Chile</option>
+                                <option>Banco Estado</option>
+                                <option>Banco Internacional</option>
+                                <option>Scotiabank Chile</option>
+                                <option>Banco de Crédito e Inversiones</option>
+                                <option>Banco de Crédito e Inversiones</option>
+                                <option>Corpbanca</option>
+                                <option>Banco Bice</option>
+                                <option>HSBC Bank (Chile)</option>
+                                <option>Banco Santander</option>
+                                <option>Banco Itaú Chile</option>
+                                <option>Banco Security</option>
+                                <option>Banco Falabella</option>
+                                <option>Deutsche Bank</option>
+                                <option>Banco RIpley</option>
+                                <option>Rabobank Chile</option>
+                                <option>Banco Consorcio</option>
+                                <option>Banco Penta</option>
+                                <option>Banco Paris</option>
+                                <option>Banco Bilbao Vizcaya Argentaria (BBVA)</option>
+                                <option>Banco BTG Pactual Chile</option>
+                                <option>Banco Do Brasil</option>
+                                <option>JP Morgan Chase Bank</option>
+                                <option>Banco de la Nacion Argentina</option>
+                                <option>The Bank of Tokyo-Mitsubishi UFJ</option>
 
                             </select>
+                                                                              
+                            <div class="invalid-feedback">
+                                                                                                        
+                                Por favor ingrese el Banco de la Boleta de Garantía
+
+                            </div>
 
                         </div>
 
-                    </div>
-
-                    <div class="form-row">
-
-                        <div class="col-md-6 mb-3">
+                        <div class="col-md-4 mb-3">
                                                                               
-                            <label for="excepcion">Excepción</label>
+                            <label for="montoBoleta">Monto de Boleta de Garantía</label>
+                                                                              
+                            <input type="text" class="form-control" id="montoBoletaCreate" name="montoBoleta" placeholder="Ingrese el Monto de la Boleta" required>
 
-                            <select name="excepcion" id="excepcionCreate" class="form-control selectpicker" title="Órden de Compra con Excepción ?" required>
+                            <div class="invalid-feedback">
+                                                                                                        
+                                Por favor ingrese el Monto de la Boleta de Garantía
 
-                                <option>Si</option>
-                                <option>No</option>
-
-                            </select>
-
-                        </div>
+                            </div>
                         
-                        <div class="col-md-6 mb-5">
-                                                                              
-                            <label for="deptoReceptor">Depto. que Recepciona</label>
-
-                            <select name="deptoReceptor" id="deptoReceptorCreate" class="form-control selectpicker" title="Quién Recepciona los Productos ?" required>
-
-                                <option>Compras y Suministros, Freire #614 Nacimiento</option>
-                                <option>Bodega Talleres Municipales, San Martin #649 Nacimiento</option>
-
-                            </select>
 
                         </div>
 
@@ -340,11 +371,11 @@
                     
                     <div class="form-row">
 
-                        <button class="btn btn-success btn-block boton" type="submit" form="ordenCompraForm">
+                        <button class="btn btn-success btn-block boton" type="submit" form="contratoForm">
 
                             <i class="fas fa-save"></i>
 
-                            Guardar Órden De Compra
+                            Guardar Contrato
 
                         </button>
 
@@ -726,27 +757,40 @@
     <script type="text/javascript" src="https://code.jquery.com/jquery-3.3.1.js" ></script>
     <script type="text/javascript" src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js" defer></script>
 
-<!-- JQuery DatePicker -->
-<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
-<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <!-- JQuery DatePicker -->
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 
-<!-- Boostrap Select -->
-<!-- Latest compiled and minified CSS -->
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.9/dist/css/bootstrap-select.min.css">
-<!-- Latest compiled and minified JavaScript -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.9/dist/js/bootstrap-select.min.js"></script>
-<!-- (Optional) Latest compiled and minified JavaScript translation files -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.9/dist/js/i18n/defaults-*.min.js"></script>
+    <!-- Boostrap Select -->
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.9/dist/css/bootstrap-select.min.css">
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.9/dist/js/bootstrap-select.min.js"></script>
+    <!-- (Optional) Latest compiled and minified JavaScript translation files -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.9/dist/js/i18n/defaults-*.min.js"></script>
 
-<script type="text/javascript">
+    <script type="text/javascript">
         
         $(document).ready(function () {
-            
-            var height = $(window).height();
-            $('#allWindow').height(height);
+
+            $( "#fechaInicio" ).datepicker({
+                dateFormat: "yy-mm-dd",
+                firstDay: 1,
+                dayNamesMin: [ "Dom", "Lun", "Mar", "Mier", "Jue", "Vie", "Sab" ],
+                monthNames: [ "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre" ],
+                numberOfMonths: 1,
+            });
+
+            $( "#fechaTermino" ).datepicker({
+                dateFormat: "yy-mm-dd",
+                firstDay: 1,
+                dayNamesMin: [ "Dom", "Lun", "Mar", "Mier", "Jue", "Vie", "Sab" ],
+                monthNames: [ "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre" ],
+                numberOfMonths: 1,
+            });
 
             // Setup - add a text input to each footer cell
-            $('#ordenCompraTable tfoot th').each( function () {
+            $('#contratoTable tfoot th').each( function () {
                 var title = $(this).text();
                 $(this).html( '<input type="text" placeholder="Buscar">' );
             } );
@@ -802,75 +846,6 @@
                     }
                 } );
             } );
-
-            //Comienzo de Recepción de la Solicitud
-            table.on('click', '.recepcionar', function () {
-
-                $tr = $(this).closest('tr');
-
-                if ($($tr).hasClass('child')) {
-
-                    $tr = $tr.prev('.parent');
-
-                }
-
-                var data = table.row($tr).data();
-
-                console.log(data);
-
-                $('#ordenCompra_id').val(data[1]);
-
-                $('#recepcionarForm').attr('action', '/siscom/ordenCompra/recepcionar/' + data[0]);
-                $('#recepcionarModal').modal('show');
-
-            });
-            //Fin Recepción de la Solicitud
-
-            //Comienzo de Recepción de los Productos de la OC
-            table.on('click', '.confirmarRecepcion', function () {
-
-                $tr = $(this).closest('tr');
-
-                if ($($tr).hasClass('child')) {
-
-                    $tr = $tr.prev('.parent');
-
-                }
-
-                var data = table.row($tr).data();
-
-                console.log(data);
-
-                $('#ordenCompra_id_recepcionar').val(data[1]);
-
-                $('#recepcionarProductosForm').attr('action', '/siscom/ordenCompra/confirmarRecepcion/' + data[0]);
-                $('#confirmarRecepcionModal').modal('show');
-
-            });
-            //Fin Recepción de los Productos de la OC
-
-            //Start Edit Record
-            table.on('click', '.asignar', function () {
-
-                $tr = $(this).closest('tr');
-
-                if ($($tr).hasClass('child')) {
-
-                    $tr = $tr.prev('.parent');
-
-                }
-
-                var data = table.row($tr).data();
-
-                console.log(data);
-
-                $('#ordenCompra_id_assign').val(data[1]);
-
-                $('#asignarSolicitudForm').attr('action', '/siscom/ordenCompra/asignar/' + data[0]);
-                $('#asignarSolicitudModal').modal('show');
-
-            });
-            //End Edit Record
 
             //Start Edit Record
             table.on('click', '.edit', function () {

@@ -195,9 +195,9 @@
 
                                     <td>{{ $licitacion->proposito }}</td>  
 
-                                    <td>
+                                    @if($licitacion->Estado === 'Anulada' || $licitacion->Estado === 'Adjudicada' || $licitacion->Estado === 'Desierta' || $licitacion->Estado === 'Inadmisible' || $licitacion->Estado === 'Revocada')
 
-                                        @if($licitacion->Estado === 'Anulada' || $licitacion->Estado === 'Adjudicada' || $licitacion->Estado === 'Desierta' || $licitacion->Estado === 'Inadmisible' || $licitacion->Estado === 'Revocada')
+                                        <td>
 
                                             <a href="{{ route('licitacion.show', $licitacion->id) }}" data-toggle="tooltip" data-placement="bottom" title="Ver el Detalle de la Licitación">
 
@@ -208,15 +208,20 @@
                                                 </button>
 
                                             </a>
-                                        @else
+
+                                        </td>
+
+                                    @else
+
+                                        <td>
 
                                             <div class="btn-group" role="group" aria-label="Basic example">
 
-                                                {{-- Agregar Productos a la Órden de Compra --}}
+                                                {{-- Agregar Productos a la Licitación --}}
 
-                                                {{--@can('licitacion.asignar')--}}
+                                                @can('licitacion.asignar')
 
-                                                    @if($licitacion->Estado === 'Creada' ||  Auth::user()->name === 'Carolina Medina Ortega')
+                                                    @if($licitacion->Estado === 'Creada' || Auth::user()->id === 16 || Auth::user()->id === 1)
 
                                                         <a href="{{ route('licitacion.agregarProductos', $licitacion->id) }}" class="btn btn-danger btn-sm">
                                                                     
@@ -228,15 +233,11 @@
 
                                                     @endif
 
-                                                {{-- @endcan --}}
+                                                @endcan
 
-                                                <a href="{{ route('licitacion.show', $licitacion->id) }}" data-toggle="tooltip" data-placement="bottom" title="Ver el Detalle de la Licitación">
-
-                                                    <button class="btn btn-secondary btn-sm mr-1">
+                                                <a href="{{ route('licitacion.show', $licitacion->id) }}" data-toggle="tooltip" data-placement="bottom" title="Ver el Detalle de la Licitación" class="btn btn-secondary btn-sm">
                                                                 
-                                                        <i class="fas fa-eye"></i>
-
-                                                    </button>
+                                                    <i class="fas fa-eye"></i>
 
                                                 </a>
 
@@ -244,13 +245,9 @@
 
                                                     @if($licitacion->Estado == 'Confirmada')
 
-                                                        <a href="#" class="recepcionar" data-toggle="tooltip" data-placement="bottom" title="Recepcionar Licitación">
-
-                                                            <button class="btn btn-success btn-sm mr-1" type="button">
+                                                        <a href="#" data-toggle="tooltip" data-placement="bottom" title="Recepcionar Licitación" class="btn btn-success btn-sm recepcionar">
                                                             
-                                                                <i class="fas fa-clipboard-check"></i>
-
-                                                            </button>
+                                                            <i class="fas fa-clipboard-check"></i>
 
                                                         </a>
 
@@ -262,13 +259,9 @@
 
                                                     @if($licitacion->Estado == 'Cerrada')
 
-                                                        <a href="#" class="recepcionarADJ" data-toggle="tooltip" data-placement="bottom" title="Recepcionar Adjudicacion de Licitación">
-
-                                                            <button class="btn btn-success btn-sm mr-1" type="button">
+                                                        <a href="#" class="recepcionarADJ btn btn-success btn-sm" data-toggle="tooltip" data-placement="bottom" title="Recepcionar Adjudicacion de Licitación">
                                                             
-                                                                <i class="fas fa-clipboard-check"></i>
-
-                                                            </button>
+                                                            <i class="fas fa-clipboard-check"></i>
 
                                                         </a>
 
@@ -284,13 +277,9 @@
 
                                                     @else
 
-                                                        <a href="{{ route('licitacion.validar', $licitacion->id) }}" data-toggle="tooltip" data-placement="bottom" title="Válidar Licitación">
-                                            
-                                                            <button class="btn btn-warning btn-sm mr-1 " type="button">
+                                                        <a href="{{ route('licitacion.validar', $licitacion->id) }}" data-toggle="tooltip" data-placement="bottom" title="Válidar Licitación" class="btn btn-warning btn-sm">
                                                             
-                                                                <i class="fas fa-thumbs-up"></i>
-
-                                                            </button>
+                                                            <i class="fas fa-thumbs-up"></i>
 
                                                         </a>
 
@@ -304,13 +293,9 @@
 
                                                     @if($licitacion->Estado == 'Lista para Publicar')
 
-                                                        <a href="#" class="publicar" data-toggle="tooltip" data-placement="bottom" title="Publicar Licitación">
-                                                
-                                                            <button class="btn btn-light btn-sm mr-1 " type="button">
+                                                        <a href="#" class="publicar btn btn-light btn-sm" data-toggle="tooltip" data-placement="bottom" title="Publicar Licitación">
                                                                 
-                                                                <i class="fas fa-cloud-upload-alt"></i>
-
-                                                            </button>
+                                                            <i class="fas fa-cloud-upload-alt"></i>
 
                                                         </a>
 
@@ -328,13 +313,9 @@
 
                                                     @else
 
-                                                        <a href="#" class="resolver" data-toggle="tooltip" data-placement="bottom" title="Válidar Licitación">
-                                                
-                                                            <button class="btn btn-danger btn-sm mr-1 " type="button">
+                                                        <a href="#" class="resolver btn btn-danger btn-sm" data-toggle="tooltip" data-placement="bottom" title="Válidar Licitación">
                                                                 
-                                                                <i class="fas fa-gavel"></i>
-
-                                                            </button>
+                                                            <i class="fas fa-gavel"></i>
 
                                                         </a>
 
@@ -346,33 +327,25 @@
 
                                                 @else
 
-                                                    <a href="#" class="edit" data-toggle="tooltip" data-placement="bottom" title="Modificar la Órden de Compra">
-
-                                                        <button class="btn btn-primary btn-sm mr-1  " type="button">
+                                                    <a href="#" class="edit btn btn-primary btn-sm" data-toggle="tooltip" data-placement="bottom" title="Modificar la Órden de Compra">
                                                                     
-                                                            <i class="fas fa-edit"></i>
-
-                                                        </button>
+                                                        <i class="fas fa-edit"></i>
 
                                                     </a>
 
-                                                    <a href="#" class="delete" data-toggle="tooltip" data-placement="bottom" title="Anular Órden de Compra">
-
-                                                        <button class="btn btn-danger btn-sm " type="button">
+                                                    <a href="#" class="delete btn btn-danger btn-sm" data-toggle="tooltip" data-placement="bottom" title="Anular Órden de Compra">
                                                                     
-                                                            <i class="fas fa-trash"></i>
-
-                                                        </button>
+                                                        <i class="fas fa-trash"></i>
 
                                                     </a>
 
                                                 @endif
 
-                                            @endif
+                                            </div>
 
-                                        </div>
+                                        </td>
 
-                                    </td>
+                                    @endif
 
                                 </tr>
 

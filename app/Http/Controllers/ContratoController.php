@@ -4,11 +4,16 @@ namespace App\Http\Controllers;
 
 use App\Contrato;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 /* Invocamos la clase Carbon para trabajar con fechas */
 use Carbon\Carbon;
 
 use App\OrdenCompra;
+
+use App\MoveContrato;
+
+use DB;
 
 class ContratoController extends Controller
 {
@@ -22,7 +27,12 @@ class ContratoController extends Controller
 
         $dateCarbon = Carbon::now()->locale('es')->isoFormat('dddd D, MMMM YYYY');
 
-        return view('siscom.contratos.index', compact('dateCarbon'));
+        $ocs = DB::table('orden_compras')
+            ->join('status_o_c_s', 'orden_compras.estado_id', 'status_o_c_s.id')
+            ->select(DB::raw('CONCAT(orden_compras.id, " ) ", orden_compras.ordenCompra_id, " / ", status_o_c_s.estado) as OC'), 'orden_compras.id')
+            ->get();
+
+        return view('siscom.contratos.index', compact('dateCarbon', 'ocs'));
     }
 
     /**
@@ -60,11 +70,13 @@ class ContratoController extends Controller
                 
                 $contrato->save(); //Guardamos el Contrato
 
+//dd($contrato);
+
                 //Guardamos los datos de Movimientos de la OC
-                $move = new MoveOC;
-                $move->ordenCompra_id               = $oc->id;
-                $move->estadoOrdenCompra_id         = 1;
-                $move->fecha                        = $oc->created_at;
+                $move = new MoveContrato;
+                $move->contrato_id                  = $contrato->id;
+                $move->estadoContrato_id            = 1;
+                $move->fecha                        = $contrato->created_at;
                 $move->user_id                      = Auth::user()->id;
 
                 $move->save(); //Guardamos el Movimiento de la Solicitud    
@@ -77,7 +89,7 @@ class ContratoController extends Controller
                 
             }
             
-            return redirect('/siscom/ordenCompra')->with('info', 'Órden de Compra Creada con Éxito !');
+            return redirect('/siscom/contratos')->with('info', 'Contrato Creado con Éxito !');
 
     }
 
