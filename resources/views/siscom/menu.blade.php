@@ -192,21 +192,51 @@
   	
   	</li>
 
-  	@can('contratos.index')
-  	
-  	<li class="nav-item">
-    
-    	<a class="nav-link text-white" href="{{ route('contratos.index') }}">
+  	<li class="nav-item dropdown">
 
-    		<i class="fas fa-marker px-1"></i>
+  		@can('contratos.index')
 
-    		Contratos
+	  		<a class="nav-link text-white dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
 
-    	</a>
-  	
+			    <i class="fas fa-marker px-1"></i>
+	  			
+	  			Contratos
+
+	  		</a>
+
+	  	@endcan
+
+	  	<div class="dropdown-menu">
+
+	  		@can('contratos.index')
+
+			<a class="dropdown-item text-primary" href="{{ route('contratos.index') }}">
+
+			    <i class="fas fa-marker px-1"></i>
+
+			    Gestionar Contratos
+
+			</a>
+
+			@endcan
+
+			<div class="dropdown-divider"></div>
+
+			@can('boletasGarantia.index')
+
+			<a class="dropdown-item text-primary" href="{{ route('boletasGarantia.index') }}">
+
+    			<i class="fas fa-copy px-1"></i>
+
+			    Gestionar Boletas de Garantia
+
+			</a>
+
+			@endcan
+
+		</div>
+
   	</li>
-
-  	@endcan
 
   	@can('reportes.index')
   	

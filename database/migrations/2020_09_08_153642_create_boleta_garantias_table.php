@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateContratosTable extends Migration
+class CreateBoletaGarantiasTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,26 +13,20 @@ class CreateContratosTable extends Migration
      */
     public function up()
     {
-        Schema::create('contratos', function (Blueprint $table) {
+        Schema::create('boleta_garantias', function (Blueprint $table) {
             $table->bigIncrements('id');
+            $table->unsignedBigInteger('contrato_id');
             $table->unsignedBigInteger('user_id');
-            $table->string('nombreContrato');
             $table->unsignedBigInteger('estado_id');
-            $table->date('fechaRegistro');
-            $table->unsignedBigInteger('ordenCompra_id');
-            $table->date('fechaInicio');
-            $table->date('fechaTermino');
             $table->string('numeroBoleta');
             $table->string('banco');
             $table->bigInteger('montoBoleta');
-            $table->string('motivoAnulacion')->nullable();
-            $table->string('tipoContrato');
             $table->timestamps();
 
+            $table->foreign('contrato_id')->references('id')->on('contratos')->onDelete('cascade');
+            $table->foreign('estado_id')->references('id')->on('status_boletas')->onDelete('cascade');
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
-            $table->foreign('ordenCompra_id')->references('id')->on('orden_compras')->onDelete('cascade');
-            
-            
+
         });
     }
 
@@ -43,6 +37,6 @@ class CreateContratosTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('contratos');
+        Schema::dropIfExists('boleta_garantias');
     }
 }

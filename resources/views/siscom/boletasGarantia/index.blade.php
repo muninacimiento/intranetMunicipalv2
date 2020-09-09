@@ -31,7 +31,7 @@
 
                         <div class="col-md-6 text-center">
                             
-                            <h3>Gestión de Contratos</h3>
+                            <h3>Gestión de Boletas de Garantia</h3>
 
                             <div class="text-secondary">
 
@@ -41,16 +41,16 @@
 
                         </div>
 
-                        <!-- Button trigger CrearSolicitudModal -->
+                        <!-- Button trigger Recepcionar Nueva Boleta -->
                         <div class="col-md-6">
                             
-                            <a href="#" class="text-decoration-none" data-toggle="modal" data-target="#createModalContrato">
+                            <a href="#" class="text-decoration-none" data-toggle="modal" data-target="#recepcionarBoleta">
 
                                 <button class="btn btn-success btn-block boton">
 
                                     <i class="fas fa-plus"></i>
 
-                                    Nuevo Contrato
+                                    Recepcionar Nueva Boleta
 
                                 </button>
 
@@ -107,25 +107,17 @@
 
                                 <tr class="table-active">
 
-                                    <th style="display: none;">ID Contrato</th>
+                                    <th style="display: none;">ID Boleta</th>
 
-                                    <th>Nombre Contrato</th>
+                                    <th>Número Boleta</th>
 
                                     <th>Estado</th>
 
-                                    <th>Orden de Compra</th>
+                                    <th>Nombre Contrato</th>
 
-                                    <th>Inicio Contrato</th>
-
-                                    <th>Término Contrato</th>
-
-                                    <th>Boleta Garantía</th>
-                                    
                                     <th>Banco</th>
 
-                                    <th>Monto $</th>
-
-                                    <th>Tipo Contrato</th>
+                                    <th>Monto Boleta $</th>
 
                                     <th>Acciones</th>
 
@@ -135,133 +127,71 @@
 
                             <tbody>
 
-                                @foreach($contratos as $contrato)
+                                @foreach($boletas as $boleta)
 
                                 <tr>
 
-                                    <td style="display: none;">{{ $contrato->id }}</td>
+                                    <td style="display: none;">{{ $boleta->id }}</td>
 
-                                    <td>{{ $contrato->nombreContrato }}</td>
+                                    <td>{{ $boleta->numeroBoleta }}</td>
 
-                                    @if($contrato->estado_id === 2)
+                                    <td>{{ $boleta->Estado }}</td>
 
-                                        <td style="color: red;">{{ $contrato->Estado }}</td>
+                                    <td>{{ $boleta->NombreContrato }}</td>
 
-                                    @else
+                                    <td>{{ $boleta->banco }}</td>
 
-                                        <td>{{ $contrato->Estado }}</td>
-
-                                    @endif
-
-                                    <td>{{ $contrato->NoOC }}</td>
-
-                                    <td>{{ date('d-m-Y', strtotime($contrato->fechaInicio)) }}</td>
-
-                                    <td>{{ date('d-m-Y', strtotime($contrato->fechaTermino)) }}</td>
-
-                                    <td>{{ $contrato->numeroBoleta }}</td>
-
-                                    <td>{{ $contrato->banco }}</td>
-
-                                    <td>{{ $contrato->montoBoleta}}</td>
-
-                                    <td>{{ $contrato->tipoContrato }}</td>
-
-                                    @if($contrato->estado_id === 2)
+                                    <td>{{ $boleta->montoBoleta}}</td>
 
                                     <td>
-                                        
-                                        @can('contrato.show')
 
-                                            <a href="{{ route('contrato.show', $contrato->id) }}" class="btn btn-secondary btn-sm" data-toggle="tooltip" data-placement="bottom" title="Ver el Detalle del Contrato">
+                                        <div class="btn-group" role="group" aria-label="Basic example">
+
+                                            @can('boletaGarantia.show')
+
+                                                <a href="{{ route('boletaGarantia.show', $boleta->id) }}" class="btn btn-secondary btn-sm" data-toggle="tooltip" data-placement="bottom" title="Ver el Detalle de la Boleta de Garantía">
                                                                 
-                                                <i class="fas fa-eye"></i>
+                                                    <i class="fas fa-eye"></i>
 
-                                            </a>
+                                                </a>
 
-                                        @endcan
+                                            @endcan
 
-                                    </td>
+                                            @if($boleta->estado_id >= 1 && $boleta->estado_id < 5)
 
-                                    @else
+                                                @can('boletaGarantia.validar')
 
-                                        <td>
-
-                                            <div class="btn-group" role="group" aria-label="Basic example">
-
-                                                @can('contrato.show')
-
-                                                    <a href="{{ route('contrato.show', $contrato->id) }}" class="btn btn-secondary btn-sm" data-toggle="tooltip" data-placement="bottom" title="Ver el Detalle del Contrato">
-                                                                
-                                                        <i class="fas fa-eye"></i>
+                                                    <a href="{{ route('boletaGarantia.validar', $boleta->id) }}" class="btn btn-warning btn-sm validar" data-toggle="tooltip" data-placement="bottom" title="Validar Boleta de Garantía">
+                                                                                
+                                                        <i class="fas fa-thumbs-up"></i>
 
                                                     </a>
 
                                                 @endcan
 
-                                                @if($contrato->estado_id === 1)
+                                            @else
 
-                                                    @can('contrato.recepcionar')
+                                            @endif
 
-                                                        <a href="#" class="btn btn-success btn-sm recepcionar" data-toggle="tooltip" data-placement="bottom" title="Recepcionar Contrato">
-                                                                            
-                                                            <i class="fas fa-clipboard-check"></i>
+                                            @if($boleta->estado_id === 5)
 
-                                                        </a>
+                                            @else
 
-                                                    @endcan
+                                                @can('boletaGarantia.update')
 
-                                                @else
+                                                    <a href="#" class="btn btn-primary btn-sm edit" data-toggle="tooltip" data-placement="bottom" title="Modificar la Boleta de Garantía">
+                                                                                
+                                                        <i class="fas fa-edit"></i>
 
-                                                @endif
+                                                    </a>
 
-                                                @if(($contrato->estado_id >= 3 && $contrato->estado_id < 21) || $contrato->estado_id === 22)
+                                                @endcan
 
-                                                    @can('contrato.validar')
+                                            @endif
 
-                                                        <a href="{{ route('contrato.validar', $contrato->id) }}" class="btn btn-warning btn-sm validar" data-toggle="tooltip" data-placement="bottom" title="Validar  Contrato">
-                                                                            
-                                                            <i class="fas fa-thumbs-up"></i>
+                                        </div>
 
-                                                        </a>
-
-                                                    @endcan
-
-                                                @else
-
-                                                @endif
-
-                                                @if($contrato->estado_id === 21)
-
-                                                @else
-
-                                                    @can('contrato.update')
-
-                                                        <a href="#" class="btn btn-primary btn-sm edit" data-toggle="tooltip" data-placement="bottom" title="Modificar el Contrato">
-                                                                            
-                                                            <i class="fas fa-edit"></i>
-
-                                                        </a>
-
-                                                    @endcan
-
-                                                    @can('contrato.anular')
-
-                                                        <a href="#" class="btn btn-danger btn-sm delete" data-toggle="tooltip" data-placement="bottom" title="Anular Contrato">
-                                                                            
-                                                            <i class="fas fa-trash"></i>
-
-                                                        </a>
-
-                                                    @endcan
-
-                                                @endif
-
-                                            </div>
-
-                                        </td>
-
-                                    @endif
+                                    </td>
 
                                 </tr>
 
@@ -274,14 +204,6 @@
                                 <tr class="table-active">
 
                                     <th style="display: none;"></th>
-
-                                    <th></th>
-
-                                    <th></th>
-
-                                    <th></th>
-
-                                    <th></th>
 
                                     <th></th>
 
@@ -314,8 +236,8 @@
 </div>
 
 
-<!-- CREATE Modal Órden de Compra -->
-<div class="modal fade" id="createModalContrato" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<!-- CREATE Modal Recepcionar Boleta -->
+<div class="modal fade" id="recepcionarBoleta" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
 
     <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
 
@@ -323,7 +245,7 @@
 
             <div class="modal-header bg-success text-white">
 
-                <p class="modal-title" id="exampleModalLabel" style="font-size: 1.2em"><i class="fas fa-plus-circle"></i> Nuevo Contrato</p>
+                <p class="modal-title" id="exampleModalLabel" style="font-size: 1.2em"><i class="fas fa-plus-circle"></i> Recepcionar Nueva Boleta</p>
 
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
 
@@ -334,96 +256,46 @@
             </div>
 
 
-            <form method="POST" action="{{ action('ContratoController@store') }}" class="was-validated" id="contratoForm">
+            <form method="POST" action="{{ action('BoletaGarantiaController@store') }}" class="was-validated" id="boletaGarantiaForm">
 
                 @csrf
 
                 <div class="modal-body">
 
-                    <div class="form-row">
+                    <div class="form">    
 
-                        <div class="col-md-12 mb-3">
+                        <div class="form-group">
                                                                               
-                            <label for="id">Nombre Contrato</label>
+                            <label for="contrato_id">Contrato</label>
 
-                            <input type="text" class="form-control" id="contratoCreate" name="nombreContrato" placeholder="Ingrese el Nonbre del Contrato" required>
+                            <select name="contrato_id" id="contrato_id" class="form-control selectpicker" data-live-search="true" title="Seleccione el Contrato" required>
 
-                            <div class="invalid-feedback">
-                                                                                                        
-                                Por favor ingrese el Nombre del Contrato
+                                @foreach($contratos as $contrato)
 
-                            </div>
-
-                        </div>
-
-                    </div>
-
-                    <div class="form-row">
-
-                        <div class="col-md-4 mb-3">
-                                                                              
-                            <label for="ordenCompra_id">No. Órden de Compra</label>
-
-                            <select name="ordenCompra_id" id="ordenCompra_id" class="form-control selectpicker" data-live-search="true" title="Seleccione el No. de su Órden de Compra" required>
-
-                                @foreach($ocs as $oc)
-
-                                    <option value="{{ $oc->id }}">{{ $oc->OC }}</option>
+                                    <option value="{{ $contrato->id }}">{{ $contrato->Contratos }}</option>
                                                                 
                                 @endforeach
 
                             </select>
 
-                        </div>
+                        </div>                                                                        
 
-                        <div class="col-md-4 mb-3">
+                        <div class="form-group">
                                                                               
-                            <label for="nombreActividad">Fecha Inicio Contrato</label>
+                            <label for="numeroBoleta">Número Boleta</label>
 
-                            <input type="text" id="fechaInicio" name="fechaInicio" class="form-control" placeholder="Fecha de Inicio del Contrato" required/>
+                            <input type="text" id="numeroBoleta" name="numeroBoleta" class="form-control" placeholder="Número de Boleta" required/>
 
                             <div class="invalid-feedback">
                                                                                                         
-                                Por favor ingrese la Fecha de Inicio del Contrato
+                                Por favor ingrese el Número de la Boleta
 
                             </div>
 
                         </div>
 
-                        <div class="col-md-4 mb-3">
+                        <div class="form-group">
                                                                               
-                            <label for="nombreActividad">Fecha Término Contrato</label>
-
-                            <input type="text" id="fechaTermino" name="fechaTermino" class="form-control" placeholder="Fecha de Término del Contrato" required/>
-
-                            <div class="invalid-feedback">
-                                                                                                        
-                                Por favor ingrese la Fecha de Término del Contrato
-
-                            </div>
-
-                        </div>
-
-                    </div>
-
-                    <div class="form-row">
-                        
-                        <div class="col-md-4 mb-3">
-
-                            <label for="numeroBoleta">Número de Boleta de Garantía</label>
-                                                                              
-                            <input type="text" class="form-control" id="numeroBoletaCreate" name="numeroBoleta" placeholder="Ingrese el Número de la Boleta" required>
-
-                            <div class="invalid-feedback">
-                                                                                                        
-                                Por favor ingrese el Número de la Boleta de Garantía
-
-                            </div>
-
-                        </div>
-
-                        <div class="col-md-4 mb-3">
-
                             <label for="banco">Seleccione el Banco...</label>
 
                             <select name="banco" id="bancoCreate" class="form-control selectpicker" title="Banco" required>
@@ -464,8 +336,8 @@
 
                         </div>
 
-                        <div class="col-md-4 mb-3">
-                                                                              
+                        <div class="form-group">
+                            
                             <label for="montoBoleta">Monto de Boleta de Garantía</label>
                                                                               
                             <input type="text" class="form-control" id="montoBoletaCreate" name="montoBoleta" placeholder="Ingrese el Monto de la Boleta" required>
@@ -475,49 +347,31 @@
                                 Por favor ingrese el Monto de la Boleta de Garantía
 
                             </div>
-                        
 
                         </div>
 
-                    </div>
+                        <div class="form-group">
 
-                    <div class="form-row">
-                        
-                        <div class="col-md-4 mb-3">
+                            <button class="btn btn-success btn-block boton" type="submit" form="boletaGarantiaForm">
 
-                            <label for="tipoContrato">Tipo Contrato</label>
+                                <i class="fas fa-save"></i>
 
-                            <select name="tipoContrato" id="tipoContratoCreate" class="form-control selectpicker" title="Tipo Contrato" required>
+                                Guardar Contrato
 
-                                <option>Menor a 500 UTM</option>
-                                <option>Mayor o Igual a 500 UTM</option>
+                            </button>
 
-                            </select>
+                            <button type="button" class="btn btn-block btn-secondary" data-dismiss="modal" aria-label="Close">
+
+                                <i class="fas fa-arrow-left"></i>
+
+                                Cancelar
+
+                            </button>
 
                         </div>
 
                     </div>
                     
-                    <div class="form-row">
-
-                        <button class="btn btn-success btn-block boton" type="submit" form="contratoForm">
-
-                            <i class="fas fa-save"></i>
-
-                            Guardar Contrato
-
-                        </button>
-
-                        <button type="button" class="btn btn-block btn-secondary" data-dismiss="modal" aria-label="Close">
-
-                            <i class="fas fa-arrow-left"></i>
-
-                            Cancelar
-
-                        </button>
-
-                    </div>
-
                 </div>
 
             </form>
@@ -578,21 +432,7 @@
 
                     <div class="form-row">
 
-                        <div class="col-md-4 mb-3">
-                                                                              
-                            <label for="ordenCompra_id">No. Órden de Compra</label>
 
-                            <select name="ordenCompra_id" id="ordenCompra_idUpdate" class="form-control selectpicker" data-live-search="true" title="Seleccione el No. de su Órden de Compra" required>
-
-                                @foreach($ocs as $oc)
-
-                                    <option value="{{ $oc->id }}">{{ $oc->OC }}</option>
-                                                                
-                                @endforeach
-
-                            </select>
-
-                        </div>
 
                         <div class="col-md-4 mb-3">
                                                                               

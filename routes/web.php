@@ -164,13 +164,19 @@ Route::middleware(['auth'])->group( function() {
 
 	//Contratos
 	Route::resource('/siscom/contratos', 'ContratoController')->middleware('can:contrato.index');
-	Route::post('/siscom/contratos/{contrato}', 'ContratoController@show')->name('contrato.show')->middleware('can:contrato.show');
+	Route::get('/siscom/contratos/{contrato}', 'ContratoController@show')->name('contrato.show')->middleware('can:contrato.show');
 	Route::post('/siscom/contratos/{contrato}', 'ContratoController@update')->name('contrato.update')->middleware('can:contrato.update');
 	Route::put('/siscom/contratos/anular/{contrato}', 'ContratoController@update')->name('contrato.anular')->middleware('can:contrato.anular');
+	Route::get('/siscom/contratos/validar/{contrato}', 'ContratoController@validar')->name('contrato.validar')->middleware('can:contrato.validar');
+	Route::put('/siscom/contratos/recepcionar/{contrato}', 'ContratoController@update')->name('contrato.recepcionar')->middleware('can:contrato.recepcionar');
 
-
-
+	//Boletas de Garantia
+	Route::resource('/siscom/boletasGarantia', 'BoletaGarantiaController')->middleware('can:boletaGarantia.index');
+	Route::get('/siscom/boletasGarantia/{boleta}', 'BoletaGarantiaController@show')->name('boletaGarantia.show')->middleware('can:boletaGarantia.show');
+	Route::post('/siscom/boletasGarantia/{boletaGarantia}', 'BoletaGarantiaController@update')->name('boletaGarantia.update')->middleware('can:boletaGarantia.update');
+	Route::get('/siscom/boletasGarantia/validar/{boletaGarantia}', 'BoletaGarantiaController@validar')->name('boletaGarantia.validar')->middleware('can:boletaGarantia.validar');
 	
+
 
 	/*#############################################################################################################################################################
 	 *	FARMACIA	###############################################################################################################################################
