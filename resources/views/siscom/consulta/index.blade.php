@@ -132,11 +132,29 @@
 
                                         <div class="btn-group" role="group" aria-label="Basic example">
 
-                                            <a href="{{ route('admin.show', $solicitud->id) }}" class="btn btn-outline-secondary btn-sm" data-toggle="tooltip" data-placement="bottom" title="Ver el Detalle de la Solicitud">
+                                            {{-- Visualizar Solicitud--}}
 
-                                                <i class="fas fa-eye"></i>
+                                            @can('admin.show')
 
-                                            </a>
+                                                @if($solicitud->categoriaSolicitud === 'Stock de Oficina' || $solicitud->categoriaSolicitud === 'Stock de Aseo' || $solicitud->categoriaSolicitud === 'Stock de Gas')
+
+                                                    <a href="{{ route('admin.showStock', $solicitud->id) }}" class="btn btn-secondary btn-sm" data-toggle="tooltip" data-placement="bottom" title="Ver el Detalle de la Solicitud">
+
+                                                        <i class="fas fa-eye"></i>
+
+                                                    </a>
+
+                                                @else
+
+                                                    <a href="{{ route('admin.showConsulta', $solicitud->id) }}" class="btn btn-secondary btn-sm" data-toggle="tooltip" data-placement="bottom" title="Ver el Detalle de la Solicitud">
+
+                                                        <i class="fas fa-eye"></i>
+
+                                                    </a>
+
+                                                @endif
+
+                                            @endcan
 
                                             @if($solicitud->estado_id === 11 && $solicitud->categoriaSolicitud === 'Stock de Oficina')
 
