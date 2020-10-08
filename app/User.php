@@ -82,4 +82,11 @@ class User extends Authenticatable
         return $this->hasMany('App\Activity');
 
     }
+
+    //Establecemos la relación N:N con Posts
+    public function posts(){
+
+        return $this->hasMany(Post::class);
+
+    }
 }

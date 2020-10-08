@@ -37,7 +37,9 @@ class CreateDetailSolicitudsTable extends Migration
             $table->integer('cantidadEntregada')->default('0');
             $table->unsignedBigInteger('userDeliver_id')->nullable(); // Usuario que Entrega Productos
             $table->string('obsEntrega')->nullable();
+            $table->unsignedInteger('cantidadRecepcionada');
 
+            //Relations
             $table->foreign('solicitud_id')->references('id')->on('solicituds')->onDelete('set null');
             $table->foreign('product_id')->references('id')->on('products')->onDelete('set null');
 

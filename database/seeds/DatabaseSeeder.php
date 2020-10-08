@@ -26,5 +26,13 @@ class DatabaseSeeder extends Seeder
         $this->call(StatusFacturaTableSeeder::class);
 
         $this->call(StatusLicitacionTableSeeder::class);
+
+        $this->call(CategoriesTableSeeder::class);
+
+        $this->call(TagsTableSeeder::class);
+
+        $this->call(PostsTableSeeder::class);
+
+
     }
 }

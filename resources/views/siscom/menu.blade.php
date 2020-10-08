@@ -26,7 +26,7 @@
 
 	    <a class="nav-link text-white dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
 	    	
-	    	<i class="fas fa-cart-plus px-1"></i>
+	    	<i class="icofont-cart-alt px-1"></i>
 
 	    	Solicitudes	
 
@@ -40,7 +40,7 @@
 
 		    <a class="dropdown-item text-primary" href="{{ route('solicitud.index') }}">
 
-		    	<i class="fas fa-pencil-alt px-1"></i>
+		    	<i class="icofont-ui-edit px-1"></i>
 
 		    	Gestionar Solicitud
 
@@ -194,7 +194,7 @@
 
   	<li class="nav-item dropdown">
 
-  		@can('contratos.index')
+  		@can('contrato.index')
 
 	  		<a class="nav-link text-white dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
 
@@ -208,7 +208,7 @@
 
 	  	<div class="dropdown-menu">
 
-	  		@can('contratos.index')
+	  		@can('contrato.index')
 
 			<a class="dropdown-item text-primary" href="{{ route('contratos.index') }}">
 

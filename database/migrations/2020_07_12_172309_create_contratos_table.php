@@ -18,7 +18,6 @@ class CreateContratosTable extends Migration
             $table->unsignedBigInteger('user_id');
             $table->string('nombreContrato');
             $table->unsignedBigInteger('estado_id');
-            $table->date('fechaRegistro');
             $table->unsignedBigInteger('ordenCompra_id');
             $table->date('fechaInicio');
             $table->date('fechaTermino');

@@ -19,6 +19,7 @@ class CreateMoveBoletasTable extends Migration
             $table->unsignedBigInteger('estadoBoleta_id');
             $table->unsignedBigInteger('user_id');
             $table->string('observacion')->nullable();
+            $table->date('fecha'); //Fecha del Movimiento
             $table->timestamps();
 
             $table->foreign('boleta_id')->references('id')->on('boleta_garantias')->onDelete('cascade');

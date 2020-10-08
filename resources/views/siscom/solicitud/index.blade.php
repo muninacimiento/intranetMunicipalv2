@@ -1042,15 +1042,18 @@
 
 @push('scripts')
 
+    <!-- JQuery CSS -->
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+
     <!-- JQuery DataTable -->
     <script type="text/javascript" src="https://code.jquery.com/jquery-3.3.1.js" ></script>
     <script type="text/javascript" src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js" defer></script>
 
-<!-- JQuery DatePicker -->
-<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
-<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <!-- JQuery DatePicker -->
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 
-<script type="text/javascript">
+    <script type="text/javascript">
         
         $(document).ready(function () {
 
@@ -1245,136 +1248,134 @@
             //End Delete Record
 
             //LLenar Select CategoriaSolicitud dependiendo de la seleccion en TipoSolicitud
-        var options = {
-        
-            Operacional : ["Stock de Oficina", "Stock de Aseo", "Stock de Gas", "Compra"],
-            Actividad : ["Compra"]
-        }
-
-        $(function(){
-
-            var fillCategoria = function(){
-
-                var selected = $('#tipoSolicitud_create').val();
-
-                $('#categoriaSolicitud_create').empty();
-
-                options[selected].forEach(function(element,index){
-
-                    $('#categoriaSolicitud_create').append('<option value="'+element+'">'+element+'</option>');
-
-                });
-
-                if (selected === "") {
-
-                    disableActividad();
-
-                } else if (selected === "Operacional") {
-
-                    disableActividad();
-
-                } else if (selected === "Actividad") {
-
-                    enableActividad();
-
-                } 
-        
+            var options = {
+            
+                Operacional : ["Stock de Oficina", "Stock de Aseo", "Stock de Gas", "Compra"],
+                Actividad : ["Compra"]
             }
 
-            $('#tipoSolicitud_create').change(fillCategoria);
+            $(function(){
 
-            fillCategoria();
+                var fillCategoria = function(){
 
+                    var selected = $('#tipoSolicitud_create').val();
+
+                    $('#categoriaSolicitud_create').empty();
+
+                    options[selected].forEach(function(element,index){
+
+                        $('#categoriaSolicitud_create').append('<option value="'+element+'">'+element+'</option>');
+
+                    });
+
+                    if (selected === "") {
+
+                        disableActividad();
+
+                    } else if (selected === "Operacional") {
+
+                        disableActividad();
+
+                    } else if (selected === "Actividad") {
+
+                        enableActividad();
+
+                    } 
             
-        });
+                }
 
-        document.getElementById("areaGestion").onchange = function() {habilitarEncabezado()};
+                $('#tipoSolicitud_create').change(fillCategoria);
 
-        function habilitarEncabezado(){
+                fillCategoria();
 
-            var option = $('#areaGestion').val();
+                
+            });
 
-            if (option === '') {
+            document.getElementById("areaGestion").onchange = function() {habilitarEncabezado()};
 
-                disableEncabezado();
+            function habilitarEncabezado(){
 
-            } else if (option === 'Interna') {
+                var option = $('#areaGestion').val();
 
-                enableInterna();
+                if (option === '') {
 
-            } else if (option === 'Programa') {
+                    disableEncabezado();
 
-                enablePrograma();
+                } else if (option === 'Interna') {
+
+                    enableInterna();
+
+                } else if (option === 'Programa') {
+
+                    enablePrograma();
+
+                }
+
 
             }
 
+            function disableEncabezado(){
 
-        }
-
-        function disableEncabezado(){
-
-            $('#motivo_create').prop("disabled", true);
-            $('#tipoSolicitud_create').prop("disabled", true);
-            $('#categoriaSolicitud_create').prop("disabled", true);
-            $('#decretoPrograma_create').prop("disabled", true);
-            $('#nombrePrograma_create').prop("disabled", true);
-        }
+                $('#motivo_create').prop("disabled", true);
+                $('#tipoSolicitud_create').prop("disabled", true);
+                $('#categoriaSolicitud_create').prop("disabled", true);
+                $('#decretoPrograma_create').prop("disabled", true);
+                $('#nombrePrograma_create').prop("disabled", true);
+            }
 
 
-        function enableInterna(){
+            function enableInterna(){
 
-            $('#motivo_create').prop("disabled", false);
-            $('#tipoSolicitud_create').prop("disabled", false);
-            $('#categoriaSolicitud_create').prop("disabled", false);
-            $('#decretoPrograma_create').prop("disabled", true);
-            $('#nombrePrograma_create').prop("disabled", true);
-        }
+                $('#motivo_create').prop("disabled", false);
+                $('#tipoSolicitud_create').prop("disabled", false);
+                $('#categoriaSolicitud_create').prop("disabled", false);
+                $('#decretoPrograma_create').prop("disabled", true);
+                $('#nombrePrograma_create').prop("disabled", true);
+            }
 
-        function enablePrograma(){
+            function enablePrograma(){
 
-            $('#motivo_create').prop("disabled", false);
-            $('#tipoSolicitud_create').prop("disabled", false);
-            $('#categoriaSolicitud_create').prop("disabled", false);
-             $('#decretoPrograma_create').prop("disabled", false);
-            $('#nombrePrograma_create').prop("disabled", false);
+                $('#motivo_create').prop("disabled", false);
+                $('#tipoSolicitud_create').prop("disabled", false);
+                $('#categoriaSolicitud_create').prop("disabled", false);
+                 $('#decretoPrograma_create').prop("disabled", false);
+                $('#nombrePrograma_create').prop("disabled", false);
 
-        }
+            }
 
-        function disableActividad() {
-            
-            $('#nombreActividad').prop("disabled", true);
-            $('#fechaActividad').prop("disabled", true);
-            $('#horaActividad').prop("disabled", true);
-            $('#lugarActividad').prop("disabled", true);
-            $('#objetivoActividad').prop("disabled", true);
-            $('#descripcionActividad').prop("disabled", true);
-            $('#participantesActividad').prop("disabled", true);
-            $('#cuentaPresupuestaria').prop("disabled", true);
-            $('#cuentaComplementaria').prop("disabled", true);
-            $('#obsActividad').prop("disabled", true);
+            function disableActividad() {
+                
+                $('#nombreActividad').prop("disabled", true);
+                $('#fechaActividad').prop("disabled", true);
+                $('#horaActividad').prop("disabled", true);
+                $('#lugarActividad').prop("disabled", true);
+                $('#objetivoActividad').prop("disabled", true);
+                $('#descripcionActividad').prop("disabled", true);
+                $('#participantesActividad').prop("disabled", true);
+                $('#cuentaPresupuestaria').prop("disabled", true);
+                $('#cuentaComplementaria').prop("disabled", true);
+                $('#obsActividad').prop("disabled", true);
 
-        }
+            }
 
-        function enableActividad(){
+            function enableActividad(){
 
-            $('#nombreActividad').prop("disabled", false);
-            $('#fechaActividad').prop("disabled", false);
-            $('#horaActividad').prop("disabled", false);
-            $('#lugarActividad').prop("disabled", false);
-            $('#objetivoActividad').prop("disabled", false);
-            $('#descripcionActividad').prop("disabled", false);
-            $('#participantesActividad').prop("disabled", false);
-            $('#cuentaPresupuestaria').prop("disabled", false);
-            $('#cuentaComplementaria').prop("disabled", false);
-            $('#obsActividad').prop("disabled", false);
+                $('#nombreActividad').prop("disabled", false);
+                $('#fechaActividad').prop("disabled", false);
+                $('#horaActividad').prop("disabled", false);
+                $('#lugarActividad').prop("disabled", false);
+                $('#objetivoActividad').prop("disabled", false);
+                $('#descripcionActividad').prop("disabled", false);
+                $('#participantesActividad').prop("disabled", false);
+                $('#cuentaPresupuestaria').prop("disabled", false);
+                $('#cuentaComplementaria').prop("disabled", false);
+                $('#obsActividad').prop("disabled", false);
 
-        }
+            }       
 
-        
+        });    
 
-    });    
-
-</script>
+    </script>
 
 @endpush
 

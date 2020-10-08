@@ -19,6 +19,8 @@ class UsersTableSeeder extends Seeder
      */
     public function run()
     {
+
+        factory(App\User::class, 23)->create();
         
         User::create([
 

@@ -6,8 +6,16 @@
  *  updated at September 30, 2019 - 3:47 pm
  */
 
+use Carbon\Carbon;
+use App\Post;
+
 Route::get('/', function () {
-    return view('auth/login');
+	
+    $dateCarbon = Carbon::now()->locale('es')->isoFormat('dddd D, MMMM YYYY');
+
+	$posts = Post::where('status', 'PUBLISHED')->orderBy('id', 'DESC')->paginate(6);
+
+	return view('web.noticias.index', compact('posts', 'dateCarbon'));
 });
 
 Auth::routes();
@@ -196,6 +204,21 @@ Route::middleware(['auth'])->group( function() {
 	Route::get('/farmacia/consultaVentas', 'VentaFarmaciaController@consulta')->name('ventas.consulta')->middleware('can:ventas.consulta'); 
 
 
+	/*#############################################################################################################################################################
+	 *	EXTRANET	###############################################################################################################################################
+	 *#############################################################################################################################################################*/
+
+	//Parte Web (Vistas Cliente)
+	Route::get('noticias', 'Web\NewController@index')->name('noticias.index');
+	Route::get('noticias/{slug}', 'Web\NewController@show')->name('noticia.show');
+	Route::get('noticias/categoria/{slug}', 'Web\NewController@category')->name('noticias.categories');
+	Route::get('noticias/etiquetas/{slug}', 'Web\NewController@tag')->name('noticias.tags');
+
+	//Parte Admin (Vistas Admin)
+	Route::resource('webadmin', 'WebAdmin\RRPPController')->middleware('can:rrpp.index');
+	Route::resource('tags', 'WebAdmin\TagController')->middleware('can:tags.index');
+	Route::resource('categories', 'WebAdmin\CategoryController')->middleware('can:categories.index');
+	Route::resource('posts', 'WebAdmin\PostController')->middleware('can:posts.index');
 
 
 });

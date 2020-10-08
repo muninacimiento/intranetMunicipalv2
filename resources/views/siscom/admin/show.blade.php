@@ -1073,6 +1073,9 @@
 
 @push('scripts')
 
+<!-- JQuery CSS -->
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+
 <!-- JQuery DataTable -->
 <script type="text/javascript" src="https://code.jquery.com/jquery-3.3.1.js" ></script>
 <script type="text/javascript" src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js" defer></script>

@@ -62,6 +62,19 @@
 
                     <hr class="my-4">
 
+                    @if(count($errors))
+                        <div class="alert alert-danger alert-dismissible fade show shadow mb-3" role="alert">          
+                            <ul>
+                                @foreach($errors->all() as $error)
+                                <li><i class="icofont-close-circled"></i> {{ $error }}</li>
+                                @endforeach
+                            </ul>
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                    @endif
+
                     @if (session('info'))
 
                         <div class="alert alert-success alert-dismissible fade show shadow mb-3" role="alert">
@@ -1145,9 +1158,9 @@
 
 @push('scripts')
 
-    <!-- JQuery DataTable -->
-    <script type="text/javascript" src="https://code.jquery.com/jquery-3.3.1.js" ></script>
-    <script type="text/javascript" src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js" defer></script>
+<!-- JQuery DataTable -->
+<script type="text/javascript" src="https://code.jquery.com/jquery-3.3.1.js" ></script>
+<script type="text/javascript" src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js" defer></script>
 
 <!-- JQuery DatePicker -->
 <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
@@ -1160,6 +1173,9 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.9/dist/js/bootstrap-select.min.js"></script>
 <!-- (Optional) Latest compiled and minified JavaScript translation files -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.9/dist/js/i18n/defaults-*.min.js"></script>
+
+
+
 
 <script type="text/javascript">
         

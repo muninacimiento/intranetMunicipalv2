@@ -29,8 +29,8 @@ class CreateOrdenComprasTable extends Migration
             $table->boolean('enviadaProveedor')->default(0);
             $table->string('deptoRecepcion'); //Depto quien recepciona
             $table->text('motivoAnulacion')->nullable();
-            $table->string('licitacion_id')->nullable(); //Relación con la Licitacion
 
+            //Relations
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->foreign('proveedor_id')->references('id')->on('proveedores')->onDelete('cascade');
             $table->foreign('estado_id')->references('id')->on('status_o_c_s')->onDelete('cascade');
