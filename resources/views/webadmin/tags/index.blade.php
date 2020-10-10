@@ -93,12 +93,11 @@
 
                                     <th style="width: 60%;">Nombre Etiqueta</th>
 
-                                    <th style="width: 9%;"></th>
+                                    <th style="width: 7%;"></th>
                                     
-                                    <th style="width: 13%;"></th>
+                                    <th style="width: 11%;"></th>
 
-                                    <th style="width: 12%;"></th>
-
+                                    <th style="width: 10%;"></th>
 
                                 </tr>
 
@@ -116,7 +115,7 @@
 
                                     <td>
 
-										<a href="{{ route('tags.show', $tag->id) }}" class="btn btn-secondary" data-toggle="tooltip" data-placement="bottom" title="Ver en Detalle la Solicitud y Agregar Productos">
+										<a href="{{ route('tags.show', $tag->id) }}" class="btn btn-secondary btn-sm" data-toggle="tooltip" data-placement="bottom" title="Ver en Detalle la Solicitud y Agregar Productos">
 
                                             <i class="icofont-eye-alt"></i> Ver
 
@@ -126,7 +125,7 @@
 
                                     <td>
 
-										<a href="{{ route('tags.edit', $tag->id) }}" class="btn btn-primary" data-toggle="tooltip" data-placement="bottom" title="Modificar la Solicitud">
+										<a href="{{ route('tags.edit', $tag->id) }}" class="btn btn-primary btn-sm" data-toggle="tooltip" data-placement="bottom" title="Modificar la Solicitud">
                                                 
                                             <i class="icofont-refresh"></i> Actualizar
 
@@ -138,7 +137,7 @@
 
                                         {!! Form::open(['route'=>['tags.destroy', $tag->id], 'method'=>'DELETE']) !!}
 
-                                            <button class="btn btn-danger" data-toggle="tooltip" data-placement="bottom" title="Eliminar Etiqueta">
+                                            <button class="btn btn-danger btn-sm" data-toggle="tooltip" data-placement="bottom" title="Eliminar Etiqueta">
                                                     
                                                 <i class="icofont-delete-alt"></i> Eliminar
 

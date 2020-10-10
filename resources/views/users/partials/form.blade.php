@@ -32,22 +32,12 @@
 	
 </div>
 
-<div class="form-row mb-3">
+<div class="form-group">
+	
+	{{ Form::label('dependency_id', 'Dependencia Municipal') }}
+	{{ Form::select('dependency_id', $dependencies, null, ['class'=>'custom-select']) }}
 
-        <label for="dependencySelect">Dependencia Municipal</label>
-
-        <select name="dependency_id" class="browser-default custom-select" title="Por favor, seleecione su Dependencia Municipal">
-
-        @foreach($dependencies as $dependency)
-
-            <option value="{{ $dependency->id }}">{{ $dependency->name }}</option>
-
-        @endforeach
-
-        </select>
-
-    </div>
-
+</div>
 
 <div class="form-row mb-3">
 

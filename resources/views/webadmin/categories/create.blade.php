@@ -11,19 +11,13 @@
 @section('content')
 
 <div class="container">
-
     <div class="row justify-content-center">
-
         <div class="col-md-12">
-
             <div class="card shadow">
-
                 <div class="card-header bg-dark text-white h4">
-
-                    Crear Nueva Etiqueta
-
+                    <i class="icofont-plus-circle"></i>
+                    Crear Nueva Categoria
                 </div>
-
                 @if(count($errors))
                     <div class="alert alert-danger alert-dismissible fade show shadow mb-3" role="alert">          
                         <ul>
@@ -36,24 +30,14 @@
                         </button>
                     </div>
                 @endif
-
-
                 <div class="card-body">
-
-                	{!! Form::open(['route'=>'tags.store']) !!}
-
-                		@include('webadmin.tags.partials.form')
-
+                	{!! Form::open(['route'=>'categories.store']) !!}
+                		@include('webadmin.categories.partials.form')
                 	{!! Form::close() !!}
-
                 </div>
-
             </div>
-
         </div>
-
     </div>
-
 </div>
 
 @endsection

@@ -9,6 +9,12 @@
 use Carbon\Carbon;
 use App\Post;
 
+
+
+Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home');
+
 Route::get('/', function () {
 	
     $dateCarbon = Carbon::now()->locale('es')->isoFormat('dddd D, MMMM YYYY');
@@ -18,9 +24,15 @@ Route::get('/', function () {
 	return view('web.noticias.index', compact('posts', 'dateCarbon'));
 });
 
-Auth::routes();
+	/*#############################################################################################################################################################
+	 *	EXTRANET	###############################################################################################################################################
+	 *#############################################################################################################################################################*/
 
-Route::get('/home', 'HomeController@index')->name('home');
+	//Parte Web (Vistas Cliente)
+	Route::get('noticias', 'Web\NewController@index')->name('noticias.index');
+	Route::get('noticias/{slug}', 'Web\NewController@show')->name('noticias.show');
+	Route::get('noticias/categoria/{slug}', 'Web\NewController@category')->name('noticias.categories');
+	Route::get('noticias/etiquetas/{slug}', 'Web\NewController@tag')->name('noticias.tags');
 
 
 /*	Rutas del Sistema de Intranet
@@ -204,15 +216,7 @@ Route::middleware(['auth'])->group( function() {
 	Route::get('/farmacia/consultaVentas', 'VentaFarmaciaController@consulta')->name('ventas.consulta')->middleware('can:ventas.consulta'); 
 
 
-	/*#############################################################################################################################################################
-	 *	EXTRANET	###############################################################################################################################################
-	 *#############################################################################################################################################################*/
-
-	//Parte Web (Vistas Cliente)
-	Route::get('noticias', 'Web\NewController@index')->name('noticias.index');
-	Route::get('noticias/{slug}', 'Web\NewController@show')->name('noticia.show');
-	Route::get('noticias/categoria/{slug}', 'Web\NewController@category')->name('noticias.categories');
-	Route::get('noticias/etiquetas/{slug}', 'Web\NewController@tag')->name('noticias.tags');
+	
 
 	//Parte Admin (Vistas Admin)
 	Route::resource('webadmin', 'WebAdmin\RRPPController')->middleware('can:rrpp.index');

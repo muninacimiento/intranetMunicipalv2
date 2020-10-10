@@ -7,7 +7,7 @@
 -->
 <h1 class="font-weight-lighter">
                 	
-    Gestión de Contenido - 
+    Gestión de Noticias - 
 
 	<small>Página Web Municipal</small>	
 
@@ -46,7 +46,7 @@
 
   	<li class="nav-item">
     
-    	<a class="nav-link text-warning" href="{{ route('noticias.index') }}">
+    	<a class="nav-link text-warning" href="{{ route('posts.index') }}">
 
     		<i class="icofont-comment px-1"></i>
 

@@ -11,36 +11,33 @@
 @section('content')
 
 <div class="container">
-
     <div class="row justify-content-center">
-
         <div class="col-md-12">
-
             <div class="card shadow">
-
                 <div class="card-header bg-dark text-white h4">
-
-                    Actualizar Etiqueta
-
+                    <i class="icofont-refresh"></i>
+                    Actualizar Categoria
                 </div>
-
-
+                @if(count($errors))
+                    <div class="alert alert-danger alert-dismissible fade show shadow mb-3" role="alert">          
+                        <ul>
+                            @foreach($errors->all() as $error)
+                            <li><i class="icofont-close-circled"></i> {{ $error }}</li>
+                            @endforeach
+                        </ul>
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                @endif
                 <div class="card-body">
-
-                	{!! Form::model($tag, ['route'=>['tags.update', $tag->id], 'method'=>'PUT']) !!}
-
-                		@include('webadmin.tags.partials.form')
-
+                	{!! Form::model($category, ['route'=>['categories.update', $category->id], 'method'=>'PUT']) !!}
+                		@include('webadmin.categories.partials.form')
                 	{!! Form::close() !!}
-
                 </div>
-
             </div>
-
         </div>
-
     </div>
-
 </div>
 
 @endsection

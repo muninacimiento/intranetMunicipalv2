@@ -27,7 +27,6 @@ class TagStoreRequest extends FormRequest
 
             //Validaciones
             'name' => 'required',
-
             'slug' => 'required|unique:tags,slug',
         ];
     }

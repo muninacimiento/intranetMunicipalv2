@@ -62,9 +62,7 @@ class UserController extends Controller
     {
         
         $roles = Role::get();
-
-        $dependencies = Dependency::all();
-
+        $dependencies = Dependency::orderBy('name', 'ASC')->pluck('name', 'id');
         return view('users.edit', compact('user', 'roles', 'dependencies'));
 
     }

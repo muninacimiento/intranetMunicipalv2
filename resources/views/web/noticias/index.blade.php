@@ -84,7 +84,7 @@
 					    	
 					    	</blockquote>
 
-					    	<a href="{{ route('noticia.show', $post->slug) }}" class="btn btn-success btn-sm"><i class="icofont-thin-double-right"></i> Leer más</a>
+					    	<a href="{{ route('noticias.show', $post->slug) }}" class="btn btn-success btn-sm"><i class="icofont-thin-double-right"></i> Leer más</a>
 					  	
 					  	</div>
 

@@ -27,7 +27,6 @@ class TagUpdateRequest extends FormRequest
             
             //Validaciones
             'name' => 'required',
-
             'slug' => 'required|unique:tags,slug,'.$this->tag,
 
         ];
