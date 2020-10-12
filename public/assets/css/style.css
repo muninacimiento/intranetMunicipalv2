@@ -8,11 +8,11 @@ body {
 }
 
 a {
-  color: #428bca;
+  color: #cf7f55;
 }
 
 a:hover {
-  color: #9eccf4;
+  color: #ca4500;
   text-decoration: none;
 }
 
@@ -31,7 +31,7 @@ h1, h2, h3, h4, h5, h6, .font-primary {
   border-radius: 3px;
   right: 15px;
   bottom: 15px;
-  background: #428bca;
+  background: #8f3100;
   color: #fff;
   transition: display 0.5s ease-in-out;
   z-index: 99999;
@@ -46,7 +46,7 @@ h1, h2, h3, h4, h5, h6, .font-primary {
 
 .back-to-top:hover {
   color: #fff;
-  background: #629fd3;
+  background: #cf7f55;
   transition: background 0.2s ease-in-out;
 }
 
@@ -494,6 +494,10 @@ section {
   padding: 60px 0;
 }
 
+section .show {
+  padding: 5px 0;
+}
+
 .section-bg {
   background-color: #f5f9fc;
 }
@@ -508,7 +512,7 @@ section {
   font-weight: 600;
   margin-bottom: 20px;
   padding-bottom: 0;
-  color: #5c768d;
+  color: #ca4500;
 }
 
 .section-title p {
@@ -888,7 +892,7 @@ section {
 # Our Portfolio
 --------------------------------------------------------------*/
 .portfolio .portfolio-item {
-  margin-bottom: 30px;
+  margin-bottom: 25px;
 }
 
 .portfolio #portfolio-flters {
@@ -983,7 +987,7 @@ section {
 }
 
 .portfolio .portfolio-wrap:hover {
-  box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.16);
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.16);
 }
 
 .portfolio .portfolio-wrap:hover .portfolio-info {
@@ -1327,16 +1331,16 @@ section {
 }
 
 #footer {
-  background: #587187;
+  background: #ca4500;
   padding: 0 0 30px 0;
   color: #fff;
   font-size: 14px;
 }
 
 #footer .footer-top {
-  background: #5c768d;
-  border-top: 1px solid #768fa6;
-  border-bottom: 1px solid #67839c;
+  background: #ca4500;
+  border-top: 1px solid #cf7f55;
+  border-bottom: 1px solid #cf7f55;
   padding: 60px 0 30px 0;
 }
 
@@ -1363,7 +1367,7 @@ section {
 #footer .footer-top .social-links a {
   font-size: 18px;
   display: inline-block;
-  background: #768fa6;
+  background: #9f3a05;
   color: #fff;
   line-height: 1;
   padding: 8px 0;
@@ -1376,7 +1380,7 @@ section {
 }
 
 #footer .footer-top .social-links a:hover {
-  background: #428bca;
+  background: #cf7f55;
   color: #fff;
   text-decoration: none;
 }
@@ -1401,7 +1405,7 @@ section {
 
 #footer .footer-top .footer-links ul i {
   padding-right: 2px;
-  color: #9eccf4;
+  color: #cf7f55;
   font-size: 18px;
   line-height: 1;
 }
@@ -1424,7 +1428,7 @@ section {
 }
 
 #footer .footer-top .footer-links ul a:hover {
-  color: #9eccf4;
+  color: #8f3100;
 }
 
 #footer .footer-top .footer-newsletter form {
@@ -1450,7 +1454,7 @@ section {
   background: none;
   font-size: 16px;
   padding: 0 20px;
-  background: #428bca;
+  background: #9f3a05;
   color: #fff;
   transition: 0.3s;
   border-radius: 4;
@@ -1473,5 +1477,11 @@ section {
 }
 
 #footer .credits a {
-  color: #9eccf4;
+  color: #9f3a05;
+}
+
+.center-cropped {
+  height: 400px;
+  overflow: hidden;
+  
 }

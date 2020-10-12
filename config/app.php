@@ -178,6 +178,9 @@ return [
         //Export PDF
         Barryvdh\DomPDF\ServiceProvider::class,
 
+        //Intervention Image
+        Intervention\Image\ImageServiceProvider::class,
+
     ],
 
     /*
@@ -231,6 +234,9 @@ return [
 
         //Export PDF
         'PDF' => Barryvdh\DomPDF\Facade::class,
+
+        // Intervention Image
+        'Image' => Intervention\Image\Facades\Image::class,
 
     ],
 

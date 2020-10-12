@@ -59,13 +59,13 @@
     <div class="container">
 
       <div class="logo float-left">
-        <a href="index.html"><img src="assets/img/LogoMunicipal.png" alt="" ></a>
+        <a href="/"><img src="{{ asset('assets/img/LogoMunicipal.png') }}" alt="" ></a>
       </div>
 
     	<nav class="nav-menu float-right d-none d-lg-block">
         
         	<ul>
-              <li class="active"><a href="{{ route('permissions.index') }}"><i class="icofont-home"></i> Inicio</a></li>
+              <li class="active"><a href="/"><i class="icofont-home"></i> Inicio</a></li>
 	          	<li><a href="#"><i class="icofont-google-map"></i> Comuna</a></li>
 	          	<li><a href="#"><i class="icofont-institution"></i> Municipalidad</a></li>
 	          	<li><a href="#"> <i class="icofont-people"></i> Concejo Municipal</a></li>

@@ -15,14 +15,7 @@ Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 
-Route::get('/', function () {
-	
-    $dateCarbon = Carbon::now()->locale('es')->isoFormat('dddd D, MMMM YYYY');
-
-	$posts = Post::where('status', 'PUBLISHED')->orderBy('id', 'DESC')->paginate(6);
-
-	return view('web.noticias.index', compact('posts', 'dateCarbon'));
-});
+Route::get('/', 'Web\NewController@webIndex');
 
 	/*#############################################################################################################################################################
 	 *	EXTRANET	###############################################################################################################################################

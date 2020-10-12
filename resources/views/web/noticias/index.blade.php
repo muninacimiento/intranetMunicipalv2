@@ -63,28 +63,32 @@
                	<div class="col-md-6">
            
                 	<div class="card">
-			
-						<div class="card-header">
-							
-							<h5>{{ $post->name }}</h5>
-							
-					  	</div>
 					  
 					  	<div class="card-body">
 
-					  		@if($post->file)
+					  		<div class="portfolio">
 
-					  			<img src="{{ $post->file }}" class="img-fluid mb-2">
+						        <div class="portfolio-wrap mb-3">
 
-					  		@endif
-					    
-					    	<blockquote class="blockquote mb-3">
-					      		
-					      		<footer class="blockquote-footer">{{ $post->excerpt }}</footer>
-					    	
-					    	</blockquote>
+						           	@if($post->file)
 
-					    	<a href="{{ route('noticias.show', $post->slug) }}" class="btn btn-success btn-sm"><i class="icofont-thin-double-right"></i> Leer más</a>
+								  		<img src="{{ $post->file }}" class="img-fluid">
+
+								  	@endif
+
+						        </div>
+
+						        <h5><strong>{{ $post->name }}</strong></h5>
+
+								<blockquote class="blockquote mb-3">
+							      		
+							      	<footer class="blockquote-footer">{{ Illuminate\Support\Str::limit($post->excerpt, 200) }}</footer>
+							    	
+							    </blockquote>
+
+							    <a href="{{ route('noticias.show', $post->slug) }}" class="btn btn-success btn-sm"><i class="icofont-thin-double-right"></i> Leer más</a>
+					  			
+					  		</div>	
 					  	
 					  	</div>
 
