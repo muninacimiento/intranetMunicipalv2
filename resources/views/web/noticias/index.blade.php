@@ -68,7 +68,7 @@
 
 					  		<div class="portfolio">
 
-						        <div class="portfolio-wrap mb-3">
+						        <div class="portfolio-wrap enter-cropped  mb-3">
 
 						           	@if($post->file)
 
@@ -78,7 +78,7 @@
 
 						        </div>
 
-						        <h5><strong>{{ $post->name }}</strong></h5>
+						        <h5><strong>{{ Illuminate\Support\Str::limit($post->name, 50) }}</strong></h5>
 
 								<blockquote class="blockquote mb-3">
 							      		

@@ -80,7 +80,7 @@
                           <img src="{{ $post->file }}" class="img-fluid rounded-lg">
                         @endif
                       </div>
-                      <h5><strong>{{ $post->name }}</strong></h5>
+                      <h5><strong>{{ Illuminate\Support\Str::limit($post->name, 50) }}</strong></h5>
                       <blockquote class="blockquote mb-3">
                         <footer class="blockquote-footer">{{ Illuminate\Support\Str::limit($post->excerpt, 200) }}</footer>  
                       </blockquote>
