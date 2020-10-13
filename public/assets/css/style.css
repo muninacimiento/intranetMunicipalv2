@@ -1,4 +1,4 @@
-
+      
 /*--------------------------------------------------------------
 # General
 --------------------------------------------------------------*/
@@ -491,7 +491,9 @@ h1, h2, h3, h4, h5, h6, .font-primary {
 # Sections General
 --------------------------------------------------------------*/
 section {
-  padding: 60px 0;
+  width: 100%;
+  min-height: 100%; 
+  padding: 50px 0;
 }
 
 section .show {
@@ -569,10 +571,13 @@ section .show {
 # About Us
 --------------------------------------------------------------*/
 .about {
+  height: 100%;
+  min-height: 100%; 
   padding-bottom: 30px;
 }
 
 .about .container {
+  width: 100%;
   box-shadow: 0 5px 25px 0 rgba(214, 215, 216, 0.6);
 }
 
@@ -587,7 +592,7 @@ section .show {
 }
 
 .about .about-content {
-  padding: 40px;
+  padding: 10px;
 }
 
 .about .icon-box + .icon-box {
@@ -1484,4 +1489,11 @@ section .show {
   height: 400px;
   overflow: hidden;
   
+}
+
+#news {
+  width: 100%;
+  height: calc(100vh - 114px);
+  padding: 0;
+  overflow: hidden;
 }

@@ -79,7 +79,7 @@
     </div>
   </header><!-- End Header -->
 
-	<main class="py-4">
+	<main>
     
         @yield('content')
     
@@ -145,6 +145,8 @@
   </footer><!-- End Footer -->
 
   <a href="#" class="back-to-top"><i class="icofont-simple-up"></i></a>
+
+  @stack('scripts')
 
   <!-- Vendor JS Files -->
   <script src="{{ asset('assets/vendor/jquery/jquery.min.js')}}"></script>

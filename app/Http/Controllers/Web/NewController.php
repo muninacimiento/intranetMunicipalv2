@@ -69,7 +69,7 @@ class NewController extends Controller
 
 		$dateCarbon = Carbon::now()->locale('es')->isoFormat('dddd D, MMMM YYYY');
 
-		$posts = Post::where('status', 'PUBLISHED')->latest()->take(3)->get();
+		$posts = Post::where('status', 'PUBLISHED')->latest()->take(4)->get();
 //dd($posts);
 		return view('web.index', compact('posts', 'dateCarbon'));
 
