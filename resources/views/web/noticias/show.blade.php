@@ -1,7 +1,7 @@
 @extends('layouts.web')
 
 @section('content')
-	<div class="container">		
+	<div class="container p-3">		
 		<div class="col">		
 			<div class="card">			
 				<div class="card-body">
