@@ -33,7 +33,7 @@
             </div>
           </div>
 
-          <!-- Slide 3 -->
+          <!-- Slide 3 
           <div class="carousel-item" style="background-image: url('assets/img/slide/slide-3.jpg');">
             <div class="carousel-container">
               <div class="carousel-content container">
@@ -42,7 +42,7 @@
                 <a href="#" class="btn-get-started animate__animated animate__fadeInUp scrollto">Leer más</a>
               </div>
             </div>
-          </div>
+          </div>-->
 
         </div>
 
