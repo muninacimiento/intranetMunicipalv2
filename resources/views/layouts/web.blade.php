@@ -87,9 +87,9 @@
 
   <!-- ======= Footer ======= -->
   <footer id="footer">
-    <div class="footer-top">
-      <div class="container">
-        <div class="row">
+    <div class="footer-top"  style="background-image: url('{{asset('images/Footer1.png')}}');background-size: cover;">
+      <div class="ml-5">
+        <div class="row" >
 
           <div class="col-lg-3 col-md-6 footer-info">
             <h3>Municipalidad de Nacimiento</h3>
@@ -128,6 +128,12 @@
             </ul>
           </div>
 
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-lg-3 col-md-6 inline px-5">
+          <img src="{{ asset('images/logo-scam.png') }}" style="width: 40%;">
+          <img src="{{ asset('images/AsociacionBioBio.png') }}" style="width: 40%;">
         </div>
       </div>
     </div>

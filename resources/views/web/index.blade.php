@@ -61,7 +61,7 @@
 
 
   <!-- ======= Sección Noticias ======= -->
-    <section class="p-5">
+    <section class="p-5" style="background-image: url('{{asset('images/BackgroundNews.png')}}');background-size: cover;">
       <div data-aos="fade-up" data-aos-delay="100">
         <div class="section-title">
           <h2>Últimas Noticias</h2>
@@ -72,7 +72,7 @@
           <div class="row mb-3">
             @foreach($chunk as $post)
               <div class="col-md-3">
-                <div class="card">
+                <div class="card shadow">
                   <div class="card-body">
                     <div class="portfolio">
                       <div class="portfolio-wrap mb-3">
@@ -103,7 +103,7 @@
       <div data-aos="fade-up" data-aos-delay="100">
         <div class="text-white text-center mb-5">
           <h2>Redes Sociales</h2>
-          <p></p>
+          <p>El minuto a minuto de Nacimiento a través de nuestras redes sociales</p>
         </div>
           <div class="row">
             <div class="col-md-4">

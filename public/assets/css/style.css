@@ -1337,7 +1337,7 @@ section .show {
 
 #footer {
   background: #ca4500;
-  padding: 0 0 30px 0;
+  padding: 0 0 10px 0;
   color: #fff;
   font-size: 14px;
 }
@@ -1346,11 +1346,11 @@ section .show {
   background: #ca4500;
   border-top: 1px solid #cf7f55;
   border-bottom: 1px solid #cf7f55;
-  padding: 60px 0 30px 0;
+  padding: 80px 0 10px 0;
 }
 
 #footer .footer-top .footer-info {
-  margin-bottom: 30px;
+  margin-bottom: 10px;
 }
 
 #footer .footer-top .footer-info h3 {
@@ -1372,7 +1372,7 @@ section .show {
 #footer .footer-top .social-links a {
   font-size: 18px;
   display: inline-block;
-  background: #9f3a05;
+  background: #8f3100;
   color: #fff;
   line-height: 1;
   padding: 8px 0;
@@ -1385,7 +1385,7 @@ section .show {
 }
 
 #footer .footer-top .social-links a:hover {
-  background: #cf7f55;
+  background: #ca4500;
   color: #fff;
   text-decoration: none;
 }
@@ -1410,7 +1410,7 @@ section .show {
 
 #footer .footer-top .footer-links ul i {
   padding-right: 2px;
-  color: #cf7f55;
+  color: #8f3100;
   font-size: 18px;
   line-height: 1;
 }
@@ -1496,4 +1496,10 @@ section .show {
   height: calc(100vh - 114px);
   padding: 0;
   overflow: hidden;
+}
+
+#footer .logos{
+  padding: 10px 0;
+  display: flex;
+  align-items: center;
 }
