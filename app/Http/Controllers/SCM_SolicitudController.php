@@ -33,6 +33,8 @@ use App\Activity;
 /* Invocamos el modelo de la Entidad Product*/
 use App\Product;
 
+use App\Licitacion;
+
 use App\User;
 use DB;
 
@@ -472,6 +474,10 @@ class SCM_SolicitudController extends Controller
             $detalleSolicitud = DetailSolicitud::findOrFail($id);
 //dd($detalleSolicitud);
             $detalleSolicitud->update(['licitacion_id' => null]); 
+
+            $licitacion = Licitacion::findOrFail($request->licitacionID);
+//dd($licitacion);
+            $licitacion->update(['estado_id' => 1]); 
 
             return back();
 

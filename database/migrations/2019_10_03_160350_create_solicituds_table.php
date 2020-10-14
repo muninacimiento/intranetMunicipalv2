@@ -44,7 +44,7 @@ class CreateSolicitudsTable extends Migration
             $table->string('cuentaPresupuestaria')->nullable();
             $table->string('cuentaComplementaria')->nullable();
             $table->text('obsActividad')->nullable();
-
+            $table->string('obsRechazo')->nullable();
             $table->text('motivoAnulacion')->nullable(); // razón por la cual se anulará la solicitud
 
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');

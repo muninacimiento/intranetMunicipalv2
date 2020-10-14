@@ -189,10 +189,49 @@
 
                                             <td>{{ $ds->cantidad }}</td>     
 
-                                            <td>
-                                                
+                                            <td>                                                
 
-                                            </td>                                       
+                                                @if($ds->licitacion_id == null)
+
+                                                {!! Form::open(['route'=> ['solicitud.update', $ds->id], 'method' => 'PUT']) !!}
+
+                                                    @csrf
+
+                                                    <input type="hidden" name="flag" value="AsignarLicitacion">
+
+                                                    <input type="hidden" value="{{ $licitacion->id }}" name="licitacionID" id="licitacionID">
+
+                                                    <button class="btn btn-primary btn-sm mr-1">
+
+                                                        <i class="fas fa-check"></i>
+
+                                                    </button>
+
+                                                {!! Form::close() !!}
+                                                    
+                                                @elseif($ds->licitacion_id === $licitacion->id)
+
+                                                {!! Form::open(['route'=> ['solicitud.update', $ds->id], 'method' => 'PUT']) !!}
+
+                                                    <input type="hidden" name="flag" value="EliminarLicitacion">
+                                                    
+                                                    <input type="hidden" value="{{ $licitacion->id }}" name="licitacionID" id="licitacionID">
+
+                                                    <button class="btn btn-danger btn-sm mr-1">
+
+                                                        <i class="fas fa-trash-alt"></i>
+
+                                                    </button> 
+
+                                                {!! Form::close() !!}
+
+                                                @else
+
+                                                    <label class="text-muted" style="font-size: 0.9em;">Producto Pertenece a otra Licitación</label>
+
+                                                @endif
+
+                                            </td>                                   
 
                                         </tr>
 
