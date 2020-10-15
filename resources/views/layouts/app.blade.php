@@ -96,7 +96,7 @@
     <div id="app">
         <nav class="navbar navbar-expand-md navbar-light shadow-sm navGreen">
             <div class="container">
-                <a class="navbar-brand text-white font-weight-lighter" href="{{ url('/') }}">
+                <a class="navbar-brand text-white font-weight-lighter" href="{{ url('/home') }}">
 
                     <img src="{{ asset('images/MarcaMunicipal_LetrasBlancas.png')}}" style="width: 200px;" class="mr-3">
                     
@@ -117,7 +117,7 @@
                             
                             <a href="{{ route('siscom.index') }}" class="nav-link text-white">
 
-                                <i class="fas fa-cart-plus"></i>
+                                <i class="icofont-cart-alt"></i>
 
                                 SisCoM
                             </a>
@@ -130,7 +130,7 @@
                             
                             <a href="{{ route('farmacia.index') }}" class="nav-link text-white">
 
-                               <i class="fas fa-heartbeat"></i>
+                               <i class="icofont-heart-beat-alt"></i>
 
                                 Farmacia
 
@@ -158,7 +158,7 @@
 
                             <a class="nav-link dropdown-toggle text-white" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
                                 
-                                <i class="fas fa-cogs"></i>
+                                <i class="icofont-code-alt"></i>
 
                                 Administración  
 
@@ -182,7 +182,7 @@
 
                                 <a class="dropdown-item text-secondary" href="{{ route('dependencies.index') }}">
 
-                                   <i class="fas fa-network-wired"></i>
+                                   <i class="icofont-chart-flow-1"></i>
 
                                     Dependencias Municipales
 
@@ -194,7 +194,7 @@
 
                                 <a class="dropdown-item text-secondary" href="{{ route('permissions.index') }}">
 
-                                    <i class="fas fa-key"></i>
+                                    <i class="icofont-key"></i>
 
                                     Permisos
 
@@ -206,9 +206,21 @@
 
                                 <a class="dropdown-item text-secondary" href="{{ route('roles.index') }}">
 
-                                    <i class="fas fa-mask"></i>
+                                    <i class="icofont-atom"></i>
 
                                     Roles
+
+                                </a>
+
+                                @endcan
+
+                                @can('contacts.index')
+
+                                <a class="dropdown-item text-secondary" href="{{ route('contacts.index') }}">
+
+                                    <i class="icofont-ui-call"></i>
+
+                                    Contactos Municipales
 
                                 </a>
 

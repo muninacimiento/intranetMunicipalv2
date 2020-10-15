@@ -26,7 +26,7 @@
 
 	    <a class="nav-link text-white dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
 	    	
-	    	<i class="icofont-cart-alt px-1"></i>
+	    	<i class="icofont-cart-alt px-1" style="font-size: 1.3em;"></i>
 
 	    	Solicitudes	
 
@@ -40,7 +40,7 @@
 
 		    <a class="dropdown-item text-primary" href="{{ route('solicitud.index') }}">
 
-		    	<i class="icofont-ui-edit px-1"></i>
+		    	<i class="icofont-ui-edit px-1" style="font-size: 1.3em;"></i>
 
 		    	Gestionar Solicitud
 
@@ -54,7 +54,7 @@
 
 		   	<a class="dropdown-item text-primary" href="{{ route('admin.recepcionarSolicitud') }}">
 
-		    	<i class="fas fa-inbox px-1"></i>
+		    	<i class="icofont-inbox px-1" style="font-size: 1.3em;"></i>
 
 		    	Recepcionar Solicitudes
 
@@ -68,7 +68,7 @@
 
 		   	<a class="dropdown-item text-primary" href="{{ route('admin.index') }}">
 
-		    	<i class="fas fa-cogs px-1"></i>
+		    	<i class="icofont-ui-settings px-1" style="font-size: 1.3em;"></i>
 
 		    	Administrar Solicitudes
 
@@ -81,7 +81,7 @@
 
 		   	<a class="dropdown-item text-primary" href="{{ route('admin.consulta') }}">
 
-		    	<i class="fas fa-question px-1"></i>
+		    	<i class="icofont-search-folder px-1" style="font-size: 1.3em;"></i>
 
 		    	Consultar Solicitudes
 
@@ -98,7 +98,7 @@
 
 	    <a class="nav-link text-white dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
 	    		
-	    	<i class="far fa-credit-card px-1"></i>
+	    	<i class="icofont-visa-alt px-1" style="font-size: 1.3em;"></i>
 
 	    	Órdenes de Compra
 
@@ -108,7 +108,7 @@
 
 			<a class="dropdown-item text-primary" href="{{ route('ordenCompra.index') }}">
 
-			    <i class="fas fa-cash-register px-1"></i>
+			    <i class="icofont-ui-settings px-1" style="font-size: 1.3em;"></i>
 
 			    Gestionar Órdenes de Compra
 
@@ -118,7 +118,7 @@
 
 			<a class="dropdown-item text-primary" href="{{ route('proveedores.index') }}">
 
-			    <i class="fas fa-clipboard-list px-1"></i>
+			    <i class="icofont-users-alt-1 px-1" style="font-size: 1.3em;"></i>
 
 			    Gestionar Proveedores
 
@@ -136,7 +136,7 @@
     
     	<a class="nav-link text-white" href="{{ route('licitacion.index') }}">
 
-    		<i class="fas fa-cubes px-1"></i>
+    		<i class="icofont-papers px-1" style="font-size: 1.3em;"></i>
 
     		Licitaciones
 
@@ -152,7 +152,7 @@
 
 	  		<a class="nav-link text-white dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
 
-	  			<i class="fas fa-dollar-sign px-1"></i>
+	  			<i class="icofont-dollar px-1" style="font-size: 1.3em;"></i>
 
 	  			Facturas
 
@@ -166,7 +166,7 @@
 
 			<a class="dropdown-item text-primary" href="{{ route('factura.index') }}">
 
-			    <i class="fas fa-pencil-alt px-1"></i>
+			    <i class="icofont-ui-settings px-1" style="font-size: 1.3em;"></i>
 
 			    Gestionar Facturas
 
@@ -180,7 +180,7 @@
 
 			<a class="dropdown-item text-primary" href="{{ route('factura.consulta') }}">
 
-			    <i class="fas fa-question px-1"></i>
+			    <i class="icofont-search-folder px-1" style="font-size: 1.3em;"></i>
 
 			    Consultar Facturas
 
@@ -198,7 +198,7 @@
 
 	  		<a class="nav-link text-white dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
 
-			    <i class="fas fa-marker px-1"></i>
+			    <i class="icofont-law-document px-1" style="font-size: 1.3em;"></i>
 	  			
 	  			Contratos
 
@@ -212,7 +212,7 @@
 
 			<a class="dropdown-item text-primary" href="{{ route('contratos.index') }}">
 
-			    <i class="fas fa-marker px-1"></i>
+			    <i class="icofont-ui-settings px-1" style="font-size: 1.3em;"></i>
 
 			    Gestionar Contratos
 
@@ -226,7 +226,7 @@
 
 			<a class="dropdown-item text-primary" href="{{ route('boletasGarantia.index') }}">
 
-    			<i class="fas fa-copy px-1"></i>
+    			<i class="icofont-ui-settings px-1" style="font-size: 1.3em;"></i>
 
 			    Gestionar Boletas de Garantia
 

@@ -149,7 +149,7 @@
 
                                                 <a href="{{ route('solicitud.show', $solicitud->id) }}" class="btn btn-outline-secondary btn-sm mr-1" data-toggle="tooltip" data-placement="bottom" title="Ver el Detalle de la Solicitud">
 
-                                                    <i class="fas fa-eye"></i>
+                                                    <i class="icofont-eye-alt"></i>
 
                                                 </a>
 
@@ -169,7 +169,7 @@
 
                                                     <a href="{{ route('solicitud.pdf', $solicitud->id) }}" class="btn btn-outline-success btn-sm" data-toggle="tooltip" data-placement="bottom" title="Imprimir Solicitud">
 
-                                                        <i class="fas fa-print"></i>
+                                                        <i class="icofont-printer"></i>
 
                                                     </a>
 
@@ -179,7 +179,7 @@
 
                                                     <a href="{{ route('solicitud.show', $solicitud->id) }}" class="btn btn-outline-secondary btn-sm" data-toggle="tooltip" data-placement="bottom" title="Ver en Detalle la Solicitud y Agregar Productos">
 
-                                                        <i class="fas fa-eye"></i>
+                                                        <i class="icofont-eye-alt"></i>
 
                                                     </a>
 
@@ -193,7 +193,7 @@
 
                                                         <a href="#" class="btn btn-outline-primary btn-sm editInterna" data-toggle="tooltip" data-placement="bottom" title="Modificar la Solicitud">
                                                 
-                                                            <i class="fas fa-edit"></i>
+                                                            <i class="icofont-pencil-alt-5"></i>
 
                                                         </a>
 
@@ -201,7 +201,7 @@
 
                                                         <a href="#" class="btn btn-outline-primary btn-sm editPrograma" data-toggle="tooltip" data-placement="bottom" title="Modificar la Solicitud">
                                                 
-                                                            <i class="fas fa-edit"></i>
+                                                            <i class="icofont-pencil-alt-5"></i>
 
                                                         </a>
 
@@ -213,7 +213,7 @@
 
                                                     <a href="#" class="btn btn-outline-danger btn-sm delete" data-toggle="tooltip" data-placement="bottom" title="Anular Solicitud">
 
-                                                        <i class="fas fa-trash"></i>
+                                                        <i class="icofont-delete-alt"></i>
 
                                                     </a>
 
@@ -254,7 +254,7 @@
 
             <div class="modal-header bg-success text-white">
 
-                <p class="modal-title" id="exampleModalLabel" style="font-size: 1.2em"> Nueva Solicitud <i class="fas fa-plus-circle"></i></p>
+                <p class="modal-title" id="exampleModalLabel" style="font-size: 1.2em"><i class="icofont-plus"></i> Nueva Solicitud</p>
 
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
 
@@ -621,7 +621,7 @@
 
                         <button class="btn btn-success btn-block boton" type="submit" form="createForm">
 
-                            <i class="fas fa-save"></i>
+                            <i class="icofont-download"></i>
 
                             Guardar Solicitud
 
@@ -629,7 +629,7 @@
 
                         <button type="button" class="btn btn-block btn-secondary" data-dismiss="modal" aria-label="Close">
 
-                            <i class="fas fa-arrow-left"></i>
+                            <i class="icofont-arrow-left"></i>
 
                             Cancelar
 
@@ -657,7 +657,7 @@
 
             <div class="modal-header bg-primary text-white">
 
-                <h3 class="modal-title" id="exampleModalLabel"> Actualizar Solicitud <i class="fas fa-edit"></i></h3>
+                <h3 class="modal-title" id="exampleModalLabel" style="font-size: 1.2em"><i class="icofont-pencil-alt-5"></i> Actualizar Solicitud</h3>
 
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
 

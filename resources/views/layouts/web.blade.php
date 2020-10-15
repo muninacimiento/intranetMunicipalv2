@@ -67,7 +67,7 @@
         	<ul>
               <li class="active"><a href="/"><i class="icofont-home"></i> Inicio</a></li>
 	          	<li><a href="#"><i class="icofont-google-map"></i> Comuna</a></li>
-	          	<li><a href="#"><i class="icofont-institution"></i> Municipalidad</a></li>
+	          	<li><a href="{{ route('contactos.index') }}"><i class="icofont-institution"></i> Municipalidad</a></li>
 	          	<li><a href="#"> <i class="icofont-people"></i> Concejo Municipal</a></li>
 	          	<li><a href="{{ route('noticias.index') }}"><i class="icofont-newspaper"></i> Sala de Prensa</a></li>
               <li><a href="{{ route('login') }}"><i class="icofont-lock"></i> Intranet</a></li>

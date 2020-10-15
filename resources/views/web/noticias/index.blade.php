@@ -44,9 +44,9 @@
 
 <div class="container">
 	
-	<div class="col-md-12">
+	<div>
 
-		<div class="text-muted">
+		<div class="text-muted py-5">
 			
 			<h1>Noticias Municipales</h1><small>{{ $dateCarbon }}</small>
 

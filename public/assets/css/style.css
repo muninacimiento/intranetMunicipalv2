@@ -60,6 +60,10 @@ h1, h2, h3, h4, h5, h6, .font-primary {
   font-size: 14px;
 }
 
+#topbar.topbar-transparent {
+  background: transparent;
+}
+
 #topbar .contact-info a {
   line-height: 1;
   color: #cf7f55;
@@ -1503,3 +1507,4 @@ section .show {
   display: flex;
   align-items: center;
 }
+

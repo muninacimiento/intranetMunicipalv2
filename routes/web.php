@@ -26,6 +26,7 @@ Route::get('/', 'Web\NewController@webIndex');
 	Route::get('noticias/{slug}', 'Web\NewController@show')->name('noticias.show');
 	Route::get('noticias/categoria/{slug}', 'Web\NewController@category')->name('noticias.categories');
 	Route::get('noticias/etiquetas/{slug}', 'Web\NewController@tag')->name('noticias.tags');
+	Route::get('contactosMunicipales', 'Web\ContactosMunicipalesController@index')->name('contactos.index');
 
 
 /*	Rutas del Sistema de Intranet
@@ -216,6 +217,9 @@ Route::middleware(['auth'])->group( function() {
 	Route::resource('tags', 'WebAdmin\TagController')->middleware('can:tags.index');
 	Route::resource('categories', 'WebAdmin\CategoryController')->middleware('can:categories.index');
 	Route::resource('posts', 'WebAdmin\PostController')->middleware('can:posts.index');
+
+	//Contactos Municipales
+	Route::resource('contacts', 'WebAdmin\ContactMunicipalController')->middleware('can:contacts.index');
 
 
 });
