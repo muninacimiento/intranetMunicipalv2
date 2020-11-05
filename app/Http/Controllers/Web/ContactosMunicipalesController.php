@@ -16,8 +16,10 @@ class ContactosMunicipalesController extends Controller
      */
     public function index()
     {
+        $contactsAlcaldia = ContactMunicipal::where('dependency_id', 1)->get();
         $contactsAdmin = ContactMunicipal::where('dependency_id', 2)->get();
-        return view ('web.contactosMunicipales.index', compact('contactsAdmin'));
+
+        return view ('web.contactosMunicipales.index', compact('contactsAlcaldia', 'contactsAdmin'));
     }
 
     /**

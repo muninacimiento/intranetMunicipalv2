@@ -763,8 +763,8 @@ section .show {
 
 .about-lists .content-item {
   padding: 40px;
-  border-left: 1px solid #d9e8f4;
-  border-bottom: 1px solid #d9e8f4;
+  border-left: 1px solid #00973b;
+  border-bottom: 1px solid #00973b;
   margin: -1px;
 }
 
@@ -772,7 +772,7 @@ section .show {
   display: block;
   font-size: 24px;
   font-weight: 400;
-  color: #9eccf4;
+  color: #00973b;
 }
 
 .about-lists .content-item h4 {
@@ -783,7 +783,7 @@ section .show {
 }
 
 .about-lists .content-item p {
-  color: #aaaaaa;
+  color: #00973b;
   font-size: 15px;
   margin: 0;
   padding: 0;
@@ -819,7 +819,7 @@ section .show {
   font-size: 42px;
   display: block;
   font-weight: 700;
-  color: #1c5c93;
+  color: #00973b;
 }
 
 .counts .count-box p {
