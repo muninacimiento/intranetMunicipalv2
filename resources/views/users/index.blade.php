@@ -88,15 +88,14 @@
                                         
                                         <div class="btn-group" role="group" aria-label="Basic example">
 
+                                            @can('users.show')
                                             <a href="#" class="edit" data-toggle="tooltip" data-placement="bottom" title="Restablecer Contraseña">
 
                                                 <button class="btn btn-outline-primary mx-1" >
                                                     
                                                    <i class="fas fa-key"></i>
 
-                                                </button>
-
-                                                
+                                                </button>   
 
                                             </a>
 
@@ -111,7 +110,9 @@
                                                 
 
                                             </a>
+                                            @endcan
 
+                                            @can('users.edit')
                                             <a href="{{ route('users.edit', $user->id) }}" >
 
                                                 <button class="btn btn-outline-primary mx-1" data-toggle="tooltip" data-placement="bottom" title="Editar este Permiso del Sistema">
@@ -120,10 +121,10 @@
 
                                                 </button>
 
-                                                
-
                                             </a>
+                                            @endcan
 
+                                            @can('users.destroy')
                                             {!! Form::open(['route'=> ['users.destroy', $user->id], 'method' => 'DELETE']) !!}
 
                                                 <button class="btn btn-outline-danger">
@@ -133,7 +134,7 @@
                                                 </button>
 
                                             {!! Form::close() !!}
-
+                                            @endcan
                                         </div>
 
                                     </td>
