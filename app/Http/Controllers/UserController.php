@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use App\User;
 use Caffeinated\Shinobi\Models\Role;
@@ -22,20 +23,43 @@ class UserController extends Controller
      */
      public function index(Request $request)
     {
-        /*
-         * Definimos variable que contendrá la fecha actual del sistema
-         */
-        $dateCarbon = Carbon::now()->locale('es')->isoFormat('dddd D, MMMM YYYY');
+        if (Auth::user()->id == 16) {
 
-       /* Declaramos la variable que contendrá todos los permisos existentes en la base de datos */
-       $users = DB::table('users')
-                    ->join('dependencies', 'users.dependency_id', '=', 'dependencies.id')
-                    ->select('users.*', 'dependencies.name as dependencia')
-                    ->orderBy('users.name', 'ASC')
-                    ->get();
+            /*
+             * Definimos variable que contendrá la fecha actual del sistema
+             */
+            $dateCarbon = Carbon::now()->locale('es')->isoFormat('dddd D, MMMM YYYY');
 
-        /* Retornamos a la vista los resultados psanadolos por parametros */
-        return view('users.index', ["users" => $users, "dateCarbon" => $dateCarbon]);
+           /* Declaramos la variable que contendrá todos los permisos existentes en la base de datos */
+           $users = DB::table('users')
+                        ->join('dependencies', 'users.dependency_id', '=', 'dependencies.id')
+                        ->select('users.*', 'dependencies.name as dependencia')
+                        ->where('users.dependency_id', 8)
+                        ->orderBy('users.name', 'ASC')
+                        ->get();
+
+            /* Retornamos a la vista los resultados psanadolos por parametros */
+            return view('users.index', ["users" => $users, "dateCarbon" => $dateCarbon]);
+
+        }
+        else{
+
+            /*
+             * Definimos variable que contendrá la fecha actual del sistema
+             */
+            $dateCarbon = Carbon::now()->locale('es')->isoFormat('dddd D, MMMM YYYY');
+
+           /* Declaramos la variable que contendrá todos los permisos existentes en la base de datos */
+           $users = DB::table('users')
+                        ->join('dependencies', 'users.dependency_id', '=', 'dependencies.id')
+                        ->select('users.*', 'dependencies.name as dependencia')
+                        ->orderBy('users.name', 'ASC')
+                        ->get();
+
+            /* Retornamos a la vista los resultados psanadolos por parametros */
+            return view('users.index', ["users" => $users, "dateCarbon" => $dateCarbon]);
+
+        }
     }
 
     /**

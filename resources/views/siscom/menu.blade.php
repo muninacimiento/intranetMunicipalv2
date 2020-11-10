@@ -222,7 +222,7 @@
 
 			<div class="dropdown-divider"></div>
 
-			@can('boletasGarantia.index')
+			@can('boletaGarantia.index')
 
 			<a class="dropdown-item text-primary" href="{{ route('boletasGarantia.index') }}">
 
