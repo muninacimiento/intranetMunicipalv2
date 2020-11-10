@@ -296,6 +296,29 @@ class FacturaController extends Controller
 
         }
 
+        if ($request->flag == 'Comentario') {
+
+            try {
+
+                    DB::beginTransaction();
+
+                        $factura = Factura::findOrFail($id);;
+                        $factura->comentario        = $request->comentarioFactura;
+
+                        $factura->save();
+
+                    DB::commit();
+                    
+            } catch (Exception $e) {
+
+                DB::rollback();
+                    
+            }
+
+            return back()->with('info', 'Comentario Agregado a la Factura Correctamente');
+
+        }
+
         else if ($request->flag == 'FacturarProducto') {
 
             try {

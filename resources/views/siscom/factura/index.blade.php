@@ -113,6 +113,8 @@
 
                                     <th>Total $</th>
 
+                                    <th>Comentario</th>
+
                                     <th>Acciones</th>
 
                                 </tr>
@@ -270,6 +272,8 @@
 
                                                 <td>{{ $factura->totalFactura }}</td>
 
+                                                <td>{{ $factura->comentario }}</td>
+
                                                 <td>
 
                                                     <div class="btn-group" role="group" aria-label="Basic example">
@@ -277,6 +281,12 @@
                                                         <a href="{{ route('factura.show', $factura->id) }}" class="btn btn-secondary btn-sm mr-1" data-toggle="tooltip" data-placement="bottom" title="Ver Detalle de la Factura">
                                                     
                                                             <i class="fas fa-eye"></i>
+
+                                                        </a>
+
+                                                        <a href="#" class="btn btn-light btn-sm mr-1 comentar" data-toggle="tooltip" data-placement="bottom" title="Agregar Comentario a la Factura">
+                                                    
+                                                            <i class="icofont-comment"></i>
 
                                                         </a>
 
@@ -547,7 +557,7 @@
 
             <div class="modal-header bg-primary text-white">
 
-                <h3 class="modal-title" id="exampleModalLabel"> Actualizar Factura <i class="fas fa-edit"></i></h3>
+                <h3 class="modal-title" id="exampleModalLabel" style="font-size: 1.2em"> Actualizar Factura <i class="fas fa-edit"></i></h3>
 
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
 
@@ -721,6 +731,102 @@
 
 </div>
 <!-- END Update Modal Factura -->
+
+<!-- Update Modal Comentar Factura -->
+<div class="modal fade" id="comentarFacturaModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+
+    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+
+        <div class="modal-content">
+
+            <div class="modal-header bg-light">
+
+                <h3 class="modal-title" id="exampleModalLabel" style="font-size: 1.2em"><i class="icofont-comment"></i> Comentar Factura / Boleta / Recibo</h3>
+
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+
+                    <span aria-hidden="true" class="text-white">&times;</span>
+
+                </button>
+
+            </div>
+
+
+            <form method="POST" action="#" class="was-validated" id="comentarFacturaForm">
+
+                @csrf
+                @method('PUT')
+
+                <input type="hidden" name="flag" value="Comentario">
+
+                <div class="modal-body">
+
+                    <div class="form-row">
+
+                        <div class="col mb-3">
+                                                                              
+                            <label for="factura">No. Factura / Boleta / Recibo</label>
+
+                            <input type="text" class="form-control" id="facturaComentar" name="factura_id"  readonly>
+
+                            <div class="invalid-feedback">
+                                                                                            
+                                Por favor ingrese el Número de la Factura
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    <div class="form-row">
+
+                        <div class="col mb-3">
+                                                                              
+                            <label for="comentario">Comentario</label>
+
+                            <textarea type="text" class="form-control" id="camentarFactura" name="comentarioFactura" required></textarea>
+
+                            <div class="invalid-feedback">
+                                                                                            
+                                Por favor ingrese el Comentario de la Factura
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    <div class="form-row">
+
+                        <button class="btn btn-success btn-block boton" type="submit">
+
+                            <i class="fas fa-save"></i>
+
+                            Guardar Comentario
+
+                        </button>
+
+                        <button type="button" class="btn btn-block btn-secondary" data-dismiss="modal" aria-label="Close">
+
+                            <i class="fas fa-arrow-left"></i>
+
+                            Cancelar
+
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</div>
+<!-- END Update Modal Comentar Factura -->
 
 <!-- DELETE Modal Factura -->
 <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -901,6 +1007,30 @@
 
                 $('#updateForm').attr('action', '/siscom/factura/' + data[0]);
                 $('#updateModal').modal('show');
+
+            });
+            //End Edit Record
+
+            //Start Edit Record
+            table.on('click', '.comentar', function () {
+
+                $tr = $(this).closest('tr');
+
+                if ($($tr).hasClass('child')) {
+
+                    $tr = $tr.prev('.parent');
+
+                }
+
+                var data = table.row($tr).data();
+
+                console.log(data);
+
+                $('#facturaComentar').val(data[2]);
+                $('#camentarFactura').val(data[12]);
+                
+                $('#comentarFacturaForm').attr('action', '/siscom/factura/' + data[0]);
+                $('#comentarFacturaModal').modal('show');
 
             });
             //End Edit Record

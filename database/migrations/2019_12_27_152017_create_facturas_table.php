@@ -24,6 +24,7 @@ class CreateFacturasTable extends Migration
             $table->bigInteger('totalFactura');
             $table->unsignedBigInteger('estado_id'); //foreing key estadoFactura
             $table->string('obsAnulacion')->nullable(); //OBS Anulacion Factura
+            $table->string('comentario')->nullable(); //Comentario que permitirá controlar iregularidades
             $table->datetime('fechaOficinaParte');
             $table->timestamps();
 
