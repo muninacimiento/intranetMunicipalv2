@@ -239,37 +239,29 @@
 
                             </div>
 
-                            <div class="form-row">
-                                
-                                <div class="col-md-8">
-                                    
-                                    <h5 class="text-muted float-right mt-3">Total Venta : $</h5> 
-
-                                </div>
-                                
-                                <div class="col-md-4 mb-3 col-xs-3">
-                                  
-                                    <input type="text" name="totalVenta" id="total" readonly style="border: 0;font-size: 2em;" size="15">   
+                            <form class="form-inline float-right mt-3">
                                             
-                                </div>
+                                <label class="my-1 mr-2 h5 text-muted" for="inlineFormCustomInput">Total Venta : $ </label>
 
-                            </div>    
+                                <input type="text" name="totalVenta" id="total" readonly style="border: 0;font-size: 2em;" size="15">   
+
+                            </form>
 
                             <div class="col-md-12">
                                     
-                                    <a href="{{url('/farmacia/ventas')}}" class="text-decoration-none">
+                                <a href="{{url('/farmacia/ventas')}}" class="text-decoration-none">
 
-                                        <button type="submit" class="btn btn-secondary btn-block"> 
+                                    <button type="submit" class="btn btn-secondary btn-block"> 
 
-                                            <i class="fas fa-arrow-left"></i>
+                                        <i class="fas fa-arrow-left"></i>
                                                 
-                                            Atrás
+                                        Atrás
 
-                                        </button>
+                                    </button>
 
-                                    </a>
+                                </a>
 
-                                </div>                        
+                            </div>                        
 
                         </div>
 

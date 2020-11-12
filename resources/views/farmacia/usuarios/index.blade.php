@@ -125,7 +125,15 @@
 
                                     <td>{{ $usuario->poblacion }}</td>
 
-                                    <td>{{ $usuario->telefono }}</td>
+                                    @if($usuario->telefono == 0)
+
+                                        <td style="color: white;background: red;">N/R (*)</td>
+
+                                    @else
+
+                                        <td>{{ $usuario->telefono }}</td>
+
+                                    @endif
 
                                     <td>{{ $usuario->sistemaPrevisional  }}</td>
 
@@ -184,6 +192,12 @@
                             </tfoot>
 
                         </table>
+
+                        <div class="p-2" style="color: red;">
+
+                            * N/R = No Registrado
+
+                        </div>
 
                     </div>
 
@@ -386,7 +400,7 @@
                                                                                   
                             <label for="id">Rut Usuario</label>
 
-                            <input type="text" class="form-control" id="rut" name="rutUpdate" placeholder="12.3456.789.0" required>
+                            <input type="text" class="form-control" id="rutUpdate" name="rutUpdate" placeholder="12.3456.789.0" required>
 
                             <div class="invalid-feedback">
 
@@ -450,7 +464,7 @@
                                                                                   
                             <label for="telefono">Teléfono</label>
 
-                            <input type="text" class="form-control" id="telefono" name="telefono" placeholder="987654321" required>
+                            <input type="text" class="form-control" id="telefonoUpdate" name="telefono" placeholder="987654321" required>
 
                             <div class="invalid-feedback">
                                                                                                             
@@ -519,9 +533,9 @@
     <script type="text/javascript" src="https://code.jquery.com/jquery-3.3.1.js" ></script>
     <script type="text/javascript" src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js" defer></script>
 
-<!-- JQuery DatePicker -->
-<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
-<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <!-- JQuery DatePicker -->
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 
 <script>
 

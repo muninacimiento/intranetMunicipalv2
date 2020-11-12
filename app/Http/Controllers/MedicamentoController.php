@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
 
 use App\CategoriaMedicamento;
+use App\VentaDetalleFarmacia;
 
 use DB;
 
@@ -148,6 +149,68 @@ class MedicamentoController extends Controller
         $medicamento->delete();
 
         return redirect('farmacia/medicamentos')->with('info', 'Medicamento Eliminado con Éxito !');
+
+    }
+
+    public function movimientoMedicamentos(Request $request)
+    {
+        $dateCarbon = Carbon::now()->locale('es')->isoFormat('dddd D, MMMM YYYY');
+
+        $medicamentos = DB::table('medicamentos')
+        ->select(DB::raw('CONCAT(medicamentos.id, " ) ", medicamentos.medicamento, " / ", medicamentos.principioActivo) as Medicamento'), 'medicamentos.id')
+        ->get();
+
+        $medicamentosTable = DB::table('medicamentos')
+        ->join('categoria_medicamentos', 'medicamentos.categoria_id', '=', 'categoria_medicamentos.id')
+        ->select('medicamentos.*', 'categoria_medicamentos.name as Categoria', DB::raw('medicamentos.stock * medicamentos.precioInventario as totalInventario'))
+        ->where('medicamentos.id', $request->medicamento_id)
+        ->whereBetween('medicamentos.created_at', [$request->fechaInicio, $request->fechaTermino])
+        ->get();
+
+        $detalleVentaTable = DB::table('venta_detalle_farmacias')
+        ->join('venta_farmacias', 'venta_detalle_farmacias.venta_id', '=', 'venta_farmacias.id')
+        ->join('medicamentos', 'venta_detalle_farmacias.medicamento_id', '=', 'medicamentos.id')
+        ->select('venta_detalle_farmacias.*', 'medicamentos.medicamento as Medicamento', 'medicamentos.precioInventario as Valor', DB::raw('(venta_detalle_farmacias.cantidad * medicamentos.precioInventario) as SubTotal'))
+        ->where('venta_detalle_farmacias.medicamento_id', $request->medicamento_id)
+        ->whereBetween('venta_detalle_farmacias.created_at', [$request->fechaInicio, $request->fechaTermino])
+        ->get();
+        
+        return view('farmacia.consultas.movimientoMedicamentos', compact('dateCarbon', 'medicamentos', 'medicamentosTable', 'detalleVentaTable'));
+
+    }
+
+    public function buscarMovMedicamentos(Request $request)
+    {
+        if ($request->fechaInicio <= $request->fechaTermino) {
+
+            $dateCarbon = Carbon::now()->locale('es')->isoFormat('dddd D, MMMM YYYY');
+
+            $medicamentos = DB::table('medicamentos')
+            ->select(DB::raw('CONCAT(medicamentos.id, " ) ", medicamentos.medicamento, " / ", medicamentos.principioActivo) as Medicamento'), 'medicamentos.medicamento')
+            ->get();
+
+            $medicamentosTable = DB::table('medicamentos')
+            ->join('categoria_medicamentos', 'medicamentos.categoria_id', '=', 'categoria_medicamentos.id')
+            ->select('medicamentos.*', 'categoria_medicamentos.name as Categoria', DB::raw('medicamentos.stock * medicamentos.precioInventario as totalInventario'))
+            ->where('medicamentos.medicamento', 'like', $request->medicamentoName.'%')
+            ->whereBetween('medicamentos.created_at', [$request->fechaInicio, $request->fechaTermino])
+            ->get();
+
+            $detalleVentaTable = DB::table('venta_detalle_farmacias')
+            ->join('venta_farmacias', 'venta_detalle_farmacias.venta_id', '=', 'venta_farmacias.id')
+            ->join('medicamentos', 'venta_detalle_farmacias.medicamento_id', '=', 'medicamentos.id')
+            ->select('venta_detalle_farmacias.*', 'medicamentos.*')
+            ->where('medicamentos.medicamento', 'like', $request->medicamentoName.'%')
+            ->whereBetween('venta_detalle_farmacias.created_at', [$request->fechaInicio, $request->fechaTermino])
+            ->get();
+
+            return view('farmacia.consultas.movimientoMedicamentos', compact('dateCarbon', 'medicamentos', 'medicamentosTable', 'detalleVentaTable'));
+
+        }
+        else{
+
+            return back()->with('danger', 'La Fecha de Termino NO puede ser Menor a la de Inicio');
+        }
 
     }
 }

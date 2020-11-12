@@ -2,7 +2,7 @@
 /*
  *  JFuentealba @itux
  *  created at September 10, 2019 - 11:23 am
- *  updated at 
+ *  updated at November 11, 2020 - 8:24 pm
  */
 -->
 <h1 class="font-weight-lighter">
@@ -70,8 +70,6 @@
 
   	</li>
 
-
-  	
   	<li class="nav-item dropdown">
 
   		<a class="nav-link text-white dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
@@ -101,8 +99,43 @@
 	    		Consultar Venta
 
 	    	</a>
+
+	    </div>
   	
   	</li>
  	
+  	<li class="nav-item dropdown">
+
+  		<a class="nav-link text-white dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
+	    		
+	    	<i class="icofont-question"></i>
+
+	    	Consultas
+
+	    </a>
+
+	    <div class="dropdown-menu">
+    
+	    	<a class="nav-link text-danger" href="{{ route('consultas.movimientoMedicamentos') }}">
+
+	    		<i class="icofont-retweet px-1"></i>
+
+	    		Movimiento de Medicamentos
+
+	    	</a>
+
+	    	<div class="dropdown-divider"></div>
+
+	    	{{--<a class="nav-link text-danger" href="{{ route('ventas.consulta') }}">
+
+	    		<i class="fas fa-question px-1"></i>
+
+	    		Consultar Venta
+
+	    	</a>--}}
+
+	    </div>
+  	
+  	</li>
 
 </ul>

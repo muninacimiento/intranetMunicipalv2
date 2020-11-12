@@ -203,13 +203,13 @@
 
                         </table>
 
-                        <div class="form-row mb-3 mt-3">
+                        <form class="form-inline float-right mt-3">
                                             
-                            <h5 class="text-muted">Total Inventario :&nbsp;$&nbsp;</h5>
+                            <label class="my-1 mr-2 h5 text-muted" for="inlineFormCustomInput">Total Inventario : $ </label>
 
                             <input type="text" name="totalInventario" id="total" readonly style="border: 0;font-size: 1.5em;">
 
-                        </div>
+                        </form>
 
                     </div>
 

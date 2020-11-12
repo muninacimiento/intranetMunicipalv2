@@ -208,9 +208,13 @@ Route::middleware(['auth'])->group( function() {
 	Route::post('/farmacia/ventas/{venta}', 'VentaFarmaciaController@show')->name('ventas.show')->middleware('can:ventas.show');
 	Route::put('/farmacia/ventas/medicamento/{venta}', 'VentaFarmaciaController@update')->name('ventas.update')->middleware('can:ventas.update');
 	Route::get('/farmacia/consultaVentas', 'VentaFarmaciaController@consulta')->name('ventas.consulta')->middleware('can:ventas.consulta'); 
+	Route::get('/farmacia/consultas/movimientoMedicamentos', 'MedicamentoController@movimientoMedicamentos')->name('consultas.movimientoMedicamentos')->middleware('can:consultas.movimientoMedicamentos'); 
+	Route::get('/farmacia/consultas', 'MedicamentoController@buscarMovMedicamentos')->name('consultas.buscarMovMedicamentos')->middleware('can:consultas.buscarMovMedicamentos'); 
 
 
-	
+	/*#############################################################################################################################################################
+	 *	NOTICIAS	###############################################################################################################################################
+	 *#############################################################################################################################################################*/
 
 	//Parte Admin (Vistas Admin)
 	Route::resource('webadmin', 'WebAdmin\RRPPController')->middleware('can:rrpp.index');
