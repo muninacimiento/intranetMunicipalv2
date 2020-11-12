@@ -190,8 +190,7 @@ class MedicamentoController extends Controller
             ->get();
 
             $medicamentosTable = DB::table('medicamentos')
-            ->join('categoria_medicamentos', 'medicamentos.categoria_id', '=', 'categoria_medicamentos.id')
-            ->select('medicamentos.*', 'categoria_medicamentos.name as Categoria', DB::raw('medicamentos.stock * medicamentos.precioInventario as totalInventario'))
+            ->select('medicamentos.*')
             ->where('medicamentos.medicamento', 'like', $request->medicamentoName.'%')
             ->whereBetween('medicamentos.created_at', [$request->fechaInicio, $request->fechaTermino])
             ->get();
@@ -199,7 +198,7 @@ class MedicamentoController extends Controller
             $detalleVentaTable = DB::table('venta_detalle_farmacias')
             ->join('venta_farmacias', 'venta_detalle_farmacias.venta_id', '=', 'venta_farmacias.id')
             ->join('medicamentos', 'venta_detalle_farmacias.medicamento_id', '=', 'medicamentos.id')
-            ->select('venta_detalle_farmacias.*', 'medicamentos.*')
+            ->select('venta_detalle_farmacias.*', 'medicamentos.id as ID', 'medicamentos.medicamento as Medicamento', 'medicamentos.principioActivo as PrincipioActivo', 'medicamentos.lote as Lote')
             ->where('medicamentos.medicamento', 'like', $request->medicamentoName.'%')
             ->whereBetween('venta_detalle_farmacias.created_at', [$request->fechaInicio, $request->fechaTermino])
             ->get();

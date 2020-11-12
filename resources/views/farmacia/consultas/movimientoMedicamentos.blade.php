@@ -209,13 +209,13 @@
 
                                         <tr>
 
-                                            <td>{{ $dv->id }}</td>
+                                            <td>{{ $dv->ID }}</td>
 
-                                            <td>{{ $dv->medicamento }}</td>
+                                            <td>{{ $dv->Medicamento }}</td>
 
-                                            <td>{{ $dv->principioActivo }}</td>
+                                            <td>{{ $dv->PrincipioActivo }}</td>
 
-                                            <td>{{ $dv->lote }}</td>
+                                            <td>{{ $dv->Lote }}</td>
 
                                             <td>{{ $dv->cantidad }}</td>
 
