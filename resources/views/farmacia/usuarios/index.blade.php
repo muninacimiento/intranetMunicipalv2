@@ -103,6 +103,8 @@
 
                                     <th>Previsión</th>
 
+                                    <th>Registrado</th>
+
                                     <th>Acciones</th>
 
                                 </tr>
@@ -136,6 +138,8 @@
                                     @endif
 
                                     <td>{{ $usuario->sistemaPrevisional  }}</td>
+
+                                    <td>{{ date('d-m-Y', strtotime( $usuario->created_at ) }}</td>
 
                                     <td>
 

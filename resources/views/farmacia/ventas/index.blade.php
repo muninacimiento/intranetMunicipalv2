@@ -117,7 +117,7 @@
 
                                     <td>{{ $v->Comprador }}</td>
 
-                                    <td>{{ date('d-m-Y H:i:s', strtotime($v->created_at)) }}</td>
+                                    <td>{{ date('d-m-Y', strtotime($v->created_at)) }}</td>
 
                                     <td>{{ $v->Vendedor }}</td>
 

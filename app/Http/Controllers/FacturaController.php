@@ -1,28 +1,19 @@
 <?php
 
 namespace App\Http\Controllers;
-
 use App\Factura;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-
 /* Invocamos la clase Carbon para trabajar con fechas */
 use Carbon\Carbon;
-
 use App\OrdenCompra;
-
 use App\MoveOC;
-
 use App\MoveFactura;
-
 /* Invocamos el modelo de la Entidad DetalleSolicitud*/
 use App\DetailSolicitud;
-
 use App\Solicitud;
-
 /* Invocamos el modelo de la Entidad Movimiento de la Solicitud*/
 use App\MoveSolicitud;
-
 use DB;
 
 class FacturaController extends Controller
@@ -34,53 +25,49 @@ class FacturaController extends Controller
      */
     public function index()
     {
-
         $dateCarbon = Carbon::now()->locale('es')->isoFormat('dddd D, MMMM YYYY');
 
         $proveedores = DB::table('proveedores')
-                        ->select(DB::raw('CONCAT(proveedores.id, " ) ", proveedores.razonSocial) as RazonSocial'), 'proveedores.id')
-                        ->get();
+        ->select(DB::raw('CONCAT(proveedores.id, " ) ", proveedores.razonSocial) as RazonSocial'), 'proveedores.id')
+        ->get();
 
         $ocs = DB::table('orden_compras')
-                    ->join('status_o_c_s', 'orden_compras.estado_id', 'status_o_c_s.id')
-                    ->select(DB::raw('CONCAT(orden_compras.id, " ) ", orden_compras.ordenCompra_id, " / ", status_o_c_s.estado) as OC'), 'orden_compras.id')
-                    ->get();
+        ->join('status_o_c_s', 'orden_compras.estado_id', 'status_o_c_s.id')
+        ->select(DB::raw('CONCAT(orden_compras.id, " ) ", orden_compras.ordenCompra_id, " / ", status_o_c_s.estado) as OC'), 'orden_compras.id')
+        ->get();
 
         $facturas = DB::table('facturas')
-                    ->join('status_facturas', 'facturas.estado_id', '=', 'status_facturas.id')
-                    ->join('proveedores', 'facturas.proveedor_id', '=', 'proveedores.id')
-                    ->join('orden_compras', 'facturas.ordenCompra_id', '=', 'orden_compras.id')
-                    ->select('facturas.*', 'proveedores.razonSocial as RazonSocial', 'status_facturas.estado as Estado', 'orden_compras.ordenCompra_id as NoOC')
-                    ->where('facturas.estado_id', '!=', 4)
-                    ->get();
+        ->join('status_facturas', 'facturas.estado_id', 'status_facturas.id')
+        ->join('proveedores', 'facturas.proveedor_id', 'proveedores.id')
+        ->join('orden_compras', 'facturas.ordenCompra_id', 'orden_compras.id')
+        ->select('facturas.*', 'proveedores.razonSocial as RazonSocial', 'status_facturas.estado as Estado', 'orden_compras.ordenCompra_id as NoOC')
+        ->where('facturas.estado_id', '!=', 4)
+        ->get();
 
         $moveFacturas = DB::table('move_facturas') 
-                ->join('facturas', 'move_facturas.factura_id', 'facturas.id')
-                ->select('move_facturas.*')
-                ->get();
-
-        //dd($facturas);
+        ->join('facturas', 'move_facturas.factura_id', 'facturas.id')
+        ->select('move_facturas.*')
+        ->get();
+//dd($facturas);
 
         return view('siscom.factura.index', compact('facturas', 'proveedores', 'dateCarbon', 'ocs', 'moveFacturas'));
     }
 
     public function consulta()
     {
-
         /*
          * Definimos variable que contendrá la fecha actual del sistema
          */
         $dateCarbon = Carbon::now()->locale('es')->isoFormat('dddd D, MMMM YYYY');
 
         $facturas = DB::table('facturas')
-                    ->join('status_facturas', 'facturas.estado_id', '=', 'status_facturas.id')
-                    ->join('proveedores', 'facturas.proveedor_id', '=', 'proveedores.id')
-                    ->join('orden_compras', 'facturas.ordenCompra_id', '=', 'orden_compras.id')
-                    ->select('facturas.*', 'proveedores.razonSocial as RazonSocial', 'status_facturas.estado as Estado', 'orden_compras.ordenCompra_id as NoOC')
-                    ->orderBy('facturas.id', 'desc')
-                    ->get();
-
-        //dd($solicituds);
+        ->join('status_facturas', 'facturas.estado_id', 'status_facturas.id')
+        ->join('proveedores', 'facturas.proveedor_id', 'proveedores.id')
+        ->join('orden_compras', 'facturas.ordenCompra_id', 'orden_compras.id')
+        ->select('facturas.*', 'proveedores.razonSocial as RazonSocial', 'status_facturas.estado as Estado', 'orden_compras.ordenCompra_id as NoOC')
+        ->orderBy('facturas.id', 'desc')
+        ->get();
+//dd($solicituds);
 
         /* Retornamos a la vista los resultados psanadolos por parametros */
         return view('siscom.factura.consulta', compact('dateCarbon', 'facturas'));
@@ -104,9 +91,7 @@ class FacturaController extends Controller
      */
     public function store(Request $request)
     {
-
         try {
-
                 DB::beginTransaction();
 
                     $factura = new Factura;
@@ -131,18 +116,11 @@ class FacturaController extends Controller
 
                     $move->save();
 
-                DB::commit();
-                
+                DB::commit();                
             } catch (Exception $e) {
-
-                DB::rollback();
-                
+                DB::rollback();                
             }
-
-        
-
         return back()->with('info', 'Factura Creada con Éxito!');
-
     }
 
     /**
@@ -156,51 +134,50 @@ class FacturaController extends Controller
         $dateCarbon = Carbon::now()->locale('es')->isoFormat('dddd D, MMMM YYYY');
 
         $proveedores = DB::table('proveedores')
-                        ->select(DB::raw('CONCAT(proveedores.id, " ) ", proveedores.razonSocial) as RazonSocial'), 'proveedores.id')
-                        ->get();
+        ->select(DB::raw('CONCAT(proveedores.id, " ) ", proveedores.razonSocial) as RazonSocial'), 'proveedores.id')
+        ->get();
 
         $factura = DB::table('facturas')
-                    ->join('proveedores', 'facturas.proveedor_id', '=', 'proveedores.id')
-                    ->join('orden_compras', 'facturas.ordenCompra_id', '=', 'orden_compras.id')
-                    ->join('detail_solicituds', 'orden_compras.id', '=', 'detail_solicituds.ordenCompra_id')
-                    ->join('solicituds', 'detail_solicituds.solicitud_id', '=', 'solicituds.id')
-                    ->join('users', 'facturas.user_id', '=', 'users.id')
-                    ->join('status_facturas', 'facturas.estado_id', '=', 'status_facturas.id')
-                    ->join('dependencies', 'users.dependency_id', '=', 'dependencies.id')
-                    ->select('facturas.*', 'proveedores.razonSocial as RazonSocial', 'dependencies.name as Dependencia', 'users.name as userName', 'status_facturas.estado as Estado')
-                    ->where('facturas.id', '=', $id)
-                    ->first();
+        ->join('proveedores', 'facturas.proveedor_id', 'proveedores.id')
+        ->join('orden_compras', 'facturas.ordenCompra_id', 'orden_compras.id')
+        ->join('detail_solicituds', 'orden_compras.id', 'detail_solicituds.ordenCompra_id')
+        ->join('solicituds', 'detail_solicituds.solicitud_id', 'solicituds.id')
+        ->join('users', 'facturas.user_id', 'users.id')
+        ->join('status_facturas', 'facturas.estado_id', 'status_facturas.id')
+        ->join('dependencies', 'users.dependency_id', 'dependencies.id')
+        ->select('facturas.*', 'proveedores.razonSocial as RazonSocial', 'dependencies.name as Dependencia', 'users.name as userName', 'status_facturas.estado as Estado')
+        ->where('facturas.id', $id)
+        ->first();
 
         $move = DB::table('move_facturas') 
-                ->join('status_facturas', 'move_facturas.estadoFactura_id', 'status_facturas.id')               
-                ->join('users', 'move_facturas.user_id', 'users.id')
-                ->select('move_facturas.*', 'status_facturas.estado as status', 'users.name as name', 'move_facturas.created_at as date')
-                ->where('move_facturas.factura_id', '=', $id)
-                ->get();
+        ->join('status_facturas', 'move_facturas.estadoFactura_id', 'status_facturas.id')               
+        ->join('users', 'move_facturas.user_id', 'users.id')
+        ->select('move_facturas.*', 'status_facturas.estado as status', 'users.name as name', 'move_facturas.created_at as date')
+        ->where('move_facturas.factura_id',  $id)
+        ->get();
 
         $detalleSolicituds = DB::table('detail_solicituds')
-                    ->join('products', 'detail_solicituds.product_id', 'products.id')
-                    ->join('solicituds', 'detail_solicituds.solicitud_id', '=', 'solicituds.id')
-                    ->leftjoin('orden_compras', 'detail_solicituds.ordenCompra_id', '=', 'orden_compras.id')
-                    ->leftjoin('status_o_c_s', 'orden_compras.estado_id', '=', 'status_o_c_s.id')
-                    ->leftjoin('licitacions', 'detail_solicituds.licitacion_id', '=', 'licitacions.id')
-                    ->leftjoin('status_licitacions', 'licitacions.estado_id', '=', 'status_licitacions.id')
-                    ->select('detail_solicituds.*', 'products.name as Producto', 'orden_compras.ordenCompra_id as NoOC', 'status_o_c_s.estado as EstadoOC', 'licitacions.licitacion_id as NoLicitacion', 'status_licitacions.estado as EstadoLicitacion')
-                     ->where('detail_solicituds.ordenCompra_id', $factura->ordenCompra_id)
-                    ->get();
+        ->join('products', 'detail_solicituds.product_id', 'products.id')
+        ->join('solicituds', 'detail_solicituds.solicitud_id', 'solicituds.id')
+        ->leftjoin('orden_compras', 'detail_solicituds.ordenCompra_id', 'orden_compras.id')
+        ->leftjoin('status_o_c_s', 'orden_compras.estado_id', 'status_o_c_s.id')
+        ->leftjoin('licitacions', 'detail_solicituds.licitacion_id', 'licitacions.id')
+        ->leftjoin('status_licitacions', 'licitacions.estado_id', 'status_licitacions.id')
+        ->select('detail_solicituds.*', 'products.name as Producto', 'orden_compras.ordenCompra_id as NoOC', 'status_o_c_s.estado as EstadoOC', 'licitacions.licitacion_id as NoLicitacion', 'status_licitacions.estado as EstadoLicitacion')
+        ->where('detail_solicituds.ordenCompra_id', $factura->ordenCompra_id)
+        ->get();
 
         //Traemos todos los productos de la OC
         $fullFactura = DB::table('detail_solicituds')
-            ->where('detail_solicituds.factura_id', '=', $id)
-            ->count();
+        ->where('detail_solicituds.factura_id', $id)
+        ->count();
 
         $parcialFactura = DB::table('detail_solicituds')
-            ->where('detail_solicituds.ordenCompra_id', '=', $factura->ordenCompra_id)
-            ->where('detail_solicituds.factura_id', '=', null)
-            ->count();
+        ->where('detail_solicituds.ordenCompra_id', $factura->ordenCompra_id)
+        ->where('detail_solicituds.factura_id', null)
+        ->count();
 
         return view('siscom.factura.show', compact('factura', 'proveedores', 'dateCarbon', 'detalleSolicituds', 'move', 'fullFactura', 'parcialFactura'));
-
     }
 
     public function validar($id)
@@ -208,41 +185,40 @@ class FacturaController extends Controller
         $dateCarbon = Carbon::now()->locale('es')->isoFormat('dddd D, MMMM YYYY');
 
         $proveedores = DB::table('proveedores')
-                        ->select(DB::raw('CONCAT(proveedores.id, " ) ", proveedores.razonSocial) as RazonSocial'), 'proveedores.id')
-                        ->get();
+        ->select(DB::raw('CONCAT(proveedores.id, " ) ", proveedores.razonSocial) as RazonSocial'), 'proveedores.id')
+        ->get();
 
         $factura = DB::table('facturas')
-                    ->join('proveedores', 'facturas.proveedor_id', '=', 'proveedores.id')
-                    ->join('orden_compras', 'facturas.ordenCompra_id', '=', 'orden_compras.id')
-                    ->join('detail_solicituds', 'orden_compras.id', '=', 'detail_solicituds.ordenCompra_id')
-                    ->join('solicituds', 'detail_solicituds.solicitud_id', '=', 'solicituds.id')
-                    ->join('users', 'facturas.user_id', '=', 'users.id')
-                    ->join('dependencies', 'users.dependency_id', '=', 'dependencies.id')
-                     ->join('status_facturas', 'facturas.estado_id', '=', 'status_facturas.id')
-                    ->select('facturas.*', 'proveedores.razonSocial as RazonSocial', 'dependencies.name as Dependencia', 'users.name as userName', 'status_facturas.estado as Estado')
-                    ->where('facturas.id', '=', $id)
-                    ->first();
+        ->join('proveedores', 'facturas.proveedor_id', 'proveedores.id')
+        ->join('orden_compras', 'facturas.ordenCompra_id', 'orden_compras.id')
+        ->join('detail_solicituds', 'orden_compras.id', 'detail_solicituds.ordenCompra_id')
+        ->join('solicituds', 'detail_solicituds.solicitud_id', 'solicituds.id')
+        ->join('users', 'facturas.user_id', 'users.id')
+        ->join('dependencies', 'users.dependency_id', 'dependencies.id')
+        ->join('status_facturas', 'facturas.estado_id', 'status_facturas.id')
+        ->select('facturas.*', 'proveedores.razonSocial as RazonSocial', 'dependencies.name as Dependencia', 'users.name as userName', 'status_facturas.estado as Estado')
+        ->where('facturas.id', '=', $id)
+        ->first();
 
         $move = DB::table('move_facturas') 
-                ->join('status_facturas', 'move_facturas.estadoFactura_id', 'status_facturas.id')               
-                ->join('users', 'move_facturas.user_id', 'users.id')
-                ->select('move_facturas.*', 'status_facturas.estado as status', 'users.name as name', 'move_facturas.created_at as date')
-                ->where('move_facturas.factura_id', '=', $id)
-                ->get();
+        ->join('status_facturas', 'move_facturas.estadoFactura_id', 'status_facturas.id')               
+        ->join('users', 'move_facturas.user_id', 'users.id')
+        ->select('move_facturas.*', 'status_facturas.estado as status', 'users.name as name', 'move_facturas.created_at as date')
+        ->where('move_facturas.factura_id',  $id)
+        ->get();
 
         $detalleSolicituds = DB::table('detail_solicituds')
-                    ->join('products', 'detail_solicituds.product_id', 'products.id')
-                    ->join('solicituds', 'detail_solicituds.solicitud_id', '=', 'solicituds.id')
-                    ->leftjoin('orden_compras', 'detail_solicituds.ordenCompra_id', '=', 'orden_compras.id')
-                    ->leftjoin('status_o_c_s', 'orden_compras.estado_id', '=', 'status_o_c_s.id')
-                    ->leftjoin('licitacions', 'detail_solicituds.licitacion_id', '=', 'licitacions.id')
-                    ->leftjoin('status_licitacions', 'licitacions.estado_id', '=', 'status_licitacions.id')
-                    ->select('detail_solicituds.*', 'products.name as Producto', 'orden_compras.ordenCompra_id as NoOC', 'status_o_c_s.estado as EstadoOC', 'licitacions.licitacion_id as NoLicitacion', 'status_licitacions.estado as EstadoLicitacion')
-                     ->where('detail_solicituds.ordenCompra_id', $factura->ordenCompra_id)
-                    ->get();
+        ->join('products', 'detail_solicituds.product_id', 'products.id')
+        ->join('solicituds', 'detail_solicituds.solicitud_id', '=', 'solicituds.id')
+        ->leftjoin('orden_compras', 'detail_solicituds.ordenCompra_id', '=', 'orden_compras.id')
+        ->leftjoin('status_o_c_s', 'orden_compras.estado_id', '=', 'status_o_c_s.id')
+        ->leftjoin('licitacions', 'detail_solicituds.licitacion_id', '=', 'licitacions.id')
+        ->leftjoin('status_licitacions', 'licitacions.estado_id', '=', 'status_licitacions.id')
+        ->select('detail_solicituds.*', 'products.name as Producto', 'orden_compras.ordenCompra_id as NoOC', 'status_o_c_s.estado as EstadoOC', 'licitacions.licitacion_id as NoLicitacion', 'status_licitacions.estado as EstadoLicitacion')
+        ->where('detail_solicituds.ordenCompra_id', $factura->ordenCompra_id)
+        ->get();
 
         return view('siscom.factura.validar', compact('factura', 'proveedores', 'dateCarbon', 'detalleSolicituds', 'move'));
-
     }
 
     /**
@@ -265,11 +241,8 @@ class FacturaController extends Controller
      */
     public function update(Request $request, $id)
     {
-
         if ($request->flag == 'Actualizar') {
-
             try {
-
                     DB::beginTransaction();
 
                         $factura = Factura::findOrFail($id);;
@@ -284,22 +257,15 @@ class FacturaController extends Controller
 
                         $factura->save();
 
-                    DB::commit();
-                    
+                    DB::commit();                    
             } catch (Exception $e) {
-
-                DB::rollback();
-                    
+                DB::rollback();                    
             }
-
             return back();
-
         }
 
         if ($request->flag == 'Comentario') {
-
             try {
-
                     DB::beginTransaction();
 
                         $factura = Factura::findOrFail($id);;
@@ -307,22 +273,15 @@ class FacturaController extends Controller
 
                         $factura->save();
 
-                    DB::commit();
-                    
+                    DB::commit();                    
             } catch (Exception $e) {
-
-                DB::rollback();
-                    
+                DB::rollback();                    
             }
-
             return back()->with('info', 'Comentario Agregado a la Factura Correctamente');
-
         }
 
         else if ($request->flag == 'FacturarProducto') {
-
             try {
-
                 DB::beginTransaction();
 
                     $facturar = DetailSolicitud::findOrFail($id);
@@ -350,21 +309,15 @@ class FacturaController extends Controller
                     $moveSolicitud->estadoSolicitud_id               = 10;
                     $moveSolicitud->fecha                            = $facturar->updated_at;
                     $moveSolicitud->user_id                          = Auth::user()->id;
-                    $moveSolicitud->save();
+                    $moveSolicitud->save();                    
 
-                    
-
-                DB::commit();
-                
+                DB::commit();                
             } catch (Exception $e) {
-
-                db::rollback();
-                
-            }
-            
+                db::rollback();                
+            }            
             return back()->with('info', 'Producto Órden de Compra Facturado Correctamente!');
-
-        }else if ($request->flag == 'NoFacturarProducto') {
+        }
+        else if ($request->flag == 'NoFacturarProducto') {
 
             $nofacturar = DetailSolicitud::findOrFail($id);
 
@@ -372,42 +325,35 @@ class FacturaController extends Controller
             $nofacturar->save();
 
             return back()->with('info', 'Producto Órden de Compra NO Facturado Correctamente!');
-
         }
-
         // Facturar TODOS los Productos de la Órden de Compra 
         else if ($request->flag == 'FacturarTodosProductos') {
-
             try {
-
                 DB::beginTransaction();
 
                     $dateCarbon = Carbon::now();
 
                     //Traemos todos los productos de la OC
                     $fullFactura = DB::table('detail_solicituds')
-                                    ->where('detail_solicituds.ordenCompra_id', '=', $id)
-                                    ->count();
+                    ->where('detail_solicituds.ordenCompra_id', $id)
+                    ->count();
 
                     $parcialFactura = DB::table('detail_solicituds')
-                                        ->where('detail_solicituds.ordenCompra_id', '=', $id)
-                                        ->where('detail_solicituds.factura_id', '=', null)
-                                        ->count();
+                    ->where('detail_solicituds.ordenCompra_id', $id)
+                    ->where('detail_solicituds.factura_id', null)
+                    ->count();
 //dd($fullFactura);
-
-                    if ($fullFactura == $parcialFactura) {
-                        
+                    if ($fullFactura == $parcialFactura) {                        
                         $dSolicitud = DetailSolicitud::where('ordenCompra_id', $id);    
                         $dSolicitud->update(['factura_id'=> $request->factura_id]);
 
                         //Buscamos la Solicitud relacionada con la OC a recepcionar
                         $s = DB::table('detail_solicituds')
-                                    //->join('detail_solicituds', 'solicituds.id', '=', 'detail_solicituds.solicitud_id')
-                                    //->join('orden_compras', 'detail_solicituds.ordenCompra_id', '=', 'orden_compras.id')
-                                    ->select('detail_solicituds.solicitud_id')
-                                    ->where('detail_solicituds.ordenCompra_id', '=', $id)
-                                    ->first();
-
+                        //->join('detail_solicituds', 'solicituds.id', '=', 'detail_solicituds.solicitud_id')
+                        //->join('orden_compras', 'detail_solicituds.ordenCompra_id', '=', 'orden_compras.id')
+                        ->select('detail_solicituds.solicitud_id')
+                        ->where('detail_solicituds.ordenCompra_id', $id)
+                        ->first();
 //dd($s);
                         //Actualizmos el estado de la Solicitud
                         $solicitud = Solicitud::findOrFail($s->solicitud_id); 
@@ -419,7 +365,6 @@ class FacturaController extends Controller
                         $oc = OrdenCompra::findOrFail($id);
                         $oc->estado_id                          = 20;
                         $oc->save();
-
 
                         //Guardamos el Movimientos de la Solicitud
                         $move = new MoveSolicitud;
@@ -437,26 +382,17 @@ class FacturaController extends Controller
                         $move->user_id                          = Auth::user()->id;
                         $move->save();      
 
-                    }
+                    }                    
 
-                    
-
-                DB::commit();
-                
+                DB::commit();                
             } catch (Exception $e) {
-
-                db::rollback();
-                
+                db::rollback();                
             }
-
             return redirect('/siscom/factura')->with('info', 'Productos de Órden de Compra Facturados con éxito !');
         }  
-
         // Enviada a VB
         else if ($request->flag == 'EnviadaVB') {
-
             try {
-
                 DB::beginTransaction();
 
                     $factura = Factura::findOrFail($id);
@@ -472,23 +408,15 @@ class FacturaController extends Controller
 
                     $move->save();
 
-
-                DB::commit();
-                
+                DB::commit();                
             } catch (Exception $e) {
-
-                db::rollback();
-                
+                db::rollback();                
             }
-
             return back();
         } 
-
         // Recepcionada con VB
         else if ($request->flag == 'RecepcionarVB') {
-
             try {
-
                 DB::beginTransaction();
 
                     $factura = Factura::findOrFail($id);
@@ -504,23 +432,15 @@ class FacturaController extends Controller
 
                     $move->save();
 
-
-                DB::commit();
-                
+                DB::commit();                
             } catch (Exception $e) {
-
-                db::rollback();
-                
+                db::rollback();                
             }
-
             return back();
         } 
-
         // Enviada a VB
         else if ($request->flag == 'EnviarPago') {
-
             try {
-
                 DB::beginTransaction();
 
                     $factura = Factura::findOrFail($id);
@@ -537,17 +457,12 @@ class FacturaController extends Controller
                     $move->save();
 
 
-                DB::commit();
-                
+                DB::commit();                
             } catch (Exception $e) {
-
-                db::rollback();
-                
+                db::rollback();                
             }
-
             return back();
         } 
-
     }
 
     /**

@@ -1,16 +1,11 @@
 <?php
 
 namespace App\Http\Controllers;
-
 use Illuminate\Http\Request;
-
 /* Invocamos la clase Carbon para trabajar con fechas */
 use Carbon\Carbon;
-
 use App\CategoriaMedicamento;
-
 use App\Medicamento;
-
 use DB;
 
 class CategoriaMedicamentoController extends Controller

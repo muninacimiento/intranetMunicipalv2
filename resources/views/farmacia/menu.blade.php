@@ -126,13 +126,23 @@
 
 	    	<div class="dropdown-divider"></div>
 
-	    	{{--<a class="nav-link text-danger" href="{{ route('ventas.consulta') }}">
+	    	<a class="nav-link text-danger" href="{{ route('consultas.medicamentosSinStock') }}">
 
-	    		<i class="fas fa-question px-1"></i>
+	    		<i class="icofont-ban px-1"></i>
 
-	    		Consultar Venta
+	    		Medicamentos Sin Stock
 
-	    	</a>--}}
+	    	</a>
+
+	    	<div class="dropdown-divider"></div>
+
+	    	<a class="nav-link text-danger" href="{{ route('consultas.medicamentosVencidos') }}">
+
+	    		<i class="icofont-barcode px-1"></i>
+
+	    		Medicamentos Vencidos
+
+	    	</a>
 
 	    </div>
   	

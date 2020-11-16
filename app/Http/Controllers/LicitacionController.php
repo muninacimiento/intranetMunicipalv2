@@ -1,25 +1,17 @@
 <?php
 
 namespace App\Http\Controllers;
-
 use App\Licitacion;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-
 /* Invocamos la clase Carbon para trabajar con fechas */
 use Carbon\Carbon;
-
 use App\MoveLicitacion;
-
 use App\AssignRequestToLicitacion;
-
 use App\DetailSolicitud;
-
 use App\Solicitud;
-
 /* Invocamos el modelo de la Entidad Movimiento de la Solicitud*/
 use App\MoveSolicitud;
-
 use DB;
 
 class LicitacionController extends Controller
@@ -30,27 +22,24 @@ class LicitacionController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index()
-    {
-        
+    {        
         /*
          * Definimos variable que contendrá la fecha actual del sistema
          */
         $dateCarbon = Carbon::now()->locale('es')->isoFormat('dddd D, MMMM YYYY');
 
         $ocs = DB::table('orden_compras')
-                    ->select(DB::raw('CONCAT(orden_compras.id, " ) ", orden_compras.ordenCompra_id) as OC'), 'orden_compras.id')
-                    ->get();
+        ->select(DB::raw('CONCAT(orden_compras.id, " ) ", orden_compras.ordenCompra_id) as OC'), 'orden_compras.id')
+        ->get();
 
         $licitaciones = DB::table('licitacions')
-                    ->join('status_licitacions', 'licitacions.estado_id', '=', 'status_licitacions.id')
-                    ->leftjoin('orden_compras', 'licitacions.ordenCompra_id', 'orden_compras.id')
-                    ->select('licitacions.*', 'status_licitacions.estado as Estado', 'orden_compras.ordenCompra_id as NoOC')
-                    ->get();
-
-        //dd(Auth::user()->id);
+        ->join('status_licitacions', 'licitacions.estado_id', '=', 'status_licitacions.id')
+        ->leftjoin('orden_compras', 'licitacions.ordenCompra_id', 'orden_compras.id')
+        ->select('licitacions.*', 'status_licitacions.estado as Estado', 'orden_compras.ordenCompra_id as NoOC')
+        ->get();
+//dd(Auth::user()->id);
 
         return view('siscom.licitacion.index', compact('licitaciones', 'dateCarbon', 'ocs'));
-
     }
 
     /**
@@ -72,7 +61,6 @@ class LicitacionController extends Controller
     public function store(Request $request)
     {
         try {
-
                 DB::beginTransaction();
 
                 //Comenzamos a capturar desde la vista los datos a guardar de la SOLICITUD
@@ -96,14 +84,10 @@ class LicitacionController extends Controller
 
                 $move->save(); //Guardamos el Movimiento de la Solicitud    
 
-                DB::commit(); //Ejecutamos ambas sentencias y si todo resulta OK, guarda, sino ejecuta el catch
-                
+                DB::commit();                
             } catch (Exception $e) {
-
-                DB::rollback();
-                
-            }
-            
+                DB::rollback();                
+            }            
             return redirect('/siscom/licitacion')->with('info', 'Licitación Creada con Éxito !');
     }
 
@@ -115,38 +99,34 @@ class LicitacionController extends Controller
      */
     public function show($id)
     {
-
         $licitacion = DB::table('licitacions')
-                     ->join('status_licitacions', 'licitacions.estado_id', '=', 'status_licitacions.id')
-                    ->select('licitacions.*', 'status_licitacions.estado as Estado')
-                    ->where('licitacions.id', '=', $id)
-                    ->first();
+        ->join('status_licitacions', 'licitacions.estado_id', 'status_licitacions.id')
+        ->select('licitacions.*', 'status_licitacions.estado as Estado')
+        ->where('licitacions.id', $id)
+        ->first();
 
         $move = DB::table('move_licitacions') 
-                ->join('status_licitacions', 'move_licitacions.estadoLicitacion_id', 'status_licitacions.id')               
-                ->join('users', 'move_licitacions.user_id', 'users.id')
-                ->select('status_licitacions.estado as status', 'users.name as name', 'move_licitacions.*')
-                ->where('move_licitacions.licitacion_id', '=', $id)
-                ->get();
+        ->join('status_licitacions', 'move_licitacions.estadoLicitacion_id', 'status_licitacions.id')               
+        ->join('users', 'move_licitacions.user_id', 'users.id')
+        ->select('status_licitacions.estado as status', 'users.name as name', 'move_licitacions.*')
+        ->where('move_licitacions.licitacion_id', $id)
+        ->get();
 
         $detalleSolicitud = DB::table('detail_solicituds')
-                    ->join('products', 'detail_solicituds.product_id', 'products.id')
-                    ->join('solicituds', 'detail_solicituds.solicitud_id', '=', 'solicituds.id')
-                    //->join('assign_request_to_licitacions', 'detail_solicituds.solicitud_id', '=', 'assign_request_to_licitacions.solicitud_id')
-                    //->join('orden_compras', 'detail_solicituds.ordenCompra_id', '=', 'orden_compras.id')
-                    ->select('detail_solicituds.*', 'products.name as Producto')
-                    ->where('detail_solicituds.licitacion_id', $id)
-                    ->get();    
-
+        ->join('products', 'detail_solicituds.product_id', 'products.id')
+        ->join('solicituds', 'detail_solicituds.solicitud_id', 'solicituds.id')
+        //->join('assign_request_to_licitacions', 'detail_solicituds.solicitud_id', '=', 'assign_request_to_licitacions.solicitud_id')
+        //->join('orden_compras', 'detail_solicituds.ordenCompra_id', '=', 'orden_compras.id')
+        ->select('detail_solicituds.*', 'products.name as Producto')
+        ->where('detail_solicituds.licitacion_id', $id)
+        ->get();  
 //dd($id);
 
         return view('siscom.licitacion.show', compact('licitacion', 'move', 'detalleSolicitud'));
-
     }
 
     public function agregarProductos($id, Request $request)
     {
-
         /*
          * Definimos variable que contendrá la fecha actual del sistema
          */
@@ -154,33 +134,30 @@ class LicitacionController extends Controller
 
         /* Declaramos la variable que contendrá todos los permisos existentes en la base de datos */
         $licitacion = DB::table('licitacions')
-                     ->join('status_licitacions', 'licitacions.estado_id', '=', 'status_licitacions.id')
-                    ->select('licitacions.*', 'status_licitacions.estado as Estado')
-                    ->where('licitacions.id', '=', $id)
-                    ->first();
+        ->join('status_licitacions', 'licitacions.estado_id', 'status_licitacions.id')
+        ->select('licitacions.*', 'status_licitacions.estado as Estado')
+        ->where('licitacions.id', $id)
+        ->first();
 
         $detalleSolicitud = DB::table('detail_solicituds')
-                    ->join('products', 'detail_solicituds.product_id', 'products.id')
-                    ->join('solicituds', 'detail_solicituds.solicitud_id', '=', 'solicituds.id')
-                    ->join('assign_request_to_licitacions', 'detail_solicituds.solicitud_id', '=', 'assign_request_to_licitacions.solicitud_id')
-                    //->join('orden_compras', 'detail_solicituds.ordenCompra_id', '=', 'orden_compras.id')
-                    ->select('detail_solicituds.*', 'products.name as Producto')
-                    ->where('assign_request_to_licitacions.licitacion_id', '=', $licitacion->id)
-                    ->get();     
+        ->join('products', 'detail_solicituds.product_id', 'products.id')
+        ->join('solicituds', 'detail_solicituds.solicitud_id', 'solicituds.id')
+        ->join('assign_request_to_licitacions', 'detail_solicituds.solicitud_id', 'assign_request_to_licitacions.solicitud_id')
+        //->join('orden_compras', 'detail_solicituds.ordenCompra_id', '=', 'orden_compras.id')
+        ->select('detail_solicituds.*', 'products.name as Producto')
+        ->where('assign_request_to_licitacions.licitacion_id',  $licitacion->id)
+        ->get();     
 
         $existeLicitacion = DetailSolicitud::where('licitacion_id', $id)->count();
 
         $solicitudNo = $request->numeroSolicitud;
 
         //dd($existeOC);
-
         return view('siscom.licitacion.agregarProductos', compact('licitacion', 'dateCarbon', 'detalleSolicitud', 'solicitudNo', 'existeLicitacion'));
-
     }
 
     public function buscarSolicitud(Request $request, $id)
     {
-
         /*
          * Definimos variable que contendrá la fecha actual del sistema
          */
@@ -188,34 +165,30 @@ class LicitacionController extends Controller
 
         /* Declaramos la variable que contendrá todos los permisos existentes en la base de datos */
         $licitacion = DB::table('licitacions')
-                     ->join('status_licitacions', 'licitacions.estado_id', '=', 'status_licitacions.id')
-                    ->select('licitacions.*', 'status_licitacions.estado as Estado')
-                    ->where('licitacions.id', '=', $id)
-                    ->first();
-
+        ->join('status_licitacions', 'licitacions.estado_id', 'status_licitacions.id')
+        ->select('licitacions.*', 'status_licitacions.estado as Estado')
+        ->where('licitacions.id', $id)
+        ->first();
         
         $detalleSolicitud = DB::table('detail_solicituds')
-                    ->join('products', 'detail_solicituds.product_id', 'products.id')
-                    ->join('solicituds', 'detail_solicituds.solicitud_id', '=', 'solicituds.id')
-                    //->join('assign_request_to_o_c_s', 'detail_solicituds.solicitud_id', '=', 'assign_request_to_o_c_s.solicitud_id')
-                    //->join('orden_compras', 'detail_solicituds.ordenCompra_id', '=', 'orden_compras.id')
-                    ->select('detail_solicituds.*', 'products.name as Producto')
-                    ->where('detail_solicituds.solicitud_id', '=', $request->numeroSolicitud)
-                    ->get();   
+        ->join('products', 'detail_solicituds.product_id', 'products.id')
+        ->join('solicituds', 'detail_solicituds.solicitud_id', '=', 'solicituds.id')
+        //->join('assign_request_to_o_c_s', 'detail_solicituds.solicitud_id', '=', 'assign_request_to_o_c_s.solicitud_id')
+        //->join('orden_compras', 'detail_solicituds.ordenCompra_id', '=', 'orden_compras.id')
+        ->select('detail_solicituds.*', 'products.name as Producto')
+        ->where('detail_solicituds.solicitud_id', $request->numeroSolicitud)
+        ->get();   
 
         $existeLicitacion = DetailSolicitud::where('licitacion_id', $id)->count();
 
         $solicitudNo = $request->numeroSolicitud;
-
-        //dd($id);
+//dd($id);
                     
         return view('siscom.licitacion.agregarProductos', compact('licitacion', 'dateCarbon', 'detalleSolicitud', 'solicitudNo', 'existeLicitacion'));
-
     }
 
     public function validar($id)
     {
-
         /*
          * Definimos variable que contendrá la fecha actual del sistema
          */
@@ -223,51 +196,48 @@ class LicitacionController extends Controller
 
         /* Declaramos la variable que contendrá todos los permisos existentes en la base de datos */
         $ordenCompra = DB::table('orden_compras')
-                    ->join('users', 'orden_compras.user_id', '=', 'users.id')
-                    ->join('status_o_c_s', 'orden_compras.estado_id', '=', 'status_o_c_s.id')
-                    ->join('proveedores', 'orden_compras.proveedor_id', '=', 'proveedores.id')
-                    ->select('orden_compras.*', 'users.name as Comprador', 'status_o_c_s.estado as Estado', 'proveedores.razonSocial as RazonSocial')
-                    ->where('orden_compras.id', '=', $id)
-                    ->first();
+        ->join('users', 'orden_compras.user_id', 'users.id')
+        ->join('status_o_c_s', 'orden_compras.estado_id', 'status_o_c_s.id')
+        ->join('proveedores', 'orden_compras.proveedor_id', 'proveedores.id')
+        ->select('orden_compras.*', 'users.name as Comprador', 'status_o_c_s.estado as Estado', 'proveedores.razonSocial as RazonSocial')
+        ->where('orden_compras.id', $id)
+        ->first();
 
         $proveedores = DB::table('proveedores')
-                    ->select(DB::raw('CONCAT(proveedores.id, " ) ", proveedores.razonSocial) as RazonSocial'), 'proveedores.id')
-                    ->get();
+        ->select(DB::raw('CONCAT(proveedores.id, " ) ", proveedores.razonSocial) as RazonSocial'), 'proveedores.id')
+        ->get();
 
         $licitacion = DB::table('licitacions')
-                     ->join('status_licitacions', 'licitacions.estado_id', '=', 'status_licitacions.id')
-                    ->select('licitacions.*', 'status_licitacions.estado as Estado')
-                    ->where('licitacions.id', '=', $id)
-                    ->first();
+        ->join('status_licitacions', 'licitacions.estado_id', 'status_licitacions.id')
+        ->select('licitacions.*', 'status_licitacions.estado as Estado')
+        ->where('licitacions.id', $id)
+        ->first();
 
         $move = DB::table('move_licitacions') 
-                ->join('status_licitacions', 'move_licitacions.estadoLicitacion_id', 'status_licitacions.id')               
-                ->join('users', 'move_licitacions.user_id', 'users.id')
-                ->select('status_licitacions.estado as status', 'users.name as name', 'move_licitacions.*')
-                ->where('move_licitacions.licitacion_id', '=', $id)
-                ->get();
+        ->join('status_licitacions', 'move_licitacions.estadoLicitacion_id', 'status_licitacions.id')               
+        ->join('users', 'move_licitacions.user_id', 'users.id')
+        ->select('status_licitacions.estado as status', 'users.name as name', 'move_licitacions.*')
+        ->where('move_licitacions.licitacion_id', $id)
+        ->get();
 
         $assign = DB::table('assign_request_to_licitacions')
-                ->join('licitacions', 'assign_request_to_licitacions.licitacion_id', '=', 'licitacions.id')
-                ->select('assign_request_to_licitacions.*', 'licitacions.licitacion_id as NoOC')
-                ->where('assign_request_to_licitacions.licitacion_id', '=', $licitacion->id)
-                ->get();
+        ->join('licitacions', 'assign_request_to_licitacions.licitacion_id', 'licitacions.id')
+        ->select('assign_request_to_licitacions.*', 'licitacions.licitacion_id as NoOC')
+        ->where('assign_request_to_licitacions.licitacion_id', $licitacion->id)
+        ->get();
 
         $detalleSolicitud = DB::table('detail_solicituds')
-                    ->join('products', 'detail_solicituds.product_id', 'products.id')
-                    ->join('solicituds', 'detail_solicituds.solicitud_id', '=', 'solicituds.id')
-                    //->join('assign_request_to_licitacions', 'detail_solicituds.solicitud_id', '=', 'assign_request_to_licitacions.solicitud_id')
-                    ->join('licitacions', 'detail_solicituds.licitacion_id', '=', 'licitacions.id')
-                    ->select('detail_solicituds.*', 'products.name as Producto')
-                    ->where('detail_solicituds.licitacion_id', '=', $id)
-                    ->get();    
+        ->join('products', 'detail_solicituds.product_id', 'products.id')
+        ->join('solicituds', 'detail_solicituds.solicitud_id', '=', 'solicituds.id')
+        //->join('assign_request_to_licitacions', 'detail_solicituds.solicitud_id', '=', 'assign_request_to_licitacions.solicitud_id')
+        ->join('licitacions', 'detail_solicituds.licitacion_id', '=', 'licitacions.id')
+        ->select('detail_solicituds.*', 'products.name as Producto')
+        ->where('detail_solicituds.licitacion_id', '=', $id)
+        ->get();    
+//dd($licitacion);
 
-
-                    //dd($licitacion);
-
-                     /* Retornamos a la vista los resultados psanadolos por parametros */
+        /* Retornamos a la vista los resultados psanadolos por parametros */
         return view('siscom.licitacion.validar', compact('licitacion', 'dateCarbon', 'move', 'detalleSolicitud', 'assign'));
-
     }
 
     /**
@@ -290,8 +260,7 @@ class LicitacionController extends Controller
      */
     public function update(Request $request, $id)
     {
-        if ($request->flag == 'Actualizar') {
-            
+        if ($request->flag == 'Actualizar') {            
             $licitacion = Licitacion::findOrFail($id);
             $licitacion->licitacion_id                  = $request->licitacion_id;
             $licitacion->iddoc                          = $request->iddoc;
@@ -302,12 +271,9 @@ class LicitacionController extends Controller
 
             return redirect('/siscom/licitacion')->with('info', 'Licitación Actualizada con Éxito !');
         }
-
         //Asignamos las Solicitudes que proveerán de los Productos para la Órden de Compra
         else if ($request->flag == 'Asignar') {
-
             try {
-
                 DB::beginTransaction();
 
                     $year = Carbon::now();
@@ -335,25 +301,16 @@ class LicitacionController extends Controller
 
                     $move->save(); //Guardamos el Movimiento de la Solicitud    
 
-                DB::commit();
-                
+                DB::commit();                
             } catch (Exception $e) {
-
                 DB::rollback();
-
                 return redirect('/siscom/licitacion')->with('info', 'No se ha podido asignar la Solicitud a la Licitación');
-
             }
-
             return redirect('/siscom/licitacion')->with('info', 'Solicitud Asignada con éxito!');
-
         }
-
         // Confirmar Órden de Compra
         else if ($request->flag == 'ConfirmarLicitacion') {
-
             try {
-
                 DB::beginTransaction();
 
                     $licitacion = Licitacion::findOrFail($id);
@@ -372,22 +329,15 @@ class LicitacionController extends Controller
 
                     $move->save(); //Guardamos el Movimiento de la Solicitud    
 
-                DB::commit();
-                
+                DB::commit();                
             } catch (Exception $e) {
-
-                db::rollback();
-                
+                db::rollback();                
             }
-
             return redirect('/siscom/licitacion')->with('info', 'Licitación Confirmada con éxito !');
         }
-
         // Confirmar Órden de Compra
         else if ($request->flag == 'AnularLicitacion') {
-
             try {
-
                 DB::beginTransaction();
 
                     $licitacion = Licitacion::findOrFail($id);
@@ -407,22 +357,15 @@ class LicitacionController extends Controller
 
                     $move->save(); //Guardamos el Movimiento de la Solicitud    
 
-                DB::commit();
-                
+                DB::commit();                
             } catch (Exception $e) {
-
-                db::rollback();
-                
+                db::rollback();                
             }
-
             return redirect('/siscom/licitacion')->with('info', 'Licitación Anulada con éxito !');
         }
-
         // Recepcionar y Órden de Compra en Revisión por C&S
         else if ($request->flag == 'RecepcionarLicitacion') {
-
             try {
-
                 DB::beginTransaction();
 
                     $licitacion = Licitacion::findOrFail($id);
@@ -441,22 +384,15 @@ class LicitacionController extends Controller
 
                     $move->save(); //Guardamos el Movimiento de la Solicitud    
 
-                DB::commit();
-                
+                DB::commit();                
             } catch (Exception $e) {
-
-                db::rollback();
-                
+                db::rollback();                
             }
-
             return redirect('/siscom/licitacion')->with('info', 'Licitación Recepcionada con éxito !');
         }  
-
         // Aprobada por C&S
         else if ($request->flag == 'AprobadaC&S') {
-
             try {
-
                 DB::beginTransaction();
 
                     $licitacion = Licitacion::findOrFail($id);
@@ -476,22 +412,15 @@ class LicitacionController extends Controller
                     $move->save(); //Guardamos el Movimiento de la Solicitud    
 
 
-                DB::commit();
-                
+                DB::commit();                
             } catch (Exception $e) {
-
-                db::rollback();
-                
+                db::rollback();                
             }
-
             return redirect('/siscom/licitacion')->with('info', 'Licitación Aprobada por C&S con éxito !');
         } 
-
         //Rechazada por C&S
         else if ($request->flag == 'RechazadaC&S') {
-
             try {
-
                 DB::beginTransaction();
 
                     $licitacion = Licitacion::findOrFail($id);
@@ -511,25 +440,18 @@ class LicitacionController extends Controller
 
                     $move->save(); //Guardamos el Movimiento de la Solicitud    
 
-                DB::commit();
-                
+                DB::commit();                
             } catch (Exception $e) {
-
-                db::rollback();
-                
+                db::rollback();                
             }
-
             return redirect('/siscom/licitacion')->with('info', 'Licitación Rechazada por C&S con éxito !');
         }   
-
         //Aprobada por Profesinoal DAF
         else if ($request->flag == 'AprobadaProfDAF') {
-
             try {
-
                 DB::beginTransaction();
 
-                   $licitacion = Licitacion::findOrFail($id);
+                    $licitacion = Licitacion::findOrFail($id);
                     $licitacion->estado_id                              = 9;
 
                     //dd($solicitud);
@@ -545,22 +467,15 @@ class LicitacionController extends Controller
 
                     $move->save(); //Guardamos el Movimiento de la Solicitud    
 
-                DB::commit();
-                
+                DB::commit();                
             } catch (Exception $e) {
-
-                db::rollback();
-                
+                db::rollback();                
             }
-
             return redirect('/siscom/licitacion')->with('info', 'Licitación Aprobada por Profesinal DAF con éxito !');
         } 
-
         // Rechazada por Profesinoal DAF
         else if ($request->flag == 'RechazadaProfDAF') {
-
             try {
-
                 DB::beginTransaction();
 
                     $licitacion = Licitacion::findOrFail($id);
@@ -580,22 +495,15 @@ class LicitacionController extends Controller
 
                     $move->save(); //Guardamos el Movimiento de la Solicitud    
 
-                DB::commit();
-                
+                DB::commit();                
             } catch (Exception $e) {
-
-                db::rollback();
-                
+                db::rollback();                
             }
-
             return redirect('/siscom/licitacion')->with('info', 'Licitación Rechazada por Profesional DAF con éxito !');
         } 
-
         //Órden de compra en Firma DAF
         else if ($request->flag == 'FirmadaPorDAF') {
-
             try {
-
                 DB::beginTransaction();
 
                     $licitacion = Licitacion::findOrFail($id);
@@ -620,7 +528,8 @@ class LicitacionController extends Controller
 
                         $move->save(); //Guardamos el Movimiento de la Solicitud    
                     
-                    } else if ($licitacion->valorEstimado == 'Mayor o Igual a 500 UTM') {
+                    }
+                    else if ($licitacion->valorEstimado == 'Mayor o Igual a 500 UTM') {
                         
                         $licitacion->estado_id                      = 12;
 
@@ -639,22 +548,15 @@ class LicitacionController extends Controller
 
                     }
 
-                DB::commit();
-                
+                DB::commit();                
             } catch (Exception $e) {
-
-                db::rollback();
-                
+                db::rollback();                
             }
-
             return redirect('/siscom/licitacion')->with('info', 'Licitación Firmada por DAF con éxito !');
         }
-
         // Rechazada por DAF
         else if ($request->flag == 'RechazadaDAF') {
-
             try {
-
                 DB::beginTransaction();
 
                     $licitacion = Licitacion::findOrFail($id);
@@ -674,22 +576,15 @@ class LicitacionController extends Controller
 
                     $move->save(); //Guardamos el Movimiento de la Solicitud    
 
-                DB::commit();
-                
+                DB::commit();                
             } catch (Exception $e) {
-
-                db::rollback();
-                
+                db::rollback();                
             }
-
             return redirect('/siscom/licitacion')->with('info', 'Licitación Rechazada por DAF con éxito !');
         }
-
         //Aprobada por Profesinoal DAF
         else if ($request->flag == 'FirmadaPorControl') {
-
             try {
-
                 DB::beginTransaction();
 
                     $licitacion = Licitacion::findOrFail($id);
@@ -708,22 +603,15 @@ class LicitacionController extends Controller
 
                     $move->save(); //Guardamos el Movimiento de la Solicitud    
 
-                DB::commit();
-                
+                DB::commit();                
             } catch (Exception $e) {
-
-                db::rollback();
-                
+                db::rollback();                
             }
-
             return redirect('/siscom/licitacion')->with('info', 'Licitación Aprobada por Dirección de Control con éxito !');
         } 
-
         // Rechazada por Profesinoal DAF
         else if ($request->flag == 'RechazadaControl') {
-
             try {
-
                 DB::beginTransaction();
 
                     $licitacion = Licitacion::findOrFail($id);
@@ -743,22 +631,15 @@ class LicitacionController extends Controller
 
                     $move->save(); //Guardamos el Movimiento de la Solicitud    
 
-                DB::commit();
-                
+                DB::commit();                
             } catch (Exception $e) {
-
-                db::rollback();
-                
+                db::rollback();                
             }
-
             return redirect('/siscom/licitacion')->with('info', 'Licitación Rechazada por Dirección de Control con éxito !');
         } 
-
         //Aprobada por Profesinoal DAF
         else if ($request->flag == 'FirmadaPorAdministracion') {
-
             try {
-
                 DB::beginTransaction();
 
                     $licitacion = Licitacion::findOrFail($id);
@@ -776,22 +657,15 @@ class LicitacionController extends Controller
 
                     $move->save(); //Guardamos el Movimiento de la Solicitud    
 
-                DB::commit();
-                
+                DB::commit();                
             } catch (Exception $e) {
-
-                db::rollback();
-                
+                db::rollback();                
             }
-
             return redirect('/siscom/licitacion')->with('info', 'Licitación Aprobada por Administración con éxito !');
         } 
-
         //Publicar Licitación
         else if ($request->flag == 'PublicarLicitacion') {
-
             try {
-
                 DB::beginTransaction();
 
                     $fechaPublicacion = Carbon::now();
@@ -813,26 +687,19 @@ class LicitacionController extends Controller
 
                     $move->save(); //Guardamos el Movimiento de la Solicitud    
 
-                DB::commit();
-                
+                DB::commit();                
             } catch (Exception $e) {
-
-                db::rollback();
-                
+                db::rollback();                
             }
-
             return redirect('/siscom/licitacion')->with('info', 'Licitación Publicada con éxito !');
         } 
-
         /*
          * EVALUACIÓN DE LA ADJUDICACIÓN
          */
 
         // Recepcionar y Órden de Compra en Revisión por C&S
         else if ($request->flag == 'RecepcionarAdjudicacionLicitacion') {
-
             try {
-
                 DB::beginTransaction();
 
                     $licitacionC = Licitacion::findOrFail($id);
@@ -862,22 +729,15 @@ class LicitacionController extends Controller
 
                     $move->save(); //Guardamos el Movimiento de la Solicitud    
 
-                DB::commit();
-                
+                DB::commit();                
             } catch (Exception $e) {
-
-                db::rollback();
-                
+                db::rollback();                
             }
-
             return redirect('/siscom/licitacion')->with('info', 'Licitación Recepcionada con éxito !');
         }  
-
         // Aprobada por C&S
         else if ($request->flag == 'AdjAprobadaC&S') {
-
             try {
-
                 DB::beginTransaction();
 
                     $licitacion = Licitacion::findOrFail($id);
@@ -897,20 +757,15 @@ class LicitacionController extends Controller
                     $move->save(); //Guardamos el Movimiento de la Solicitud    
 
 
-                DB::commit();
-                
+                DB::commit();                
             } catch (Exception $e) {
-
-                db::rollback();
-                
+                db::rollback();                
             }
 
             return redirect('/siscom/licitacion')->with('info', 'Licitación Aprobada por C&S con éxito !');
         } 
-
         //Rechazada por C&S
         else if ($request->flag == 'AdjRechazadaC&S') {
-
             try {
 
                 DB::beginTransaction();
@@ -932,22 +787,15 @@ class LicitacionController extends Controller
 
                     $move->save(); //Guardamos el Movimiento de la Solicitud    
 
-                DB::commit();
-                
+                DB::commit();                
             } catch (Exception $e) {
-
-                db::rollback();
-                
+                db::rollback();                
             }
-
             return redirect('/siscom/licitacion')->with('info', 'Licitación Rechazada por C&S con éxito !');
         }   
-
         //Aprobada por Profesinoal DAF
         else if ($request->flag == 'AdjAprobadaProfDAF') {
-
             try {
-
                 DB::beginTransaction();
 
                    $licitacion = Licitacion::findOrFail($id);
@@ -966,22 +814,15 @@ class LicitacionController extends Controller
 
                     $move->save(); //Guardamos el Movimiento de la Solicitud    
 
-                DB::commit();
-                
+                DB::commit();                
             } catch (Exception $e) {
-
-                db::rollback();
-                
+                db::rollback();                
             }
-
             return redirect('/siscom/licitacion')->with('info', 'Licitación Aprobada por Profesinal DAF con éxito !');
         } 
-
         // Rechazada por Profesinoal DAF
         else if ($request->flag == 'AdjRechazadaProfDAF') {
-
             try {
-
                 DB::beginTransaction();
 
                     $licitacion = Licitacion::findOrFail($id);
@@ -1001,22 +842,15 @@ class LicitacionController extends Controller
 
                     $move->save(); //Guardamos el Movimiento de la Solicitud    
 
-                DB::commit();
-                
+                DB::commit();                
             } catch (Exception $e) {
-
-                db::rollback();
-                
+                db::rollback();                
             }
-
             return redirect('/siscom/licitacion')->with('info', 'Licitación Rechazada por Profesional DAF con éxito !');
         } 
-
         //Órden de compra en Firma DAF
         else if ($request->flag == 'AdjFirmadaPorDAF') {
-
             try {
-
                 DB::beginTransaction();
 
                     $licitacion = Licitacion::findOrFail($id);
@@ -1041,7 +875,8 @@ class LicitacionController extends Controller
 
                         $move->save(); //Guardamos el Movimiento de la Solicitud    
                     
-                    } else if ($licitacion->valorEstimado == 'Mayor a 100 y Menor a 500 UTM' || $licitacion->valorEstimado == 'Mayor o Igual a 500 UTM') {
+                    }
+                    else if ($licitacion->valorEstimado == 'Mayor a 100 y Menor a 500 UTM' || $licitacion->valorEstimado == 'Mayor o Igual a 500 UTM') {
                         
                         $licitacion->estado_id               = 30;
 
@@ -1059,23 +894,15 @@ class LicitacionController extends Controller
                         $move->save(); //Guardamos el Movimiento de la Solicitud    
 
                     }
-
-                DB::commit();
-                
+                DB::commit();                
             } catch (Exception $e) {
-
-                db::rollback();
-                
+                db::rollback();                
             }
-
             return redirect('/siscom/licitacion')->with('info', 'Licitación Firmada por DAF con éxito !');
         }
-
         // Rechazada por DAF
         else if ($request->flag == 'AdjRechazadaDAF') {
-
             try {
-
                 DB::beginTransaction();
 
                     $licitacion = Licitacion::findOrFail($id);
@@ -1095,22 +922,15 @@ class LicitacionController extends Controller
 
                     $move->save(); //Guardamos el Movimiento de la Solicitud    
 
-                DB::commit();
-                
+                DB::commit();                
             } catch (Exception $e) {
-
-                db::rollback();
-                
+                db::rollback();                
             }
-
             return redirect('/siscom/licitacion')->with('info', 'Licitación Rechazada por DAF con éxito !');
         }
-
         //Aprobada por Profesinoal DAF
         else if ($request->flag == 'AdjFirmadaPorAlcaldia') {
-
             try {
-
                 DB::beginTransaction();
 
                     $licitacion = Licitacion::findOrFail($id);
@@ -1128,19 +948,14 @@ class LicitacionController extends Controller
 
                     $move->save(); //Guardamos el Movimiento de la Solicitud    
 
-                DB::commit();
-                
+                DB::commit();                
             } catch (Exception $e) {
-
-                db::rollback();
-                
+                db::rollback();                
             }
-
             return redirect('/siscom/licitacion')->with('info', 'Licitación Aprobada por Alcadía con éxito !');
         } 
         //Aprobada por Profesinoal DAF
         else if ($request->flag == 'AdjFirmadaPorAdministracion') {
-
             try {
 
                 DB::beginTransaction();
@@ -1160,20 +975,14 @@ class LicitacionController extends Controller
 
                     $move->save(); //Guardamos el Movimiento de la Solicitud    
 
-                DB::commit();
-                
+                DB::commit();                
             } catch (Exception $e) {
-
-                db::rollback();
-                
+                db::rollback();                
             }
-
             return redirect('/siscom/licitacion')->with('info', 'Licitación Aprobada por Administración con éxito !');
         }
-
         // Resolver Licitación (Adjudicada-Desierta-Inadmisible-Revocada)
         else if ($request->flag == 'ResolverLicitacion') {
-
             try {
 
                 DB::beginTransaction();
@@ -1198,12 +1007,9 @@ class LicitacionController extends Controller
                     $move->user_id                      = Auth::user()->id;
 
                     $move->save(); //Guardamos el Movimiento de la Solicitud    
-
                 }
-
                 //Preguntar si es Desierta
                 else if($request->Resolucion == 'Desierta'){
-
                     $licitacion = Licitacion::findOrFail($id);
                     $licitacion->estado_id                      = 36;
                     $licitacion->fechaResolucion                = $fechaResolucion;
@@ -1218,12 +1024,9 @@ class LicitacionController extends Controller
                     $move->user_id                      = Auth::user()->id;
 
                     $move->save();
-
-                }
-                
+                }                
                 //Preguntar si es Inadmisible
                 else if($request->Resolucion == 'Inadmisible'){
-
                     $licitacion = Licitacion::findOrFail($id);
                     $licitacion->estado_id                      = 37;
                     $licitacion->fechaResolucion                = $fechaResolucion;
@@ -1238,12 +1041,9 @@ class LicitacionController extends Controller
                     $move->user_id                      = Auth::user()->id;
 
                     $move->save();
-
                 }
-
                 //Preguntar si es Revocada
                 else if($request->Resolucion == 'Revocada'){
-
                     $licitacion = Licitacion::findOrFail($id);
                     $licitacion->estado_id                      = 40;
                     $licitacion->fechaResolucion                = $fechaResolucion;
@@ -1258,17 +1058,11 @@ class LicitacionController extends Controller
                     $move->user_id                      = Auth::user()->id;
 
                     $move->save();
-
                 }
-
-                DB::commit();
-                
+                DB::commit();                
             } catch (Exception $e) {
-
-                db::rollback();
-                
+                db::rollback();                
             }
-
             return redirect('/siscom/licitacion')->with('info', 'Licitación Confirmada con éxito !');
         }
 

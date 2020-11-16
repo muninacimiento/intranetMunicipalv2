@@ -1,18 +1,13 @@
 <?php
 
 namespace App\Http\Controllers;
-
 use App\Contrato;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-
 /* Invocamos la clase Carbon para trabajar con fechas */
 use Carbon\Carbon;
-
 use App\OrdenCompra;
-
 use App\MoveContrato;
-
 use DB;
 
 class ContratoController extends Controller
@@ -24,18 +19,17 @@ class ContratoController extends Controller
      */
     public function index()
     {
-
         $dateCarbon = Carbon::now()->locale('es')->isoFormat('dddd D, MMMM YYYY');
 
         $contratos = Contrato::join('orden_compras', 'contratos.ordenCompra_id', 'orden_compras.id')
-                ->join('status_contratos', 'contratos.estado_id', 'status_contratos.id')
-                ->select('contratos.*', 'orden_compras.ordenCompra_id as NoOC', 'status_contratos.estado as Estado')
-                ->orderBy('contratos.id', 'DESC')->get();
+        ->join('status_contratos', 'contratos.estado_id', 'status_contratos.id')
+        ->select('contratos.*', 'orden_compras.ordenCompra_id as NoOC', 'status_contratos.estado as Estado')
+        ->orderBy('contratos.id', 'DESC')->get();
 
         $ocs = DB::table('orden_compras')
-            ->join('status_o_c_s', 'orden_compras.estado_id', 'status_o_c_s.id')
-            ->select(DB::raw('CONCAT(orden_compras.id, " ) ", orden_compras.ordenCompra_id, " / ", status_o_c_s.estado) as OC'), 'orden_compras.id')
-            ->get();
+        ->join('status_o_c_s', 'orden_compras.estado_id', 'status_o_c_s.id')
+        ->select(DB::raw('CONCAT(orden_compras.id, " ) ", orden_compras.ordenCompra_id, " / ", status_o_c_s.estado) as OC'), 'orden_compras.id')
+        ->get();
 
         return view('siscom.contratos.index', compact('dateCarbon', 'contratos', 'ocs'));
     }
@@ -59,7 +53,6 @@ class ContratoController extends Controller
     public function store(Request $request)
     {
         try {
-
                 DB::beginTransaction();
 
                 //Comenzamos a capturar desde la vista los datos a guardar los datos del Contrato
@@ -88,16 +81,11 @@ class ContratoController extends Controller
 
                 $move->save();
 
-                DB::commit(); //Ejecutamos ambas sentencias y si todo resulta OK, guarda, sino ejecuta el catch
-                
+                DB::commit();                
             } catch (Exception $e) {
-
-                DB::rollback();
-                
-            }
-            
+                DB::rollback();                
+            }            
             return redirect('/siscom/contratos')->with('info', 'Contrato Creado con Éxito !');
-
     }
 
     /**
@@ -107,68 +95,59 @@ class ContratoController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function show($id)
-    {
-        
+    {        
         $contrato = DB::table('contratos')
-                ->join('status_contratos', 'contratos.estado_id', 'status_contratos.id')
-                ->join('orden_compras', 'contratos.ordenCompra_id', 'orden_compras.id')
-                ->join('proveedores', 'orden_compras.proveedor_id', 'proveedores.id')
-                ->select('contratos.*', 'status_contratos.estado as Estado', 'orden_compras.ordenCompra_id as NoOC', 'proveedores.razonSocial as Proveedor')
-                ->where('contratos.id', $id)
-                ->first();
-
+        ->join('status_contratos', 'contratos.estado_id', 'status_contratos.id')
+        ->join('orden_compras', 'contratos.ordenCompra_id', 'orden_compras.id')
+        ->join('proveedores', 'orden_compras.proveedor_id', 'proveedores.id')
+        ->select('contratos.*', 'status_contratos.estado as Estado', 'orden_compras.ordenCompra_id as NoOC', 'proveedores.razonSocial as Proveedor')
+        ->where('contratos.id', $id)
+        ->first();
 //dd($contrato);
 
         $move = DB::table('move_contratos') 
-            ->join('status_contratos', 'move_contratos.estadoContrato_id', 'status_contratos.id')               
-            ->join('users', 'move_contratos.user_id', 'users.id')
-            ->select('move_contratos.*', 'status_contratos.estado as status', 'users.name as name', 'move_contratos.created_at as date')
-            ->where('move_contratos.contrato_id', '=', $id)
-            ->get();
+        ->join('status_contratos', 'move_contratos.estadoContrato_id', 'status_contratos.id')               
+        ->join('users', 'move_contratos.user_id', 'users.id')
+        ->select('move_contratos.*', 'status_contratos.estado as status', 'users.name as name', 'move_contratos.created_at as date')
+        ->where('move_contratos.contrato_id', '=', $id)
+        ->get();
 
         $moveBoleta = DB::table('move_boletas') 
-                ->join('status_boletas', 'move_boletas.estadoBoleta_id', 'status_boletas.id')               
-                ->join('users', 'move_boletas.user_id', 'users.id')
-                ->join('boleta_garantias', 'move_boletas.boleta_id', 'boleta_garantias.id')
-                ->join('contratos', 'boleta_garantias.contrato_id', 'contratos.id')
-                ->select('move_boletas.*', 'status_boletas.estado as status', 'users.name as name', 'move_boletas.created_at as date')
-                ->where('contratos.id', '=', $id)
-                ->get();
-
+        ->join('status_boletas', 'move_boletas.estadoBoleta_id', 'status_boletas.id')               
+        ->join('users', 'move_boletas.user_id', 'users.id')
+        ->join('boleta_garantias', 'move_boletas.boleta_id', 'boleta_garantias.id')
+        ->join('contratos', 'boleta_garantias.contrato_id', 'contratos.id')
+        ->select('move_boletas.*', 'status_boletas.estado as status', 'users.name as name', 'move_boletas.created_at as date')
+        ->where('contratos.id', '=', $id)
+        ->get();
 //dd($move);
 
         return view('siscom.contratos.show', compact('contrato', 'move', 'moveBoleta'));
-
     }
 
     public function validar($id)
     {
-
-        $dateCarbon = Carbon::now()->locale('es')->isoFormat('dddd D, MMMM YYYY');
-        
+        $dateCarbon = Carbon::now()->locale('es')->isoFormat('dddd D, MMMM YYYY');        
 
         $contrato = DB::table('contratos')
-                ->join('status_contratos', 'contratos.estado_id', 'status_contratos.id')
-                ->join('orden_compras', 'contratos.ordenCompra_id', 'orden_compras.id')
-                ->join('proveedores', 'orden_compras.proveedor_id', 'proveedores.id')
-                ->select('contratos.*', 'status_contratos.estado as Estado', 'orden_compras.ordenCompra_id as NoOC', 
+        ->join('status_contratos', 'contratos.estado_id', 'status_contratos.id')
+        ->join('orden_compras', 'contratos.ordenCompra_id', 'orden_compras.id')
+        ->join('proveedores', 'orden_compras.proveedor_id', 'proveedores.id')
+        ->select('contratos.*', 'status_contratos.estado as Estado', 'orden_compras.ordenCompra_id as NoOC', 
                     'orden_compras.enviadaProveedor as EnviadaProveedor', 'proveedores.razonSocial as Proveedor')
-                ->where('contratos.id', $id)
-                ->first();
-
+        ->where('contratos.id', $id)
+        ->first();
 //dd($contrato);
 
         $move = DB::table('move_contratos') 
-            ->join('status_contratos', 'move_contratos.estadoContrato_id', 'status_contratos.id')               
-            ->join('users', 'move_contratos.user_id', 'users.id')
-            ->select('move_contratos.*', 'status_contratos.estado as status', 'users.name as name', 'move_contratos.created_at as date')
-            ->where('move_contratos.contrato_id', '=', $id)
-            ->get();
-
+        ->join('status_contratos', 'move_contratos.estadoContrato_id', 'status_contratos.id')               
+        ->join('users', 'move_contratos.user_id', 'users.id')
+        ->select('move_contratos.*', 'status_contratos.estado as status', 'users.name as name', 'move_contratos.created_at as date')
+        ->where('move_contratos.contrato_id', '=', $id)
+        ->get();
 //dd($move);
 
         return view('siscom.contratos.validar', compact('contrato', 'move', 'dateCarbon'));
-
     }
 
     /**
@@ -190,11 +169,9 @@ class ContratoController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
-    {
-        
-                //Actualizamos el Encabezado de la Órden de Compra
+    {        
+        //Actualizamos el Encabezado de la Órden de Compra
         if ($request->flag == 'Actualizar') {
-
             $contrato = Contrato::findOrFail($id);
             $contrato->user_id                        = Auth::user()->id;
             $contrato->nombreContrato                 = $request->nombreContrato;
@@ -209,13 +186,10 @@ class ContratoController extends Controller
             $contrato->save(); //Guardamos el Contrato
 
             return redirect('/siscom/contratos')->with('info', 'Contrato Actualizado con éxito!');
-
         }
         // Anular Órden de Compra
         else if ($request->flag == 'Anular') {
-
             try {
-
                 DB::beginTransaction();
 
                     $contrato = Contrato::findOrFail($id);
@@ -233,21 +207,14 @@ class ContratoController extends Controller
 
                     $move->save(); 
 
-                DB::commit();
-                
+                DB::commit();                
             } catch (Exception $e) {
-
-                db::rollback();
-                
+                db::rollback();                
             }
-
             return redirect('/siscom/contratos')->with('info', 'Contrato Anulado con éxito !');
         }   
-
         else if ($request->flag == 'RecepcionadoC&S') {
-
             try {
-
                 DB::beginTransaction();
 
                     $contrato = Contrato::findOrFail($id);
@@ -263,21 +230,14 @@ class ContratoController extends Controller
 
                     $move->save();
 
-                DB::commit();
-                
+                DB::commit();                
             } catch (Exception $e) {
-
-                db::rollback();
-                
+                db::rollback();                
             }
-
             return back()->with('info', 'Contrato Recepcionado por C&S con éxito !');
         } 
-
         else if ($request->flag == 'AprobadoC&S') {
-
             try {
-
                 DB::beginTransaction();
 
                     $contrato = Contrato::findOrFail($id);
@@ -293,21 +253,15 @@ class ContratoController extends Controller
 
                     $move->save();
 
-                DB::commit();
-                
+                DB::commit();                
             } catch (Exception $e) {
-
-                db::rollback();
-                
+                db::rollback();                
             }
-
             return redirect('/siscom/contratos')->with('info', 'Contrato Aprobado por C&S con éxito !');
         }
 
         else if ($request->flag == 'RechazadoC&S') {
-
             try {
-
                 DB::beginTransaction();
 
                     $contrato = Contrato::findOrFail($id);
@@ -324,21 +278,14 @@ class ContratoController extends Controller
 
                     $move->save();
 
-                DB::commit();
-                
+                DB::commit();                
             } catch (Exception $e) {
-
-                db::rollback();
-                
+                db::rollback();                
             }
-
             return redirect('/siscom/contratos')->with('info', 'Contrato Rechazado por C&S con éxito !');
         }
-
         else if ($request->flag == 'AprobadoProfDAF') {
-
             try {
-
                 DB::beginTransaction();
 
                     $contrato = Contrato::findOrFail($id);
@@ -354,21 +301,14 @@ class ContratoController extends Controller
 
                     $move->save();
 
-                DB::commit();
-                
+                DB::commit();               
             } catch (Exception $e) {
-
-                db::rollback();
-                
+                db::rollback();                
             }
-
             return redirect('/siscom/contratos')->with('info', 'Contrato Aprobado por Profesional DAF con éxito !');
         }
-
         else if ($request->flag == 'RechazadoProfDAF') {
-
             try {
-
                 DB::beginTransaction();
 
                     $contrato = Contrato::findOrFail($id);
@@ -385,21 +325,14 @@ class ContratoController extends Controller
 
                     $move->save();
 
-                DB::commit();
-                
+                DB::commit();                
             } catch (Exception $e) {
-
-                db::rollback();
-                
+                db::rollback();                
             }
-
             return redirect('/siscom/contratos')->with('info', 'Contrato Rechazado por Profesional DAF con éxito !');
         }
-
         else if ($request->flag == 'FirmadoPorDAF') {
-
             try {
-
                 DB::beginTransaction();
 
                     $contrato = Contrato::findOrFail($id);
@@ -416,11 +349,8 @@ class ContratoController extends Controller
                         $move->user_id                                  = Auth::user()->id;
 
                         $move->save();
-
                     }
-
                     else{
-
                         $contrato->estado_id                            = 15;
                         $contrato->save();
 
@@ -431,25 +361,16 @@ class ContratoController extends Controller
                         $move->user_id                                  = Auth::user()->id;
 
                         $move->save();
+                    }                    
 
-                    }
-                    
-
-                DB::commit();
-                
+                DB::commit();                
             } catch (Exception $e) {
-
-                db::rollback();
-                
+                db::rollback();                
             }
-
             return redirect('/siscom/contratos')->with('info', 'Contrato Aprobado por DAF con éxito !');
         }
-
         else if ($request->flag == 'RechazadoDAF') {
-
             try {
-
                 DB::beginTransaction();
 
                     $contrato = Contrato::findOrFail($id);
@@ -466,21 +387,14 @@ class ContratoController extends Controller
 
                     $move->save();
 
-                DB::commit();
-                
+                DB::commit();                
             } catch (Exception $e) {
-
-                db::rollback();
-                
+                db::rollback();                
             }
-
             return redirect('/siscom/contratos')->with('info', 'Contrato Rechazado por DAF con éxito !');
         }
-
         else if ($request->flag == 'FirmadoPorControl') {
-
             try {
-
                 DB::beginTransaction();
 
                     $contrato = Contrato::findOrFail($id);
@@ -496,21 +410,14 @@ class ContratoController extends Controller
 
                     $move->save();
 
-                DB::commit();
-                
+                DB::commit();                
             } catch (Exception $e) {
-
-                db::rollback();
-                
+                db::rollback();                
             }
-
             return redirect('/siscom/contratos')->with('info', 'Contrato Aprobado por Dirección de Control con éxito !');
         }   
-
         else if ($request->flag == 'RechazadoControl') {
-
             try {
-
                 DB::beginTransaction();
 
                     $contrato = Contrato::findOrFail($id);
@@ -527,21 +434,14 @@ class ContratoController extends Controller
 
                     $move->save();
 
-                DB::commit();
-                
+                DB::commit();                
             } catch (Exception $e) {
-
-                db::rollback();
-                
+                db::rollback();                
             }
-
             return redirect('/siscom/contratos')->with('info', 'Contrato Rechazado por Dirección de Control con éxito !');
         }   
-
         else if ($request->flag == 'FirmadoProveedor') {
-
             try {
-
                 DB::beginTransaction();
 
                     $contrato = Contrato::findOrFail($id);
@@ -557,21 +457,15 @@ class ContratoController extends Controller
 
                     $move->save();
 
-                DB::commit();
-                
+                DB::commit();                
             } catch (Exception $e) {
-
-                db::rollback();
-                
+                db::rollback();                
             }
-
             return redirect('/siscom/contratos')->with('info', 'Contrato Firmado por el Proveedor con éxito !');
         }   
 
         else if ($request->flag == 'FirmadoAlcaldia') {
-
             try {
-
                 DB::beginTransaction();
 
                     $contrato = Contrato::findOrFail($id);
@@ -595,21 +489,14 @@ class ContratoController extends Controller
 
                     $move->save();
 
-                DB::commit();
-                
+                DB::commit();                
             } catch (Exception $e) {
-
-                db::rollback();
-                
+                db::rollback();                
             }
-
             return redirect('/siscom/contratos')->with('info', 'Contrato Firmado por Alcaldía con éxito !');
         }
-
         else if ($request->flag == 'DerivarCopias') {
-
             try {
-
                 DB::beginTransaction();
 
                     $contrato = Contrato::findOrFail($id);
@@ -625,17 +512,12 @@ class ContratoController extends Controller
 
                     $move->save();
 
-                DB::commit();
-                
+                DB::commit();                
             } catch (Exception $e) {
-
-                db::rollback();
-                
+                db::rollback();                
             }
-
             return redirect('/siscom/contratos')->with('info', 'Copias del Contrato Derivadas con éxito !');
-        }    
-
+        }  
     }
 
     /**

@@ -1,7 +1,6 @@
 <?php
 
 namespace App\Http\Controllers;
-
 use App\Dependency;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -18,21 +17,19 @@ class DependencyController extends Controller
      */
     public function index(Request $request)
     {
-
         /* Declaramos una variable para realizar búsquedas en nuestros formularios */
        $search = trim($request->get('searchText')); //searchText variable enviada desde el formulario
 
-       /* Declaramos la variable que contendrá todos los permisos existentes en la base de datos */
-       $dependencies = DB::table('dependencies')
-                    ->join('users', 'dependencies.user_id', '=', 'users.id')
-                    ->select('dependencies.*', 'users.name as userName')
-                    ->where('dependencies.id', 'LIKE', '%'.$search.'%')
-                    ->orWhere('dependencies.name', 'LIKE', '%'.$search.'%')
-                    ->orWhere('users.name', 'LIKE', '%'.$search.'%')
-                    ->orderBy('dependencies.id', 'ASC') //a medida que se ingresan nuevos registros, quedan al inicio de la lista
-                    ->paginate(10);
-
-                    //dd($permission);
+        /* Declaramos la variable que contendrá todos los permisos existentes en la base de datos */
+        $dependencies = DB::table('dependencies')
+        ->join('users', 'dependencies.user_id', '=', 'users.id')
+        ->select('dependencies.*', 'users.name as userName')
+        ->where('dependencies.id', 'LIKE', '%'.$search.'%')
+        ->orWhere('dependencies.name', 'LIKE', '%'.$search.'%')
+        ->orWhere('users.name', 'LIKE', '%'.$search.'%')
+        ->orderBy('dependencies.id', 'ASC') //a medida que se ingresan nuevos registros, quedan al inicio de la lista
+        ->paginate(10);
+//dd($permission);
 
         /* Retornamos a la vista los resultados psanadolos por parametros */
         return view('dependencies.index', ["dependencies" => $dependencies, "searchText" => $search]);
@@ -44,8 +41,7 @@ class DependencyController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function create()
-    {
-        
+    {        
         return view('dependencies.create');
     }
 
@@ -57,7 +53,6 @@ class DependencyController extends Controller
      */
     public function store(Request $request)
     {
-
         $dependencies = new Dependency;
         
         $dependencies->name = $request->name;
@@ -66,7 +61,6 @@ class DependencyController extends Controller
         $dependencies->save();
 
         return redirect()->route('dependencies.index')->with('info', 'Dependencia Municipal Guardada con Éxito !');
-
     }
 
     /**
@@ -100,11 +94,9 @@ class DependencyController extends Controller
      */
     public function update(Request $request, Dependency $dependency)
     {
-
         $dependency->update($request->all());
 
         return redirect()->route('dependencies.index')->with('info', 'Dependencia Municipal Actualizada con éxito !');
-
     }
 
     /**
@@ -115,7 +107,6 @@ class DependencyController extends Controller
      */
     public function destroy(Dependency $dependency)
     {
-
         $dependency->delete();
 
         return back()->with('info', 'Dependencia Municipal Eliminada correctamente !');

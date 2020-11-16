@@ -133,7 +133,7 @@
 
                                     <td>{{ $medicamento->lote }}</td>
 
-                                    <td>{{ $medicamento->fechaVencimiento }}</td>
+                                    <td>{{ date('d-m-Y', strtotime( $medicamento->fechaVencimiento )) }}</td>
 
                                     <td>{{ $medicamento->stock }}</td>
 

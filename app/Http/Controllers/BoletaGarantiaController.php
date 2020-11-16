@@ -1,18 +1,13 @@
 <?php
 
 namespace App\Http\Controllers;
-
 use App\BoletaGarantia;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-
 /* Invocamos la clase Carbon para trabajar con fechas */
 use Carbon\Carbon;
-
 use App\MoveBoleta;
-
 use App\Contrato;
-
 use DB;
 
 class BoletaGarantiaController extends Controller
@@ -23,21 +18,19 @@ class BoletaGarantiaController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index()
-    {
-        
+    {        
         $dateCarbon = Carbon::now()->locale('es')->isoFormat('dddd D, MMMM YYYY');
 
         $boletas = BoletaGarantia::join('contratos', 'boleta_garantias.contrato_id', 'contratos.id')
-                ->join('status_boletas', 'boleta_garantias.estado_id', 'status_boletas.id')
-                ->select('boleta_garantias.*', 'contratos.nombreContrato as NombreContrato', 'status_boletas.estado as Estado')
-                ->orderBy('boleta_garantias.id', 'DESC')->get();
+        ->join('status_boletas', 'boleta_garantias.estado_id', 'status_boletas.id')
+        ->select('boleta_garantias.*', 'contratos.nombreContrato as NombreContrato', 'status_boletas.estado as Estado')
+        ->orderBy('boleta_garantias.id', 'DESC')->get();
 
         $contratos = Contrato::join('status_contratos', 'contratos.estado_id', 'status_contratos.id')
-                ->select(DB::raw('CONCAT(contratos.id, " ) ", contratos.nombreContrato, " / ", status_contratos.estado) as Contratos'), 'contratos.id')
-                ->get();
+        ->select(DB::raw('CONCAT(contratos.id, " ) ", contratos.nombreContrato, " / ", status_contratos.estado) as Contratos'), 'contratos.id')
+        ->get();
 
         return view('siscom.boletasGarantia.index', compact('dateCarbon', 'boletas', 'contratos'));
-
     }
 
     /**
@@ -57,8 +50,7 @@ class BoletaGarantiaController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
-    {
-        
+    {        
         try {
 
                 DB::beginTransaction();
@@ -84,13 +76,10 @@ class BoletaGarantiaController extends Controller
                 DB::commit();
                 
             } catch (Exception $e) {
-
-                DB::rollback();
-                
+                DB::rollback();                
             }
             
             return redirect('/siscom/boletasGarantia')->with('info', 'Boleta Recepcionada con Éxito !');
-
     }
 
     /**
@@ -101,44 +90,40 @@ class BoletaGarantiaController extends Controller
      */
     public function show($id)
     {
-
         $dateCarbon = Carbon::now()->locale('es')->isoFormat('dddd D, MMMM YYYY');
         
         $boleta = BoletaGarantia::join('contratos', 'boleta_garantias.contrato_id', 'contratos.id')
-                ->join('status_boletas', 'boleta_garantias.estado_id', 'status_boletas.id')
-                ->select('boleta_garantias.*', 'contratos.nombreContrato as NombreContrato', 'status_boletas.estado as Estado')
-                ->first();
+        ->join('status_boletas', 'boleta_garantias.estado_id', 'status_boletas.id')
+        ->select('boleta_garantias.*', 'contratos.nombreContrato as NombreContrato', 'status_boletas.estado as Estado')
+        ->first();
 
         $move = DB::table('move_boletas') 
-            ->join('status_boletas', 'move_boletas.estadoBoleta_id', 'status_boletas.id')               
-            ->join('users', 'move_boletas.user_id', 'users.id')
-            ->select('move_boletas.*', 'status_boletas.estado as status', 'users.name as name', 'move_boletas.created_at as date')
-            ->where('move_boletas.boleta_id', '=', $id)
-            ->get();
+        ->join('status_boletas', 'move_boletas.estadoBoleta_id', 'status_boletas.id')               
+        ->join('users', 'move_boletas.user_id', 'users.id')
+        ->select('move_boletas.*', 'status_boletas.estado as status', 'users.name as name', 'move_boletas.created_at as date')
+        ->where('move_boletas.boleta_id', '=', $id)
+        ->get();
 
         return view('siscom.boletasGarantia.show', compact('boleta', 'move', 'dateCarbon'));
-
     }
 
     public function validar($id)
     {
-
         $dateCarbon = Carbon::now()->locale('es')->isoFormat('dddd D, MMMM YYYY');
         
         $boleta = BoletaGarantia::join('contratos', 'boleta_garantias.contrato_id', 'contratos.id')
-                ->join('status_boletas', 'boleta_garantias.estado_id', 'status_boletas.id')
-                ->select('boleta_garantias.*', 'contratos.nombreContrato as NombreContrato', 'status_boletas.estado as Estado')
-                ->first();
+        ->join('status_boletas', 'boleta_garantias.estado_id', 'status_boletas.id')
+        ->select('boleta_garantias.*', 'contratos.nombreContrato as NombreContrato', 'status_boletas.estado as Estado')
+        ->first();
 
         $move = DB::table('move_boletas') 
-            ->join('status_boletas', 'move_boletas.estadoBoleta_id', 'status_boletas.id')               
-            ->join('users', 'move_boletas.user_id', 'users.id')
-            ->select('move_boletas.*', 'status_boletas.estado as status', 'users.name as name', 'move_boletas.created_at as date')
-            ->where('move_boletas.boleta_id', '=', $id)
-            ->get();
+        ->join('status_boletas', 'move_boletas.estadoBoleta_id', 'status_boletas.id')               
+        ->join('users', 'move_boletas.user_id', 'users.id')
+        ->select('move_boletas.*', 'status_boletas.estado as status', 'users.name as name', 'move_boletas.created_at as date')
+        ->where('move_boletas.boleta_id', '=', $id)
+        ->get();
 
         return view('siscom.boletasGarantia.validar', compact('boleta', 'move', 'dateCarbon'));
-
     }
 
     /**
@@ -160,8 +145,7 @@ class BoletaGarantiaController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
-    {
-        
+    {        
         if ($request->flag == 'Actualizar') {
 
                 $boleta = new BoletaGarantia;
@@ -175,9 +159,7 @@ class BoletaGarantiaController extends Controller
                 $boleta->save();
 
             return redirect('/siscom/boletasGarantia')->with('info', 'Boleta Actualizada con éxito!');
-
         }
-
         else if ($request->flag == 'EnviarACustodia') {
 
             try {
@@ -197,17 +179,13 @@ class BoletaGarantiaController extends Controller
 
                     $move->save();
 
-                DB::commit();
-                
+                DB::commit();                
             } catch (Exception $e) {
-
-                db::rollback();
-                
+                db::rollback();                
             }
 
             return redirect('/siscom/boletasGarantia')->with('info', 'Boleta Enviada a Custodia con éxito!');
         } 
-
         else if ($request->flag == 'SolicitudDevolucion') {
 
             try {
@@ -227,17 +205,12 @@ class BoletaGarantiaController extends Controller
 
                     $move->save();
 
-                DB::commit();
-                
+                DB::commit();                
             } catch (Exception $e) {
-
-                db::rollback();
-                
+                db::rollback();                
             }
-
             return redirect('/siscom/boletasGarantia')->with('info', 'Se ha Recepcionado la Solicitud de Devolución con éxito!');
         } 
-
         else if ($request->flag == 'DevolverBoleta') {
 
             try {
@@ -257,17 +230,12 @@ class BoletaGarantiaController extends Controller
 
                     $move->save();
 
-                DB::commit();
-                
+                DB::commit();                
             } catch (Exception $e) {
-
-                db::rollback();
-                
+                db::rollback();                
             }
-
             return redirect('/siscom/boletasGarantia')->with('info', 'Se ha Devuelto la Boleta de Garnatía con éxito!');
         } 
-
     }
 
     /**

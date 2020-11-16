@@ -1,18 +1,13 @@
 <?php
 
 namespace App\Http\Controllers;
-
 use App\Medicamento;
 use Illuminate\Http\Request;
-
 use Illuminate\Support\Facades\Auth;
-
 /* Invocamos la clase Carbon para trabajar con fechas */
 use Carbon\Carbon;
-
 use App\CategoriaMedicamento;
 use App\VentaDetalleFarmacia;
-
 use DB;
 
 class MedicamentoController extends Controller
@@ -23,30 +18,31 @@ class MedicamentoController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index()
-    {
-        
+    {        
          /*
          * Definimos variable que contendrá la fecha actual del sistema
          */
         $dateCarbon = Carbon::now()->locale('es')->isoFormat('dddd D, MMMM YYYY');
+        $hoy = Carbon::now();
 
         /*
          * Traemos a todos los datos de la base de datos y se los pasamos como objeto a la vista
         */
         $medicamentos = DB::table('medicamentos')
-                        ->join('categoria_medicamentos', 'medicamentos.categoria_id', '=', 'categoria_medicamentos.id')
-                        ->select('medicamentos.*', 'categoria_medicamentos.name as Categoria', DB::raw('medicamentos.stock * medicamentos.precioInventario as totalInventario'))
-                        ->get();
+        ->join('categoria_medicamentos', 'medicamentos.categoria_id', 'categoria_medicamentos.id')
+        ->select('medicamentos.*', 'categoria_medicamentos.name as Categoria', DB::raw('medicamentos.stock * medicamentos.precioInventario as totalInventario'))
+        ->where('medicamentos.stock', '<>', 0)
+        ->where('medicamentos.fechaVencimiento', '>', $hoy)
+        ->get();
 
-         /*
+        /*
          * Traemos a todas las Categorias en los que se clasificarán los Medicamentos
         */
         $categorias = DB::table('categoria_medicamentos')
-                    ->select(DB::raw('CONCAT(categoria_medicamentos.id, " ) ", categoria_medicamentos.name) as Categorias'), 'categoria_medicamentos.id')
-                    ->get();
+        ->select(DB::raw('CONCAT(categoria_medicamentos.id, " ) ", categoria_medicamentos.name) as Categorias'), 'categoria_medicamentos.id')
+        ->get();
 
         return view('farmacia.medicamentos.index', compact('dateCarbon', 'medicamentos', 'categorias'));
-
     }
 
     /**
@@ -161,15 +157,15 @@ class MedicamentoController extends Controller
         ->get();
 
         $medicamentosTable = DB::table('medicamentos')
-        ->join('categoria_medicamentos', 'medicamentos.categoria_id', '=', 'categoria_medicamentos.id')
+        ->join('categoria_medicamentos', 'medicamentos.categoria_id', 'categoria_medicamentos.id')
         ->select('medicamentos.*', 'categoria_medicamentos.name as Categoria', DB::raw('medicamentos.stock * medicamentos.precioInventario as totalInventario'))
         ->where('medicamentos.id', $request->medicamento_id)
         ->whereBetween('medicamentos.created_at', [$request->fechaInicio, $request->fechaTermino])
         ->get();
 
         $detalleVentaTable = DB::table('venta_detalle_farmacias')
-        ->join('venta_farmacias', 'venta_detalle_farmacias.venta_id', '=', 'venta_farmacias.id')
-        ->join('medicamentos', 'venta_detalle_farmacias.medicamento_id', '=', 'medicamentos.id')
+        ->join('venta_farmacias', 'venta_detalle_farmacias.venta_id', 'venta_farmacias.id')
+        ->join('medicamentos', 'venta_detalle_farmacias.medicamento_id', 'medicamentos.id')
         ->select('venta_detalle_farmacias.*', 'medicamentos.medicamento as Medicamento', 'medicamentos.precioInventario as Valor', DB::raw('(venta_detalle_farmacias.cantidad * medicamentos.precioInventario) as SubTotal'))
         ->where('venta_detalle_farmacias.medicamento_id', $request->medicamento_id)
         ->whereBetween('venta_detalle_farmacias.created_at', [$request->fechaInicio, $request->fechaTermino])
@@ -196,20 +192,71 @@ class MedicamentoController extends Controller
             ->get();
 
             $detalleVentaTable = DB::table('venta_detalle_farmacias')
-            ->join('venta_farmacias', 'venta_detalle_farmacias.venta_id', '=', 'venta_farmacias.id')
-            ->join('medicamentos', 'venta_detalle_farmacias.medicamento_id', '=', 'medicamentos.id')
+            ->join('venta_farmacias', 'venta_detalle_farmacias.venta_id', 'venta_farmacias.id')
+            ->join('medicamentos', 'venta_detalle_farmacias.medicamento_id', 'medicamentos.id')
             ->select('venta_detalle_farmacias.*', 'medicamentos.id as ID', 'medicamentos.medicamento as Medicamento', 'medicamentos.principioActivo as PrincipioActivo', 'medicamentos.lote as Lote')
             ->where('medicamentos.medicamento', 'like', $request->medicamentoName.'%')
             ->whereBetween('venta_detalle_farmacias.created_at', [$request->fechaInicio, $request->fechaTermino])
             ->get();
 
             return view('farmacia.consultas.movimientoMedicamentos', compact('dateCarbon', 'medicamentos', 'medicamentosTable', 'detalleVentaTable'));
-
         }
         else{
-
             return back()->with('danger', 'La Fecha de Termino NO puede ser Menor a la de Inicio');
-        }
+        }        
+    }
 
+    public function medicamentosSinStock()
+    {
+        /*
+         * Definimos variable que contendrá la fecha actual del sistema
+         */
+        $dateCarbon = Carbon::now()->locale('es')->isoFormat('dddd D, MMMM YYYY');
+        $hoy = Carbon::now();
+
+        /*
+         * Traemos a todos los datos de la base de datos y se los pasamos como objeto a la vista
+        */
+        $medicamentos = DB::table('medicamentos')
+        ->join('categoria_medicamentos', 'medicamentos.categoria_id', 'categoria_medicamentos.id')
+        ->select('medicamentos.*', 'categoria_medicamentos.name as Categoria', DB::raw('medicamentos.stock * medicamentos.precioInventario as totalInventario'))
+        ->where('medicamentos.stock', 0)
+        ->get();
+
+        /*
+         * Traemos a todas las Categorias en los que se clasificarán los Medicamentos
+        */
+        $categorias = DB::table('categoria_medicamentos')
+        ->select(DB::raw('CONCAT(categoria_medicamentos.id, " ) ", categoria_medicamentos.name) as Categorias'), 'categoria_medicamentos.id')
+        ->get();
+
+        return view('farmacia.consultas.medicamentosSinStock', compact('dateCarbon', 'medicamentos', 'categorias'));
+    }
+
+    public function medicamentosVencidos()
+    {
+        /*
+         * Definimos variable que contendrá la fecha actual del sistema
+         */
+        $dateCarbon = Carbon::now()->locale('es')->isoFormat('dddd D, MMMM YYYY');
+        $hoy = Carbon::now();
+
+        /*
+         * Traemos a todos los datos de la base de datos y se los pasamos como objeto a la vista
+        */
+        $medicamentos = DB::table('medicamentos')
+        ->join('categoria_medicamentos', 'medicamentos.categoria_id', 'categoria_medicamentos.id')
+        ->select('medicamentos.*', 'categoria_medicamentos.name as Categoria', DB::raw('medicamentos.stock * medicamentos.precioInventario as totalInventario'))
+        ->where('medicamentos.fechaVencimiento', '<', $hoy)
+        ->get();
+
+        /*
+         * Traemos a todas las Categorias en los que se clasificarán los Medicamentos
+        */
+        $categorias = DB::table('categoria_medicamentos')
+        ->select(DB::raw('CONCAT(categoria_medicamentos.id, " ) ", categoria_medicamentos.name) as Categorias'), 'categoria_medicamentos.id')
+        ->get();
+
+        return view('farmacia.consultas.medicamentosVencidos', compact('dateCarbon', 'medicamentos', 'categorias'));
     }
 }

@@ -70,7 +70,7 @@
 
                                     <label class="text-muted">Fecha Venta</label> <br>
 
-                                    <h5>{{ date('d-m-Y H:i:s', strtotime($venta->created_at)) }}</h5> 
+                                    <h5>{{ date('d-m-Y', strtotime($venta->created_at)) }}</h5> 
                                                             
                                 </div>
 

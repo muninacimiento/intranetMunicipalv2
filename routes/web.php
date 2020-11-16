@@ -209,7 +209,11 @@ Route::middleware(['auth'])->group( function() {
 	Route::put('/farmacia/ventas/medicamento/{venta}', 'VentaFarmaciaController@update')->name('ventas.update')->middleware('can:ventas.update');
 	Route::get('/farmacia/consultaVentas', 'VentaFarmaciaController@consulta')->name('ventas.consulta')->middleware('can:ventas.consulta'); 
 	Route::get('/farmacia/consultas/movimientoMedicamentos', 'MedicamentoController@movimientoMedicamentos')->name('consultas.movimientoMedicamentos')->middleware('can:consultas.movimientoMedicamentos'); 
-	Route::get('/farmacia/consultas', 'MedicamentoController@buscarMovMedicamentos')->name('consultas.buscarMovMedicamentos')->middleware('can:consultas.buscarMovMedicamentos'); 
+	Route::get('/farmacia/consultas', 'MedicamentoController@buscarMovMedicamentos')->name('consultas.buscarMovMedicamentos')->middleware('can:consultas.buscarMovMedicamentos');
+	Route::get('/farmacia/consultas/medicamentosSinStock', 'MedicamentoController@medicamentosSinStock')->name('consultas.medicamentosSinStock')->middleware('can:consultas.medicamentosSinStock');
+	Route::get('/farmacia/consultas/medicamentosVencidos', 'MedicamentoController@medicamentosVencidos')->name('consultas.medicamentosVencidos')->middleware('can:consultas.medicamentosVencidos'); 
+
+
 
 
 	/*#############################################################################################################################################################
