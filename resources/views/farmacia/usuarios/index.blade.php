@@ -139,7 +139,7 @@
 
                                     <td>{{ $usuario->sistemaPrevisional  }}</td>
 
-                                    <td>{{ date('d-m-Y', strtotime( $usuario->created_at ) }}</td>
+                                    <td>{{ date('d-m-Y', strtotime( $usuario->created_at )) }}</td>
 
                                     <td>
 

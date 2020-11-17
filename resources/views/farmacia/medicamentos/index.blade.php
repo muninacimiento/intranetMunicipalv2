@@ -334,7 +334,7 @@
                                                                               
                             <label for="fechaVencimiento">Fecha Vencimiento</label>
 
-                            <input type="text" class="form-control" id="fechaVencimiento" name="fechaVencimiento" placeholder="1900-01-01" required>
+                            <input type="text" class="form-control" id="fechaVencimientoCreate" name="fechaVencimiento" placeholder="1900-01-01" required>
 
                             <div class="invalid-feedback">
                                                                                                         
@@ -639,27 +639,38 @@
 
 @push('scripts')
 
+    <!-- JQuery CSS -->
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+
     <!-- JQuery DataTable -->
     <script type="text/javascript" src="https://code.jquery.com/jquery-3.3.1.js" ></script>
     <script type="text/javascript" src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js" defer></script>
 
-<!-- JQuery DatePicker -->
-<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
-<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <!-- JQuery DatePicker -->
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 
-<!-- Boostrap Select -->
-<!-- Latest compiled and minified CSS -->
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.9/dist/css/bootstrap-select.min.css">
-<!-- Latest compiled and minified JavaScript -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.9/dist/js/bootstrap-select.min.js"></script>
-<!-- (Optional) Latest compiled and minified JavaScript translation files -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.9/dist/js/i18n/defaults-*.min.js"></script>
+    <!-- Boostrap Select -->
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.9/dist/css/bootstrap-select.min.css">
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.9/dist/js/bootstrap-select.min.js"></script>
+    <!-- (Optional) Latest compiled and minified JavaScript translation files -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.9/dist/js/i18n/defaults-*.min.js"></script>
 
 <script>
 
 $(document).ready(function () {
 
-    $( "#fechaVencimiento" ).datepicker({
+    $( "#fechaVencimientoCreate" ).datepicker({
+                dateFormat: "yy-mm-dd",
+                firstDay: 1,
+                dayNamesMin: [ "Dom", "Lun", "Mar", "Mier", "Jue", "Vie", "Sab" ],
+                monthNames: [ "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre" ],
+                numberOfMonths: 1,
+            });
+
+    $( "#fechaVencimientoUpdate" ).datepicker({
                 dateFormat: "yy-mm-dd",
                 firstDay: 1,
                 dayNamesMin: [ "Dom", "Lun", "Mar", "Mier", "Jue", "Vie", "Sab" ],
