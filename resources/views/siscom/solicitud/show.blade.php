@@ -239,6 +239,8 @@
                                                     
                                             <button class="btn btn-primary btn-sm">
                                             
+                                                <i class="icofont-plus-circle"></i>
+
                                                 Nuevo Producto    
 
                                             </button>
@@ -299,7 +301,7 @@
                                                 
                                                 <button class="btn btn-block btn-warning" type="submit">
 
-                                                    <i class="fas fa-cart-arrow-down"></i>
+                                                    <i class="icofont-check-circled"></i>
 
                                                     Agregar Producto
 
@@ -309,7 +311,7 @@
 
                                                 <button class="btn btn-block btn-warning" type="submit" disabled="true">
 
-                                                    <i class="fas fa-cart-arrow-down"></i>
+                                                    <i class="icofont-check-circled"></i>
 
                                                     Agregar Producto
 
@@ -401,13 +403,13 @@
                                                             
                                                         <a href="#" class="btn btn-primary btn-sm editDetalle" data-toggle="tooltip" data-placement="bottom" title="Editar Producto">
                                                                     
-                                                            <i class="far fa-edit"></i>
+                                                           <i class="icofont-edit-alt"></i>
 
                                                         </a>
 
                                                         <a href="#" class="btn btn-danger btn-sm deleteDetalle" data-toggle="tooltip" data-placement="bottom" title="Eliminar Producto">
                                                                     
-                                                            <i class="far fa-trash-alt"></i>
+                                                            <i class="icofont-trash"></i>
 
                                                         </a>
 
@@ -455,7 +457,7 @@
 
                                             <button type="submit" class="btn btn-success btn-block"> 
 
-                                                <i class="fas fa-check-circle"></i>
+                                                <i class="icofont-check-circled"></i>
 
                                                 Confirmar Solicitud
 
@@ -465,7 +467,7 @@
 
                                             <button type="submit" class="btn btn-success btn-block" disabled="true"> 
 
-                                                <i class="fas fa-check-circle"></i>
+                                                <i class="icofont-check-circled"></i>
 
                                                 Confirmar Solicitud
 
@@ -483,7 +485,7 @@
 
                                         <button type="submit" class="btn btn-secondary btn-block"> 
 
-                                            <i class="fas fa-arrow-left"></i>
+                                            <i class="icofont-arrow-left"></i>
                                             
                                             Atrás
 

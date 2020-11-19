@@ -48,7 +48,7 @@
 
                                 <button class="btn btn-success btn-block boton">
 
-                                    <i class="fas fa-plus"></i>
+                                    <i class="icofont-plus-circle"></i>
 
                                     Nueva Solicitud
 

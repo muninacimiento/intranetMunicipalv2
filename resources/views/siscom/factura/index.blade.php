@@ -353,6 +353,42 @@
 
                             </tbody>
 
+                             <tfoot>
+
+                                <tr class="table-active">
+
+                                    <th style="display:none;">ID</th>
+
+                                    <th>Tipo Documento</th>
+
+                                    <th>No. Factura</th>
+
+                                    <th>IDDOC</th>                                    
+
+                                    <th>Recepción Factura</th>
+
+                                    <th>Fecha Recepción Of.Partes</th>
+
+                                    <th>Estado Factura</th>
+
+                                    <th>Días Trasncurridos (Por Estado)</th>
+
+                                    <th>Días Transcurridos (Total)</th>
+
+                                    <th>No. OC</th>
+
+                                    <th>Proveedor</th>
+
+                                    <th>Total $</th>
+
+                                    <th>Comentario</th>
+
+                                    <th>Acciones</th>
+
+                                </tr>
+
+                            </tfoot>
+
                         </table>
 
                     </div>
@@ -927,6 +963,12 @@
         
         $(document).ready(function () {
 
+            // Setup - add a text input to each footer cell
+            $('#facturasTable tfoot th').each( function () {
+                var title = $(this).text();
+                $(this).html( '<input type="text" placeholder="Buscar">' );
+            } );
+
             $( "#fechaOficinaParte_Created" ).datepicker({
                 dateFormat: "yy-mm-dd",
                 firstDay: 1,
@@ -981,6 +1023,19 @@
 
             });
             //End Configuration DataTable
+
+            // Apply the search
+            table.columns().every( function () {
+                var that = this;
+         
+                $( 'input', this.footer() ).on( 'keyup change clear', function () {
+                    if ( that.search() !== this.value ) {
+                        that
+                            .search( this.value )
+                            .draw();
+                    }
+                } );
+            } );
 
             //Start Edit Record
             table.on('click', '.edit', function () {

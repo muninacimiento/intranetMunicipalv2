@@ -134,7 +134,7 @@
 
                                             <a href="{{ route('admin.show', $solicitud->id) }}" class="btn btn-secondary btn-sm" data-toggle="tooltip" data-placement="bottom" title="Ver el Detalle de la Solicitud">
 
-                                                <i class="fas fa-eye"></i>
+                                                <i class="icofont-eye-alt"></i>
 
                                             </a>
 
@@ -146,7 +146,7 @@
 
                                                     <a href="#" class="btn btn-success btn-sm recepcionar" data-toggle="tooltip" data-placement="bottom" title="Recepcionar Solicitud">
                                                                 
-                                                        <i class="fas fa-clipboard-check"></i>
+                                                        <i class="icofont-checked"></i>
 
                                                     </a>
                                                     

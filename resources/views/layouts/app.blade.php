@@ -16,8 +16,8 @@
     <!-- Fonts -->
     <link href="https://fonts.googleapis.com/css?family=Quicksand&display=swap" rel="stylesheet"> 
 
-    <!-- Font Awesome -->
-    <script src="https://kit.fontawesome.com/4cf490c3ec.js"></script>
+    <!-- Font Awesome 
+    <script src="https://kit.fontawesome.com/4cf490c3ec.js"></script>-->
 
     <link href="{{ asset('assets/vendor/icofont/icofont.min.css')}}" rel="stylesheet">
     <link href="{{ asset('assets/vendor/boxicons/css/boxicons.min.css')}}" rel="stylesheet">
