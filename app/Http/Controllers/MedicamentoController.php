@@ -33,6 +33,7 @@ class MedicamentoController extends Controller
         ->select('medicamentos.*', 'categoria_medicamentos.name as Categoria', DB::raw('medicamentos.stock * medicamentos.precioInventario as totalInventario'))
         ->where('medicamentos.stock', '<>', 0)
         ->where('medicamentos.fechaVencimiento', '>', $hoy)
+
         ->get();
 
         /*

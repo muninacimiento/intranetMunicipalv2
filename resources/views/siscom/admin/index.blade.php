@@ -569,188 +569,96 @@
 </div>
 <!-- End Modal Anular Solicitud -->
 
-<!-- Rechazar Solicitud MODAL -->
+<!-- Start Rechazar Solicitud -->
 <div class="modal fade" id="rechazarModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-
     <div class="modal-dialog modal-dialog-centered" role="document">
-
         <div class="modal-content">
-
             <div class="modal-header bg-danger text-white">
-
-                <p class="modal-title" id="exampleModalLabel" style="font-size: 1.2em"> Rechazar Solicitud <i class="fas fa-ban"></i></p>
-
+                <p class="modal-title" id="exampleModalLabel" style="font-size: 1.2em"> Rechazar Solicitud <i class="icofont-ban h5"></i></p>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-
                     <span aria-hidden="true" class="text-white">&times;</span>
-
                 </button>
-
             </div>
-
 
             <form method="POST" action="#" class="was-validated" id="rechazarForm">
-
                 @csrf
                 @method('PUT')
-
                 <input type="hidden" name="flag" value="Rechazar">
-
                 <div class="modal-body">
-
-                    <div class="form-row">
-                        
+                    <div class="form-row">                        
                         <label for="fechaRecepcion" class="col-sm-4 col-form-label text-muted">Fecha Recepción</label>
-
                         <label for="fechaRecepcion" class="col-sm-8 col-form-label">{{ $dateCarbon }}</label>
-
                     </div>
-
                     <div class="form-row">
-
                         <label for="ID" class="col-sm-4 col-form-label text-muted">No. Solicitud</label>
-
-                         <div class="col-sm-8">
-                             
-                            <input type="" name="solicitudID" id="solicitudID_rechazar" readonly class="form-control-plaintext">
-                                 
+                         <div class="col-sm-8">                             
+                            <input type="" name="solicitudID" id="solicitudID_rechazar" readonly class="form-control-plaintext">                                 
                          </div>
-
-                    </div>
-
-                    
+                    </div>                    
                     <div class="form-row">
-
                         <label for="ID" class="col-sm-4 col-form-label text-muted">Motivo</label>
-
-                        <div class="col-sm-8 mb-2">
-                             
+                        <div class="col-sm-8 mb-2">                             
                             <textarea type="text" class="form-control" id="obsRechazo" name="obsRechazo" placeholder="Ingrese el Motivo del Rechazo de su Solicitud" required></textarea>
-
-                            <div class="invalid-feedback">
-                                                                                                                            
+                            <div class="invalid-feedback">                                                                                                                            
                                 Por favor ingrese el Motivo del Rechazo de su Solicitud
-
-                            </div>
-                                 
+                            </div>                                 
                         </div>
-
                     </div>
-
                     <div class="form-row">
-
                         <button class="btn btn-danger btn-block" type="submit">
-
-                            <i class="fas fa-ban"></i>
-
-                            Rechazar Solicitud
-
+                            <i class="icofont-check-circled h5"></i> Rechazar Solicitud
                         </button>
-
                     </div>
-
                 </div>
-
             </form>
-
         </div>
-
     </div>
-
 </div>
-<!-- End Rechazar Solicitud Modal -->
+<!-- End Rechazar Solicitud -->
 
-<!-- Subsanar Solicitud MODAL -->
+<!-- Start Subsanar Solicitud  -->
 <div class="modal fade" id="subsanarModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-
     <div class="modal-dialog modal-dialog-centered" role="document">
-
         <div class="modal-content">
-
             <div class="modal-header bg-success text-white">
-
-                <p class="modal-title" id="exampleModalLabel" style="font-size: 1.2em"> Subsanar Solicitud <i class="fas fa-check-circle"></i></p>
-
+                <p class="modal-title" id="exampleModalLabel" style="font-size: 1.2em"> Subsanar Solicitud <i class="icofont-check-circled h5"></i></p>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-
                     <span aria-hidden="true" class="text-white">&times;</span>
-
                 </button>
-
             </div>
-
-
             <form method="POST" action="#" class="was-validated" id="subsanarForm">
-
                 @csrf
                 @method('PUT')
-
                 <input type="hidden" name="flag" value="Subsanar">
-
                 <div class="modal-body">
-
-                    <div class="form-row">
-                        
+                    <div class="form-row">                        
                         <label for="fechaRecepcion" class="col-sm-4 col-form-label text-muted">Fecha Subsanar</label>
-
                         <label for="fechaRecepcion" class="col-sm-8 col-form-label">{{ $dateCarbon }}</label>
-
                     </div>
-
                     <div class="form-row">
-
                         <label for="ID" class="col-sm-4 col-form-label text-muted">No. Solicitud</label>
-
-                         <div class="col-sm-8">
-                             
-                            <input type="" name="solicitudID" id="solicitudID_subsanar" readonly class="form-control-plaintext">
-                                 
+                         <div class="col-sm-8">                             
+                            <input type="" name="solicitudID" id="solicitudID_subsanar" readonly class="form-control-plaintext">                                 
                          </div>
-
                     </div>
-
                     <div class="form-row">
-
                         <button class="btn btn-success btn-block" type="submit">
-
-                            <i class="fas fa-ban"></i>
-
-                            Subsanar Solicitud
-
+                            <i class="icofont-check-circled h5"></i> Subsanar Solicitud
                         </button>
-
                     </div>
-
                 </div>
-
             </form>
-
         </div>
-
     </div>
-
 </div>
-<!-- End Subsanar Solicitud Modal -->
-
+<!-- End Subsanar Solicitud -->
 @endsection
 
 @push('scripts')
-
-    <!-- JQuery DataTable -->
-    <script type="text/javascript" src="https://code.jquery.com/jquery-3.3.1.js" ></script>
-    <script type="text/javascript" src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js" defer></script>
-
-<!-- JQuery DatePicker -->
-<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
-<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-
-<script type="text/javascript">
-        
+    <script type="text/javascript">        
         $(document).ready(function () {
-
             var height = $(window).height();
             $('#allWindow').height(height);
-
 
             $( "#fechaActividad" ).datepicker({
                 dateFormat: "yy-mm-dd",
@@ -780,11 +688,8 @@
 
             // Start Configuration DataTable
             var table = $('#solicitudsTable').DataTable({
-
                 "paginate"  : true,
-
                 "order"     : ([0, 'desc']),
-
                 "language"  : {
                             "sProcessing":     "Procesando...",
                             "sLengthMenu":     "Mostrar _MENU_ registros",
@@ -834,42 +739,29 @@
             table.on('click', '.editInterna', function () {
 
                 $tr = $(this).closest('tr');
-
                 if ($($tr).hasClass('child')) {
-
                     $tr = $tr.prev('.parent');
-
                 }
-
                 var data = table.row($tr).data();
-
                 console.log(data);
 
                 $('#motivo_update_interna').val(data[5]);
-
                 if (($('#tipoSolicitud_update_interna').val(data[6]))==='Solicitud General') {
-
                     $('#tipoSolicitud_update_interna').val();    
                 }
                 else if (($('#tipoSolicitud_update_interna').val(data[6]))==='Solicitud de Actividad'){
-
-                    $('#tipoSolicitud_update_interna').val();       
-                }
-                
+                    $('#tipoSolicitud_update_interna').val();      
+                }                
                 if (($('#categoriaSolicitud_update_interna').val(data[7]))==='Stock de Oficina') {
-
                     $('#categoriaSolicitud_update_interna').val();    
                 }
                 else if (($('#categoriaSolicitud_update_interna').val(data[7]))==='Stock de Aseo'){
-
                     $('#categoriaSolicitud_update_interna').val();       
                 }
                 else if (($('#categoriaSolicitud_update_interna').val(data[7]))==='Stock de Gas'){
-
                     $('#categoriaSolicitud_update_interna').val();       
                 }
                 else if (($('#categoriaSolicitud_update_interna').val(data[7]))==='Compra'){
-
                     $('#categoriaSolicitud_update_interna').val();       
                 }               
 
@@ -881,51 +773,35 @@
 
             //Start Edit Record
             table.on('click', '.editPrograma', function () {
-
                 $tr = $(this).closest('tr');
-
                 if ($($tr).hasClass('child')) {
-
                     $tr = $tr.prev('.parent');
-
                 }
-
                 var data = table.row($tr).data();
-
                 console.log(data);
 
                 $('#motivo_update_programa').val(data[5]);
-
                 if (($('#tipoSolicitud_update_programa').val(data[6]))==='Solicitud General') {
-
                     $('#tipoSolicitud_update_programa').val();    
                 }
                 else if (($('#tipoSolicitud_update_programa').val(data[6]))==='Solicitud de Actividad'){
-
-                    $('#tipoSolicitud_update_programa').val();       
-                }
-                
+                    $('#tipoSolicitud_update_programa').val();     
+                }                
                 if (($('#categoriaSolicitud_update_programa').val(data[7]))==='Stock de Oficina') {
-
                     $('#categoriaSolicitud_update_programa').val();    
                 }
                 else if (($('#categoriaSolicitud_update_programa').val(data[7]))==='Stock de Aseo'){
-
                     $('#categoriaSolicitud_update_programa').val();       
                 }
                 else if (($('#categoriaSolicitud_update_programa').val(data[7]))==='Stock de Gas'){
-
                     $('#categoriaSolicitud_update_programa').val();       
                 }
                 else if (($('#categoriaSolicitud_update_programa').val(data[7]))==='Compra'){
-
                     $('#categoriaSolicitud_update_programa').val();       
                 }
 
                 $('#decretoPrograma_update_programa').val(data[8]);
                 $('#nombrePrograma_update_programa').val(data[9]);
-               
-
                 $('#updateFormPrograma').attr('action', '/siscom/solicitud/' + data[0]);
                 $('#updateSolicitudPrograma').modal('show');
 
@@ -934,17 +810,11 @@
 
             //Comienzo de Confirmar Entrega Productos de la Solicitud
             table.on('click', '.entregar', function () {
-
                 $tr = $(this).closest('tr');
-
                 if ($($tr).hasClass('child')) {
-
                     $tr = $tr.prev('.parent');
-
                 }
-
                 var data = table.row($tr).data();
-
                 console.log(data);
 
                 $('#solicitud_id_Entrega').val(data[0]);
@@ -957,17 +827,11 @@
 
             //Comienzo de Recepción de la Solicitud
             table.on('click', '.recepcionar', function () {
-
                 $tr = $(this).closest('tr');
-
                 if ($($tr).hasClass('child')) {
-
                     $tr = $tr.prev('.parent');
-
                 }
-
                 var data = table.row($tr).data();
-
                 console.log(data);
 
                 $('#solicitudID').val(data[0]);
@@ -980,17 +844,11 @@
 
             //Rechazar Solicitud
             table.on('click', '.rechazar', function () {
-
                 $tr = $(this).closest('tr');
-
                 if ($($tr).hasClass('child')) {
-
                     $tr = $tr.prev('.parent');
-
                 }
-
                 var data = table.row($tr).data();
-
                 console.log(data);
 
                 $('#solicitudID_rechazar').val(data[0]);
@@ -1003,7 +861,6 @@
 
             //Subsanar Solicitud
             table.on('click', '.subsanar', function () {
-
                 $tr = $(this).closest('tr');
 
                 if ($($tr).hasClass('child')) {
@@ -1026,17 +883,11 @@
 
             //Comienzo de Asignación de la Solicitud
             table.on('click', '.asignar', function () {
-
                 $tr = $(this).closest('tr');
-
                 if ($($tr).hasClass('child')) {
-
                     $tr = $tr.prev('.parent');
-
                 }
-
                 var data = table.row($tr).data();
-
                 console.log(data);
 
                 $('#solicitud_id').val(data[0]);
@@ -1049,17 +900,11 @@
 
             //Comienzo de Asignación de la Solicitud
             table.on('click', '.reasignar', function () {
-
                 $tr = $(this).closest('tr');
-
                 if ($($tr).hasClass('child')) {
-
                     $tr = $tr.prev('.parent');
-
                 }
-
                 var data = table.row($tr).data();
-
                 console.log(data);
 
                 $('#solicitud_id_reasignar').val(data[0]);
@@ -1072,17 +917,11 @@
 
             //Comienzo de la Anulación de la Solicitud
             table.on('click', '.anular', function () {
-
                 $tr = $(this).closest('tr');
-
                 if ($($tr).hasClass('child')) {
-
                     $tr = $tr.prev('.parent');
-
                 }
-
                 var data = table.row($tr).data();
-
                 console.log(data);
 
                 document.getElementById('noSolicitud').innerHTML = data[0];
@@ -1097,74 +936,43 @@
             //Fin Anulación de la Solicitud
 
             //LLenar Select CategoriaSolicitud dependiendo de la seleccion en TipoSolicitud
-        var options = {
-        
+        var options = {        
             Operacional : ["Stock de Oficina", "Stock de Aseo", "Stock de Gas", "Compra"],
             Actividad : ["Compra"]
         }
 
         $(function(){
-
             var fillCategoria = function(){
-
                 var selected = $('#tipoSolicitud_create').val();
-
                 $('#categoriaSolicitud_create').empty();
-
                 options[selected].forEach(function(element,index){
-
                     $('#categoriaSolicitud_create').append('<option value="'+element+'">'+element+'</option>');
-
                 });
-
                 if (selected === "") {
-
                     disableActividad();
-
                 } else if (selected === "Operacional") {
-
                     disableActividad();
-
                 } else if (selected === "Actividad") {
-
                     enableActividad();
-
-                } 
-        
+                }         
             }
-
             $('#tipoSolicitud_create').change(fillCategoria);
-
-            fillCategoria();
-
-            
+            fillCategoria();            
         });
 
         document.getElementById("areaGestion").onchange = function() {habilitarEncabezado()};
-
         function habilitarEncabezado(){
-
             var option = $('#areaGestion').val();
-
             if (option === '') {
-
                 disableEncabezado();
-
             } else if (option === 'Interna') {
-
                 enableInterna();
-
             } else if (option === 'Programa') {
-
                 enablePrograma();
-
             }
-
-
         }
 
         function disableEncabezado(){
-
             $('#motivo_create').prop("disabled", true);
             $('#tipoSolicitud_create').prop("disabled", true);
             $('#categoriaSolicitud_create').prop("disabled", true);
@@ -1174,7 +982,6 @@
 
 
         function enableInterna(){
-
             $('#motivo_create').prop("disabled", false);
             $('#tipoSolicitud_create').prop("disabled", false);
             $('#categoriaSolicitud_create').prop("disabled", false);
@@ -1183,13 +990,11 @@
         }
 
         function enablePrograma(){
-
             $('#motivo_create').prop("disabled", false);
             $('#tipoSolicitud_create').prop("disabled", false);
             $('#categoriaSolicitud_create').prop("disabled", false);
              $('#decretoPrograma_create').prop("disabled", false);
             $('#nombrePrograma_create').prop("disabled", false);
-
         }
 
         function disableActividad() {
@@ -1208,7 +1013,6 @@
         }
 
         function enableActividad(){
-
             $('#nombreActividad').prop("disabled", false);
             $('#fechaActividad').prop("disabled", false);
             $('#horaActividad').prop("disabled", false);
@@ -1219,11 +1023,7 @@
             $('#cuentaPresupuestaria').prop("disabled", false);
             $('#cuentaComplementaria').prop("disabled", false);
             $('#obsActividad').prop("disabled", false);
-
-        }
-
-        
-
+        }     
     });    
 
 </script>

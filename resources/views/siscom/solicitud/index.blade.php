@@ -1042,21 +1042,8 @@
 
 @push('scripts')
 
-    <!-- JQuery CSS -->
-    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-
-    <!-- JQuery DataTable -->
-    <script type="text/javascript" src="https://code.jquery.com/jquery-3.3.1.js" ></script>
-    <script type="text/javascript" src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js" defer></script>
-
-    <!-- JQuery DatePicker -->
-    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
-    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-
-    <script type="text/javascript">
-        
+    <script type="text/javascript">        
         $(document).ready(function () {
-
             var height = $(window).height();
             $('#allWindow').height(height);
 
@@ -1077,16 +1064,12 @@
             });
 
             disableEncabezado();
-
             disableActividad();
 
             // Start Configuration DataTable
             var table = $('#solicitudsTable').DataTable({
-
                 "paginate"  : true,
-
                 "order"     : ([0, 'desc']),
-
                 "language"  : {
                             "sProcessing":     "Procesando...",
                             "sLengthMenu":     "Mostrar _MENU_ registros",
@@ -1121,44 +1104,30 @@
 
             //Start Edit Record
             table.on('click', '.editInterna', function () {
-
                 $tr = $(this).closest('tr');
-
                 if ($($tr).hasClass('child')) {
-
                     $tr = $tr.prev('.parent');
-
                 }
-
                 var data = table.row($tr).data();
-
                 console.log(data);
 
                 $('#motivo_update_interna').val(data[5]);
-
                 if (($('#tipoSolicitud_update_interna').val(data[6]))==='Solicitud General') {
-
                     $('#tipoSolicitud_update_interna').val();    
                 }
                 else if (($('#tipoSolicitud_update_interna').val(data[6]))==='Solicitud de Actividad'){
-
                     $('#tipoSolicitud_update_interna').val();       
-                }
-                
+                }                
                 if (($('#categoriaSolicitud_update_interna').val(data[7]))==='Stock de Oficina') {
-
                     $('#categoriaSolicitud_update_interna').val();    
                 }
                 else if (($('#categoriaSolicitud_update_interna').val(data[7]))==='Stock de Aseo'){
-
                     $('#categoriaSolicitud_update_interna').val();       
                 }
                 else if (($('#categoriaSolicitud_update_interna').val(data[7]))==='Stock de Gas'){
-
                     $('#categoriaSolicitud_update_interna').val();       
                 }
                 else if (($('#categoriaSolicitud_update_interna').val(data[7]))==='Compra'){
-
                     $('#categoriaSolicitud_update_interna').val();       
                 }               
 
@@ -1170,70 +1139,47 @@
 
             //Start Edit Record
             table.on('click', '.editPrograma', function () {
-
                 $tr = $(this).closest('tr');
-
                 if ($($tr).hasClass('child')) {
-
                     $tr = $tr.prev('.parent');
-
                 }
-
                 var data = table.row($tr).data();
-
                 console.log(data);
 
                 $('#motivo_update_programa').val(data[5]);
-
                 if (($('#tipoSolicitud_update_programa').val(data[6]))==='Solicitud General') {
-
                     $('#tipoSolicitud_update_programa').val();    
                 }
                 else if (($('#tipoSolicitud_update_programa').val(data[6]))==='Solicitud de Actividad'){
-
                     $('#tipoSolicitud_update_programa').val();       
-                }
-                
+                }                
                 if (($('#categoriaSolicitud_update_programa').val(data[7]))==='Stock de Oficina') {
-
                     $('#categoriaSolicitud_update_programa').val();    
                 }
                 else if (($('#categoriaSolicitud_update_programa').val(data[7]))==='Stock de Aseo'){
-
                     $('#categoriaSolicitud_update_programa').val();       
                 }
                 else if (($('#categoriaSolicitud_update_programa').val(data[7]))==='Stock de Gas'){
-
                     $('#categoriaSolicitud_update_programa').val();       
                 }
                 else if (($('#categoriaSolicitud_update_programa').val(data[7]))==='Compra'){
-
                     $('#categoriaSolicitud_update_programa').val();       
                 }
-
                 $('#decretoPrograma_update_programa').val(data[8]);
-                $('#nombrePrograma_update_programa').val(data[9]);
-               
+                $('#nombrePrograma_update_programa').val(data[9]);               
 
                 $('#updateFormPrograma').attr('action', '/siscom/solicitud/' + data[0]);
                 $('#updateSolicitudPrograma').modal('show');
-
             });
             //End Edit Record
 
             //Start Delete Record
             table.on('click', '.delete', function () {
-
                 $tr = $(this).closest('tr');
-
                 if ($($tr).hasClass('child')) {
-
                     $tr = $tr.prev('.parent');
-
                 }
-
                 var data = table.row($tr).data();
-
                 console.log(data);
 
                 document.getElementById('noSolicitud').innerHTML = data[0];
@@ -1243,108 +1189,68 @@
                 
                 $('#deleteForm').attr('action', '/siscom/solicitud/anular/' + data[0]);
                 $('#deleteModal').modal('show');
-
             });
             //End Delete Record
 
             //LLenar Select CategoriaSolicitud dependiendo de la seleccion en TipoSolicitud
-            var options = {
-            
+            var options = {            
                 Operacional : ["Stock de Oficina", "Stock de Aseo", "Stock de Gas", "Compra"],
                 Actividad : ["Compra"]
             }
 
             $(function(){
-
                 var fillCategoria = function(){
-
                     var selected = $('#tipoSolicitud_create').val();
-
                     $('#categoriaSolicitud_create').empty();
-
                     options[selected].forEach(function(element,index){
-
                         $('#categoriaSolicitud_create').append('<option value="'+element+'">'+element+'</option>');
-
                     });
-
                     if (selected === "") {
-
                         disableActividad();
-
                     } else if (selected === "Operacional") {
-
                         disableActividad();
-
                     } else if (selected === "Actividad") {
-
                         enableActividad();
-
-                    } 
-            
+                    }             
                 }
-
                 $('#tipoSolicitud_create').change(fillCategoria);
-
-                fillCategoria();
-
-                
+                fillCategoria();                
             });
 
             document.getElementById("areaGestion").onchange = function() {habilitarEncabezado()};
 
             function habilitarEncabezado(){
-
                 var option = $('#areaGestion').val();
-
                 if (option === '') {
-
                     disableEncabezado();
-
                 } else if (option === 'Interna') {
-
                     enableInterna();
-
                 } else if (option === 'Programa') {
-
                     enablePrograma();
-
                 }
-
-
             }
-
             function disableEncabezado(){
-
                 $('#motivo_create').prop("disabled", true);
                 $('#tipoSolicitud_create').prop("disabled", true);
                 $('#categoriaSolicitud_create').prop("disabled", true);
                 $('#decretoPrograma_create').prop("disabled", true);
                 $('#nombrePrograma_create').prop("disabled", true);
             }
-
-
             function enableInterna(){
-
                 $('#motivo_create').prop("disabled", false);
                 $('#tipoSolicitud_create').prop("disabled", false);
                 $('#categoriaSolicitud_create').prop("disabled", false);
                 $('#decretoPrograma_create').prop("disabled", true);
                 $('#nombrePrograma_create').prop("disabled", true);
             }
-
             function enablePrograma(){
-
                 $('#motivo_create').prop("disabled", false);
                 $('#tipoSolicitud_create').prop("disabled", false);
                 $('#categoriaSolicitud_create').prop("disabled", false);
-                 $('#decretoPrograma_create').prop("disabled", false);
+                $('#decretoPrograma_create').prop("disabled", false);
                 $('#nombrePrograma_create').prop("disabled", false);
-
             }
-
-            function disableActividad() {
-                
+            function disableActividad() {                
                 $('#nombreActividad').prop("disabled", true);
                 $('#fechaActividad').prop("disabled", true);
                 $('#horaActividad').prop("disabled", true);
@@ -1355,11 +1261,8 @@
                 $('#cuentaPresupuestaria').prop("disabled", true);
                 $('#cuentaComplementaria').prop("disabled", true);
                 $('#obsActividad').prop("disabled", true);
-
             }
-
             function enableActividad(){
-
                 $('#nombreActividad').prop("disabled", false);
                 $('#fechaActividad').prop("disabled", false);
                 $('#horaActividad').prop("disabled", false);
@@ -1370,9 +1273,7 @@
                 $('#cuentaPresupuestaria').prop("disabled", false);
                 $('#cuentaComplementaria').prop("disabled", false);
                 $('#obsActividad').prop("disabled", false);
-
-            }       
-
+            }     
         });    
 
     </script>
