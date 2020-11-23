@@ -35,7 +35,7 @@
 
                 font-family: 'Quicksand';
 
-                background: url(../images/fuerteNacimiento.JPEG) no-repeat center;
+                background: url(../images/fuerte1.JPG) no-repeat center;
 
                 background-size: cover;
 
@@ -45,7 +45,7 @@
 
             .header .navbar {
                 
-                background-color: transparent !important;
+                background:transparent !important;
 
             }
 
@@ -59,7 +59,7 @@
 
                 top: 50%;
 
-                left: 50%;
+                left: 80%;
 
                 transform: translate(-50%, -50%);
 
@@ -93,7 +93,7 @@
 
             <nav class="navbar navbar-expand-lg navbar-light bg-light">
                 
-              <a class="navbar-brand text-secondary font-weight-lighter" href="{{ url('/') }}">
+              <a class="navbar-brand text-muted font-weight-lighter" href="{{ url('/') }}">
 
                     <img src="{{ asset('images/MarcaMunicipal_LetrasBlancas.png')}}" style="width: 200px;" class="ml-5 mr-3">
                     
@@ -122,7 +122,7 @@
 
                                 @auth
 
-                                    <a href="{{ url('/home') }}" class="text-secondary mr-3 text-decoration-none">Inicio</a>
+                                    <a href="{{ url('/home') }}" class="text-muted mr-3 text-decoration-none">Inicio</a>
 
                                
                                 @endauth

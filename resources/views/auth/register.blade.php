@@ -37,7 +37,7 @@
 
                 font-family: 'Quicksand';
 
-                background: url(../images/fuerteNacimiento.JPEG) no-repeat center;
+                background: url(../images/fuerte1.JPG) no-repeat center;
 
                 background-size: cover;
 
@@ -61,7 +61,7 @@
 
                 top: 50%;
 
-                left: 50%;
+                left: 80%;
 
                 transform: translate(-50%, -50%);
 
