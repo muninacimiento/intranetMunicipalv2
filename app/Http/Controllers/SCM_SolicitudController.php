@@ -163,35 +163,35 @@ class SCM_SolicitudController extends Controller
          * Declaramos un Objeto para obtener acceso a los datos de la tabla DetalleSolicitud
          */
         $detalleSolicitud = DB::table('detail_solicituds')
-                    ->join('products', 'detail_solicituds.product_id', 'products.id')
-                    ->join('solicituds', 'detail_solicituds.solicitud_id', '=', 'solicituds.id')
-                    ->leftjoin('orden_compras', 'detail_solicituds.ordenCompra_id', '=', 'orden_compras.id')
-                    ->leftjoin('status_o_c_s', 'orden_compras.estado_id', '=', 'status_o_c_s.id')
-                    ->leftjoin('licitacions', 'detail_solicituds.licitacion_id', '=', 'licitacions.id')
-                    ->leftjoin('status_licitacions', 'licitacions.estado_id', '=', 'status_licitacions.id')
-                    ->select('detail_solicituds.*', 'products.name as Producto', DB::raw('(detail_solicituds.cantidad * detail_solicituds.valorUnitario) as SubTotal'), 'orden_compras.ordenCompra_id as NoOC', 'status_o_c_s.estado as EstadoOC', 'licitacions.licitacion_id as NoLicitacion', 'status_licitacions.estado as EstadoLicitacion')
-                     ->where('solicituds.id', '=', $id) //Revisar la vista y el envio de los datos a la tabla de Detalle de la Solicitud
-                    ->get();
+        ->join('products', 'detail_solicituds.product_id', 'products.id')
+        ->join('solicituds', 'detail_solicituds.solicitud_id', '=', 'solicituds.id')
+        ->leftjoin('orden_compras', 'detail_solicituds.ordenCompra_id', '=', 'orden_compras.id')
+        ->leftjoin('status_o_c_s', 'orden_compras.estado_id', '=', 'status_o_c_s.id')
+        ->leftjoin('licitacions', 'detail_solicituds.licitacion_id', '=', 'licitacions.id')
+        ->leftjoin('status_licitacions', 'licitacions.estado_id', '=', 'status_licitacions.id')
+        ->select('detail_solicituds.*', 'products.name as Producto', DB::raw('(detail_solicituds.cantidad * detail_solicituds.valorUnitario) as SubTotal'), 'orden_compras.ordenCompra_id as NoOC', 'status_o_c_s.estado as EstadoOC', 'licitacions.licitacion_id as NoLicitacion', 'status_licitacions.estado as EstadoLicitacion')
+        ->where('solicituds.id', '=', $id) //Revisar la vista y el envio de los datos a la tabla de Detalle de la Solicitud
+        ->get();
 
         $products = DB::table('products as productos')
-                    ->select(DB::raw('CONCAT(productos.id, " ) ", productos.name) as Producto'), 'productos.id')
-                    ->get();
+        ->select(DB::raw('CONCAT(productos.id, " ) ", productos.name) as Producto'), 'productos.id')
+        ->get();
 
         $solicitud = DB::table('solicituds')
-                   ->join('users', 'solicituds.user_id', '=', 'users.id')
-                   ->join('status_solicituds', 'solicituds.estado_id', '=', 'status_solicituds.id')
-                   ->select('solicituds.*', 'users.name as nameUser', 'status_solicituds.estado')
-                   ->where('solicituds.id', '=', $id)
-                   ->first();
+        ->join('users', 'solicituds.user_id', '=', 'users.id')
+        ->join('status_solicituds', 'solicituds.estado_id', '=', 'status_solicituds.id')
+        ->select('solicituds.*', 'users.name as nameUser', 'status_solicituds.estado')
+        ->where('solicituds.id', '=', $id)
+        ->first();
 
-         $move = DB::table('move_solicituds') 
-                ->join('status_solicituds', 'move_solicituds.estadoSolicitud_id', 'status_solicituds.id')               
-                ->join('users', 'move_solicituds.user_id', 'users.id')
-                ->select('status_solicituds.estado as status', 'users.name as name', 'move_solicituds.created_at as date')
-                ->where('move_solicituds.solicitud_id', '=', $id)
-                ->get();
+        $move = DB::table('move_solicituds') 
+        ->join('status_solicituds', 'move_solicituds.estadoSolicitud_id', 'status_solicituds.id')               
+        ->join('users', 'move_solicituds.user_id', 'users.id')
+        ->select('status_solicituds.estado as status', 'users.name as name', 'move_solicituds.created_at as date')
+        ->where('move_solicituds.solicitud_id', '=', $id)
+        ->get();
 
-        //dd($detalleSolicitud);
+//dd($products);
 
         return view('siscom.solicitud.show', compact('solicitud', 'products', 'detalleSolicitud', 'move'));
 
