@@ -1,6 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
+
 <div id="allWindow">
     <div class="row justify-content-center">
         <div class="col-md-12">
@@ -15,7 +16,7 @@
                             </div>
                         @endif
                         <a href="{{action('SCM_SolicitudController@index')}}" class="btn btn-link text-decoration-none float-right"> <i class="far fa-arrow-alt-circle-left"></i> Volver</a>
-                        <h4>Detalle Solicitud No.  <input type="text" value="{{ $solicitud->id }}" readonly class="h4" style="border:0;" name="solicitudID" form="detalleSolicitudForm"> </h4>
+                        <h4>Recepcionar Solicitud No.  <input type="text" value="{{ $solicitud->id }}" readonly class="h4" style="border:0;" name="solicitudID" form="detalleSolicitudForm"> </h4>
                          <hr style="background-color: #d7d7d7">
                         <div class="py-3">
                             <div class="form-row mb-3">
@@ -42,49 +43,8 @@
                                     <h5>{{ $solicitud->nameUser }}</h5>                                                            
                                 </div>
                             </div>
-                            <input type="button" id="more" value="Ver Detalle de su Actividad" onclick="$('.divActividad').slideToggle(function(){$('#more').html($('.divActividad').is(':visible')?'Ver Menos Detalles':'Ver Más Detalles');});" class="btn btn-primary btn-block btn-sm" disabled>
-                            <div class="form-row mb-3 divActividad " style="display:none">                                
-                                <table id="actividad" class="display col-md-12" style="font-size: 0.85em;" width="100%">
-                                    <thead>
-                                        <tr>
-                                            <th></th>
-                                            <th style="display: none">ID</th>
-                                            <th>Actividad</th>
-                                            <th>Objetivo</th>
-                                            <th width="15%">Fecha</th>
-                                            <th width="10%">Hora</th>
-                                            <th style="display: none">Lugar</th>
-                                            <th style="display: none">Descripción</th>
-                                            <th style="display: none">Participantes</th>
-                                            <th style="display: none">Cuenta Presupuestaria</th>
-                                            <th style="display: none">Cuenta Complementaria</th>
-                                            <th style="display: none">Observación</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                            <td>                                                
-                                                <a href="#" data-toggle="tooltip" data-placement="bottom" title="Modificar la Solicitud">
-                                                    <input type="button" id="btnActividad" value="Editar" class="btn btn-warning btn-sm mr-1 edit" disabled>
-                                                </a>
-                                            </td>
-                                            <td style="display: none">{{ $solicitud->id }}</td>
-                                            <td>{{ $solicitud->nombreActividad }}</td>
-                                            <td>{{ $solicitud->objetivoActividad}}</td>
-                                            <td width="15%">{{ $solicitud->fechaActividad }}</td>
-                                            <td width="10%">{{ $solicitud->horaActividad}}</td>
-                                            <td style="display: none">{{ $solicitud->lugarActividad}}</td>
-                                            <td style="display: none">{{ $solicitud->descripcionActividad}}</td>
-                                            <td style="display: none">{{ $solicitud->participantesActividad}}</td>
-                                            <td style="display: none">{{ $solicitud->cuentaPresupuestaria}}</td>
-                                            <td style="display: none">{{ $solicitud->cuentaComplementaria}}</td>
-                                            <td style="display: none">{{ $solicitud->obsActividad}}</td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
                             <hr style="background-color: #d7d7d7">
-                            <div style="font-size: 0.8em;" class="bg-warning rounded-top rounded-bottom shadow p-3">
+                            <div style="font-size: 0.8em;" class="bg-warning rounded-top rounded-bottom shadow p-3 mb-5">
                                 <h5 class="text-center">
                                 <i class="icofont-sand-clock"></i> TimeLine Solicitud
                                 </h5>                                
@@ -128,61 +88,9 @@
                                     </tbody>
                                 </table>
                             </div>                           
-                            <div class="py-3">
-                                <form method="POST" action="{{ action('SCM_SolicitudController@store') }}" class="was-validated" id="detalleSolicitudForm">
-                                    @csrf
-                                    <input type="hidden" name="flag" value="detalleSolicitud">
-                                    <div class="form-row bg-dark p-3 text-white rounded-top">
-                                    <h5> 
-                                        <i class="icofont-plus"></i> Agregar Productos a la Solicitud
-                                    </h5>
-                                    </div>
-                                    <div class="form-row bg-dark p-3 ">                                        
-                                        <a href="#" class="text-decoration-none" data-toggle="modal" data-target="#createProductModal">                                                    
-                                            <button class="btn btn-primary">                                            
-                                                <i class="icofont-plus-circle"></i> Crear Nuevo Producto    
-                                            </button>
-                                        </a>  
-                                    </div>                                    
-                                    <div class="form-row bg-dark p-2 text-white">
-                                        <div class="col-md-8 mb-3">                                                
-                                            <label for="flagIdProducto">Productos</label>
-                                            <select name="flagIdProducto" id="flagIdProducto" class="form-control selectpicker" data-live-search="true" title="Seleccione el Producto que desea solicitar..." required>
-                                                @foreach($products as $product)
-                                                    <option value="{{ $product->id }}">{{ $product->Producto }}</option>                                                            
-                                                @endforeach
-                                            </select>
-                                        </div>
-                                        <div class="col-md-2 mb-3">                                                
-                                            <label for="flagCantidad">Cantidad</label>
-                                            <input type="number" min="0" name="flagCantidad" id="flagCantidad" class="form-control" required>
-                                        </div>
-                                        <div class="col-md-2 mb-3">                                                
-                                            <label for="flagValorUnitario">Valor Unitario $</label>
-                                            <input type="number" min="0" name="flagValorUnitario" id="flagValorUnitario" class="form-control" required>
-                                        </div>
-                                    </div>
-                                    <div class="form-row mb-5 bg-dark p-2 text-white rounded-bottom">                                        
-                                        <div class="col-md-12 mb-3">                                            
-                                            <label for="flagEspecificacion">Especificación</label>
-                                            <textarea type="text" class="form-control" id="flagEspecificacion" name="flagEspecificacion" placeholder="Ingrese mayor Especificación de su Producto" required></textarea>
-                                        </div>
-                                        <div class="col-md-12 mb-2">
-                                            @if( $solicitud->estado_id < 3)                                                
-                                                <button class="btn btn-block btn-warning" type="submit">
-                                                    <i class="icofont-check-circled"></i>
-                                                    Agregar Producto
-                                                </button>
-                                            @else
-                                                <button class="btn btn-block btn-warning" type="submit" disabled="true">
-                                                    <i class="icofont-check-circled"></i>
-                                                    Agregar Producto
-                                                </button>
-                                            @endif
-                                        </div>
-                                    </div>
-                                </form>
-                                <div>
+                            <div>
+                                <div class="mb-2 h5">Productos de la Solicitud</div> <br>
+                                <div class="col">
                                     <table class="display" id="detalleSolicitud" width="100%" style="font-size: 0.9em">
                                         <thead>
                                             <tr>
@@ -192,12 +100,6 @@
                                                 <th>Cantidad</th>
                                                 <th>Valor</th>                                                        
                                                 <th>SubTotal</th>
-                                                <th>Órden de Compra</th>
-                                                <th>Estado O.C.</th>
-                                                <th>Recepcionado?</th>
-                                                <th>Licitación</th>
-                                                <th>Estado Licitación</th>
-                                                <th>Acciones</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -209,105 +111,115 @@
                                                 <td>{{ $detalle->cantidad }}</td>
                                                 <td>{{ $detalle->valorUnitario }}</td>
                                                 <td class="subtotal">{{ $detalle->SubTotal }}</td>  
-                                                <td>{{ $detalle->NoOC }}</td>
-                                                <td>{{ $detalle->EstadoOC }}</td>
-                                                @if($detalle->fechaRecepcion == NULL)
-                                                    <td>No</td>
-                                                @else
-                                                    <td>Si</td>
-                                                @endif
-                                                <td>{{ $detalle->NoLicitacion}}</td>
-                                                <td>{{ $detalle->EstadoLicitacion }}</td>
-                                                @if( $solicitud->estado_id < 3)  
-                                                    <td>                                                            
-                                                        <a href="#" class="btn btn-primary btn-sm editDetalle" data-toggle="tooltip" data-placement="bottom" title="Editar Producto">
-                                                           <i class="icofont-edit-alt"></i>
-                                                        </a>
-                                                        <a href="#" class="btn btn-danger btn-sm deleteDetalle" data-toggle="tooltip" data-placement="bottom" title="Eliminar Producto">
-                                                            <i class="icofont-trash"></i>
-                                                        </a>
-                                                    </td>
-                                                @else
-                                                    <td></td>
-                                                @endif
                                             </tr>
                                             @endforeach
                                         </tbody>
                                     </table>
                                 </div>
                             </div>
+
                             <div class="form-row">
-                                <div class="col-md-12 mb-2">                                
-                                    <form method="POST" action="{{ route('solicitud.update', $solicitud->id) }}">
-                                        @csrf
-                                        <div class="form-row mb-3">                                            
-                                            <h5 class="text-muted">Total Solicitud :&nbsp;$&nbsp;</h5>
-                                            <input type="text" name="totalSolicitud" id="total" readonly style="border: 0;font-size: 1.5em;">
-                                        </div>
-                                        <input type="hidden" name="flag" value="Confirmar">
-                                        @if( $solicitud->estado_id < 3)
-                                            <button type="submit" class="btn btn-success btn-block"> 
-                                                <i class="icofont-check-circled"></i>
-                                                Confirmar Solicitud
-                                            </button>
-                                        @else
-                                            <button type="submit" class="btn btn-success btn-block" disabled="true"> 
-                                                <i class="icofont-check-circled"></i> Confirmar Solicitud
-                                            </button>
-                                        @endif
-                                    </form>   
-                                </div>
-                                <div class="col-md-12">                                    
-                                    <a href="{{ route('solicitud.index') }}" class="text-decoration-none">
+
+                                <div class="col-md-12">
+                                    
+                                    <a href="{{ route('admin.recepcionarSolicitud') }}" class="text-decoration-none">
+
                                         <button type="submit" class="btn btn-secondary btn-block"> 
-                                            <i class="icofont-arrow-left"></i> Volver
+
+                                            <i class="icofont-arrow-left"></i>
+                                            
+                                            Volver
+
                                         </button>
+
                                     </a>
+
                                 </div>
+
                             </div>
+
                         </div>
-                    </div>                
+
+                    </div>
+                
                 </div>
             </div>
+
         </div>
-    </div>        
+
+    </div>
+        
 </div>
 
 <!-- UPDATE Modal Actividad-->
 <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+
     <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
+
         <div class="modal-content">
+
             <div class="modal-header bg-warning">
-                <p class="modal-title" id="exampleModalLabel" style="font-size: 1.2em"><i class="icofont-edit-alt h5"></i> Modificar Datos de la Actividad</p>
+
+                <h3 class="modal-title" id="exampleModalLabel">Modificar Datos de la Actividad <i class="fas fa-edit"></i>  </h3>
+
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+
                     <span aria-hidden="true">&times;</span>
+
                 </button>
+
             </div>
+
+
             <form method="POST" action="/siscom/solicitud" class="was-validated" id="updateForm">
+
                 @csrf
                 @method('PUT')
+
                 <input type="hidden" name="flag" value="Actividad">
-                <div class="modal-body">        
+
+                <div class="modal-body">
+        
                     <div class="form-row mb-3">
-                        <div class="col-md-12">                                                                                      
+
+                        <div class="col-md-12">
+                                                                                      
                             <label for="nombreActividad">Nombre de la Actividad</label>
+
                             <textarea type="text" class="form-control" name="nombreActividad" id="nombreActividad" placeholder="Cuál es el Nombre de su Actividad ?" required></textarea>
-                            <div class="invalid-feedback">                                                                                                    
+
+                            <div class="invalid-feedback">
+                                                                                                    
                                 Por favor ingrese el Nombre de su Actividad
+
                             </div>
+
                         </div>
+
                     </div>
+
                     <div class="form-row mb-3">
+
                         <div class="col-sm-6">
+
                             <label for="nombreActividad">Fecha de la Actividad</label>
+
                             <input type="text" id="fechaActividad" name="fechaActividad" class="form-control" placeholder="Cuál es la Fecha de su Actividad?" required/>
-                            <div class="invalid-feedback">                                                                                                    
+
+                            <div class="invalid-feedback">
+                                                                                                    
                                 Por favor ingrese la Fecha de su Actividad
+
                             </div>
+
                         </div>
+
                         <div class="col-sm-6">
+
                             <label for="horaActividad">Hora de la Actividad</label>
-                            <select name="horaActividad" id="horaActividad" class="form-control" required title="A qué Hora se desarrollará su Actividad?">                  
+
+                            <select name="horaActividad" id="horaActividad" class="form-control" required title="A qué Hora se desarrollará su Actividad?">
+                                
                                 <option value=""></option>
                                 <option value="08:00:00">08:00</option>
                                 <option value="09:00:00">09:00</option>
@@ -323,205 +235,393 @@
                                 <option value="19:00:00">19:00</option>
                                 <option value="20:00:00">20:00</option>
                                 <option value="21:00:00">21:00</option>
-                                <option value="22:00:00">22:00</option>                                
+                                <option value="22:00:00">22:00</option>
+                                
                             </select>
-                            <div class="invalid-feedback">                                                                                                    
+
+                            <div class="invalid-feedback">
+                                                                                                    
                                 Por favor ingrese la Hora en que comenzará su Actividad
+
                             </div>
+
                         </div>
+
                     </div>
+
                     <div class="form-row mb-3">
-                        <div class="col-md-12">                                                                                      
+
+                        <div class="col-md-12">
+                                                                                      
                             <label for="lugarActividad">Lugar de la Actividad</label>
+
                             <textarea type="text" class="form-control" name="lugarActividad" id="lugarActividad" placeholder="Dónde se llevará acabo su Actividad ?" required></textarea>
-                            <div class="invalid-feedback">                                                                                                    
+
+                            <div class="invalid-feedback">
+                                                                                                    
                                 Por favor ingrese el Lugar donde se llevará acabo su Actividad
+
                             </div>
+
                         </div>
+
                     </div>
+
                     <div class="form-row mb-3">
-                        <div class="col-md-12">                                                                                      
+
+                        <div class="col-md-12">
+                                                                                      
                             <label for="objetivoActividad">Objetivo de la Actividad</label>
+
                             <textarea type="text" class="form-control" name="objetivoActividad" id="objetivoActividad" placeholder="Cuál es el Propósito u Objetivo de su Actividad ?" required></textarea>
-                            <div class="invalid-feedback">                                                                                                    
+
+                            <div class="invalid-feedback">
+                                                                                                    
                                 Por favor ingrese el Objetivo de su Actividad
+
                             </div>
+
                         </div>
+
                     </div>
+
                     <div class="form-row mb-3">
-                        <div class="col-md-12">                                                                                     
-                            <label for="descripcionActividad">Descripción de la Actividad</label>
-                            <textarea type="text" class="form-control" name="descripcionActividad" id="descripcionActividad" placeholder="Por favor, describa con mayor detalle su Actividad" required></textarea>
-                            <div class="invalid-feedback">                                                                                                   
-                                Por favor ingrese la Descripción de su Actividad
-                            </div>
-                        </div>
-                    </div>
-                    <div class="form-row mb-3">
+
                         <div class="col-md-12">                                                                                      
-                            <label for="participantesActividad">Participantes de la Actividad</label>
-                            <textarea type="text" class="form-control" name="participantesActividad" id="participantesActividad" placeholder="Qué Autoridad, Organización, Persona Natural o Jurídica, por ejemplo,  particaparán de su Actividad" required></textarea>
-                            <div class="invalid-feedback">                                                                                                    
-                                Por favor ingrese los Participantes de su Actividad
+
+                            <label for="descripcionActividad">Descripción de la Actividad</label>
+
+                            <textarea type="text" class="form-control" name="descripcionActividad" id="descripcionActividad" placeholder="Por favor, describa con mayor detalle su Actividad" required></textarea>
+
+                            <div class="invalid-feedback">
+                                                                                                   
+                                Por favor ingrese la Descripción de su Actividad
+
                             </div>
+
                         </div>
+
                     </div>
+
                     <div class="form-row mb-3">
+
+                        <div class="col-md-12">
+                                                                                      
+                            <label for="participantesActividad">Participantes de la Actividad</label>
+
+                            <textarea type="text" class="form-control" name="participantesActividad" id="participantesActividad" placeholder="Qué Autoridad, Organización, Persona Natural o Jurídica, por ejemplo,  particaparán de su Actividad" required></textarea>
+
+                            <div class="invalid-feedback">
+                                                                                                    
+                                Por favor ingrese los Participantes de su Actividad
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    <div class="form-row mb-3">
+
                         <div class="col-md-6">
+
                             <label for="cuentaPresupuestaria">Cuenta Presupuestaria</label>
+
                             <select name="cuentaPresupuestaria" id="cuentaPresupuestaria" class="custom-select" required>
+
                                 <option value="">Selecciones la Cuenta Presupuestaria</option>
                                 <option value="Municipal">Municipal</option>
                                 <option value="Complementaria">Complementaria</option>
+
                             </select>
-                            <div class="invalid-feedback">                                                                                                        
+
+                            <div class="invalid-feedback">
+                                                                                                        
                                 Por favor ingrese la Cuenta Presupuestaria de su Actividad
+
                             </div>
+
                         </div>
-                        <div class="col-md-6">                                                                                   
+
+                        <div class="col-md-6">
+                                                                                   
                             <label for="cuentaComplementaria">No. de Cuenta Complementaria</label>
+
                             <input type="text" class="form-control" name="cuentaComplementaria" id="cuentaComplementaria" placeholder="Cuál es el número de la Cuenta Complementaria ?"  />
-                            <div class="invalid-feedback">                                                                                                    
+
+                            <div class="invalid-feedback">
+                                                                                                    
                                 Por favor ingrese el No. de la Cuenta Complementaria
+
                             </div>
-                        </div>                                
-                    </div>
-                    <div class="form-row mb-3">
-                        <div class="col-md-12">                                                                                      
-                            <label for="obsActividad">Observaciones de la Actividad</label>
-                            <textarea type="text" class="form-control" name="obsActividad" id="obsActividad" placeholder="Tiene alguna Observación que quiera indicar...  ?" required></textarea>
-                            <div class="invalid-feedback">                                                                                                    
-                                Por favor ingrese las Observaciones de su Actividad, si las tuviera
-                            </div>
+
                         </div>
+                                
                     </div>
+
+                    <div class="form-row mb-3">
+
+                        <div class="col-md-12">
+                                                                                      
+                            <label for="obsActividad">Observaciones de la Actividad</label>
+
+                            <textarea type="text" class="form-control" name="obsActividad" id="obsActividad" placeholder="Tiene alguna Observación que quiera indicar...  ?" required></textarea>
+
+                            <div class="invalid-feedback">
+                                                                                                    
+                                Por favor ingrese las Observaciones de su Actividad, si las tuviera
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
                     <div class="mb-3 form-row">
+
                         <button class="btn btn-success btn-block" type="submit">
-                            <i class="icofont-download"></i> Actualizar Actividad
+
+                            <i class="fas fa-save"></i>
+
+                            Actualizar Actividad
+
                         </button>
-                    </div>                            
+
+                    </div>
+                            
                 </div>
+
             </form>
         </div>
+
     </div>
+
 </div>
 <!-- UPDATE Modal ACTIVIDAD -->
 
 <!-- UPDATE Modal Detalle Solicitud-->
 <div class="modal fade" id="updateDetalleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+
     <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+
         <div class="modal-content">
+
             <div class="modal-header bg-primary text-white">
-                <p class="modal-title" id="exampleModalLabel" style="font-size: 1.2em"><i class="icofont-edit-alt h5"></i> Modificar Productos de la Solicitud </p>
+
+                <h3 class="modal-title" id="exampleModalLabel">Modificar Productos de la Solicitud <i class="fas fa-edit"></i>  </h3>
+
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+
                     <span aria-hidden="true">&times;</span>
+
                 </button>
+
             </div>
+
+
             <form method="POST" action="/siscom/solicitud" class="was-validated" id="updateDetalleForm">
+
                 @csrf
                 @method('PUT')
+
                 <input type="hidden" name="flag" value="UpdateProducts">
-                <div class="modal-body">        
-                    <div class="col-md-12 mb-3">                                                
+
+                <div class="modal-body">
+        
+                    <div class="col-md-12 mb-3">
+                                                
                         <label for="Producto">Producto</label>
-                        <input type="text" id="Producto" class="form-control" disabled>                        
+
+                        <input type="text" id="Producto" class="form-control" disabled>
+                        
                     </div>
-                    <div class="col-md-12 mb-3">                                                
+
+                    <div class="col-md-12 mb-3">
+                                                
                         <label for="Especificacion">Especificacion</label>
-                        <textarea type="text" class="form-control" name="Especificacion" id="Especificacion" required></textarea>                        
+
+                        <textarea type="text" class="form-control" name="Especificacion" id="Especificacion" required></textarea>
+                        
                     </div>
-                    <div class="col-md-12 mb-3">                                                
+
+                    <div class="col-md-12 mb-3">
+                                                
                         <label for="Cantidad">Cantidad</label>
+
                         <input type="number" name="Cantidad" id="Cantidad" class="form-control" required>
+
                     </div>
-                    <div class="col-md-12 mb-3">                                                
+
+                    <div class="col-md-12 mb-3">
+                                                
                         <label for="ValorUnitario">Valor Unitario $</label>
+
                         <input type="number" name="ValorUnitario" id="ValorUnitario" class="form-control" required>
+
                     </div>
+
                     <div class="mb-3 form-row">
+
                         <button class="btn btn-success btn-block" type="submit">
-                            <i class="icofont-download"></i> Actualizar Actividad
+
+                            <i class="fas fa-save"></i>
+
+                            Actualizar Producto
+
                         </button>
-                    </div>                            
+
+                    </div>
+                            
                 </div>
+
             </form>
         </div>
+
     </div>
+
 </div>
 <!-- UPDATE Modal Detalle Solicitud -->
 
 <!-- DELETE Modal Detalle Solicitud -->
 <div class="modal fade" id="deleteDetalleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+
     <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+
         <div class="modal-content">
+
             <div class="modal-header bg-danger text-white">
-                <p class="modal-title" id="exampleModalLabel" style="font-size: 1.2em"><i class="icofont-ui-delete h5"></i> Eliminar Producto de la Solicitud </p>
+
+                <h4 class="modal-title" id="exampleModalLabel"> Eliminar Producto de la Solicitud <i class="fas fa-times-circle"></i></h4>
+
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+
                     <span aria-hidden="true" class="text-white">&times;</span>
+
                 </button>
+
             </div>
+
+
             <form method="POST" action="/siscom/solicitud" class="was-validated" id="deleteDetalleForm">
+
                 @csrf
                 @method('PUT')
+
                 <input type="hidden" name="flag" value="DeleteProduct">
+
                 <div class="modal-body">
+
                     <p>Esta Ud. segur@ de querer Eliminar el Producto : </p>
+
                     <div class="form-row">
+
                         <div class="col-md-12 mb-3">
+
                             <label class="h5" id="deleteProducto">deleteProducto</label>
+
                         </div>
-                    </div>                    
-                    <div class="form-row">
-                        <button class="btn btn-danger btn-block" type="submit">
-                            <i class="icofont-check-circled"></i> Eliminar Producto
-                        </button>
+
                     </div>
+                    
+                    <div class="form-row">
+
+                        <button class="btn btn-danger btn-block" type="submit">
+
+                            <i class="fas fa-times-circle"></i> Eliminar Producto
+
+                        </button>
+
+                    </div>
+
                 </div>
+
             </form>
+
         </div>
+
     </div>
+
 </div>
 <!-- End Modal Create Solicitud -->
 
 <!-- Modal Create Product -->
 <div class="modal fade" id="createProductModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+
     <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+
         <div class="modal-content">
+
             <div class="modal-header bg-success text-white">
-                <p class="modal-title" id="exampleModalLabel" style="font-size: 1.2em"><i class="icofont-plus-circle"></i> Nuevo Producto</p>
+
+                <p class="modal-title" id="exampleModalLabel" style="font-size: 1.2em"> Nuevo Producto <i class="fas fa-plus-circle"></i></p>
+
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+
                     <span aria-hidden="true" class="text-white">&times;</span>
+
                 </button>
+
             </div>
+
+
             <form method="POST" action="{{ action('ProductController@store') }}" class="was-validated" id="createForm">
+
                 @csrf
+
+                
+
                 <div class="modal-body">
-                    <div class="col-md-12 mb-3">                                                
-                        <label for="Product">Nuevo Producto</label>                        
+
+                    <div class="col-md-12 mb-3">
+                                                
+                        <label for="Product">Nuevo Producto</label>
+                        
                         <input type="text" name="name" class="form-control" required>
-                        <div class="invalid-feedback">                                                                                                    
-                            Por favor ingrese el Producto a solicitar
-                        </div>
+
+                        <div class="invalid-feedback">
+                                                                                                    
+                                Por favor ingrese el Producto a solicitar
+
+                            </div>
+
                     </div>
+
                     <div class="form-row">
+
                         <button class="btn btn-success btn-block boton" type="submit" form="createForm">
-                            <i class="icofont-download"></i> Guardar Producto
+
+                            <i class="fas fa-save"></i>
+
+                            Guardar Nuevo Producto
+
                         </button>
+
                         <button type="button" class="btn btn-block btn-secondary" data-dismiss="modal" aria-label="Close">
-                        <i class="icofont-arrow-left"></i> Cancelar
+
+                            <i class="fas fa-arrow-left"></i>
+
+                            Cancelar
+
                         </button>
+
                     </div>
+
                 </div>
+
             </form>
+
         </div>
+
     </div>
+
 </div>
 <!-- End Modal Create Solicitud -->
 
 @endsection
 
 @push('scripts')
-<script>    
+<script>
+    
     $(document).ready(function () {
         var height = $(window).height();
             $('#allWindow').height(height);
@@ -534,10 +634,15 @@
             monthNames: [ "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre" ],
             numberOfMonths: 2,
         });
+
         var tSolicitud = $('#tipoSolicitud').val();
+
         if (tSolicitud === "Actividad") {
+
             $('input[type="button"]').removeAttr('disabled');
+
         }
+
           // Start Configuration DataTable Actividad
             var table = $('#actividad').DataTable({
                 "paging":   false,
@@ -545,13 +650,20 @@
                 "info":     false,
                 "searching" : false,
             });
+
             //Start Edit Record
             table.on('click', '.edit', function () {
+
                 $tr = $(this).closest('tr');
+
                 if ($($tr).hasClass('child')) {
+
                     $tr = $tr.prev('.parent');
+
                 }
+
                 var data = table.row($tr).data();
+
                 console.log(data);
 
                 $('#nombreActividad').val(data[2]);
@@ -567,14 +679,18 @@
 
                 $('#updateForm').attr('action', '/siscom/solicitud/' + data[1]);
                 $('#exampleModal').modal('show');
+
             });
             //End Edit Record
 
             // Start Configuration DataTable Detalle Solicitud
             var table1 = $('#detalleSolicitud').DataTable({
                 "paginate"  : true,
+
                 "ordering": false,
+
                 "order"     : ([0, 'desc']),
+
                 "language"  : {
                             "sProcessing":     "Procesando...",
                             "sLengthMenu":     "Mostrar _MENU_ registros",
@@ -604,13 +720,20 @@
                             }
                         }
             });
+
             //Start Edit Record Detalle Solicitud
             table1.on('click', '.editDetalle', function () {
+
                 $tr = $(this).closest('tr');
+
                 if ($($tr).hasClass('child')) {
+
                     $tr = $tr.prev('.parent');
+
                 }
+
                 var dataDetalle = table1.row($tr).data();
+
                 console.log(dataDetalle);
 
                 $('#Producto').val(dataDetalle[1]);
@@ -626,12 +749,19 @@
 
             //Start Delete Record Detalle Solicitud 
             table1.on('click', '.deleteDetalle', function () {
+
                 $tr = $(this).closest('tr');
+
                 if ($($tr).hasClass('child')) {
+
                     $tr = $tr.prev('.parent');
+
                 }
+
                 var dataDetalle = table1.row($tr).data();
+
                 console.log(dataDetalle);
+
                 document.getElementById('deleteProducto').innerHTML = dataDetalle[1];
                 
                 $('#deleteDetalleForm').attr('action', '/siscom/solicitud/' + dataDetalle[0]);
@@ -640,13 +770,30 @@
             });
             //End Delete Record Detalle Solicitud
 
-            var total = 0;
-            $('#detalleSolicitud').DataTable().rows().data().each(function(el, index){
-            //Asumiendo que es la columna 5 de cada fila la que quieres agregar a la sumatoria
-            total += parseInt(el[5]);
-            });
-            $('#total').val(total);
-            console.log(total);        
+        //Recorremos la Tabla y Sumamos cada Subtotal
+        //var cls = document.getElementById("detalleSolicitud").getElementsByTagName("td");
+        //var sum = 0;
+        //for (var i = 0; i < cls.length; i++){
+        //    if(cls[i].className == "subtotal"){
+        //        sum += isNaN(cls[i].innerHTML) ? 0 : parseInt(cls[i].innerHTML);
+        //    }
+        //}
+
+        //$('#total').val(sum);
+
+        var total = 0;
+        $('#detalleSolicitud').DataTable().rows().data().each(function(el, index){
+          //Asumiendo que es la columna 5 de cada fila la que quieres agregar a la sumatoria
+          total += parseInt(el[5]);
+        });
+
+        $('#total').val(total);
+
+        console.log(total);
+        
     });
+
+
 </script>
+
 @endpush

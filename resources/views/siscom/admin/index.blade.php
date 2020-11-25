@@ -97,7 +97,7 @@
                                                     <td>
                                                         @can('admin.show')
                                                             <a href="{{ route('admin.show', $solicitud->id) }}" class="btn btn-outline-secondary btn-sm mr-1" data-toggle="tooltip" data-placement="bottom" title="Ver el Detalle de la Solicitud">
-                                                                <i class="icofont-eye-alt h6"></i>
+                                                                <i class="icofont-eye-alt h5"></i>
                                                             </a>
                                                         @endcan
                                                     </td>
@@ -108,19 +108,19 @@
                                                             @can('admin.show')
                                                                 @if($solicitud->estado === 'En Proceso de Entrega' || $solicitud->estado === 'Solicitud Entregada Completamente')
                                                                     <a href="{{ route('admin.stock', $solicitud->id) }}" class="btn btn-secondary btn-sm" data-toggle="tooltip" data-placement="bottom" title="Ver el Detalle de la Solicitud">
-                                                                        <i class="icofont-eye-alt h6"></i>
+                                                                        <i class="icofont-eye-alt h5"></i>
                                                                     </a>
                                                                 @else
                                                                     <a href="{{ route('admin.show', $solicitud->id) }}" class="btn btn-secondary btn-sm" data-toggle="tooltip" data-placement="bottom" title="Ver el Detalle de la Solicitud">
-                                                                        <i class="icofont-eye-alt h6"></i>
+                                                                        <i class="icofont-eye-alt h5"></i>
                                                                     </a>
                                                                 @endif
                                                             @endcan
                                                             {{--Habilitar Entrega Stock--}}
                                                             @can('admin.stock')
                                                                 @if(($solicitud->estado === 'Asignada a Comprador' || $solicitud->estado === 'Re-Asignada a Comprador') && ($solicitud->categoriaSolicitud === 'Stock de Oficina' || $solicitud->categoriaSolicitud === 'Stock de Aseo' || $solicitud->categoriaSolicitud === 'Stock de Gas'))                                                                    
-                                                                    <a href="#" class="btn btn-info btn-sm entregar" data-toggle="tooltip" data-placement="bottom" title="Entregar Productos Stock">
-                                                                        <i class="icofont-delivery-time h4"></i>
+                                                                    <a href="#" class="btn btn-light btn-sm entregar" data-toggle="tooltip" data-placement="bottom" title="Entregar Productos Stock">
+                                                                        <i class="icofont-dropbox h5"></i>
                                                                     </a>
                                                                 @else
                                                                 @endif
@@ -129,7 +129,7 @@
                                                             @can('admin.rechazar')
                                                                 @if($solicitud->estado === 'Recepcionada' || $solicitud->estado === 'Subsanada')
                                                                     <a href="#" class="btn btn-danger btn-sm rechazar" data-toggle="tooltip" data-placement="bottom" title="Rechazar Solicitud">
-                                                                        <i class="icofont-ban h6"></i>
+                                                                        <i class="icofont-ban h5"></i>
                                                                     </a>
                                                                 @else
                                                                 @endif
@@ -138,7 +138,7 @@
                                                             @can('admin.subsanar')
                                                                 @if($solicitud->estado === 'Rechazada')
                                                                     <a href="#" class="btn btn-success btn-sm subsanar" data-toggle="tooltip" data-placement="bottom" title="Subsanar Solicitud">  
-                                                                        <i class="icofont-check-circled h6"></i>
+                                                                        <i class="icofont-check-circled h5"></i>
                                                                     </a>
                                                                 @else
                                                                 @endif
@@ -147,7 +147,7 @@
                                                             @can('admin.asignar')
                                                                 @if(($solicitud->estado === 'Recepcionada' || $solicitud->estado === 'Subsanada') && $solicitud->categoriaSolicitud != 'Stock de Aseo')
                                                                     <a href="#" class="btn btn-warning btn-sm asignar" data-toggle="tooltip" data-placement="bottom" title="Asignar Solicitud">
-                                                                        <i class="icofont-inbox h6"></i>
+                                                                        <i class="icofont-inbox h5"></i>
                                                                     </a>
                                                                 @else
                                                                 @endif
@@ -155,7 +155,7 @@
                                                                 @if($solicitud->categoriaSolicitud === 'Stock de Aseo')
                                                                 @elseif( $solicitud->estado === 'Asignada a Comprador' || $solicitud->estado === 'En Proceso de Entrega' || $solicitud->estado === 'En Proceso de Compra')
                                                                     <a href="#" class="btn btn-dark btn-sm reasignar" data-toggle="tooltip" data-placement="bottom" title="ReAsignar Solicitud">
-                                                                        <i class="icofont-inbox h6"></i>
+                                                                        <i class="icofont-inbox h5"></i>
                                                                     </a>
                                                                 @endif
                                                              @endcan
@@ -163,11 +163,11 @@
                                                             @can('admin.update')
                                                                 @if($solicitud->decretoPrograma === NULL)
                                                                     <a href="#" class="btn btn-primary btn-sm editInterna" data-toggle="tooltip" data-placement="bottom" title="Modificar la Solicitud">
-                                                                        <i class="icofont-ui-edit h6"></i>
+                                                                        <i class="icofont-ui-edit h5"></i>
                                                                     </a>
                                                                 @else
                                                                     <a href="#" class="btn btn-primary btn-sm editPrograma" data-toggle="tooltip" data-placement="bottom" title="Modificar la Solicitud">
-                                                                        <i class="icofont-ui-edit h6"></i>
+                                                                        <i class="icofont-ui-edit h5"></i>
                                                                     </a>
                                                                 @endif
                                                             @endcan
@@ -175,7 +175,7 @@
                                                                 @if($solicitud->estado === 'Solicitud Entregada Completamente' || $solicitud->estado === 'Solicitud Gestionada Completamente')
                                                                 @else
                                                                     <a href="#" class="btn btn-danger btn-sm anular" data-toggle="tooltip" data-placement="bottom" title="Anular Solicitud">
-                                                                        <i class="icofont-trash h6"></i>
+                                                                        <i class="icofont-trash h5"></i>
                                                                     </a>
                                                                 @endif
                                                             @endcan
@@ -217,8 +217,8 @@
 <div class="modal fade" id="confirmarEntregaModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">        
         <div class="modal-content">            
-            <div class="modal-header bg-primary text-white">                
-                <p class="modal-title" id="exampleModalLabel" style="font-size: 1.2em"><i class="icofont-delivery-time h5"></i></i></i> Confirmar Entrega</p><button type="button" class="close" data-dismiss="modal" aria-label="Close">                        
+            <div class="modal-header bg-light">                
+                <p class="modal-title" id="exampleModalLabel" style="font-size: 1.2em"><i class="icofont-dropbox h5"></i> Confirmar Entrega</p><button type="button" class="close" data-dismiss="modal" aria-label="Close">                        
                     <span aria-hidden="true">&times;</span>                
                 </button>
             </div>
@@ -235,7 +235,7 @@
                         </div>
                     </div>
                     <div class="form-row">
-                        <button type="submit" class="btn btn-primary btn-block">
+                        <button type="submit" class="btn btn-success btn-block">
                             <i class="icofont-check-circled h5"></i> Si, entregar!
                         </button>                
                         <button type="button" class="btn btn-block btn-secondary" data-dismiss="modal" aria-label="Close">
@@ -254,7 +254,7 @@
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class="modal-header bg-warning">
-                <p class="modal-title" id="exampleModalLabel" style="font-size: 1.2em"> Asignar Solicitud <i class="icofont-inbox h5"></i></p>
+                <p class="modal-title" id="exampleModalLabel" style="font-size: 1.2em"><i class="icofont-inbox h5"></i> Asignar Solicitud </p>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true" class="text-white">&times;</span>
                 </button>
@@ -310,7 +310,7 @@
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class="modal-header bg-warning">
-                <p class="modal-title" id="exampleModalLabel" style="font-size: 1.2em"> Re-Asignar Solicitud <i class="icofont-inbox h5"></i></p>
+                <p class="modal-title" id="exampleModalLabel" style="font-size: 1.2em"><i class="icofont-inbox h5"></i> Re-Asignar Solicitud </p>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true" class="text-white">&times;</span>
                 </button>
@@ -366,7 +366,7 @@
     <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header bg-primary text-white">
-                <p class="modal-title" id="exampleModalLabel" style="font-size: 1.2em"> Actualizar Solicitud <i class="icofont-ui-edit h6"></i></p>
+                <p class="modal-title" id="exampleModalLabel" style="font-size: 1.2em"><i class="icofont-ui-edit h5"></i> Actualizar Solicitud </p>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true" class="text-white">&times;</span>
                 </button>
@@ -429,7 +429,7 @@
     <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header bg-primary text-white">
-                <p class="modal-title" id="exampleModalLabel" style="font-size: 1.2em"> Actualizar Solicitud <i class="icofont-ui-edit h6"></i></p>
+                <p class="modal-title" id="exampleModalLabel" style="font-size: 1.2em"><i class="icofont-ui-edit h5"></i> Actualizar Solicitud </p>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true" class="text-white">&times;</span>
                 </button>
@@ -507,10 +507,10 @@
 
 <!-- Start Anulación de Solicitud -->
 <div class="modal fade" id="anularSolicitudModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header bg-danger text-white">
-                <p class="modal-title" id="exampleModalLabel" style="font-size: 1.2em"> Anular Solicitud <i class="icofont-ban h5"></i></p>
+                <p class="modal-title" id="exampleModalLabel" style="font-size: 1.2em"><i class="icofont-ban h5"></i> Anular Solicitud </p>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true" class="text-white">&times;</span>
                 </button>
@@ -574,7 +574,7 @@
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class="modal-header bg-danger text-white">
-                <p class="modal-title" id="exampleModalLabel" style="font-size: 1.2em"> Rechazar Solicitud <i class="icofont-ban h5"></i></p>
+                <p class="modal-title" id="exampleModalLabel" style="font-size: 1.2em"><i class="icofont-ban h5"></i> Rechazar Solicitud </p>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true" class="text-white">&times;</span>
                 </button>
@@ -621,7 +621,7 @@
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class="modal-header bg-success text-white">
-                <p class="modal-title" id="exampleModalLabel" style="font-size: 1.2em"> Subsanar Solicitud <i class="icofont-check-circled h5"></i></p>
+                <p class="modal-title" id="exampleModalLabel" style="font-size: 1.2em"><i class="icofont-check-circled h5"></i> Subsanar Solicitud </p>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true" class="text-white">&times;</span>
                 </button>
