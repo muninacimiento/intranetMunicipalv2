@@ -120,7 +120,8 @@ Route::middleware(['auth'])->group( function() {
 	Route::get('/siscom/admin/showStock/{solicitud}', 'SCM_AdminSolicitudController@showStock')->name('admin.showStock')->middleware('can:admin.showStock');
 	Route::get('/siscom/consulta', 'SCM_AdminSolicitudController@consulta')->name('admin.consulta')->middleware('can:admin.consulta');
 	Route::get('/siscom/showConsulta/{solicitud}', 'SCM_AdminSolicitudController@showConsulta')->name('admin.showConsulta')->middleware('can:admin.showConsulta');
-	Route::get('/siscom/recepionarSolicitudes', 'SCM_AdminSolicitudController@recepcionar')->name('admin.recepcionarSolicitud')->middleware('can:admin.recepcionarSolicitud');
+	Route::get('/siscom/recepcionarSolicitudes', 'SCM_AdminSolicitudController@recepcionar')->name('admin.recepcionarSolicitud')->middleware('can:admin.recepcionarSolicitud');
+	Route::get('/siscom/recepcionarSolicitudes/{solicitud}', 'SCM_AdminSolicitudController@showRecepcionar')->name('admin.showRecepcionar')->middleware('can:admin.showRecepcionar');
 	Route::put('/siscom/admin/cerrarSolicitud/{solicitud}', 'SCM_AdminSolicitudController@update')->name('admin.cerrar')->middleware('can:admin.cerrar');
 	Route::put('/siscom/admin/rechazar/{solicitud}', 'SCM_AdminSolicitudController@update')->name('admin.rechazar')->middleware('can:admin.rechazar');
 	Route::put('/siscom/admin/subsanar/{solicitud}', 'SCM_AdminSolicitudController@update')->name('admin.subsanar')->middleware('can:admin.subsanar');
