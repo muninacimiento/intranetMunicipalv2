@@ -489,7 +489,7 @@
                     <span aria-hidden="true" class="text-white">&times;</span>
                 </button>
             </div>
-            <form method="POST" action="{{ url('/siscom/solicitud/anular') }}" class="was-validated" id="deleteForm">
+            <form method="POST" action="#" class="was-validated" id="deleteForm">
                 @csrf
                 @method('PUT')
                 <input type="hidden" name="flag" value="Anular">

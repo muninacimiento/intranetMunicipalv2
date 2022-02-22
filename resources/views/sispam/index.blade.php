@@ -1,7 +1,7 @@
 <!--
 /*
  *  JFuentealba @itux
- *  created at September 10, 2019 - 11:46 am
+ *  created at Febrary 07, 2022 - 09:26 am
  *  updated at 
  */
 -->
@@ -11,9 +11,9 @@
 <div id="allWindow">
     <div class="row justify-content-center">
         <div class="col-md-12">
-            <div class="card border-primary shadow">
-                <div class="card-header text-center text-white bg-primary">
-                	@include('siscom.menu')
+            <div class="card border-warning shadow">
+                <div class="card-header text-center bg-warning">
+                	@include('sispam.menu')
                 </div>
                 <div class="card-body">
                     @if (session('status'))
@@ -30,12 +30,10 @@
 
 @push('scripts')
 <script>
-    
     $(document).ready(function () {
         var height = $(window).height();
             $('#allWindow').height(height);
 
     });
-
 </script>
 @endpush

@@ -90,6 +90,26 @@ Route::middleware(['auth'])->group( function() {
 	Route::get('dependencies/{dependency}', 'DependencyController@show')->name('dependencies.show')->middleware('can:dependencies.show');
 	Route::delete('dependencies/{dependency}', 'DependencyController@destroy')->name('dependencies.destroy')->middleware('can:dependencies.destroy');
 
+	/**********************************
+	 *	SISPAM 	***********************
+	 **********************************/
+	Route::get('sispam', 'SispamController@index')->name('sispam.index')->middleware('can:sispam.index');
+	
+	//Vehículos
+	Route::resource('/sispam/vehiculos', 'VehiculosController')->middleware('can:vehiculos.index');
+	Route::post('/sispam/vehiculos/{vehiculo}', 'VehiculosController@update')->name('vehiculos.update')->middleware('can:vehiculos.update');
+	Route::put('/sispam/vehiculos/dar_de_baja/{vehiculo}', 'VehiculosController@update')->name('vehiculos.bajar')->middleware('can:vehiculos.bajar');
+	Route::get('/sispam/vehiculos/darDeBaja', 'VehiculosController@darDeBaja')->name('vehiculos.darDeBaja')->middleware('can:vehiculos.darDeBaja'); 
+	
+
+	//Conductores
+	Route::resource('/sispam/conductores', 'ConductoresController')->middleware('can:conductores.index');
+	Route::post('/sispam/conductores/{conductor}', 'ConductoresController@update')->name('conductores.update')->middleware('can:conductores.update');
+
+	//CargaCombustible
+	Route::resource('/sispam/cargaCombustibles', 'CombustibleController')->middleware('can:combustibles.index');
+	Route::post('/sispam/cargaCombustibles/{combustible}', 'CombustibleController@update')->name('combustibles.update')->middleware('can:combustibles.update');
+
 
 	/**********************************
 	 *	GESPRO 	***********************

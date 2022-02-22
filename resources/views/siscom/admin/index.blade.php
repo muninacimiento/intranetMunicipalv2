@@ -1,14 +1,166 @@
-<!--
-/*
- *  JFuentealba @itux
- *  created at December 23, 2019 - 3:45 pm
- *  updated at December 23, 2019 - 3:47 pm
- */
--->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- CSRF Token -->
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+    <title>{{ config('app.name', 'Intranet') }}</title>
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Quicksand&display=swap" rel="stylesheet"> 
+    <!-- Styles -->
+    <link href="{{ asset('assets/vendor/icofont/icofont.min.css')}}" rel="stylesheet">
+    <link href="{{ asset('assets/vendor/boxicons/css/boxicons.min.css')}}" rel="stylesheet">   
+    <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    <!-- DataTables CSS -->
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.20/css/jquery.dataTables.min.css">    
+    <!-- Styles -->
+    <style>
 
-@extends('layouts.app')
+        . body {
+            font-family: 'Quicksand';
+            font-size: 1.1em;
+        }
+        .menu {
+            font-size: 1.1em;        
+        }
+        .boton {
+            font-size: 1em;        
+        }
+        .divScroll {
+            overflow:scroll;
+            height:570px;
+        }
+        .divScrollX {
+            overflow:scroll;
+            width: 100%;
+        }
+        .navGreen{
+            background-color: #009732;
+        }
+        tfoot input {            
+            width: 100%;
+            padding: 3px;
+            box-sizing: border-box;
+        }
+        #allWindow {            
+            padding: 10px;
+            min-height: 100%;
+            min-width: 100%;
+        }
 
-@section('content')
+    </style>
+</head>
+
+<body class="body">
+    <div id="app">
+        <nav class="navbar navbar-expand-md navbar-light shadow-sm navGreen">
+            <div class="container">
+                <a class="navbar-brand text-white font-weight-lighter" href="{{ url('/home') }}">
+                    <img src="{{ asset('images/MarcaMunicipal_LetrasBlancas.png')}}" style="width: 200px;" class="mr-3">                    
+                    Intranet Municipal
+                </a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <!-- Left Side Of Navbar -->
+                    <ul class="navbar-nav mr-auto">                        
+                        @can('siscom.index')
+                        <li class="nav-item">                            
+                            <a href="{{ route('siscom.index') }}" class="nav-link text-white">
+                                <i class="icofont-cart-alt"></i> SisCoM
+                            </a>
+                        </li>
+                        @endcan
+                        @can('farmacia.index')
+                        <li class="nav-item">                            
+                            <a href="{{ route('farmacia.index') }}" class="nav-link text-white">
+                               <i class="icofont-heart-beat-alt"></i> Farmacia
+                            </a>
+                        </li>
+                        @endcan
+                        @can('rrpp.index')
+                        <li class="nav-item">                            
+                            <a href="{{ route('webadmin.index') }}" class="nav-link text-white">
+                               <i class="icofont-newspaper"></i> Noticias
+                            </a>
+                        </li>
+                        @endcan
+                        @can('users.index')
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle text-white" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
+                                <i class="icofont-code-alt"></i> Administración  
+                            </a>
+                            <div class="dropdown-menu">
+                                @can('users.index')
+                                <a class="dropdown-item text-secondary" href="{{ route('users.index') }}">
+                                   <i class="icofont-users-alt-4"></i> Usuarios
+                                </a>
+                                @endcan
+                                @can('dependencies.index')
+                                <a class="dropdown-item text-secondary" href="{{ route('dependencies.index') }}">
+                                   <i class="icofont-chart-flow-1"></i> Dependencias Municipales
+                                </a>
+                                @endcan
+                                @can('permissions.index')
+                                <a class="dropdown-item text-secondary" href="{{ route('permissions.index') }}">
+                                    <i class="icofont-key"></i> Permisos
+                                </a>
+                                @endcan
+                                @can('roles.index')
+                                <a class="dropdown-item text-secondary" href="{{ route('roles.index') }}">
+                                    <i class="icofont-atom"></i> Roles
+                                </a>
+                                @endcan
+                                @can('contacts.index')
+                                <a class="dropdown-item text-secondary" href="{{ route('contacts.index') }}">
+                                    <i class="icofont-ui-call"></i> Contactos Municipales
+                                </a>
+                                @endcan
+                            </div>
+                        </li>
+                        @endcan
+                    </ul>
+
+                    <!-- Right Side Of Navbar -->
+                    <ul class="navbar-nav ml-auto">
+                        <!-- Authentication Links -->
+                        @guest
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
+                            </li>
+                            @if (Route::has('register'))
+                                <li class="nav-item">
+                                    <a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a>
+                                </li>
+                            @endif
+                        @else
+                            <li class="nav-item dropdown">
+                                <a id="navbarDropdown" class="nav-link dropdown-toggle text-white" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+                                     Bienvenid@, {{ Auth::user()->name }} <span class="caret"></span>
+                                </a>
+
+                                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                                    <a class="dropdown-item" href="{{ route('logout') }}"
+                                       onclick="event.preventDefault();
+                                                     document.getElementById('logout-form').submit();">
+                                        <i class="far fa-arrow-alt-circle-left"></i>    {{ __('Cerrar Sesión') }}
+                                    </a>
+
+                                    <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                                        @csrf
+                                    </form>
+                                </div>
+                            </li>
+                        @endguest
+                    </ul>
+                </div>
+            </div>
+        </nav>
+
+        <main class="py-4">
 <div id="allWindow">
     <div class="row justify-content-center">
         <div class="col-md-12">
@@ -652,33 +804,33 @@
     </div>
 </div>
 <!-- End Subsanar Solicitud -->
-@endsection
+</main>    
+    </div>
 
-@push('scripts')
-    <script type="text/javascript">        
+    <!-- JQuery CSS -->
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <!-- JQuery DataTable -->
+    <script type="text/javascript" src="https://code.jquery.com/jquery-3.3.1.js" ></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js" defer></script>
+    <!-- JQuery DatePicker -->
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <!-- Boostrap Select -->
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.9/dist/css/bootstrap-select.min.css">
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.9/dist/js/bootstrap-select.min.js"></script>
+    <!-- (Optional) Latest compiled and minified JavaScript translation files -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.9/dist/js/i18n/defaults-*.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+
+    <script type="text/javascript">
+        
         $(document).ready(function () {
+            
             var height = $(window).height();
             $('#allWindow').height(height);
-
-            $( "#fechaActividad" ).datepicker({
-                dateFormat: "yy-mm-dd",
-                minDate: "+14d",
-                firstDay: 1,
-                dayNamesMin: [ "Dom", "Lun", "Mar", "Mier", "Jue", "Vie", "Sab" ],
-                monthNames: [ "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre" ],
-                numberOfMonths: 2,
-            });
-
-            $( "#fechaDecreto" ).datepicker({
-                dateFormat: "yy-mm-dd",
-                firstDay: 1,
-                dayNamesMin: [ "Dom", "Lun", "Mar", "Mier", "Jue", "Vie", "Sab" ],
-                monthNames: [ "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre" ],
-            });
-
-            disableEncabezado();
-
-            disableActividad();
 
             // Setup - add a text input to each footer cell
             $('#solicitudsTable tfoot th').each( function () {
@@ -694,7 +846,7 @@
                             "sProcessing":     "Procesando...",
                             "sLengthMenu":     "Mostrar _MENU_ registros",
                             "sZeroRecords":    "No se encontraron resultados",
-                            "sEmptyTable":     "No existen solicitudes generadas por su unidad, aún...",
+                            "sEmptyTable":     "No existen Órdenes de Compra generadas o asignadas aún...",
                             "sInfo":           "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
                             "sInfoEmpty":      "Mostrando registros del 0 al 0 de un total de 0 registros",
                             "sInfoFiltered":   "(filtrado de un total de _MAX_ registros)",
@@ -718,14 +870,12 @@
                                 "colvis": "Visibilidad"
                             }
                         }
-
             });
             //End Configuration DataTable
 
-            // Apply the search
+             // Apply the search
             table.columns().every( function () {
-                var that = this;
-         
+                var that = this;         
                 $( 'input', this.footer() ).on( 'keyup change clear', function () {
                     if ( that.search() !== this.value ) {
                         that
@@ -735,96 +885,6 @@
                 } );
             } );
 
-            //Start Edit Record
-            table.on('click', '.editInterna', function () {
-
-                $tr = $(this).closest('tr');
-                if ($($tr).hasClass('child')) {
-                    $tr = $tr.prev('.parent');
-                }
-                var data = table.row($tr).data();
-                console.log(data);
-
-                $('#motivo_update_interna').val(data[5]);
-                if (($('#tipoSolicitud_update_interna').val(data[6]))==='Solicitud General') {
-                    $('#tipoSolicitud_update_interna').val();    
-                }
-                else if (($('#tipoSolicitud_update_interna').val(data[6]))==='Solicitud de Actividad'){
-                    $('#tipoSolicitud_update_interna').val();      
-                }                
-                if (($('#categoriaSolicitud_update_interna').val(data[7]))==='Stock de Oficina') {
-                    $('#categoriaSolicitud_update_interna').val();    
-                }
-                else if (($('#categoriaSolicitud_update_interna').val(data[7]))==='Stock de Aseo'){
-                    $('#categoriaSolicitud_update_interna').val();       
-                }
-                else if (($('#categoriaSolicitud_update_interna').val(data[7]))==='Stock de Gas'){
-                    $('#categoriaSolicitud_update_interna').val();       
-                }
-                else if (($('#categoriaSolicitud_update_interna').val(data[7]))==='Compra'){
-                    $('#categoriaSolicitud_update_interna').val();       
-                }               
-
-                $('#updateFormInterna').attr('action', '/siscom/solicitud/' + data[0]);
-                $('#updateSolicitudInterna').modal('show');
-
-            });
-            //End Edit Record
-
-            //Start Edit Record
-            table.on('click', '.editPrograma', function () {
-                $tr = $(this).closest('tr');
-                if ($($tr).hasClass('child')) {
-                    $tr = $tr.prev('.parent');
-                }
-                var data = table.row($tr).data();
-                console.log(data);
-
-                $('#motivo_update_programa').val(data[5]);
-                if (($('#tipoSolicitud_update_programa').val(data[6]))==='Solicitud General') {
-                    $('#tipoSolicitud_update_programa').val();    
-                }
-                else if (($('#tipoSolicitud_update_programa').val(data[6]))==='Solicitud de Actividad'){
-                    $('#tipoSolicitud_update_programa').val();     
-                }                
-                if (($('#categoriaSolicitud_update_programa').val(data[7]))==='Stock de Oficina') {
-                    $('#categoriaSolicitud_update_programa').val();    
-                }
-                else if (($('#categoriaSolicitud_update_programa').val(data[7]))==='Stock de Aseo'){
-                    $('#categoriaSolicitud_update_programa').val();       
-                }
-                else if (($('#categoriaSolicitud_update_programa').val(data[7]))==='Stock de Gas'){
-                    $('#categoriaSolicitud_update_programa').val();       
-                }
-                else if (($('#categoriaSolicitud_update_programa').val(data[7]))==='Compra'){
-                    $('#categoriaSolicitud_update_programa').val();       
-                }
-
-                $('#decretoPrograma_update_programa').val(data[8]);
-                $('#nombrePrograma_update_programa').val(data[9]);
-                $('#updateFormPrograma').attr('action', '/siscom/solicitud/' + data[0]);
-                $('#updateSolicitudPrograma').modal('show');
-
-            });
-            //End Edit Record
-
-            //Comienzo de Confirmar Entrega Productos de la Solicitud
-            table.on('click', '.entregar', function () {
-                $tr = $(this).closest('tr');
-                if ($($tr).hasClass('child')) {
-                    $tr = $tr.prev('.parent');
-                }
-                var data = table.row($tr).data();
-                console.log(data);
-
-                $('#solicitud_id_Entrega').val(data[0]);
-
-                $('#entregarForm').attr('action', '/siscom/admin/' + data[0]);
-                $('#confirmarEntregaModal').modal('show');
-
-            });
-            //Fin Confirmar Entrega Productos de la Solicitud
-
             //Comienzo de Recepción de la Solicitud
             table.on('click', '.recepcionar', function () {
                 $tr = $(this).closest('tr');
@@ -833,17 +893,15 @@
                 }
                 var data = table.row($tr).data();
                 console.log(data);
+                $('#ordenCompra_id').val(data[1]);
 
-                $('#solicitudID').val(data[0]);
-
-                $('#recepcionarForm').attr('action', '/siscom/admin/recepcionar/' + data[0]);
+                $('#recepcionarForm').attr('action', '/siscom/ordenCompra/recepcionar/' + data[0]);
                 $('#recepcionarModal').modal('show');
-
             });
             //Fin Recepción de la Solicitud
 
-            //Rechazar Solicitud
-            table.on('click', '.rechazar', function () {
+            //Start Edit Record
+            table.on('click', '.edit', function () {
                 $tr = $(this).closest('tr');
                 if ($($tr).hasClass('child')) {
                     $tr = $tr.prev('.parent');
@@ -851,183 +909,61 @@
                 var data = table.row($tr).data();
                 console.log(data);
 
-                $('#solicitudID_rechazar').val(data[0]);
+                $('#ordenCompra_id_update').val(data[1]);
+                $('#iddocUpdate').val(data[2]);                
+                if (($('#tipoOrdenCompraUpdate').val(data[6]))==='Menor a 3 UTM') {
+                    $('#tipoOrdenCompraUpdate').val();    
+                }
+                else if (($('#tipoOrdenCompraUpdate').val(data[6]))==='Trato Directo'){
+                    $('#tipoOrdenCompraUpdate').val();       
+                }
+                else if (($('#tipoOrdenCompraUpdate').val(data[6]))==='Convenio Marco / Suministro'){
+                    $('#tipoOrdenCompraUpdate').val();       
+                }
+                if (($('#valorEstimadoUpdate').val(data[7]))==='Mayor a 10 UTM') {
+                    $('#valorEstimadoUpdate').val();    
+                }
+                else if (($('#valorEstimadoUpdate').val(data[7]))==='Menor o Igual a 10 UTM'){
+                    $('#valorEstimadoUpdate').val();       
+                }
+                $('#totalOrdenCompraUpdate').val(data[8]);
+                if (($('#excepcionUpdate').val(data[9])) === 'Si') {
+                    $('#excepcionUpdate').val();    
+                }
+                else if (($('#excepcionUpdate').val(data[9])) === 'No'){
+                    $('#excepcionUpdate').val();       
+                }
+                if (($('#deptoReceptorUpdate').val(data[13]))=== 'Compras y Suministros') {
+                    $('#deptoReceptorUpdate').val();    
+                }
+                else if (($('#deptoReceptorUpdate').val(data[13]))=== 'Bodega Talleres Municipales'){
+                    $('#deptoReceptorUpdate').val();       
+                }
+                $('#mercadoPublicoUpdate').val(data[14]);
 
-                $('#rechazarForm').attr('action', '/siscom/admin/rechazar/' + data[0]);
-                $('#rechazarModal').modal('show');
-
+                $('#updateOrdenCompraForm').attr('action', '/siscom/ordenCompra/' + data[0]);
+                $('#updateOrdenCompraModal').modal('show');
             });
-            //Fin Recepción de la Solicitud
+            //End Edit Record
 
-            //Subsanar Solicitud
-            table.on('click', '.subsanar', function () {
-                $tr = $(this).closest('tr');
-
-                if ($($tr).hasClass('child')) {
-
-                    $tr = $tr.prev('.parent');
-
-                }
-
-                var data = table.row($tr).data();
-
-                console.log(data);
-
-                $('#solicitudID_subsanar').val(data[0]);
-
-                $('#subsanarForm').attr('action', '/siscom/admin/subsanar/' + data[0]);
-                $('#subsanarModal').modal('show');
-
-            });
-            //Fin Recepción de la Solicitud
-
-            //Comienzo de Asignación de la Solicitud
-            table.on('click', '.asignar', function () {
+            //Start Delete Record
+            table.on('click', '.delete', function () {
                 $tr = $(this).closest('tr');
                 if ($($tr).hasClass('child')) {
                     $tr = $tr.prev('.parent');
                 }
                 var data = table.row($tr).data();
                 console.log(data);
-
-                $('#solicitud_id').val(data[0]);
+                document.getElementById('ordenCompra_id_Delete').innerHTML = data[1];
+                document.getElementById('fechaOrdenCompra_delete').innerHTML = data[3];
                 
-                $('#asignarForm').attr('action', '/siscom/admin/asignar/' + data[0]);
-                $('#asignarSolicitudModal').modal('show');
-
+                $('#deleteOrdenCompraForm').attr('action', '/siscom/ordenCompra/anular/' + data[0]);
+                $('#deleteOrdenCompraModal').modal('show');
             });
-            //Fin Asignación de la Solicitud
-
-            //Comienzo de Asignación de la Solicitud
-            table.on('click', '.reasignar', function () {
-                $tr = $(this).closest('tr');
-                if ($($tr).hasClass('child')) {
-                    $tr = $tr.prev('.parent');
-                }
-                var data = table.row($tr).data();
-                console.log(data);
-
-                $('#solicitud_id_reasignar').val(data[0]);
-                
-                $('#reasignarForm').attr('action', '/siscom/admin/reasignar/' + data[0]);
-                $('#reasignarSolicitudModal').modal('show');
-
-            });
-            //Fin Asignación de la Solicitud
-
-            //Comienzo de la Anulación de la Solicitud
-            table.on('click', '.anular', function () {
-                $tr = $(this).closest('tr');
-                if ($($tr).hasClass('child')) {
-                    $tr = $tr.prev('.parent');
-                }
-                var data = table.row($tr).data();
-                console.log(data);
-
-                document.getElementById('noSolicitud').innerHTML = data[0];
-                document.getElementById('fechaSolicitud').innerHTML = data[3];
-                document.getElementById('tipoSolicitud_anular').innerHTML = data[6];
-                document.getElementById('categoriaSolicitud_anular').innerHTML = data[7];
-                
-                $('#anularForm').attr('action', '/siscom/admin/anular/' + data[0]);
-                $('#anularSolicitudModal').modal('show');
-
-            });
-            //Fin Anulación de la Solicitud
-
-            //LLenar Select CategoriaSolicitud dependiendo de la seleccion en TipoSolicitud
-        var options = {        
-            Operacional : ["Stock de Oficina", "Stock de Aseo", "Stock de Gas", "Compra"],
-            Actividad : ["Compra"]
-        }
-
-        $(function(){
-            var fillCategoria = function(){
-                var selected = $('#tipoSolicitud_create').val();
-                $('#categoriaSolicitud_create').empty();
-                options[selected].forEach(function(element,index){
-                    $('#categoriaSolicitud_create').append('<option value="'+element+'">'+element+'</option>');
-                });
-                if (selected === "") {
-                    disableActividad();
-                } else if (selected === "Operacional") {
-                    disableActividad();
-                } else if (selected === "Actividad") {
-                    enableActividad();
-                }         
-            }
-            $('#tipoSolicitud_create').change(fillCategoria);
-            fillCategoria();            
-        });
-
-        document.getElementById("areaGestion").onchange = function() {habilitarEncabezado()};
-        function habilitarEncabezado(){
-            var option = $('#areaGestion').val();
-            if (option === '') {
-                disableEncabezado();
-            } else if (option === 'Interna') {
-                enableInterna();
-            } else if (option === 'Programa') {
-                enablePrograma();
-            }
-        }
-
-        function disableEncabezado(){
-            $('#motivo_create').prop("disabled", true);
-            $('#tipoSolicitud_create').prop("disabled", true);
-            $('#categoriaSolicitud_create').prop("disabled", true);
-            $('#decretoPrograma_create').prop("disabled", true);
-            $('#nombrePrograma_create').prop("disabled", true);
-        }
-
-
-        function enableInterna(){
-            $('#motivo_create').prop("disabled", false);
-            $('#tipoSolicitud_create').prop("disabled", false);
-            $('#categoriaSolicitud_create').prop("disabled", false);
-            $('#decretoPrograma_create').prop("disabled", true);
-            $('#nombrePrograma_create').prop("disabled", true);
-        }
-
-        function enablePrograma(){
-            $('#motivo_create').prop("disabled", false);
-            $('#tipoSolicitud_create').prop("disabled", false);
-            $('#categoriaSolicitud_create').prop("disabled", false);
-             $('#decretoPrograma_create').prop("disabled", false);
-            $('#nombrePrograma_create').prop("disabled", false);
-        }
-
-        function disableActividad() {
-            
-            $('#nombreActividad').prop("disabled", true);
-            $('#fechaActividad').prop("disabled", true);
-            $('#horaActividad').prop("disabled", true);
-            $('#lugarActividad').prop("disabled", true);
-            $('#objetivoActividad').prop("disabled", true);
-            $('#descripcionActividad').prop("disabled", true);
-            $('#participantesActividad').prop("disabled", true);
-            $('#cuentaPresupuestaria').prop("disabled", true);
-            $('#cuentaComplementaria').prop("disabled", true);
-            $('#obsActividad').prop("disabled", true);
-
-        }
-
-        function enableActividad(){
-            $('#nombreActividad').prop("disabled", false);
-            $('#fechaActividad').prop("disabled", false);
-            $('#horaActividad').prop("disabled", false);
-            $('#lugarActividad').prop("disabled", false);
-            $('#objetivoActividad').prop("disabled", false);
-            $('#descripcionActividad').prop("disabled", false);
-            $('#participantesActividad').prop("disabled", false);
-            $('#cuentaPresupuestaria').prop("disabled", false);
-            $('#cuentaComplementaria').prop("disabled", false);
-            $('#obsActividad').prop("disabled", false);
-        }     
-    });    
+            //End Delete Record
+         });    
 
 </script>
-
-@endpush
-
-
+    
+</body>
+</html>
