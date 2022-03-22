@@ -37,8 +37,9 @@
             overflow:scroll;
             width: 100%;
         }
-        .navGreen{
-            background-color: #009732;
+        .navColor{
+            background-color: #6b6b6b;
+            /*background-color: #009732;*/
         }
         tfoot input {            
             width: 100%;
@@ -50,17 +51,15 @@
             min-height: 100%;
             min-width: 100%;
         }
-
     </style>
 </head>
 
 <body class="body">
     <div id="app">
-        <nav class="navbar navbar-expand-md navbar-light shadow-sm navGreen">
+        <nav class="navbar navbar-expand-md navbar-light shadow-sm navColor">
             <div class="container">
                 <a class="navbar-brand text-white font-weight-lighter" href="{{ url('/home') }}">
-                    <img src="{{ asset('images/MarcaMunicipal_LetrasBlancas.png')}}" style="width: 200px;" class="mr-3">                    
-                    Intranet Municipal
+                    <img src="{{ asset('images/LogoMunicipal_Mail.png')}}" style="width: 220px;" class="mr-3">
                 </a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
                     <span class="navbar-toggler-icon"></span>

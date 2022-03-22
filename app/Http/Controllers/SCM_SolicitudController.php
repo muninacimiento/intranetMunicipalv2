@@ -81,13 +81,8 @@ class SCM_SolicitudController extends Controller
 
         // Guardamos el ENCABEZADO Solicitud y la Actividad si es que existe!!!
         if ($request->flag == 'Solicitud') {
-
-
-
             try {
-
                 DB::beginTransaction();
-
                 //Comenzamos a capturar desde la vista los datos a guardar de la SOLICITUD
                 $solicitud = new Solicitud;
                 $solicitud->user_id                     = Auth::user()->id;

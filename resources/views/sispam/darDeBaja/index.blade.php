@@ -77,7 +77,7 @@
                                     <td>{{ date('d-m-Y', strtotime($vehiculo->created_at)) }}</td>
                                     <td>{{ $vehiculo->Conductor }}</td>
                                     <td>
-                                        @if($vehiculo->estado == 1)
+                                        @if($vehiculo->estado <> 0)
                                             <div class="btn-group" role="group" aria-label="Basic example">
                                                 <a href="#" class="btn btn-danger btn-sm edit" data-toggle="tooltip" data-placement="bottom" title="Modificar Datos del Vehículo">                        
                                                     <i class="icofont-refresh px-1" style=" font-size: 1rem;"></i>
@@ -111,7 +111,6 @@
             <form method="POST" action="#" class="was-validated" id="updateVehiculoForm">
                 @csrf
                 @method('PUT')
-                <input type="hidden" name="flag" value="DarDeBaja">
                 <div class="modal-body">
                     <div class="form-row">
                         <div class="col-md-4 mb-3">                                  
@@ -267,7 +266,7 @@
                 $('#motorUpdate').val(data[9]);
                 $('#conductorUpdate').val(data[11]);
 
-                $('#updateVehiculoForm').attr('action', '/sispam/vehiculos/' + data[0]);
+                $('#updateVehiculoForm').attr('action', '/sispam/darDeBaja/' + data[0]);
                 $('#updateVehiculoModal').modal('show');
 
             });

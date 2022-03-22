@@ -99,9 +99,7 @@ class SCM_AdminSolicitudController extends Controller
                         ->where('move_solicituds.estadoSolicitud_id', 3)
                         ->get();
 
-                        //dd($fechaRecepcion);
-
-                         /* Retornamos a la vista los resultados psanadolos por parametros */
+        /* Retornamos a la vista los resultados psanadolos por parametros */
         return view('siscom.admin.index', compact('solicituds', 'dateCarbon', 'fechaRecepcion'));
 
         }else {

@@ -15,7 +15,19 @@ class CreateMantencionVehiculosTable extends Migration
     {
         Schema::create('mantencion_vehiculos', function (Blueprint $table) {
             $table->bigIncrements('id');
+            $table->date('fechaMantencion');
+            $table->unsignedBigInteger('idVehiculo');
+            $table->string('tipoMantencion');
+            $table->string('descripcion');
+            $table->integer('noDocumento');//Guia o Factura
+            $table->string('ordenCompra');
+            $table->string('proveedor');
+            $table->integer('total');
+            $table->string('observaciones');
             $table->timestamps();
+
+            //Relations
+            $table->foreign('idVehiculo')->references('id')->on('vehiculos')->onDelete('cascade');
         });
     }
 

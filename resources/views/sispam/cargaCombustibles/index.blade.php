@@ -56,7 +56,7 @@
                             <thead>
                                 <tr class="table-active">
                                     <th style="display: none;">ID Carga</th>
-                                    <th style="display: none;">Año</th>
+                                    <th>Fecha de Carga</th>
                                     <th>Placa Patente</th>
                                     <th>Tipo Combustible</th>
                                     <th>Odómetro</th>
@@ -71,7 +71,7 @@
                                 @foreach($combustibles as $combustible)
                                 <tr>
                                     <td style="display: none;">{{ $combustible->id }}</td>
-                                    <td style="display: none;">{{ $combustible->anio }}</td>
+                                    <td>{{ $combustible->fechaCarga }}</td>
                                     <td>{{ $combustible->Patente }}</td>
                                     <td>{{ $combustible->tipoCombustible }}</td>
                                     <td>{{ $combustible->odometro }}</td>
@@ -110,8 +110,15 @@
             <form method="POST" action="{{ action('CombustibleController@store') }}" class="was-validated" id="cargaCombustibleForm">
                 @csrf
                 <div class="modal-body">
-                    <div class="form-row">
-                        <div class="col mb-3">
+                    <div class="form-row mb-3">
+                        <div class="col">                                              
+                            <label for="fechaCarga">Fecha Guia</label>
+                            <input type="text" id="fechaCarga" name="fechaCarga" class="form-control" placeholde="01-01-2022" required/>
+                            <div class="invalid-feedback">                                                                                                        
+                                Por favor ingrese la Fecha de Realización de la Carga de Combustible
+                            </div>
+                        </div>
+                        <div class="col">
                             <label for="patente_id">Patente Vehículo</label>
                             <select name="patente_id" id="patente_id" class="form-control selectpicker" data-live-search="true" title="Seleccione..." required>
                                 @foreach($vehiculos as $vehiculo)
@@ -119,7 +126,7 @@
                                 @endforeach
                             </select>                                  
                         </div>
-                        <div class="col mb-3">                                            
+                        <div class="col">                                            
                             <label for="odometro">Odómetro</label>
                             <input type="number" class="form-control" placeholder="1234567" name="odometro" required>
                             <div class="invalid-feedback">
@@ -193,8 +200,15 @@
                 @method('PUT')
                 <input type="hidden" name="flag" value="Actualizar">
                 <div class="modal-body">
-                    <div class="form-row">
-                        <div class="col mb-3">
+                    <div class="form-row mb-3">
+                        <div class="col">                                              
+                            <label for="fechaCarga">Cuándo se realizó la Mantención</label>
+                            <input type="text" id="fechaCargaUpdate" name="fechaCarga" class="form-control" placeholde="01-01-2022" required/>
+                            <div class="invalid-feedback">                                                                                                        
+                                Por favor ingrese la Fecha de Realización de la Carga de Combustible
+                            </div>
+                        </div>
+                        <div class="col">
                             <label for="patente_id">Patente Vehículo</label>
                             <select name="patente_id" id="patente_idUpdate" class="form-control selectpicker" data-live-search="true" title="Seleccione..." required>
                                 @foreach($vehiculos as $vehiculo)
@@ -268,6 +282,20 @@
         
         $(document).ready(function () 
         {
+            $( "#fechaCarga" ).datepicker({
+                dateFormat: "yy-mm-dd",
+                firstDay: 1,
+                dayNamesMin: [ "Dom", "Lun", "Mar", "Mier", "Jue", "Vie", "Sab" ],
+                monthNames: [ "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre" ],
+                numberOfMonths: 1,
+            });
+            $( "#fechaCargaUpdate" ).datepicker({
+                dateFormat: "yy-mm-dd",
+                firstDay: 1,
+                dayNamesMin: [ "Dom", "Lun", "Mar", "Mier", "Jue", "Vie", "Sab" ],
+                monthNames: [ "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre" ],
+                numberOfMonths: 1,
+            });
             // Start Configuration DataTable
             var table = $('#cargaCombustibleTable').DataTable({
                 "paginate"  : true,

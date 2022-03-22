@@ -30,7 +30,7 @@ class VehiculosController extends Controller
         */
         $vehiculos = Vehiculos::join('conductors', 'vehiculos.idConductor', 'conductors.id')
         ->select('vehiculos.*', 'conductors.nombre as Conductor')
-        ->where('vehiculos.estado', 1)
+        ->where('vehiculos.estado', '<>', 0)
         ->orderBy('vehiculos.id', 'DESC')->get();
 
         $conductores = DB::table('conductors')
@@ -61,15 +61,15 @@ class VehiculosController extends Controller
         
         $vehiculo = new Vehiculos;
 
-        $vehiculo->patente      = $request->placaPatente;
-        $vehiculo->marca        = $request->marca;
-        $vehiculo->modelo       = $request->modelo;
+        $vehiculo->patente      = strtoupper($request->placaPatente);
+        $vehiculo->marca        = ucwords($request->marca);
+        $vehiculo->modelo       = ucwords($request->modelo);
         $vehiculo->anio         = $request->anio;
-        $vehiculo->noMotor      = $request->no_motor;
-        $vehiculo->noChasis     = $request->no_chasis;
+        $vehiculo->noMotor      = strtoupper($request->no_motor);
+        $vehiculo->noChasis     = strtoupper($request->no_chasis);
         $vehiculo->rendimiento  = $request->rendimiento;
-        $vehiculo->color        = $request->color;
-        $vehiculo->motor        = $request->motor;
+        $vehiculo->color        = ucwords($request->color);
+        $vehiculo->motor        = ucwords($request->motor);
         $vehiculo->idConductor  = $request->conductor_id;
         $vehiculo->idUser       = Auth::user()->id;
 
@@ -85,19 +85,23 @@ class VehiculosController extends Controller
      * @param  \App\UsuarioFarmacia  $usuarioFarmacia
      * @return \Illuminate\Http\Response
      */
-    public function show(Request $request)
+    public function show($idVehiculo)
+    {
+        //
+    }
+
+    public function darDeBaja(Request $request)
     {
         $dateCarbon = Carbon::now()->locale('es')->isoFormat('dddd D, MMMM YYYY');
 
         $vehiculos = Vehiculos::join('conductors', 'vehiculos.idConductor', 'conductors.id')
-        ->select('vehiculos.*', 'conductors.nombre as Conductor')
-        ->orderBy('vehiculos.id', 'DESC')->get();
+        ->select('vehiculos.*', 'conductors.nombre as Conductor')->get();
 
         $conductores = DB::table('conductors')
         ->select(DB::raw('CONCAT(conductors.id, " ) ", conductors.nombre) as Conductores'), 'conductors.id')
         ->get();
         
-        return view('sispam.vehiculos.darDeBaja', compact('dateCarbon', 'vehiculos', 'conductores'));
+        return view('sispam.daDeBaja.index', compact('dateCarbon', 'vehiculos', 'conductores'));
     }
 
     /**
@@ -120,9 +124,6 @@ class VehiculosController extends Controller
      */
     public function update(Request $request, $id)
     {
-     
-        //Actualizamos los Datos del Vehículo
-        if ($request->flag == 'Actualizar') {
 
             $vehiculo = Vehiculos::findOrFail($id);
 
@@ -140,18 +141,6 @@ class VehiculosController extends Controller
             $vehiculo->save();
 
             return redirect('sispam/vehiculos')->with('info', 'Vehículo Actualizado con Éxito !');
-        }
-        elseif ($request->flag == 'DarDeBaja') {
-
-            $vehiculo = Vehiculos::findOrFail($id);
-
-            $vehiculo->motivoBaja   = $request->motivoBaja;
-            $vehiculo->estado    = 0;
-
-            $vehiculo->save();
-
-            return redirect('sispam/vehiculos/darDeBaja')->with('danger', 'Vehículo dado de Baja con Éxito !');
-        }
     }
 
     /**
