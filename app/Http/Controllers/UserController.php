@@ -6,6 +6,8 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use App\User;
 use Caffeinated\Shinobi\Models\Role;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Validator;
 /* Invocamos la clase Carbon para trabajar con fechas */
 use Carbon\Carbon;
 
@@ -100,7 +102,12 @@ class UserController extends Controller
      */
     public function update(Request $request, User $user)
     {
-
+        if($request->flag == 'Clave'){
+            $usuario = User::findOrFail($user->id);
+            $usuario->password = Hash::make($request['password']);
+            $usuario->update();
+            return redirect()->route('users.index')->with('info', 'Usuario Actualizado con éxito !');
+        }else{
             //Actualizamos al Usuario
             $user->update($request->all());
 
@@ -108,7 +115,7 @@ class UserController extends Controller
             $user->roles()->sync($request->get('roles'));        
 
         return redirect()->route('users.index')->with('info', 'Usuario Actualizado con éxito !');
-
+        }
     }
 
     /**
