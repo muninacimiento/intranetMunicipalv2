@@ -1,5 +1,7 @@
-<!doctype html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html lang="en">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -35,8 +37,9 @@
             overflow:scroll;
             width: 100%;
         }
-        .navGreen{
-            background-color: #009732;
+        .navColor{
+            background-color: #6b6b6b;
+            /*background-color: #009732;*/
         }
         tfoot input {            
             width: 100%;
@@ -48,17 +51,15 @@
             min-height: 100%;
             min-width: 100%;
         }
-
     </style>
 </head>
 
 <body class="body">
     <div id="app">
-        <nav class="navbar navbar-expand-md navbar-light shadow-sm navGreen">
+        <nav class="navbar navbar-expand-md navbar-light shadow-sm navColor">
             <div class="container">
                 <a class="navbar-brand text-white font-weight-lighter" href="{{ url('/home') }}">
-                    <img src="{{ asset('images/MarcaMunicipal_LetrasBlancas.png')}}" style="width: 200px;" class="mr-3">                    
-                    Intranet Municipal
+                    <img src="{{ asset('images/LogoMunicipal_Mail.png')}}" style="width: 220px;" class="mr-3">
                 </a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
                     <span class="navbar-toggler-icon"></span>
@@ -69,53 +70,53 @@
                         @can('siscom.index')
                         <li class="nav-item">                            
                             <a href="{{ route('siscom.index') }}" class="nav-link text-white">
-                                <i class="icofont-cart-alt"></i> SisCoM
+                                <i class="icofont-cart-alt" style=" font-size: 1.2rem;"></i> SisCoM
                             </a>
                         </li>
                         @endcan
                         @can('farmacia.index')
                         <li class="nav-item">                            
                             <a href="{{ route('farmacia.index') }}" class="nav-link text-white">
-                               <i class="icofont-heart-beat-alt"></i> Farmacia
+                               <i class="icofont-heart-beat-alt" style=" font-size: 1.2rem;"></i> Farmacia
                             </a>
                         </li>
                         @endcan
-                        @can('rrpp.index')
+                        @can('sispam.index')
                         <li class="nav-item">                            
-                            <a href="{{ route('webadmin.index') }}" class="nav-link text-white">
-                               <i class="icofont-newspaper"></i> Noticias
+                            <a href="{{ route('sispam.index') }}" class="nav-link text-white">
+                            <i class="icofont-car" style=" font-size: 1.3rem;"></i> SisPAM
                             </a>
                         </li>
                         @endcan
                         @can('users.index')
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle text-white" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
-                                <i class="icofont-code-alt"></i> Administración  
+                                <i class="icofont-code-alt" style=" font-size: 1.2rem;"></i> Administración  
                             </a>
                             <div class="dropdown-menu">
                                 @can('users.index')
                                 <a class="dropdown-item text-secondary" href="{{ route('users.index') }}">
-                                   <i class="icofont-users-alt-4"></i> Usuarios
+                                   <i class="icofont-users-alt-4" style=" font-size: 1.2rem;"></i> Usuarios
                                 </a>
                                 @endcan
                                 @can('dependencies.index')
                                 <a class="dropdown-item text-secondary" href="{{ route('dependencies.index') }}">
-                                   <i class="icofont-chart-flow-1"></i> Dependencias Municipales
+                                   <i class="icofont-chart-flow-1" style=" font-size: 1.2rem;"></i> Dependencias Municipales
                                 </a>
                                 @endcan
                                 @can('permissions.index')
                                 <a class="dropdown-item text-secondary" href="{{ route('permissions.index') }}">
-                                    <i class="icofont-key"></i> Permisos
+                                    <i class="icofont-key" style=" font-size: 1.2rem;"></i> Permisos
                                 </a>
                                 @endcan
                                 @can('roles.index')
                                 <a class="dropdown-item text-secondary" href="{{ route('roles.index') }}">
-                                    <i class="icofont-atom"></i> Roles
+                                    <i class="icofont-atom" style=" font-size: 1.2rem;"></i> Roles
                                 </a>
                                 @endcan
                                 @can('contacts.index')
                                 <a class="dropdown-item text-secondary" href="{{ route('contacts.index') }}">
-                                    <i class="icofont-ui-call"></i> Contactos Municipales
+                                    <i class="icofont-ui-call" style=" font-size: 1.2rem;"></i> Contactos Municipales
                                 </a>
                                 @endcan
                             </div>

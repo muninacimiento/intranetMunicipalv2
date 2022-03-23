@@ -90,6 +90,39 @@ Route::middleware(['auth'])->group( function() {
 	Route::get('dependencies/{dependency}', 'DependencyController@show')->name('dependencies.show')->middleware('can:dependencies.show');
 	Route::delete('dependencies/{dependency}', 'DependencyController@destroy')->name('dependencies.destroy')->middleware('can:dependencies.destroy');
 
+	/**********************************
+	 *	SISPAM 	***********************
+	 **********************************/
+	Route::get('sispam', 'SispamController@index')->name('sispam.index')->middleware('can:sispam.index');
+	
+	//Vehículos
+	Route::resource('/sispam/vehiculos', 'VehiculosController')->middleware('can:vehiculos.index');
+	Route::post('/sispam/vehiculos/{vehiculo}', 'VehiculosController@update')->name('vehiculos.update')->middleware('can:vehiculos.update');
+	//Route::get('/sispam/vehiculos/{vehiculo}', 'VehiculosController@show')->name('vehiculos.show')->middleware('can:vehiculos.show');
+	Route::resource('/sispam/darDeBaja', 'DarDeBajaVehiculosController')->middleware('can:darDeBaja.index'); 
+	Route::post('/sispam/darDeBaja/{vehiculo}', 'DarDeBajaVehiculosController@update')->name('darDeBaja.update')->middleware('can:darDeBaja.update');
+	Route::resource('/sispam/reservas', 'ReservasVehiculosController')->middleware('can:reservas.index'); 
+	Route::put('/sispam/reservas/anular/{reservas}', 'ReservasVehiculosController@update')->name('reservas.anular')->middleware('can:reservas.anular');
+	Route::resource('/sispam/mantenciones', 'MantencionVehiculosController')->middleware('can:mantenciones.index'); 
+	Route::post('/sispam/mantenciones/{mantencion}', 'MantencionVehiculosController@update')->name('mantenciones.update')->middleware('can:mantenciones.update');
+	
+	//Conductores
+	Route::resource('/sispam/conductores', 'ConductoresController')->middleware('can:conductores.index');
+	Route::post('/sispam/conductores/{conductor}', 'ConductoresController@update')->name('conductores.update')->middleware('can:conductores.update');
+
+	//CargaCombustible
+	Route::resource('/sispam/cargaCombustibles', 'CombustibleController')->middleware('can:combustibles.index');
+	Route::post('/sispam/cargaCombustibles/{combustible}', 'CombustibleController@update')->name('combustibles.update')->middleware('can:combustibles.update');
+	//Informe de RendimientoVehiculo
+	Route::get('/sispam/informes/rendimiento', 'CombustibleController@consultaRendimiento')->name('combustibles.consultaRendimiento')->middleware('can:combustibles.consultaRendimiento'); 
+	Route::get('/sispam/informes', 'CombustibleController@buscarRendimientoPorVehiculo')->name('combustibles.buscarRendimiento')->middleware('can:combustibles.buscarRendimiento');
+	//Informe de Estado-Mantenciones
+	Route::get('/sispam/informes/consultarMantenciones', 'MantencionVehiculosController@consultaMantenciones')->name('mantenciones.consultaMantenciones')->middleware('can:mantenciones.consultaMantenciones'); 
+	Route::get('/sispam/informes/buscarMantenciones', 'MantencionVehiculosController@buscarMantencionesPorVehiculo')->name('mantenciones.buscarMantenciones')->middleware('can:mantenciones.buscarMantenciones');
+	//Informe de ReservasVehiculos
+	Route::get('/sispam/informes/consultarReservas', 'ReservasVehiculosController@consultaReservas')->name('reservas.consulta')->middleware('can:reservas.consulta'); 
+	Route::get('/sispam/informes/buscarReservas', 'ReservasVehiculosController@buscarReservasPorVehiculo')->name('reservas.buscar')->middleware('can:reservas.buscar');
+
 
 	/**********************************
 	 *	GESPRO 	***********************

@@ -44,7 +44,7 @@
                             </div>
                             <input type="button" id="more" value="Ver Detalle de su Actividad" onclick="$('.divActividad').slideToggle(function(){$('#more').html($('.divActividad').is(':visible')?'Ver Menos Detalles':'Ver Más Detalles');});" class="btn btn-primary btn-block btn-sm" disabled>
                             <div class="form-row mb-3 divActividad " style="display:none">                                
-                                <table id="actividad" class="display col-md-12" style="font-size: 0.85em;" width="100%">
+                                <table id="actividad" class="display col" style="font-size: 0.85em;" width="100%">
                                     <thead>
                                         <tr>
                                             <th></th>

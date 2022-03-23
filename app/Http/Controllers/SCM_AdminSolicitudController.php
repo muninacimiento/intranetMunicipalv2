@@ -68,11 +68,14 @@ class SCM_AdminSolicitudController extends Controller
                         ->where('move_solicituds.estadoSolicitud_id', 3)
                         ->get();
 
-                        //dd($fechaRecepcion);
-            
-        }else if (Auth::user()->email == 'carolina.medina@nacimiento.cl' || Auth::user()->email == 'cecilia.castro@nacimiento.cl' || Auth::user()->email == 'monica.alvarez@nacimiento.cl' || Auth::user()->email == 'juan.fuentealba@nacimiento.cl') {
+                        dd($solicituds);
 
-        /*
+                         /* Retornamos a la vista los resultados psanadolos por parametros */
+        return view('siscom.admin.index', compact('solicituds', 'dateCarbon', 'fechaRecepcion'));
+            
+        }elseif (Auth::user()->email == 'carolina.medina@nacimiento.cl') {
+
+       /*
          * Definimos variable que contendrá la fecha actual del sistema
          */
         $dateCarbon = Carbon::now()->locale('es')->isoFormat('dddd D, MMMM YYYY');
@@ -83,6 +86,7 @@ class SCM_AdminSolicitudController extends Controller
                     ->join('users', 'solicituds.user_id', '=', 'users.id')
                     ->join('dependencies', 'users.dependency_id', '=', 'dependencies.id')
                     ->select('solicituds.*', 'status_solicituds.estado', 'dependencies.name')
+                    ->where('solicituds.categoriaSolicitud', '!=', 'Stock de Aseo')
                     ->where('solicituds.estado_id', '!=', 10)
                     ->where('solicituds.estado_id', '!=', 11)
                     ->where('solicituds.estado_id', '!=', 12)
@@ -95,8 +99,8 @@ class SCM_AdminSolicitudController extends Controller
                         ->where('move_solicituds.estadoSolicitud_id', 3)
                         ->get();
 
-        //dd($fechaRecepcion); 
-        //dd($solicituds);
+        /* Retornamos a la vista los resultados psanadolos por parametros */
+        return view('siscom.admin.index', compact('solicituds', 'dateCarbon', 'fechaRecepcion'));
 
         }else {
 
@@ -125,14 +129,13 @@ class SCM_AdminSolicitudController extends Controller
                         ->where('move_solicituds.estadoSolicitud_id', 3)
                         ->get();
 
+                        //dd($dateCarbon);
+             /* Retornamos a la vista los resultados psanadolos por parametros */
+        return view('siscom.admin.index', compact('solicituds', 'dateCarbon', 'fechaRecepcion'));
         }
 
-         
-
-        //dd($solicituds);
-
         /* Retornamos a la vista los resultados psanadolos por parametros */
-        return view('siscom.admin.index', compact('solicituds', 'dateCarbon', 'fechaRecepcion'));
+        //return view('siscom.admin.index', compact('solicituds', 'dateCarbon', 'fechaRecepcion'));
     }
 
     public function show($id)
