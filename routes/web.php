@@ -77,6 +77,7 @@ Route::middleware(['auth'])->group( function() {
 	Route::get('users/{user}', 'UserController@show')->name('users.show')->middleware('can:users.show');
 	Route::get('users/{user}/edit', 'UserController@edit')->name('users.edit')->middleware('can:users.edit');
 	Route::put('users/{user}', 'UserController@update')->name('users.update')->middleware('can:users.edit');
+	Route::put('users/cambioClave/{user}', 'UserController@update')->name('users.update')->middleware('can:users.edit');
 	Route::delete('users/{user}', 'UserController@destroy')->name('users.destroy')->middleware('can:users.destroy');
 
 	/**********************************
