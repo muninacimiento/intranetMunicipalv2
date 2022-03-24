@@ -87,17 +87,17 @@ class SCM_AdminSolicitudController extends Controller
                     ->join('dependencies', 'users.dependency_id', '=', 'dependencies.id')
                     ->select('solicituds.*', 'status_solicituds.estado', 'dependencies.name')
                     ->where('solicituds.categoriaSolicitud', '!=', 'Stock de Aseo')
-                    ->where('solicituds.estado_id', '!=', 10)
-                    ->where('solicituds.estado_id', '!=', 11)
-                    ->where('solicituds.estado_id', '!=', 12)
+                    ->where('solicituds.estado_id', '<', 10)
                     ->orderBy('solicituds.id', 'desc')
                     ->get();
 
+
         $fechaRecepcion = DB::table('solicituds')
                         ->join('move_solicituds', 'solicituds.id', 'move_solicituds.solicitud_id')
-                        ->select('solicituds.id', 'move_solicituds.created_at')
+                        ->select('move_solicituds.*')
                         ->where('move_solicituds.estadoSolicitud_id', 3)
                         ->get();
+
 
         /* Retornamos a la vista los resultados psanadolos por parametros */
         return view('siscom.admin.index', compact('solicituds', 'dateCarbon', 'fechaRecepcion'));

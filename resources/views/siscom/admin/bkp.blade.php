@@ -643,30 +643,14 @@
     </div>
 </div>
 <!-- End Subsanar Solicitud -->
+@endsection
 @push('scripts')
-<script type="text/javascript">
-
+    <script type="text/javascript">
+        
         $(document).ready(function () {
-
-            $( "#fechaActividad" ).datepicker({
-                dateFormat: "yy-mm-dd",
-                minDate: "+14d",
-                firstDay: 1,
-                dayNamesMin: [ "Dom", "Lun", "Mar", "Mier", "Jue", "Vie", "Sab" ],
-                monthNames: [ "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre" ],
-                numberOfMonths: 2,
-            });
-
-            $( "#fechaDecreto" ).datepicker({
-                dateFormat: "yy-mm-dd",
-                firstDay: 1,
-                dayNamesMin: [ "Dom", "Lun", "Mar", "Mier", "Jue", "Vie", "Sab" ],
-                monthNames: [ "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre" ],
-            });
-
-            disableEncabezado();
-
-            disableActividad();
+            
+            var height = $(window).height();
+            $('#allWindow').height(height);
 
             // Setup - add a text input to each footer cell
             $('#solicitudsTable tfoot th').each( function () {
@@ -676,16 +660,13 @@
 
             // Start Configuration DataTable
             var table = $('#solicitudsTable').DataTable({
-
                 "paginate"  : true,
-
                 "order"     : ([0, 'desc']),
-
                 "language"  : {
                             "sProcessing":     "Procesando...",
                             "sLengthMenu":     "Mostrar _MENU_ registros",
                             "sZeroRecords":    "No se encontraron resultados",
-                            "sEmptyTable":     "No existen solicitudes generadas por su unidad, aún...",
+                            "sEmptyTable":     "No existen Órdenes de Compra generadas o asignadas aún...",
                             "sInfo":           "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
                             "sInfoEmpty":      "Mostrando registros del 0 al 0 de un total de 0 registros",
                             "sInfoFiltered":   "(filtrado de un total de _MAX_ registros)",
@@ -709,14 +690,12 @@
                                 "colvis": "Visibilidad"
                             }
                         }
-
             });
             //End Configuration DataTable
 
-            // Apply the search
+             // Apply the search
             table.columns().every( function () {
-                var that = this;
-
+                var that = this;         
                 $( 'input', this.footer() ).on( 'keyup change clear', function () {
                     if ( that.search() !== this.value ) {
                         that
@@ -726,356 +705,83 @@
                 } );
             } );
 
-            //Start Edit Record
-            table.on('click', '.editInterna', function () {
-
-                $tr = $(this).closest('tr');
-
-                if ($($tr).hasClass('child')) {
-
-                    $tr = $tr.prev('.parent');
-
-                }
-
-                var data = table.row($tr).data();
-
-                console.log(data);
-
-                $('#motivo_update_interna').val(data[5]);
-
-                if (($('#tipoSolicitud_update_interna').val(data[6]))==='Solicitud General') {
-
-                    $('#tipoSolicitud_update_interna').val();
-                }
-                else if (($('#tipoSolicitud_update_interna').val(data[6]))==='Solicitud de Actividad'){
-
-                    $('#tipoSolicitud_update_interna').val();
-                }
-
-                if (($('#categoriaSolicitud_update_interna').val(data[7]))==='Stock de Oficina') {
-
-                    $('#categoriaSolicitud_update_interna').val();
-                }
-                else if (($('#categoriaSolicitud_update_interna').val(data[7]))==='Stock de Aseo'){
-
-                    $('#categoriaSolicitud_update_interna').val();
-                }
-                else if (($('#categoriaSolicitud_update_interna').val(data[7]))==='Stock de Gas'){
-
-                    $('#categoriaSolicitud_update_interna').val();
-                }
-                else if (($('#categoriaSolicitud_update_interna').val(data[7]))==='Compra'){
-
-                    $('#categoriaSolicitud_update_interna').val();
-                }
-
-                $('#updateFormInterna').attr('action', '/siscom/solicitud/' + data[0]);
-                $('#updateSolicitudInterna').modal('show');
-
-            });
-            //End Edit Record
-
-            //Start Edit Record
-            table.on('click', '.editPrograma', function () {
-
-                $tr = $(this).closest('tr');
-
-                if ($($tr).hasClass('child')) {
-
-                    $tr = $tr.prev('.parent');
-
-                }
-
-                var data = table.row($tr).data();
-
-                console.log(data);
-
-                $('#motivo_update_programa').val(data[5]);
-
-                if (($('#tipoSolicitud_update_programa').val(data[6]))==='Solicitud General') {
-
-                    $('#tipoSolicitud_update_programa').val();
-                }
-                else if (($('#tipoSolicitud_update_programa').val(data[6]))==='Solicitud de Actividad'){
-
-                    $('#tipoSolicitud_update_programa').val();
-                }
-
-                if (($('#categoriaSolicitud_update_programa').val(data[7]))==='Stock de Oficina') {
-
-                    $('#categoriaSolicitud_update_programa').val();
-                }
-                else if (($('#categoriaSolicitud_update_programa').val(data[7]))==='Stock de Aseo'){
-
-                    $('#categoriaSolicitud_update_programa').val();
-                }
-                else if (($('#categoriaSolicitud_update_programa').val(data[7]))==='Stock de Gas'){
-
-                    $('#categoriaSolicitud_update_programa').val();
-                }
-                else if (($('#categoriaSolicitud_update_programa').val(data[7]))==='Compra'){
-
-                    $('#categoriaSolicitud_update_programa').val();
-                }
-
-                $('#decretoPrograma_update_programa').val(data[8]);
-                $('#nombrePrograma_update_programa').val(data[9]);
-
-
-                $('#updateFormPrograma').attr('action', '/siscom/solicitud/' + data[0]);
-                $('#updateSolicitudPrograma').modal('show');
-
-            });
-            //End Edit Record
-
-            //Comienzo de Confirmar Entrega Productos de la Solicitud
-            table.on('click', '.entregar', function () {
-
-                $tr = $(this).closest('tr');
-
-                if ($($tr).hasClass('child')) {
-
-                    $tr = $tr.prev('.parent');
-
-                }
-
-                var data = table.row($tr).data();
-
-                console.log(data);
-
-                $('#solicitud_id_Entrega').val(data[0]);
-
-                $('#entregarForm').attr('action', '/siscom/admin/' + data[0]);
-                $('#confirmarEntregaModal').modal('show');
-
-            });
-            //Fin Confirmar Entrega Productos de la Solicitud
-
             //Comienzo de Recepción de la Solicitud
             table.on('click', '.recepcionar', function () {
-
                 $tr = $(this).closest('tr');
-
                 if ($($tr).hasClass('child')) {
-
                     $tr = $tr.prev('.parent');
-
                 }
-
                 var data = table.row($tr).data();
-
                 console.log(data);
+                $('#ordenCompra_id').val(data[1]);
 
-                $('#solicitudID').val(data[0]);
-
-                $('#recepcionarForm').attr('action', '/siscom/admin/recepcionar/' + data[0]);
+                $('#recepcionarForm').attr('action', '/siscom/ordenCompra/recepcionar/' + data[0]);
                 $('#recepcionarModal').modal('show');
-
             });
             //Fin Recepción de la Solicitud
 
-            //Comienzo de Asignación de la Solicitud
-            table.on('click', '.asignar', function () {
-
+            //Start Edit Record
+            table.on('click', '.edit', function () {
                 $tr = $(this).closest('tr');
-
                 if ($($tr).hasClass('child')) {
-
                     $tr = $tr.prev('.parent');
-
                 }
-
                 var data = table.row($tr).data();
-
                 console.log(data);
 
-                $('#solicitud_id').val(data[0]);
+                $('#ordenCompra_id_update').val(data[1]);
+                $('#iddocUpdate').val(data[2]);                
+                if (($('#tipoOrdenCompraUpdate').val(data[6]))==='Menor a 3 UTM') {
+                    $('#tipoOrdenCompraUpdate').val();    
+                }
+                else if (($('#tipoOrdenCompraUpdate').val(data[6]))==='Trato Directo'){
+                    $('#tipoOrdenCompraUpdate').val();       
+                }
+                else if (($('#tipoOrdenCompraUpdate').val(data[6]))==='Convenio Marco / Suministro'){
+                    $('#tipoOrdenCompraUpdate').val();       
+                }
+                if (($('#valorEstimadoUpdate').val(data[7]))==='Mayor a 10 UTM') {
+                    $('#valorEstimadoUpdate').val();    
+                }
+                else if (($('#valorEstimadoUpdate').val(data[7]))==='Menor o Igual a 10 UTM'){
+                    $('#valorEstimadoUpdate').val();       
+                }
+                $('#totalOrdenCompraUpdate').val(data[8]);
+                if (($('#excepcionUpdate').val(data[9])) === 'Si') {
+                    $('#excepcionUpdate').val();    
+                }
+                else if (($('#excepcionUpdate').val(data[9])) === 'No'){
+                    $('#excepcionUpdate').val();       
+                }
+                if (($('#deptoReceptorUpdate').val(data[13]))=== 'Compras y Suministros') {
+                    $('#deptoReceptorUpdate').val();    
+                }
+                else if (($('#deptoReceptorUpdate').val(data[13]))=== 'Bodega Talleres Municipales'){
+                    $('#deptoReceptorUpdate').val();       
+                }
+                $('#mercadoPublicoUpdate').val(data[14]);
 
-                $('#asignarForm').attr('action', '/siscom/admin/asignar/' + data[0]);
-                $('#asignarSolicitudModal').modal('show');
-
+                $('#updateOrdenCompraForm').attr('action', '/siscom/ordenCompra/' + data[0]);
+                $('#updateOrdenCompraModal').modal('show');
             });
-            //Fin Asignación de la Solicitud
+            //End Edit Record
 
-            //Comienzo de Asignación de la Solicitud
-            table.on('click', '.reasignar', function () {
-
+            //Start Delete Record
+            table.on('click', '.delete', function () {
                 $tr = $(this).closest('tr');
-
                 if ($($tr).hasClass('child')) {
-
                     $tr = $tr.prev('.parent');
-
                 }
-
                 var data = table.row($tr).data();
-
                 console.log(data);
-
-                $('#solicitud_id_reasignar').val(data[0]);
-
-                $('#reasignarForm').attr('action', '/siscom/admin/reasignar/' + data[0]);
-                $('#reasignarSolicitudModal').modal('show');
-
+                document.getElementById('ordenCompra_id_Delete').innerHTML = data[1];
+                document.getElementById('fechaOrdenCompra_delete').innerHTML = data[3];
+                
+                $('#deleteOrdenCompraForm').attr('action', '/siscom/ordenCompra/anular/' + data[0]);
+                $('#deleteOrdenCompraModal').modal('show');
             });
-            //Fin Asignación de la Solicitud
-
-            //Comienzo de la Anulación de la Solicitud
-            table.on('click', '.anular', function () {
-
-                $tr = $(this).closest('tr');
-
-                if ($($tr).hasClass('child')) {
-
-                    $tr = $tr.prev('.parent');
-
-                }
-
-                var data = table.row($tr).data();
-
-                console.log(data);
-
-                document.getElementById('noSolicitud').innerHTML = data[0];
-                document.getElementById('fechaSolicitud').innerHTML = data[3];
-                document.getElementById('tipoSolicitud_anular').innerHTML = data[6];
-                document.getElementById('categoriaSolicitud_anular').innerHTML = data[7];
-
-                $('#anularForm').attr('action', '/siscom/admin/anular/' + data[0]);
-                $('#anularSolicitudModal').modal('show');
-
-            });
-            //Fin Anulación de la Solicitud
-
-            //LLenar Select CategoriaSolicitud dependiendo de la seleccion en TipoSolicitud
-        var options = {
-
-            Operacional : ["Stock de Oficina", "Stock de Aseo", "Stock de Gas", "Compra"],
-            Actividad : ["Compra"]
-        }
-
-        $(function(){
-
-            var fillCategoria = function(){
-
-                var selected = $('#tipoSolicitud_create').val();
-
-                $('#categoriaSolicitud_create').empty();
-
-                options[selected].forEach(function(element,index){
-
-                    $('#categoriaSolicitud_create').append('<option value="'+element+'">'+element+'</option>');
-
-                });
-
-                if (selected === "") {
-
-                    disableActividad();
-
-                } else if (selected === "Operacional") {
-
-                    disableActividad();
-
-                } else if (selected === "Actividad") {
-
-                    enableActividad();
-
-                }
-
-            }
-
-            $('#tipoSolicitud_create').change(fillCategoria);
-
-            fillCategoria();
-
-
-        });
-
-        document.getElementById("areaGestion").onchange = function() {habilitarEncabezado()};
-
-        function habilitarEncabezado(){
-
-            var option = $('#areaGestion').val();
-
-            if (option === '') {
-
-                disableEncabezado();
-
-            } else if (option === 'Interna') {
-
-                enableInterna();
-
-            } else if (option === 'Programa') {
-
-                enablePrograma();
-
-            }
-
-
-        }
-
-        function disableEncabezado(){
-
-            $('#motivo_create').prop("disabled", true);
-            $('#tipoSolicitud_create').prop("disabled", true);
-            $('#categoriaSolicitud_create').prop("disabled", true);
-            $('#decretoPrograma_create').prop("disabled", true);
-            $('#nombrePrograma_create').prop("disabled", true);
-        }
-
-
-        function enableInterna(){
-
-            $('#motivo_create').prop("disabled", false);
-            $('#tipoSolicitud_create').prop("disabled", false);
-            $('#categoriaSolicitud_create').prop("disabled", false);
-            $('#decretoPrograma_create').prop("disabled", true);
-            $('#nombrePrograma_create').prop("disabled", true);
-        }
-
-        function enablePrograma(){
-
-            $('#motivo_create').prop("disabled", false);
-            $('#tipoSolicitud_create').prop("disabled", false);
-            $('#categoriaSolicitud_create').prop("disabled", false);
-             $('#decretoPrograma_create').prop("disabled", false);
-            $('#nombrePrograma_create').prop("disabled", false);
-
-        }
-
-        function disableActividad() {
-
-            $('#nombreActividad').prop("disabled", true);
-            $('#fechaActividad').prop("disabled", true);
-            $('#horaActividad').prop("disabled", true);
-            $('#lugarActividad').prop("disabled", true);
-            $('#objetivoActividad').prop("disabled", true);
-            $('#descripcionActividad').prop("disabled", true);
-            $('#participantesActividad').prop("disabled", true);
-            $('#cuentaPresupuestaria').prop("disabled", true);
-            $('#cuentaComplementaria').prop("disabled", true);
-            $('#obsActividad').prop("disabled", true);
-
-        }
-
-        function enableActividad(){
-
-            $('#nombreActividad').prop("disabled", false);
-            $('#fechaActividad').prop("disabled", false);
-            $('#horaActividad').prop("disabled", false);
-            $('#lugarActividad').prop("disabled", false);
-            $('#objetivoActividad').prop("disabled", false);
-            $('#descripcionActividad').prop("disabled", false);
-            $('#participantesActividad').prop("disabled", false);
-            $('#cuentaPresupuestaria').prop("disabled", false);
-            $('#cuentaComplementaria').prop("disabled", false);
-            $('#obsActividad').prop("disabled", false);
-
-        }
-
-
-
-    });
+            //End Delete Record
+         });    
 
 </script>
-
 @endpush
