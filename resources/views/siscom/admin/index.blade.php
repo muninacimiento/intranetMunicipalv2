@@ -1,3 +1,11 @@
+<!--
+/*
+ *  JFuentealba @itux
+ *  created at September 10, 2019 - 11:46 am
+ *  updated at 
+ */
+-->
+
 @extends('layouts.app')
 @section('content')
 <div id="allWindow">
@@ -5,7 +13,7 @@
         <div class="col-md-12">
             <div class="card border-primary shadow">
                 <div class="card-header text-center text-white bg-primary">
-                    @include('siscom.menu')
+                	@include('siscom.menu')
                 </div>
                 <div class="card-body">
                     <div class="row">
@@ -17,15 +25,11 @@
                         </div>
                     </div>
                     <hr class="my-4">
-                    @if (session('info'))
-                        <div class="alert alert-success alert-dismissible fade show shadow mb-3" role="alert">                              
-                            <i class="icofont-check-circled h4"></i>                             
-                            <strong> {{ session('info') }} </strong>                            
-                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">                            
-                                <span aria-hidden="true">&times;</span>                              
-                            </button>
-                        </div>                   
-                    @endif                    
+                    @if (session('status'))
+                        <div class="alert alert-success" role="alert">
+                            {{ session('status') }}
+                        </div>
+                    @endif
                     <div>
                         <table class="display" id="solicitudsTable" style="font-size: 0.9em;" width="100%">
                             <thead>
@@ -48,24 +52,22 @@
                             </thead>
                             <tbody>
                                 @foreach($solicituds as $solicitud)
-                                    @foreach($fechaRecepcion as $recepcionada)
-                                        @if($solicitud->id === $recepcionada->id)
                                             <tr>
                                                 <td>{{ $solicitud->id }}</td>
-                                                <td>{{ $solicitud->estado }}</td>
+                                                <td>{{ $solicitud->Estado }}</td>
                                                 <td>{{ $solicitud->iddoc }}</td>
-                                                <td>{{ date('d-m-Y H:i:s', strtotime($recepcionada->created_at)) }}</td>
-                                                @if( Carbon\Carbon::parse($recepcionada->created_at)->diffInDays() <= 7)
+                                                <td>{{ date('d-m-Y H:i:s', strtotime($solicitud->Recepcionada)) }}</td>
+                                                @if( Carbon\Carbon::parse($solicitud->Recepcionada)->diffInDays() <= 7)
                                                     <td style="background-color : #59d634 !important;color: white;text-align: center;">
-                                                        {{ Carbon\Carbon::parse($recepcionada->created_at)->diffInDays() }}
+                                                        {{ Carbon\Carbon::parse($solicitud->Recepcionada)->diffInDays() }}
                                                     </td>
-                                                @elseif( Carbon\Carbon::parse($recepcionada->created_at)->diffInDays() > 7 &&  Carbon\Carbon::parse($recepcionada->created_at)->diffInDays() <= 10)
+                                                @elseif( Carbon\Carbon::parse($solicitud->Recepcionada)->diffInDays() > 7 &&  Carbon\Carbon::parse($solicitud->Recepcionada)->diffInDays() <= 10)
                                                     <td style="background-color : #eac50b !important;color: black; text-align: center;">
-                                                        {{ Carbon\Carbon::parse($recepcionada->created_at)->diffInDays() }}
+                                                        {{ Carbon\Carbon::parse($solicitud->Recepcionada)->diffInDays() }}
                                                     </td>
-                                                @elseif( Carbon\Carbon::parse($recepcionada->created_at)->diffInDays() > 10)
+                                                @elseif( Carbon\Carbon::parse($solicitud->Recepcionada)->diffInDays() > 10)
                                                     <td style="background-color : #ea0b0b !important;color: white;text-align: center;">
-                                                        {{ Carbon\Carbon::parse($recepcionada->created_at)->diffInDays() }}
+                                                        {{ Carbon\Carbon::parse($solicitud->Recepcionada)->diffInDays() }}
                                                     </td>
                                                 @endif
                                                 <td>{{ $solicitud->compradorTitular }}</td>
@@ -81,10 +83,10 @@
                                                     <td style="background-color : #483D8B !important;color: white;">{{ date('d-m-Y', strtotime($solicitud->fechaActividad)) }}</td>
                                                 @endif                                                
                                                 <td>{{ $solicitud->categoriaSolicitud }}</td>
-                                                <td>{{ $solicitud->name }}</td>
+                                                <td>{{ $solicitud->Dependencia }}</td>
                                                 <td style="display: none">{{ $solicitud->decretoPrograma }}</td>
                                                 <td style="display: none">{{ $solicitud->nombrePrograma }}</td>
-                                                @if( $solicitud->estado == 'Anulada' || $solicitud->estado == 'Creada')
+                                                @if( $solicitud->Estado == 'Anulada' || $solicitud->Estado == 'Creada')
                                                     <td>
                                                         @can('admin.show')
                                                             <a href="{{ route('admin.show', $solicitud->id) }}" class="btn btn-outline-secondary btn-sm mr-1" data-toggle="tooltip" data-placement="bottom" title="Ver el Detalle de la Solicitud">
@@ -97,7 +99,7 @@
                                                         <div class="btn-group" role="group">
                                                             {{-- Visualizar Solicitud--}}
                                                             @can('admin.show')
-                                                                @if($solicitud->estado === 'En Proceso de Entrega' || $solicitud->estado === 'Solicitud Entregada Completamente')
+                                                                @if($solicitud->Estado === 'En Proceso de Entrega' || $solicitud->Estado === 'Solicitud Entregada Completamente')
                                                                     <a href="{{ route('admin.stock', $solicitud->id) }}" class="btn btn-secondary btn-sm" data-toggle="tooltip" data-placement="bottom" title="Ver el Detalle de la Solicitud">
                                                                         <i class="icofont-eye-alt h5"></i>
                                                                     </a>
@@ -109,7 +111,7 @@
                                                             @endcan
                                                             {{--Habilitar Entrega Stock--}}
                                                             @can('admin.stock')
-                                                                @if(($solicitud->estado === 'Asignada a Comprador' || $solicitud->estado === 'Re-Asignada a Comprador') && ($solicitud->categoriaSolicitud === 'Stock de Oficina' || $solicitud->categoriaSolicitud === 'Stock de Aseo' || $solicitud->categoriaSolicitud === 'Stock de Gas'))                                                                    
+                                                                @if(($solicitud->Estado === 'Asignada a Comprador' || $solicitud->Estado === 'Re-Asignada a Comprador') && ($solicitud->categoriaSolicitud === 'Stock de Oficina' || $solicitud->categoriaSolicitud === 'Stock de Aseo' || $solicitud->categoriaSolicitud === 'Stock de Gas'))                                                                    
                                                                     <a href="#" class="btn btn-light btn-sm entregar" data-toggle="tooltip" data-placement="bottom" title="Entregar Productos Stock">
                                                                         <i class="icofont-dropbox h5"></i>
                                                                     </a>
@@ -118,7 +120,7 @@
                                                             @endcan
                                                             {{--Rechazar Solicitud--}}
                                                             @can('admin.rechazar')
-                                                                @if($solicitud->estado === 'Recepcionada' || $solicitud->estado === 'Subsanada')
+                                                                @if($solicitud->Estado === 'Recepcionada' || $solicitud->Estado === 'Subsanada')
                                                                     <a href="#" class="btn btn-danger btn-sm rechazar" data-toggle="tooltip" data-placement="bottom" title="Rechazar Solicitud">
                                                                         <i class="icofont-ban h5"></i>
                                                                     </a>
@@ -127,7 +129,7 @@
                                                             @endcan
                                                             {{--Subsanar Solicitud--}}
                                                             @can('admin.subsanar')
-                                                                @if($solicitud->estado === 'Rechazada')
+                                                                @if($solicitud->Estado === 'Rechazada')
                                                                     <a href="#" class="btn btn-success btn-sm subsanar" data-toggle="tooltip" data-placement="bottom" title="Subsanar Solicitud">  
                                                                         <i class="icofont-check-circled h5"></i>
                                                                     </a>
@@ -136,7 +138,7 @@
                                                             @endcan
                                                             {{--Habilitar Asignacion--}}
                                                             @can('admin.asignar')
-                                                                @if(($solicitud->estado === 'Recepcionada' || $solicitud->estado === 'Subsanada') && $solicitud->categoriaSolicitud != 'Stock de Aseo')
+                                                                @if(($solicitud->Estado === 'Recepcionada' || $solicitud->Estado === 'Subsanada') && $solicitud->categoriaSolicitud != 'Stock de Aseo')
                                                                     <a href="#" class="btn btn-warning btn-sm asignar" data-toggle="tooltip" data-placement="bottom" title="Asignar Solicitud">
                                                                         <i class="icofont-inbox h5"></i>
                                                                     </a>
@@ -144,7 +146,7 @@
                                                                 @endif
                                                             {{--Habilitar ReAsignacion--}}
                                                                 @if($solicitud->categoriaSolicitud === 'Stock de Aseo')
-                                                                @elseif( $solicitud->estado === 'Asignada a Comprador' || $solicitud->estado === 'En Proceso de Entrega' || $solicitud->estado === 'En Proceso de Compra')
+                                                                @elseif( $solicitud->Estado === 'Asignada a Comprador' || $solicitud->Estado === 'En Proceso de Entrega' || $solicitud->Estado === 'En Proceso de Compra')
                                                                     <a href="#" class="btn btn-dark btn-sm reasignar" data-toggle="tooltip" data-placement="bottom" title="ReAsignar Solicitud">
                                                                         <i class="icofont-inbox h5"></i>
                                                                     </a>
@@ -163,7 +165,7 @@
                                                                 @endif
                                                             @endcan
                                                             @can('admin.anular')
-                                                                @if($solicitud->estado === 'Solicitud Entregada Completamente' || $solicitud->estado === 'Solicitud Gestionada Completamente')
+                                                                @if($solicitud->Estado === 'Solicitud Entregada Completamente' || $solicitud->Estado === 'Solicitud Gestionada Completamente')
                                                                 @else
                                                                     <a href="#" class="btn btn-danger btn-sm anular" data-toggle="tooltip" data-placement="bottom" title="Anular Solicitud">
                                                                         <i class="icofont-trash h5"></i>
@@ -173,9 +175,7 @@
                                                         </div>
                                                     </td>
                                                 @endif
-                                            </tr>  
-                                        @endif
-                                    @endforeach  
+                                            </tr>    
                                 @endforeach
                             </tbody>
                             <tfoot>
@@ -203,6 +203,7 @@
         </div>
     </div>
 </div>
+@endsection
 
 <!-- Start Confirmar Entrega de Productos Solicitud -->
 <div class="modal fade" id="confirmarEntregaModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -643,11 +644,11 @@
     </div>
 </div>
 <!-- End Subsanar Solicitud -->
+
 @push('scripts')
-<script type="text/javascript">
-
-        $(document).ready(function () {
-
+<script>
+    $(document).ready(function () {
+        
             $( "#fechaActividad" ).datepicker({
                 dateFormat: "yy-mm-dd",
                 minDate: "+14d",
@@ -663,24 +664,17 @@
                 dayNamesMin: [ "Dom", "Lun", "Mar", "Mier", "Jue", "Vie", "Sab" ],
                 monthNames: [ "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre" ],
             });
-
             disableEncabezado();
-
             disableActividad();
-
             // Setup - add a text input to each footer cell
             $('#solicitudsTable tfoot th').each( function () {
                 var title = $(this).text();
                 $(this).html( '<input type="text" placeholder="Buscar">' );
             } );
-
             // Start Configuration DataTable
             var table = $('#solicitudsTable').DataTable({
-
                 "paginate"  : true,
-
                 "order"     : ([0, 'desc']),
-
                 "language"  : {
                             "sProcessing":     "Procesando...",
                             "sLengthMenu":     "Mostrar _MENU_ registros",
@@ -709,14 +703,11 @@
                                 "colvis": "Visibilidad"
                             }
                         }
-
             });
             //End Configuration DataTable
-
             // Apply the search
             table.columns().every( function () {
                 var that = this;
-
                 $( 'input', this.footer() ).on( 'keyup change clear', function () {
                     if ( that.search() !== this.value ) {
                         that
@@ -725,296 +716,174 @@
                     }
                 } );
             } );
-
             //Start Edit Record
             table.on('click', '.editInterna', function () {
-
                 $tr = $(this).closest('tr');
-
                 if ($($tr).hasClass('child')) {
-
                     $tr = $tr.prev('.parent');
-
                 }
-
                 var data = table.row($tr).data();
-
                 console.log(data);
-
                 $('#motivo_update_interna').val(data[5]);
-
                 if (($('#tipoSolicitud_update_interna').val(data[6]))==='Solicitud General') {
-
                     $('#tipoSolicitud_update_interna').val();
                 }
                 else if (($('#tipoSolicitud_update_interna').val(data[6]))==='Solicitud de Actividad'){
-
                     $('#tipoSolicitud_update_interna').val();
                 }
-
                 if (($('#categoriaSolicitud_update_interna').val(data[7]))==='Stock de Oficina') {
-
                     $('#categoriaSolicitud_update_interna').val();
                 }
                 else if (($('#categoriaSolicitud_update_interna').val(data[7]))==='Stock de Aseo'){
-
                     $('#categoriaSolicitud_update_interna').val();
                 }
                 else if (($('#categoriaSolicitud_update_interna').val(data[7]))==='Stock de Gas'){
-
                     $('#categoriaSolicitud_update_interna').val();
                 }
                 else if (($('#categoriaSolicitud_update_interna').val(data[7]))==='Compra'){
-
                     $('#categoriaSolicitud_update_interna').val();
                 }
-
                 $('#updateFormInterna').attr('action', '/siscom/solicitud/' + data[0]);
                 $('#updateSolicitudInterna').modal('show');
-
             });
             //End Edit Record
-
             //Start Edit Record
             table.on('click', '.editPrograma', function () {
-
                 $tr = $(this).closest('tr');
-
                 if ($($tr).hasClass('child')) {
-
                     $tr = $tr.prev('.parent');
-
                 }
-
                 var data = table.row($tr).data();
-
                 console.log(data);
-
                 $('#motivo_update_programa').val(data[5]);
-
                 if (($('#tipoSolicitud_update_programa').val(data[6]))==='Solicitud General') {
-
                     $('#tipoSolicitud_update_programa').val();
                 }
                 else if (($('#tipoSolicitud_update_programa').val(data[6]))==='Solicitud de Actividad'){
-
                     $('#tipoSolicitud_update_programa').val();
                 }
-
                 if (($('#categoriaSolicitud_update_programa').val(data[7]))==='Stock de Oficina') {
-
                     $('#categoriaSolicitud_update_programa').val();
                 }
                 else if (($('#categoriaSolicitud_update_programa').val(data[7]))==='Stock de Aseo'){
-
                     $('#categoriaSolicitud_update_programa').val();
                 }
                 else if (($('#categoriaSolicitud_update_programa').val(data[7]))==='Stock de Gas'){
-
                     $('#categoriaSolicitud_update_programa').val();
                 }
                 else if (($('#categoriaSolicitud_update_programa').val(data[7]))==='Compra'){
-
                     $('#categoriaSolicitud_update_programa').val();
                 }
-
                 $('#decretoPrograma_update_programa').val(data[8]);
                 $('#nombrePrograma_update_programa').val(data[9]);
-
-
                 $('#updateFormPrograma').attr('action', '/siscom/solicitud/' + data[0]);
                 $('#updateSolicitudPrograma').modal('show');
-
             });
             //End Edit Record
-
             //Comienzo de Confirmar Entrega Productos de la Solicitud
             table.on('click', '.entregar', function () {
-
                 $tr = $(this).closest('tr');
-
                 if ($($tr).hasClass('child')) {
-
                     $tr = $tr.prev('.parent');
-
                 }
-
                 var data = table.row($tr).data();
-
                 console.log(data);
-
                 $('#solicitud_id_Entrega').val(data[0]);
-
                 $('#entregarForm').attr('action', '/siscom/admin/' + data[0]);
                 $('#confirmarEntregaModal').modal('show');
-
             });
             //Fin Confirmar Entrega Productos de la Solicitud
-
             //Comienzo de Recepción de la Solicitud
             table.on('click', '.recepcionar', function () {
-
                 $tr = $(this).closest('tr');
-
                 if ($($tr).hasClass('child')) {
-
                     $tr = $tr.prev('.parent');
-
                 }
-
                 var data = table.row($tr).data();
-
                 console.log(data);
-
                 $('#solicitudID').val(data[0]);
-
                 $('#recepcionarForm').attr('action', '/siscom/admin/recepcionar/' + data[0]);
                 $('#recepcionarModal').modal('show');
-
             });
             //Fin Recepción de la Solicitud
-
             //Comienzo de Asignación de la Solicitud
             table.on('click', '.asignar', function () {
-
                 $tr = $(this).closest('tr');
-
                 if ($($tr).hasClass('child')) {
-
                     $tr = $tr.prev('.parent');
-
                 }
-
                 var data = table.row($tr).data();
-
                 console.log(data);
-
                 $('#solicitud_id').val(data[0]);
-
                 $('#asignarForm').attr('action', '/siscom/admin/asignar/' + data[0]);
                 $('#asignarSolicitudModal').modal('show');
-
             });
             //Fin Asignación de la Solicitud
-
             //Comienzo de Asignación de la Solicitud
             table.on('click', '.reasignar', function () {
-
                 $tr = $(this).closest('tr');
-
                 if ($($tr).hasClass('child')) {
-
                     $tr = $tr.prev('.parent');
-
                 }
-
                 var data = table.row($tr).data();
-
                 console.log(data);
-
                 $('#solicitud_id_reasignar').val(data[0]);
-
                 $('#reasignarForm').attr('action', '/siscom/admin/reasignar/' + data[0]);
                 $('#reasignarSolicitudModal').modal('show');
-
             });
             //Fin Asignación de la Solicitud
-
             //Comienzo de la Anulación de la Solicitud
             table.on('click', '.anular', function () {
-
                 $tr = $(this).closest('tr');
-
                 if ($($tr).hasClass('child')) {
-
                     $tr = $tr.prev('.parent');
-
                 }
-
                 var data = table.row($tr).data();
-
                 console.log(data);
-
                 document.getElementById('noSolicitud').innerHTML = data[0];
                 document.getElementById('fechaSolicitud').innerHTML = data[3];
                 document.getElementById('tipoSolicitud_anular').innerHTML = data[6];
                 document.getElementById('categoriaSolicitud_anular').innerHTML = data[7];
-
                 $('#anularForm').attr('action', '/siscom/admin/anular/' + data[0]);
                 $('#anularSolicitudModal').modal('show');
-
             });
             //Fin Anulación de la Solicitud
-
             //LLenar Select CategoriaSolicitud dependiendo de la seleccion en TipoSolicitud
         var options = {
-
             Operacional : ["Stock de Oficina", "Stock de Aseo", "Stock de Gas", "Compra"],
             Actividad : ["Compra"]
         }
-
         $(function(){
-
             var fillCategoria = function(){
-
                 var selected = $('#tipoSolicitud_create').val();
-
                 $('#categoriaSolicitud_create').empty();
-
                 options[selected].forEach(function(element,index){
-
                     $('#categoriaSolicitud_create').append('<option value="'+element+'">'+element+'</option>');
-
                 });
-
                 if (selected === "") {
-
                     disableActividad();
-
                 } else if (selected === "Operacional") {
-
                     disableActividad();
-
                 } else if (selected === "Actividad") {
-
                     enableActividad();
-
                 }
-
             }
-
             $('#tipoSolicitud_create').change(fillCategoria);
-
             fillCategoria();
-
-
         });
-
         document.getElementById("areaGestion").onchange = function() {habilitarEncabezado()};
-
         function habilitarEncabezado(){
-
             var option = $('#areaGestion').val();
-
             if (option === '') {
-
                 disableEncabezado();
-
             } else if (option === 'Interna') {
-
                 enableInterna();
-
             } else if (option === 'Programa') {
-
                 enablePrograma();
-
             }
-
-
         }
 
         function disableEncabezado(){
-
             $('#motivo_create').prop("disabled", true);
             $('#tipoSolicitud_create').prop("disabled", true);
             $('#categoriaSolicitud_create').prop("disabled", true);
@@ -1022,9 +891,7 @@
             $('#nombrePrograma_create').prop("disabled", true);
         }
 
-
         function enableInterna(){
-
             $('#motivo_create').prop("disabled", false);
             $('#tipoSolicitud_create').prop("disabled", false);
             $('#categoriaSolicitud_create').prop("disabled", false);
@@ -1033,17 +900,14 @@
         }
 
         function enablePrograma(){
-
             $('#motivo_create').prop("disabled", false);
             $('#tipoSolicitud_create').prop("disabled", false);
             $('#categoriaSolicitud_create').prop("disabled", false);
              $('#decretoPrograma_create').prop("disabled", false);
             $('#nombrePrograma_create').prop("disabled", false);
-
         }
 
         function disableActividad() {
-
             $('#nombreActividad').prop("disabled", true);
             $('#fechaActividad').prop("disabled", true);
             $('#horaActividad').prop("disabled", true);
@@ -1054,11 +918,9 @@
             $('#cuentaPresupuestaria').prop("disabled", true);
             $('#cuentaComplementaria').prop("disabled", true);
             $('#obsActividad').prop("disabled", true);
-
         }
 
         function enableActividad(){
-
             $('#nombreActividad').prop("disabled", false);
             $('#fechaActividad').prop("disabled", false);
             $('#horaActividad').prop("disabled", false);
@@ -1069,13 +931,8 @@
             $('#cuentaPresupuestaria').prop("disabled", false);
             $('#cuentaComplementaria').prop("disabled", false);
             $('#obsActividad').prop("disabled", false);
-
         }
-
-
-
     });
 
 </script>
-
 @endpush

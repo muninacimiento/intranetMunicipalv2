@@ -68,8 +68,6 @@ class SCM_AdminSolicitudController extends Controller
                         ->where('move_solicituds.estadoSolicitud_id', 3)
                         ->get();
 
-                        dd($solicituds);
-
                          /* Retornamos a la vista los resultados psanadolos por parametros */
         return view('siscom.admin.index', compact('solicituds', 'dateCarbon', 'fechaRecepcion'));
             
@@ -80,27 +78,28 @@ class SCM_AdminSolicitudController extends Controller
          */
         $dateCarbon = Carbon::now()->locale('es')->isoFormat('dddd D, MMMM YYYY');
 
-        /* Declaramos la variable que contendrá todos los permisos existentes en la base de datos */
-        $solicituds = DB::table('solicituds')
-                    ->join('status_solicituds', 'solicituds.estado_id', '=', 'status_solicituds.id')
-                    ->join('users', 'solicituds.user_id', '=', 'users.id')
-                    ->join('dependencies', 'users.dependency_id', '=', 'dependencies.id')
-                    ->select('solicituds.*', 'status_solicituds.estado', 'dependencies.name')
-                    ->where('solicituds.categoriaSolicitud', '!=', 'Stock de Aseo')
-                    ->where('solicituds.estado_id', '<', 10)
-                    ->orderBy('solicituds.id', 'desc')
+         /* Declaramos la variable que contendrá todos los permisos existentes en la base de datos */
+         $solicituds = DB::table('solicituds')
+                    ->leftJoin('move_solicituds', 'solicituds.id', 'move_solicituds.solicitud_id')
+                    ->leftJoin('status_solicituds', 'solicituds.estado_id', '=', 'status_solicituds.id')
+                    ->leftJoin('users', 'solicituds.user_id', '=', 'users.id')
+                    ->leftJoin('dependencies', 'users.dependency_id', '=', 'dependencies.id')
+                    ->select('solicituds.id','status_solicituds.estado as Estado','solicituds.iddoc','move_solicituds.created_at as Recepcionada',
+                    'solicituds.compradorTitular','solicituds.motivo','solicituds.tipoSolicitud','solicituds.fechaActividad',
+                    'solicituds.categoriaSolicitud','dependencies.name as Dependencia','solicituds.decretoPrograma','solicituds.nombrePrograma')
+                    ->where('solicituds.categoriaSolicitud', '<>', 'Stock de Aseo')
+                    ->orderBy('solicituds.id', 'ASC')
                     ->get();
-
-
-        $fechaRecepcion = DB::table('solicituds')
-                        ->join('move_solicituds', 'solicituds.id', 'move_solicituds.solicitud_id')
-                        ->select('move_solicituds.*')
-                        ->where('move_solicituds.estadoSolicitud_id', 3)
-                        ->get();
-
+                    
+                    //dd($solicituds);
+        /*$fechaRecepcion = DB::table('solicituds')
+        ->join('move_solicituds', 'solicituds.id', 'move_solicituds.solicitud_id')
+        ->select('solicituds.id', 'move_solicituds.created_at')
+        ->where('move_solicituds.estadoSolicitud_id', 3)
+        ->get();*/
 
         /* Retornamos a la vista los resultados psanadolos por parametros */
-        return view('siscom.admin.index', compact('solicituds', 'dateCarbon', 'fechaRecepcion'));
+        return view('siscom.admin.index', compact('solicituds', 'dateCarbon'));
 
         }else {
 
