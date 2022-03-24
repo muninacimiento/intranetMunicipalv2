@@ -68,7 +68,7 @@ class SCM_AdminSolicitudController extends Controller
                         ->where('move_solicituds.estadoSolicitud_id', 3)
                         ->get();
 
-                         /* Retornamos a la vista los resultados psanadolos por parametros */
+        /* Retornamos a la vista los resultados psanadolos por parametros */
         return view('siscom.admin.index', compact('solicituds', 'dateCarbon', 'fechaRecepcion'));
             
         }elseif (Auth::user()->email == 'carolina.medina@nacimiento.cl') {
@@ -77,7 +77,7 @@ class SCM_AdminSolicitudController extends Controller
          * Definimos variable que contendrá la fecha actual del sistema
          */
         $dateCarbon = Carbon::now()->locale('es')->isoFormat('dddd D, MMMM YYYY');
-
+        $anio = Carbon::now()->locale('es')->isoFormat('YYYY');
          /* Declaramos la variable que contendrá todos los permisos existentes en la base de datos */
          $solicituds = DB::table('solicituds')
                     ->leftJoin('move_solicituds', 'solicituds.id', 'move_solicituds.solicitud_id')
@@ -88,6 +88,8 @@ class SCM_AdminSolicitudController extends Controller
                     'solicituds.compradorTitular','solicituds.motivo','solicituds.tipoSolicitud','solicituds.fechaActividad',
                     'solicituds.categoriaSolicitud','dependencies.name as Dependencia','solicituds.decretoPrograma','solicituds.nombrePrograma')
                     ->where('solicituds.categoriaSolicitud', '<>', 'Stock de Aseo')
+                    ->where('move_solicituds.estadoSolicitud_id', 3)
+                    ->whereYear('solicituds.created_at', $anio)//tomar 2 meses para atrás
                     ->orderBy('solicituds.id', 'ASC')
                     ->get();
                     
