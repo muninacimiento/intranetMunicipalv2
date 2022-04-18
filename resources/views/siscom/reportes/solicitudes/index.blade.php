@@ -52,20 +52,20 @@
                             </select>
                         </div>
                         <div class="col"> 
-                            <select name="status_id" id="status_id" class="form-control selectpicker" data-live-search="true" title="Seleccione el Estado" >
+                            <select name="status_id" id="status_id" class="form-control selectpicker" data-live-search="true" title="Seleccione el Estado" required >
                                 @foreach($status as $estado)
                                     <option value="{{ $estado->id }}">{{ $estado->Estado }}</option>
                                 @endforeach
                             </select>
                         </div>
                         <div class="col">
-                            <input type="text" id="fechaInicio" name="fechaInicio" class="form-control" placeholder="Fecha de Inicio" />
+                            <input type="text" id="fechaInicio" name="fechaInicio" class="form-control" placeholder="Fecha de Inicio" required/>
                             <div class="invalid-feedback">                                                                                                        
                                 Por favor ingrese la Fecha de Inicio
                             </div>
                         </div>
                         <div class="col">
-                            <input type="text" id="fechaTermino" name="fechaTermino" class="form-control" placeholder="Fecha de Termino" />
+                            <input type="text" id="fechaTermino" name="fechaTermino" class="form-control" placeholder="Fecha de Termino" required/>
                             <div class="invalid-feedback">                                                                                                        
                                 Por favor ingrese la Fecha de Termino
                             </div>
