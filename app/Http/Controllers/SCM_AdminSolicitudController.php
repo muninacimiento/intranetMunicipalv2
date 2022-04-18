@@ -935,10 +935,9 @@ class SCM_AdminSolicitudController extends Controller
         'solicituds.compradorTitular','solicituds.motivo','solicituds.tipoSolicitud','solicituds.fechaActividad',
         'solicituds.categoriaSolicitud','dependencies.name as Dependencia','solicituds.decretoPrograma','solicituds.nombrePrograma')
         ->where('solicituds.categoriaSolicitud', '<>', 'Stock de Aseo')
-        ->where('move_solicituds.estadoSolicitud_id', 3)
         ->where('dependencies.id', $request->dependencies_id)
-        ->orWhereBetween('move_solicituds.created_at', [$request->fechaInicio, $request->fechaTermino])
-        ->orWhere('solicituds.estado_id', $request->estado)
+        ->orWhere('solicituds.estado_id', $request->status_id)
+        ->whereBetween('move_solicituds.created_at', [$request->fechaInicio, $request->fechaTermino])
         ->orderBy('solicituds.id', 'ASC')
         ->get();
 
@@ -977,10 +976,9 @@ class SCM_AdminSolicitudController extends Controller
         'solicituds.compradorTitular','solicituds.motivo','solicituds.tipoSolicitud','solicituds.fechaActividad',
         'solicituds.categoriaSolicitud','dependencies.name as Dependencia','solicituds.decretoPrograma','solicituds.nombrePrograma')
         ->where('solicituds.categoriaSolicitud', '<>', 'Stock de Aseo')
-        ->where('move_solicituds.estadoSolicitud_id', 3)
         ->where('dependencies.id', $request->dependencies_id)
-        ->orWhereBetween('move_solicituds.created_at', [$request->fechaInicio, $request->fechaTermino])
-        ->orWhere('solicituds.estado_id', $request->status_id)
+        ->where('solicituds.estado_id', $request->status_id)
+        ->whereBetween('move_solicituds.created_at', [$request->fechaInicio, $request->fechaTermino])
         ->orderBy('solicituds.id', 'ASC')
         ->get();
 
