@@ -160,13 +160,13 @@ Route::middleware(['auth'])->group( function() {
 	Route::put('/siscom/admin/rechazar/{solicitud}', 'SCM_AdminSolicitudController@update')->name('admin.rechazar')->middleware('can:admin.rechazar');
 	Route::put('/siscom/admin/subsanar/{solicitud}', 'SCM_AdminSolicitudController@update')->name('admin.subsanar')->middleware('can:admin.subsanar');
 
-
 	//Vistas PDF
 	Route::get('VerSolicitud/{solicitud}', 'SCM_SolicitudController@exportarPdf')->name('solicitud.pdf');
 	Route::get('reporteEntregaStock/{solicitud}', 'SCM_AdminSolicitudController@reporteEntregaStock')->name('reporteEntregaStock.pdf');
-
-	Route::resource('/siscom/reporte', 'ReporteSisCoMController')->middleware('can:reporte.index');
-
+	
+	//Informes de Solicitudes, OC y Facturas
+	Route::get('/siscom/reportes/solicitudes', 'SCM_AdminSolicitudController@consultarSolicitudes')->name('informe.solicituds')->middleware('can:buscar.solicituds');
+	Route::get('/siscom/reportes/buscarSolicitudes', 'SCM_AdminSolicitudController@buscarSolicitudesPorDependencia')->name('buscar.solicituds')->middleware('can:buscar.solicituds');
 
 
 	//Órdenes de Compra
