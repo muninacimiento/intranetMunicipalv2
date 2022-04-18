@@ -107,11 +107,34 @@
 			@endcan
 		</div>
   	</li>
-  	@can('reportes.index')  	
-  	<li class="nav-item">    
-    	<a class="nav-link text-white" href="{{ route('reporte.index') }}">
-    		<i class="fas fa-copy px-1"></i> Reportes
-    	</a>  	
+  	@can('informes.solicituds')  	
+	<li class="nav-item dropdown">
+  		@can('informes.solicituds')
+	  		<a class="nav-link text-white dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
+			    <i class="icofont-paperclip px-1" style="font-size: 1.3em;"></i>	Reportes
+	  		</a>
+	  	@endcan
+	  	<div class="dropdown-menu">
+		  	@can('informes.solicituds')
+		  	<a class="dropdown-item text-primary" href="{{ route('informe.solicituds') }}">
+			  <i class="icofont-cart-alt px-1" style="font-size: 1.3em;"></i> Solicitudes
+			</a>
+			@endcan
+			<div class="dropdown-divider"></div>
+	  		@can('informes.solicituds')
+			<a class="dropdown-item text-primary" href="#">
+				<i class="icofont-visa-alt px-1" style="font-size: 1.3em;"></i>	Órdenes de Compra
+			</a>
+			@endcan
+			<div class="dropdown-divider"></div>
+			@can('informes.solicituds')
+			<a class="dropdown-item text-primary" href="#">
+				<i class="icofont-dollar px-1" style="font-size: 1.3em;"></i> Facturas
+			</a>
+			@endcan
+		</div>
   	</li>
   	@endcan
+
+	
 </ul>

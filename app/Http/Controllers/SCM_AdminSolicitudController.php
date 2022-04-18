@@ -77,9 +77,9 @@ class SCM_AdminSolicitudController extends Controller
          * Definimos variable que contendrá la fecha actual del sistema
          */
         $dateCarbon = Carbon::now()->locale('es')->isoFormat('dddd D, MMMM YYYY');
-        $anio = Carbon::now()->locale('es')->isoFormat('YYYY');
+        $anio = Carbon::now();
          /* Declaramos la variable que contendrá todos los permisos existentes en la base de datos */
-         $solicituds = DB::table('solicituds')
+        $solicituds = DB::table('solicituds')
                     ->leftJoin('move_solicituds', 'solicituds.id', 'move_solicituds.solicitud_id')
                     ->leftJoin('status_solicituds', 'solicituds.estado_id', '=', 'status_solicituds.id')
                     ->leftJoin('users', 'solicituds.user_id', '=', 'users.id')
@@ -89,7 +89,7 @@ class SCM_AdminSolicitudController extends Controller
                     'solicituds.categoriaSolicitud','dependencies.name as Dependencia','solicituds.decretoPrograma','solicituds.nombrePrograma')
                     ->where('solicituds.categoriaSolicitud', '<>', 'Stock de Aseo')
                     ->where('move_solicituds.estadoSolicitud_id', 3)
-                    ->whereYear('solicituds.created_at', $anio)//tomar 2 meses para atrás
+                    ->whereYear('solicituds.created_at', $anio)//tomar 2 meses para atrás $date1->diffInMonths($date2); 
                     ->orderBy('solicituds.id', 'ASC')
                     ->get();
                     
@@ -901,6 +901,90 @@ class SCM_AdminSolicitudController extends Controller
         return $pdf->stream('entregaStock.pdf');
                      
 
+    }
+    //Reportes de Solicituds
+    public function consultarSolicitudes(Request $request)
+    {
+         /*
+         * Definimos variable que contendrá la fecha actual del sistema
+         */
+        $dateCarbon = Carbon::now()->locale('es')->isoFormat('dddd D, MMMM YYYY');
+        $anio=Carbon::now();
+
+        $dependencies = DB::table('dependencies')
+        ->select(DB::raw('CONCAT(dependencies.id, " ) ", dependencies.name) as Dependencias'), 'dependencies.id')
+        ->get();
+
+        $status = DB::table('status_solicituds')
+        ->select(DB::raw('CONCAT(status_solicituds.id, " ) ", status_solicituds.estado) as Estado'), 'status_solicituds.id')
+        ->get();
+
+        $fechaRecepcion = DB::table('solicituds')
+        ->join('move_solicituds', 'solicituds.id', 'move_solicituds.solicitud_id')
+        ->select('solicituds.id', 'move_solicituds.created_at')
+        ->where('move_solicituds.estadoSolicitud_id', 3)
+        ->get();
+
+        /* Declaramos la variable que contendrá todos los permisos existentes en la base de datos */
+        $solicituds = DB::table('solicituds')
+        ->leftJoin('move_solicituds', 'solicituds.id', 'move_solicituds.solicitud_id')
+        ->leftJoin('status_solicituds', 'solicituds.estado_id', '=', 'status_solicituds.id')
+        ->leftJoin('users', 'solicituds.user_id', '=', 'users.id')
+        ->leftJoin('dependencies', 'users.dependency_id', '=', 'dependencies.id')
+        ->select('solicituds.id','status_solicituds.estado as Estado','solicituds.iddoc','move_solicituds.created_at as Recepcionada',
+        'solicituds.compradorTitular','solicituds.motivo','solicituds.tipoSolicitud','solicituds.fechaActividad',
+        'solicituds.categoriaSolicitud','dependencies.name as Dependencia','solicituds.decretoPrograma','solicituds.nombrePrograma')
+        ->where('solicituds.categoriaSolicitud', '<>', 'Stock de Aseo')
+        ->where('move_solicituds.estadoSolicitud_id', 3)
+        ->where('dependencies.id', $request->dependencies_id)
+        ->orWhereBetween('move_solicituds.created_at', [$request->fechaInicio, $request->fechaTermino])
+        ->orWhere('solicituds.estado_id', $request->estado)
+        ->orderBy('solicituds.id', 'ASC')
+        ->get();
+
+        return view('siscom.reportes.solicitudes.index', compact('dateCarbon', 'solicituds', 'dependencies', 'fechaRecepcion', 'status'));
+    }
+
+    public function buscarSolicitudesPorDependencia(Request $request)
+    {
+         /*
+         * Definimos variable que contendrá la fecha actual del sistema
+         */
+        $dateCarbon = Carbon::now()->locale('es')->isoFormat('dddd D, MMMM YYYY');
+        $anio=Carbon::now();
+
+        $dependencies = DB::table('dependencies')
+        ->select(DB::raw('CONCAT(dependencies.id, " ) ", dependencies.name) as Dependencias'), 'dependencies.id')
+        ->get();
+
+        $status = DB::table('status_solicituds')
+        ->select(DB::raw('CONCAT(status_solicituds.id, " ) ", status_solicituds.estado) as Estado'), 'status_solicituds.id')
+        ->get();
+
+        $fechaRecepcion = DB::table('solicituds')
+        ->join('move_solicituds', 'solicituds.id', 'move_solicituds.solicitud_id')
+        ->select('solicituds.id', 'move_solicituds.created_at')
+        ->where('move_solicituds.estadoSolicitud_id', 3)
+        ->get();
+
+        /* Declaramos la variable que contendrá todos los permisos existentes en la base de datos */
+        $solicituds = DB::table('solicituds')
+        ->leftJoin('move_solicituds', 'solicituds.id', 'move_solicituds.solicitud_id')
+        ->leftJoin('status_solicituds', 'solicituds.estado_id', '=', 'status_solicituds.id')
+        ->leftJoin('users', 'solicituds.user_id', '=', 'users.id')
+        ->leftJoin('dependencies', 'users.dependency_id', '=', 'dependencies.id')
+        ->select('solicituds.id','status_solicituds.estado as Estado','solicituds.iddoc','move_solicituds.created_at as Recepcionada',
+        'solicituds.compradorTitular','solicituds.motivo','solicituds.tipoSolicitud','solicituds.fechaActividad',
+        'solicituds.categoriaSolicitud','dependencies.name as Dependencia','solicituds.decretoPrograma','solicituds.nombrePrograma')
+        ->where('solicituds.categoriaSolicitud', '<>', 'Stock de Aseo')
+        ->where('move_solicituds.estadoSolicitud_id', 3)
+        ->where('dependencies.id', $request->dependencies_id)
+        ->orWhereBetween('move_solicituds.created_at', [$request->fechaInicio, $request->fechaTermino])
+        ->orWhere('solicituds.estado_id', $request->status_id)
+        ->orderBy('solicituds.id', 'ASC')
+        ->get();
+
+        return view('siscom.reportes.solicitudes.index', compact('dateCarbon', 'solicituds', 'dependencies', 'fechaRecepcion', 'status'));
     }
 
 }
