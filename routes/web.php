@@ -165,7 +165,7 @@ Route::middleware(['auth'])->group( function() {
 	Route::get('reporteEntregaStock/{solicitud}', 'SCM_AdminSolicitudController@reporteEntregaStock')->name('reporteEntregaStock.pdf');
 	
 	//Informes de Solicitudes, OC y Facturas
-	Route::get('/siscom/reportes/solicitudes', 'SCM_AdminSolicitudController@consultarSolicitudes')->name('informe.solicituds')->middleware('can:buscar.solicituds');
+	Route::get('/siscom/reportes/solicitudes', 'SCM_AdminSolicitudController@consultarSolicitudes')->name('informe.solicituds')->middleware('can:informe.solicituds');
 	Route::get('/siscom/reportes/buscarSolicitudes', 'SCM_AdminSolicitudController@buscarSolicitudesPorDependencia')->name('buscar.solicituds')->middleware('can:buscar.solicituds');
 
 
