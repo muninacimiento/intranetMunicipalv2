@@ -181,6 +181,9 @@ Route::middleware(['auth'])->group( function() {
 	Route::get('/siscom/ordenCompra/recepcionarProductos/{oc}', 'OrdenCompraController@recepcionarProductos')->name('ordenCompra.recepcionarProductos')->middleware('can:ordenCompra.recepcionarProducto');
 	Route::put('/siscom/ordenCompra/confirmarRecepcion/{oc}', 'OrdenCompraController@update')->name('ordenCompra.confirmarRecepcion')->middleware('can:ordenCompra.confirmarRecepcionProductos');
 	Route::put('/siscom/ordenCompra/recepcionarProducto/{oc}', 'OrdenCompraController@update')->name('ordenCompra.recepcionarProducto')->middleware('can:ordenCompra.recepcionarProducto');
+	//Informes de Solicitudes, OC y Facturas
+	Route::get('/siscom/reportes/ordenesDeCompra', 'OrdenCompraController@consultarOC')->name('informe.oc')->middleware('can:informe.oc');
+	Route::get('/siscom/reportes/buscarOC', 'OrdenCompraController@buscarOC')->name('buscar.oc')->middleware('can:buscar.oc');
 
 	Route::get('/siscom/ordenCompra/agregarProductos/{oc}', 'OrdenCompraController@agregarProductos')->name('ordenCompra.agregarProductos')->middleware('can:ordenCompra.agregarProductos');
 

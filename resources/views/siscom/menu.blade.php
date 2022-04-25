@@ -122,7 +122,7 @@
 			@endcan
 			<div class="dropdown-divider"></div>
 	  		@can('informe.solicituds')
-			<a class="dropdown-item text-primary" href="#">
+			<a class="dropdown-item text-primary" href="{{ route('informe.oc') }}">
 				<i class="icofont-visa-alt px-1" style="font-size: 1.3em;"></i>	Órdenes de Compra
 			</a>
 			@endcan
