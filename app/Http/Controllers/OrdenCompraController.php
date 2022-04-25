@@ -37,7 +37,7 @@ class OrdenCompraController extends Controller
     public function index()
     {
 
-        if (Auth::user()->email == 'perla.briceno@nacimiento.cl') {
+        if (Auth::user()->email == 'viviana.valenzuela@nacimiento.cl') {
         
             /*
              * Definimos variable que contendrá la fecha actual del sistema
@@ -355,14 +355,14 @@ class OrdenCompraController extends Controller
         $fullReception = DB::table('detail_solicituds')
                         ->where('detail_solicituds.ordenCompra_id', '=', $id)
                         ->count();
-//dd($fullRecepction);
+        //dd($fullRecepction);
         $parcialReception = DB::table('detail_solicituds')
                             ->where('detail_solicituds.ordenCompra_id', '=', $id)
                             ->where('detail_solicituds.obsRecepcion', '=', null)
                             ->count();
-//dd($parcialReception);
+        //dd($parcialReception);
 
-//dd($detalleSolicituds);
+        //dd($detalleSolicituds);
 
         /* Retornamos a la vista los resultados psanadolos por parametros */
         return view('siscom.ordenCompra.recepcionarProductos', compact('ordenCompra', 'dateCarbon', 'move', 'detalleSolicitud', 'fullReception', 'parcialReception'));
@@ -1072,7 +1072,7 @@ class OrdenCompraController extends Controller
 
                     //Establecemos el numero de la OC a NULL de los Productos de la Solicitud
                     $dS = DetailSolicitud::where('ordenCompra_id', '=', $id);
-//dd($dS);
+            //dd($dS);
                     $dS->update(['ordenCompra_id' => null]);    
 
                     $oc = OrdenCompra::findOrFail($id);
@@ -1182,12 +1182,12 @@ class OrdenCompraController extends Controller
                     $fullRecepction = DB::table('detail_solicituds')
                                     ->where('detail_solicituds.ordenCompra_id', '=', $id)
                                     ->count();
-//dd($fullRecepction);
+            //dd($fullRecepction);
                     $parcialReception = DB::table('detail_solicituds')
                                         ->where('detail_solicituds.ordenCompra_id', '=', $id)
                                         ->where('detail_solicituds.obsRecepcion', '=', null)
                                         ->count();
-//dd($parcialReception);
+            //dd($parcialReception);
 
                     if ($fullRecepction == $parcialReception) {
                         
@@ -1332,6 +1332,64 @@ class OrdenCompraController extends Controller
             return back()->with('info', 'Producto Recepcionado con Obervaciones!');
         }  
 
+    }
+
+    public function consultarOC(Request $request)
+    {
+        /*
+        * Definimos variable que contendrá la fecha actual del sistema
+        */
+        $dateCarbon = Carbon::now()->locale('es')->isoFormat('dddd D, MMMM YYYY');
+
+        /* Declaramos la variable que contendrá todos los permisos existentes en la base de datos */
+        $ordenesCompra = DB::table('orden_compras')
+        ->join('users', 'orden_compras.user_id', '=', 'users.id')
+        ->join('status_o_c_s', 'orden_compras.estado_id', '=', 'status_o_c_s.id')
+        ->join('proveedores', 'orden_compras.proveedor_id', '=', 'proveedores.id')
+        ->select('orden_compras.*', 'users.name as Comprador', 'users.email as EmailComprador', 'status_o_c_s.estado as Estado', 'proveedores.razonSocial as RazonSocial', 'proveedores.correo as EmailProveedor')
+        ->where('proveedores.id', $request->proveedor_id)
+        ->where('orden_compras.estado_id', $request->status_id)
+        ->whereBetween('orden_compras.created_at', [$request->fechaInicio, $request->fechaTermino])
+        ->get();
+
+        $status = DB::table('status_o_c_s')
+        ->select(DB::raw('CONCAT(status_o_c_s.id, " ) ", status_o_c_s.estado) as Estado'), 'status_o_c_s.id')
+        ->get();
+
+        $proveedores = DB::table('proveedores')
+        ->select(DB::raw('CONCAT(proveedores.id, " ) ", proveedores.razonSocial) as RazonSocial'), 'proveedores.id')
+        ->get();
+
+        return view('siscom.reportes.ordenCompras.index', compact('dateCarbon', 'ordenesCompra', 'proveedores', 'status'));
+    }
+
+    public function buscarOC(Request $request)
+    {
+        /*
+        * Definimos variable que contendrá la fecha actual del sistema
+        */
+        $dateCarbon = Carbon::now()->locale('es')->isoFormat('dddd D, MMMM YYYY');
+
+        /* Declaramos la variable que contendrá todos los permisos existentes en la base de datos */
+        $ordenesCompra = DB::table('orden_compras')
+        ->join('users', 'orden_compras.user_id', '=', 'users.id')
+        ->join('status_o_c_s', 'orden_compras.estado_id', '=', 'status_o_c_s.id')
+        ->join('proveedores', 'orden_compras.proveedor_id', '=', 'proveedores.id')
+        ->select('orden_compras.*', 'users.name as Comprador', 'users.email as EmailComprador', 'status_o_c_s.estado as Estado', 'proveedores.razonSocial as RazonSocial', 'proveedores.correo as EmailProveedor')
+        ->where('proveedores.id', $request->proveedor_id)
+        ->where('orden_compras.estado_id', $request->status_id)
+        ->whereBetween('orden_compras.created_at', [$request->fechaInicio, $request->fechaTermino])
+        ->get();
+
+        $proveedores = DB::table('proveedores')
+        ->select(DB::raw('CONCAT(proveedores.id, " ) ", proveedores.razonSocial) as RazonSocial'), 'proveedores.id')
+        ->get();
+
+        $status = DB::table('status_o_c_s')
+        ->select(DB::raw('CONCAT(status_o_c_s.id, " ) ", status_o_c_s.estado) as Estado'), 'status_o_c_s.id')
+        ->get();
+
+        return view('siscom.reportes.ordenCompras.index', compact('dateCarbon', 'ordenesCompra', 'proveedores', 'status'));
     }
 
     /**

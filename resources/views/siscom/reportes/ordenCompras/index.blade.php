@@ -1,11 +1,10 @@
 <!--
 /*
  *  JFuentealba @itux
- *  created at November 12, 2020 - 3:45 pm
- *  updated at 
+ *  created at December 26, 2019 - 11:28 pm
+ *  updated at January 22, 2010 - 10:18 am
  */
 -->
-
 @extends('layouts.app')
 @section('content')
 <div id="allWindow">
@@ -18,17 +17,28 @@
                 <div class="card-body">
                     <div class="row py-3">
                         <div class="col text-center">                            
-                            <h3>Informe de Solicitudes Recibidas</h3>
+                            <h3>Informe de Órdenes de Compra Gestionadas</h3>
                             <div class="text-secondary">
                                 {{ $dateCarbon }}
                             </div>
                         </div>
                     </div>
                     <hr class="my-4">
+                    @if(count($errors))
+                        <div class="alert alert-danger alert-dismissible fade show shadow mb-3" role="alert">          
+                            <ul>
+                                @foreach($errors->all() as $error)
+                                <li><i class="icofont-close-circled h5"></i> {{ $error }}</li>
+                                @endforeach
+                            </ul>
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                    @endif
                     @if (session('info'))
                         <div class="alert alert-success alert-dismissible fade show shadow mb-3" role="alert">                              
-                            <i class="fas fa-check-circle"></i>                             
-                            <strong> {{ session('info') }} </strong>                            
+                            <i class="icofont-check-circled h5"></i><strong> {{ session('info') }} </strong>                            
                             <button type="button" class="close" data-dismiss="alert" aria-label="Close">                            
                                 <span aria-hidden="true">&times;</span>                              
                             </button>
@@ -36,18 +46,17 @@
                     @endif
                     @if (session('danger'))
                         <div class="alert alert-danger alert-dismissible fade show shadow mb-3" role="alert">                              
-                            <i class="far fa-times-circle"></i>                             
-                            <strong> {{ session('danger') }} </strong>                            
+                            <i class="icofont-check-circled"></i><strong> {{ session('danger') }} </strong>                            
                             <button type="button" class="close" data-dismiss="alert" aria-label="Close">                            
                                 <span aria-hidden="true">&times;</span>                              
                             </button>
                         </div>                   
                     @endif
-                    <form class="form-inline" method="GET" action="{{ route('buscar.solicituds') }}">
+                    <form class="form-inline" method="GET" action="{{ route('buscar.oc') }}">
                         <div class="col"> 
-                            <select name="dependencies_id" id="dependencies_id" class="form-control selectpicker" data-live-search="true" title="Seleccione la Dependencia" required>
-                                @foreach($dependencies as $dependency)
-                                    <option value="{{ $dependency->id }}">{{ $dependency->Dependencias }}</option>
+                            <select name="proveedor_id" id="proveedor_id" class="form-control selectpicker" data-live-search="true" title="Seleccione al Proveedor" required>
+                                @foreach($proveedores as $proveedor)
+                                    <option value="{{ $proveedor->id }}">{{ $proveedor->RazonSocial }}</option>
                                 @endforeach
                             </select>
                         </div>
@@ -74,50 +83,50 @@
                             <button type="submit" class="btn btn-warning btn-block">Consultar</button>
                         </div>
                     </form>
-                    <hr class="my-4">
+                    <hr class="my-4">        
                     <div>
-                        <div class="row">                        
-                            <div class="col">
-                                <table class="table table-striped" id="solicitudsTable">
-                                    <thead>
-                                        <tr>
-                                            <th>ID</th>
-                                            <th>Estado</th>
-                                            <th>IDDOC</th>
-                                            <th>Recepcionada</th>
-                                            <th>D&iacute;as Transcurridos</th>
-                                            <th>Comprador</th>                                    
-                                            <th>Motivo</th>                                    
-                                            <th>Tipo</th>
-                                            <th>Fecha Actividad</th>                                    
-                                            <th>Categoria</th>
-                                            <th>Dependencia</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        @foreach($solicituds as $solicitud)
-                                        <tr>
-                                            <td>{{ $solicitud->id }}</td>
-                                            <td>{{ $solicitud->Estado }}</td>
-                                            <td>{{ $solicitud->iddoc }}</td>
-                                            <td>{{ date('d-m-Y H:i:s', strtotime($solicitud->Recepcionada)) }}</td>
-                                            <td>{{ Carbon\Carbon::parse($solicitud->Recepcionada)->diffInDays() }}</td>
-                                            <td>{{ $solicitud->compradorTitular }}</td>
-                                            <td>{{ $solicitud->motivo }}</td>
-                                            <td>{{ $solicitud->tipoSolicitud }}</td>
-                                            @if($solicitud->fechaActividad === NULL)
-                                                <td>No Aplica</td>
-                                            @else                                                    
-                                                <td>{{ date('d-m-Y', strtotime($solicitud->fechaActividad)) }}</td>
-                                            @endif                                                
-                                            <td>{{ $solicitud->categoriaSolicitud }}</td>
-                                            <td>{{ $solicitud->Dependencia }}</td>
-                                        </tr>
-                                        @endforeach
-                                    </tbody>
-                                </table>                        
-                            </div>                        
-                        </div>
+                        <table class="display" id="ordenCompraTable" style="font-size: 0.9em;" width="100%">
+                            <thead>
+                                <tr class="table-active">
+                                    <th style="display: none">ID</th>
+                                    <th>ID O.C.</th>
+                                    <th>IDDOC</th>
+                                    <th>Creada</th>
+                                    <th>Estado</th>
+                                    <th>Comprador</th>                                    
+                                    <th style="display: none">Tipo</th>
+                                    <th style="display: none">Valor Estimado</th>
+                                    <th style="display: none">Total $</th>                                    
+                                    <th>Excepción</th>                                    
+                                    <th>Proveedor</th>
+                                    <th>Tipo de O.C.</th>
+                                    <th style="display: none">Enviada al Proveedor</th>
+                                    <th style="display: none">Depto. que Recepciona</th>
+                                    <th style="display: none">Mercado Publico</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach($ordenesCompra as $oc)
+                                <tr>
+                                    <td style="display: none">{{ $oc->id }}</td>
+                                    <td>{{ $oc->ordenCompra_id }}</td>
+                                    <td>{{ $oc->iddoc }}</td>
+                                    <td>{{ date('d-m-Y H:i:s', strtotime($oc->created_at)) }}</td>
+                                    <td>{{ $oc->Estado }}</td>
+                                    <td>{{ $oc->Comprador }}</td>
+                                    <td style="display: none">{{ $oc->tipoOrdenCompra }}</td>
+                                    <td style="display: none">{{ $oc->valorEstimado }}</td>
+                                    <td style="display: none">{{ $oc->totalOrdenCompra }}</td>
+                                    <td>{{ $oc->excepcion }}</td>                                    
+                                    <td>{{ $oc->RazonSocial }}</td>
+                                    <td>{{ $oc->tipoOrdenCompra }}</td>
+                                    <td style="display: none">{{ $oc->enviadaProveedor }}</td>
+                                    <td style="display: none">{{ $oc->deptoRecepcion }}</td>
+                                    <td style="display: none">{{ $oc->mercadoPublico }}</td>
+                                </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
                     </div>
                 </div>
             </div>
@@ -142,7 +151,7 @@
                 monthNames: [ "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre" ],
             });
             // Start Configuration DataTable
-            var table = $('#solicitudsTable').DataTable({
+            var table = $('#ordenCompraTable').DataTable({
                 "paginate"  : true,
                 "order"     : ([0, 'desc']),
                 "language"  : {
@@ -177,4 +186,4 @@
             //End Configuration DataTable
         });
     </script>
-@endpush    
+@endpush  
