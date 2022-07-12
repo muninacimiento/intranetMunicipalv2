@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Conductor;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use DB;
+use Illuminate\Support\Facades\DB;
 
 /* Invocamos la clase Carbon para trabajar con fechas */
 use Carbon\Carbon;
@@ -54,12 +54,17 @@ class ConductoresController extends Controller
         $conductor = new Conductor;
 
         $conductor->rut      = $request->rut;
-        $conductor->nombre        = $request->nombre;
+        $conductor->nombre   = $request->nombre;
         //$vehiculo->idUser       = Auth::user()->id;
 
-        $conductor->save();
-
-        return redirect('sispam/conductores')->with('info', 'Conductor Registrado con Éxito !');
+        $found = DB::table('conductors')->where('rut', $conductor->rut = $request->rut)->exists();
+        if($found == 0)
+            {
+                $conductor->save();
+                 return redirect('sispam/conductores')->with('info', 'Conductor Registrado con Éxito !');
+            } else{
+                return redirect('sispam/conductores')->with('info', 'Conductor YA registrado !');
+            }
 
     }
 
@@ -69,10 +74,7 @@ class ConductoresController extends Controller
      * @param  \App\UsuarioFarmacia  $usuarioFarmacia
      * @return \Illuminate\Http\Response
      */
-    public function show(UsuarioFarmacia $usuarioFarmacia)
-    {
-        //
-    }
+    
 
     /**
      * Show the form for editing the specified resource.
@@ -80,10 +82,7 @@ class ConductoresController extends Controller
      * @param  \App\UsuarioFarmacia  $usuarioFarmacia
      * @return \Illuminate\Http\Response
      */
-    public function edit(UsuarioFarmacia $usuarioFarmacia)
-    {
-        //
-    }
+    
 
     /**
      * Update the specified resource in storage.
@@ -113,14 +112,5 @@ class ConductoresController extends Controller
      * @param  \App\UsuarioFarmacia  $usuarioFarmacia
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
-    {
-        
-        $usuario = UsuarioFarmacia::findOrFail($id);
-        $usuario->delete();
-
-        return redirect('farmacia/usuarios')->with('info', 'Usuario Eliminado con Éxito !');
-
-
-    }
+  
 }

@@ -16,19 +16,16 @@
         <script src="{{ asset('js/app.js') }}" defer></script>
 
         <!-- Fonts -->
-        <link rel="dns-prefetch" href="//fonts.gstatic.com">
-        <link href="https://fonts.googleapis.com/css?family=Quicksand&display=swap" rel="stylesheet"> 
-        <link href="https://fonts.googleapis.com/css2?family=Poiret+One&display=swap" rel="stylesheet">
-        <link href="https://fonts.googleapis.com/css?family=Quicksand&display=swap" rel="stylesheet"> 
-        <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@300&display=swap" rel="stylesheet">
+        
         <!-- Styles         -->
         <link href="{{ asset('css/app.css') }}" rel="stylesheet">
-
+           
 
 
         <!-- Styles -->
         <style>
 
+            
             .body {
 
                 font-family: 'Poiret One';
@@ -40,6 +37,7 @@
                 min-height: 100vh;
 
             }
+
 
             .header .navbar {
                 
@@ -74,6 +72,7 @@
                 -webkit-border-radius: 25px 25px 25px 25px;
             }
 
+            
             .vl {
               
                 border-left: 1px solid white;
@@ -86,7 +85,7 @@
                 left: 0;
                 bottom: 0;
                 width: 100%;
-                color: grey;
+                color: black;
                 text-align: center;
             }
 
@@ -142,7 +141,7 @@
 
             </nav>
             <div class="text-center"> 
-                <h2>< Acceso a la Intranet de la Municipalidad de Nacimiento /></h2>
+                <h2> Intranet de la Municipalidad de Nacimiento </h2>
             </div>
             <div class="container form-area p-3">
 
@@ -168,11 +167,11 @@
                             <div class="form-group row mb-2">
 
                             
-                                <label for="email" class="col-12 col-form-label ">{{ __('Correo Institucional') }}</label>
+                                <label for="email"  class="col-12 col-form-label ">{{ __('Correo Institucional') }}</label>
 
                                 <div class="col-md-12">
                             
-                                    <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" required autocomplete="email" autofocus placeholder="usuario@nacimiento.cl">
+                                    <input   type="email" id="email" class="form-control @error('email') is-invalid @enderror"  name="email" value="{{ old('email') }}" required autocomplete="email" autofocus placeholder="usuario@nacimiento.cl">
 
                                     @error('email')
                             
@@ -214,7 +213,7 @@
                             
                                 <div class="col-md-12">
                             
-                                    <button type="submit" class="btn btn-success btn-block">
+                                    <button type="submit" id ="submit" class="btn btn-success btn-block">
 
 
                                     {{ __('Acceder') }}
@@ -233,7 +232,7 @@
                                         <a href="{{ route('register') }}" class="btn btn-primary btn-block mr-5 text-decoration-none">Formulario de Registro</a>
 
                                     @endif
-                            
+                                     
                                 </div>
                             
                             </div>
@@ -250,7 +249,7 @@
 
     </body>
     <footer class="footer mb-2">
-        <h6>Copyright &copy; 2022 - Unidad de Informática Municipal - <a href="mailto:juan.fuentealba@gmail.com">#jfuentealba</a> </h6>
+        <h6>Copyright &copy; 2022 - Unidad de Informática Municipal - </h6>
     </footer>
 
 </html>

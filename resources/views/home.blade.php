@@ -1,3 +1,8 @@
+<style>   
+h1 {
+  text-align: center;
+}
+</style>
 @extends('layouts.app')
 
 @section('content')
@@ -5,7 +10,6 @@
     <div class="row justify-content-center">
         <div class="col-md-12">
             <div class="card">
-                <div class="card-header">Dashboard</div>
 
                 <div class="card-body">
                     @if (session('status'))
@@ -14,7 +18,7 @@
                         </div>
                     @endif
 
-                    Bienvenido!
+                  <h1>Bienvenid@!</h1>  
 
 
             </div>

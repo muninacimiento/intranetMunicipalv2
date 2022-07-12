@@ -5,6 +5,11 @@
  *  updated at 
  */
 -->
+<style>
+	ul{
+		margin:0px;
+	}
+</style>
 <h1 class="font-weight-lighter">                	
     SisPAM - 
 	<small>Sistema de Gestión del Parque Automotriz Municipal</small>	

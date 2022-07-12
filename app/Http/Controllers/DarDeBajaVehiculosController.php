@@ -6,7 +6,7 @@ use App\Vehiculos;
 use App\Conductor;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use DB;
+use Illuminate\Support\Facades\DB;
 
 /* Invocamos la clase Carbon para trabajar con fechas */
 use Carbon\Carbon;

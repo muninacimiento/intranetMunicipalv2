@@ -26,7 +26,6 @@
         <link href="https://fonts.googleapis.com/css?family=Quicksand&display=swap" rel="stylesheet"> 
         <link href="https://fonts.googleapis.com/css2?family=Poiret+One&display=swap" rel="stylesheet">
         <link href="https://fonts.googleapis.com/css?family=Quicksand&display=swap" rel="stylesheet"> 
-        <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@300&display=swap" rel="stylesheet">
 
         <!-- Styles         -->
         <link href="{{ asset('css/app.css') }}" rel="stylesheet">
@@ -160,7 +159,7 @@
                                 <h2>
                                     Formulario de Registro
                                 </h2>    
-                                <div class="text-white"> < Quiero acceder a la Intranet Municipal /> </div>
+                                <div class="text-white">  Quiero acceder a la Intranet Municipal  </div>
                             </div>
                             <div class="form-group row mb-3">
                                 <div class="col-md-12">
@@ -173,11 +172,11 @@
                                 </div>
                             </div>
                             <div class="form-group">
-                                <select name="dependencySelect" class="form-control selectpicker" data-live-search="true" title="Por favor, seleecione su Dependencia Municipal">
+                                <select name="dependencySelect" class="form-control selectpicker" data-live-search="true" title="Por favor, seleccione su Dependencia Municipal">
                                     @foreach($dependencies as $dependency)
                                         <option value="{{ $dependency->id }}">{{ $dependency->Dependencias }}</option>
                                     @endforeach
-                                </select>
+                                </select> 
                             </div>
                             <div class="form-group row mb-3">
                                 <div class="col-md-12">
@@ -243,7 +242,7 @@
 
     </body>
     <footer class="footer mb-2">
-        <h6>Copyright &copy; 2022 - Unidad de Informática Municipal - <a href="mailto:juan.fuentealba@gmail.com">#jfuentealba</a> </h6>
+        <h6>Copyright &copy; 2022 - Unidad de Informática Municipal</h6>
     </footer>
 
 <!-- JQuery CSS -->

@@ -5,10 +5,11 @@ namespace App\Http\Controllers;
 use App\Vehiculos;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use DB;
+use Illuminate\Support\Facades\DB;
 
 /* Invocamos la clase Carbon para trabajar con fechas */
 use Carbon\Carbon;
+use Symfony\Component\Console\Input\Input;
 
 class VehiculosController extends Controller
 {
@@ -72,11 +73,22 @@ class VehiculosController extends Controller
         $vehiculo->motor        = ucwords($request->motor);
         $vehiculo->idConductor  = $request->conductor_id;
         $vehiculo->idUser       = Auth::user()->id;
-
+        
+    /*if(DB::table('vehiculos')->where('patente', $patente)->exists()){
         $vehiculo->save();
-
         return redirect('sispam/vehiculos')->with('info', 'Vehículo Ingresado al Parque Municipal con Éxito !');
+       }else{
+        return redirect('sispam/vehiculos')->with('info', 'Vehículo YA Existente !');
+       }*/
 
+       $found = DB::table('vehiculos')->where('patente', $vehiculo->patente = strtoupper($request->placaPatente))->exists();
+        if($found == 0)
+            {
+                $vehiculo->save();
+                return redirect('sispam/vehiculos')->with('info', 'Vehículo Ingresado al Parque Municipal con Éxito !');
+            } else{
+                return redirect('sispam/vehiculos')->with('info', 'Vehículo YA Existente !');
+            }
     }
 
     /**

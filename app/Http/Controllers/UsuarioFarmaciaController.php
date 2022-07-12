@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\UsuarioFarmacia;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 /* Invocamos la clase Carbon para trabajar con fechas */
 use Carbon\Carbon;
@@ -61,9 +62,16 @@ class UsuarioFarmaciaController extends Controller
         $usuario->sistemaPrevisional    = $request->sistemaPrevisional;
         $usuario->user_id               = Auth::user()->id;
 
-        $usuario->save();
+      
+        $found = DB::table('usuario_farmacias')->where('rut', $usuario->rut = $request->rut)->exists();
+        if($found == 0)
+            {
+                $usuario->save();
+                return redirect('farmacia/usuarios')->with('info', 'Usuario Creado con Éxito !');
+            } else{
+                return redirect('farmacia/usuarios')->with('info', 'Usuario YA Registrado !');
+            }
 
-        return redirect('farmacia/usuarios')->with('info', 'Usuario Creado con Éxito !');
 
     }
 

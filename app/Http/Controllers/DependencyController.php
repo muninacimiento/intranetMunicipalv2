@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 /* Invocamos el modelo de la Entidad */
 use App\Permission;
-use DB;
+use Illuminate\Support\Facades\DB;
 
 class DependencyController extends Controller
 {
