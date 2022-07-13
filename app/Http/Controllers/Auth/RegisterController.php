@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Controllers\Auth;
-
+use App\Dependency;
 use App\Http\Controllers\Controller;
 use App\User;
 use App\Http\Controllers\Auth;
