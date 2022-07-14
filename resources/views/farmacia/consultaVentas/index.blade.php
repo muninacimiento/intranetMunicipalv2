@@ -110,7 +110,7 @@
 
                                             <a href="{{ route('ventas.show', $v->id) }}" class="btn btn-primary btn-sm mr-1" data-toggle="tooltip" data-placement="bottom" title="Ver Detalle Venta">
                                                     
-                                                <i class="fas fa-prescription-bottle-alt"></i>
+                                                <i class="fas fa-prescription-bottle-alt">Consultar</i>
 
                                             </a>
                                             

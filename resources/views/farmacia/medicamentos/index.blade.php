@@ -10,7 +10,7 @@
 
 @section('content')
 
-<div class="container">
+<div class="">
 
     <div class="row justify-content-center">
 
@@ -100,6 +100,8 @@
                                     <th>Laboratorio</th>
 
                                     <th>Lote</th>
+
+                                    <th>Fecha Ingreso</th>
                                     
                                     <th>Fecha Vencimiento</th>
                                     
@@ -132,6 +134,8 @@
                                     <td>{{ $medicamento->laboratorio }}</td>
 
                                     <td>{{ $medicamento->lote }}</td>
+
+                                    <td>{{ $medicamento->created_at }}</td>
 
                                     <td>{{ $medicamento->fechaVencimiento }}</td>
 

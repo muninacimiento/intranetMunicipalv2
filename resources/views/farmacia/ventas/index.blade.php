@@ -127,21 +127,16 @@
 
                                             <a href="{{ route('ventas.show', $v->id) }}" class="btn btn-primary btn-sm mr-1" data-toggle="tooltip" data-placement="bottom" title="Agregar Medicamentos">
                                                     
-                                                <i class="fas fa-prescription-bottle-alt"></i>
+                                                <i class="fas fa-prescription-bottle-alt">Agregar</i>
 
                                             </a>
 
-                                            <a href="#" class="btn btn-warning btn-sm mr-1 actualizar" data-toggle="tooltip" data-placement="bottom" title="Actualizar Categoria">
-                                                    
-                                                <i class="fas fa-pencil-alt"></i>
-
-                                            </a>
-
+                                            
                                             {!! Form::open(['route'=> ['ventas.destroy', $v->id], 'method' => 'DELETE']) !!}
 
                                                 <button class="btn btn-danger btn-sm mr-1">
 
-                                                    <i class="fas fa-trash"></i>
+                                                    <i class="fas fa-trash">Eliminar</i>
 
                                                 </button>
 
