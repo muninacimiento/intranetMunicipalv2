@@ -179,7 +179,7 @@
 
                                             <tr>
 
-                                                <th style="display: none;">ID</th>
+                                                <th style="display: none;"></th>
 
                                                 <th>Medicamento</th>
 
@@ -201,7 +201,7 @@
 
                                             <tr>
 
-                                                <td>{{ $dv->id }}</td>
+                                                <td style="display: none;">{{ $dv->id }}</td>
 
                                                 <td>{{ $dv->Medicamento }}</td>
 
@@ -212,25 +212,18 @@
                                                 <td class="subtotal">{{ $dv->SubTotal }}</td>  
 
                                                 <td>
-                                                            
                                                     <a href="#" class="btn btn-primary btn-sm editDetalle" data-toggle="tooltip" data-placement="bottom" title="Editar Producto">
-                                                                    
-                                                        <i class="far fa-edit">Editar</i>
-
+                                                                            
+                                                    <i class="far fa-edit"></i>
+        
                                                     </a>
-
-                                                   
-                                                    <form action="{{route('VentaDetalleFarmacia.destroy', $dv->id )}}" method="POST">
-                                                        @csrf
-                                                        @method('DELETE')
-                                                            <button class="btn btn-danger btn-sm mr-1" type="submit">
-
-                                                                <i class="fas fa-trash">Eliminar</i>
-
-                                                            </button>
-                                                    </form>
+        
+                                                    <a href="#" class="btn btn-danger btn-sm deleteDetalle" data-toggle="tooltip" data-placement="bottom" title="Eliminar Producto">
+                                                                           
+                                                        <i class="far fa-trash-alt"></i>
+        
+                                                    </a>
                                                 </td>
-
                                             </tr>
 
                                             @endforeach
