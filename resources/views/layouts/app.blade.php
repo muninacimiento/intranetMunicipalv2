@@ -19,7 +19,7 @@
     <!-- Styles -->
     <style>
 
-        . body {
+        .body {
             font-family: 'Quicksand';
             font-size: 1.1em;
         }
@@ -52,6 +52,13 @@
             min-width: 100%;
         }
     </style>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+    <script>
+    $(document).ready(function(){     
+            let email = window.sessionStorage.getItem("emailLog");
+    });
+    
+    </script>
 </head>
 
 <body class="body">
@@ -88,9 +95,16 @@
                             </a>
                         </li>
                         @endcan
+
+                        <li class="nav-item">                           
+                            <a class="nav-link text-white" type="submit" id ="submit" target="_blank" rel="noopener noreferrer">
+                            <i  class="icofont-card" style=" font-size: 1.3rem;"></i> Cartas
+                            </a>
+                        </li>
+
                         @can('users.index')
                         <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle text-white" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
+                            <a class="nav-link  text-white" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
                                 <i class="icofont-code-alt" style=" font-size: 1.2rem;"></i> Administración  
                             </a>
                             <div class="dropdown-menu">
@@ -119,6 +133,7 @@
                                     <i class="icofont-ui-call" style=" font-size: 1.2rem;"></i> Contactos Municipales
                                 </a>
                                 @endcan
+                                
                             </div>
                         </li>
                         @endcan

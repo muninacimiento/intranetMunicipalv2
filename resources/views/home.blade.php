@@ -4,7 +4,16 @@ h1 {
 }
 </style>
 @extends('layouts.app')
-
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+    <script>
+    $(document).ready(function(){     
+        $('#submit').click(function(){  
+            let email = window.sessionStorage.getItem("emailLog");
+            document.getElementById("submit").innerHTML = email;
+            let prueba = location.href="http://165.1.2.146:3000/buzon/"+email;
+        });
+    });
+</script>
 @section('content')
 <div class="container">
     <div class="row justify-content-center">
@@ -15,16 +24,16 @@ h1 {
                     @if (session('status'))
                         <div class="alert alert-success" role="alert">
                             {{ session('status') }}
+                            
                         </div>
                     @endif
 
-                  <h1>Bienvenid@!</h1>  
-
-
+                  <h1>Bienvenid@! </h1>
+                </div>
+                <button type="submit" id ="submit" class="btn btn-success btn-block">Enviar</button>
             </div>
         </div>
     </div>
-</div>
 @endsection
 
 @push('scripts')
