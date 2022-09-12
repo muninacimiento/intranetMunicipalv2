@@ -91,10 +91,20 @@
 
         </style>
 
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+    <script>
+    $(document).ready(function(){    
+        $('#submit').click(function(){        
+            let emailL = document.getElementById("email").value;
+            sessionStorage.setItem("emailLog", emailL);
+            let emailLog = sessionStorage.getItem("emailLog");
+            sessionStorage.setItem("emailLogin", "http://localhost:3000/"+emailLog);
+    });   
+    });
+    </script>
     </head>
 
     <body class="body">
-
         <div class="header">
 
             <nav class="navbar navbar-expand-lg navbar-light bg-light">
