@@ -227,7 +227,7 @@ class CombustibleController extends Controller
             ->join('vehiculos', 'combustibles.idVehiculo', 'vehiculos.id')
             ->select('combustibles.*', (DB::raw('CONCAT(vehiculos.marca, " / ", vehiculos.patente) as Vehiculo')), 'vehiculos.motor as Combustible', 
             (DB::raw('ROUND(combustibles.kilometraje / combustibles.litros, 2) as Rendimiento')))
-            ->where('combustibles.idVehiculo', 'like', $request->vehiculo_id.'%')
+            ->where('combustibles.idVehiculo', $request->vehiculo_id)
             ->whereBetween('combustibles.fechaCarga', [$request->fechaInicio, $request->fechaTermino])
             ->get();
 
