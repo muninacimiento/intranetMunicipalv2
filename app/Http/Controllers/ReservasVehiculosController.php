@@ -15,6 +15,9 @@ use DB;
 /* Invocamos la clase Carbon para trabajar con fechas */
 use Carbon\Carbon;
 
+/* Invocamos la clase para exportar la vista a un archivo PDF */
+use Barryvdh\DomPDF\Facade as PDF;
+
 class ReservasVehiculosController extends Controller
 {
     /**
@@ -47,7 +50,11 @@ class ReservasVehiculosController extends Controller
         ->select(DB::raw('CONCAT(conductors.id, " ) ", conductors.nombre) as Conductores'), 'conductors.id')
         ->get();
 
-        return view('sispam.reservas.index', compact('dateCarbon', 'vehiculos', 'reservas', 'conductores'));
+        $dependencias = DB::table('dependencies')
+        ->select(DB::raw('CONCAT(dependencies.name) as Dependencias'), 'dependencies.name')
+        ->get();
+
+        return view('sispam.reservas.index', compact('dateCarbon', 'vehiculos', 'reservas', 'conductores','dependencias'));
     }
 
     /**
@@ -120,6 +127,8 @@ class ReservasVehiculosController extends Controller
             $reserva->idConductor       = $request->conductor_id;
             $reserva->destino           = $request->destino;
             $reserva->materia           = $request->materia;
+            $reserva->fecha_termino     = $request->fechaTermino;
+            $reserva->dependencia       = $request->dependencia;
             $reserva->idUser            = Auth::user()->id;
             $reserva->save();
             return redirect('sispam/reservas')->with('info', 'Reserva de Vehículo Ingresada con Éxito !');
@@ -133,6 +142,8 @@ class ReservasVehiculosController extends Controller
             $reserva->idConductor       = $request->conductor_id;
             $reserva->destino           = $request->destino;
             $reserva->materia           = $request->materia;
+            $reserva->fecha_termino     = $request->fechaTermino;
+            $reserva->dependencia       = $request->dependencia;
             $reserva->idUser            = Auth::user()->id;
             $reserva->save();
             //Enviar MAIL
@@ -223,6 +234,8 @@ class ReservasVehiculosController extends Controller
             $reserva->idConductor       = $request->conductor_id;
             $reserva->destino           = $request->destino;
             $reserva->materia           = $request->materia;
+            $reserva->fecha_termino     = $request->fechaTermino;
+            $reserva->dependencia       = $request->dependencia;
             $reserva->idUser            = Auth::user()->id;
 
             $reserva->save();
@@ -261,12 +274,7 @@ class ReservasVehiculosController extends Controller
         ->select(DB::raw('CONCAT(vehiculos.id, " ) ", vehiculos.patente) as PlacaPatente'), 'vehiculos.id')
         ->get();
 
-        $reservas = ResevasVehiculos::join('vehiculos', 'resevas_vehiculos.idVehiculo', 'vehiculos.id')
-        ->join('conductors', 'resevas_vehiculos.idConductor', 'conductors.id')
-        ->select('resevas_vehiculos.*', DB::raw('CONCAT(vehiculos.marca, " - ", vehiculos.patente) as Vehiculo'), 'conductors.nombre as Conductor')
-        ->where('resevas_vehiculos.idVehiculo', 'like', $request->vehiculo_id.'%')
-        ->whereBetween('resevas_vehiculos.fechaReserva', [$request->fechaInicio, $request->fechaTermino])
-        ->get();
+        
 
         return view('sispam.informes.buscarReservas', compact('dateCarbon', 'reservas', 'vehiculos'));
     }
@@ -293,5 +301,22 @@ class ReservasVehiculosController extends Controller
         else{
             return back()->with('danger', 'La Fecha de Termino NO puede ser Menor a la de Inicio');
         }        
+    }
+
+    public function exportarPDF($id)
+    {       
+
+        $solicitud = DB::table('resevas_vehiculos')
+                   ->join('conductors', 'resevas_vehiculos.idConductor', '=', 'conductors.id')
+                   ->join('vehiculos', 'resevas_vehiculos.idVehiculo', '=', 'vehiculos.id')
+                   ->select('resevas_vehiculos.*','conductors.*','vehiculos.*','resevas_vehiculos.id as idp')
+                   ->where('resevas_vehiculos.id', '=', $id)
+                   ->first();
+
+        //Consultamos que tipo de Solicitud es para mostrar el PDF correcto
+        
+        $pdf = PDF::loadView('pdf.ordenCometido', compact('solicitud'));
+        return $pdf->stream('ordenCometido.pdf');
+   
     }
 }

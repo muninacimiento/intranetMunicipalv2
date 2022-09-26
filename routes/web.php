@@ -124,6 +124,9 @@ Route::middleware(['auth'])->group( function() {
 	Route::get('/sispam/informes/consultarReservas', 'ReservasVehiculosController@consultaReservas')->name('reservas.consulta')->middleware('can:reservas.consulta'); 
 	Route::get('/sispam/informes/buscarReservas', 'ReservasVehiculosController@buscarReservasPorVehiculo')->name('reservas.buscar')->middleware('can:reservas.buscar');
 
+	//Pdf
+	Route::get('VerSolicitud/{reservadoc}', 'ReservasVehiculosController@exportarPdf')->name('reservadoc.pdf');
+
 
 	/**********************************
 	 *	GESPRO 	***********************
@@ -256,7 +259,7 @@ Route::middleware(['auth'])->group( function() {
 	Route::get('/farmacia/consultas/medicamentosVencidos', 'MedicamentoController@medicamentosVencidos')->name('consultas.medicamentosVencidos')->middleware('can:consultas.medicamentosVencidos'); 
 
 
-
+	Route::delete('/farmacia/ventas/{dv}', [App\Http\Controllers\VentaDetalleFarmaciaController::class,'destroy'])->name('VentaDetalleFarmacia.destroy');
 
 	/*#############################################################################################################################################################
 	 *	NOTICIAS	###############################################################################################################################################

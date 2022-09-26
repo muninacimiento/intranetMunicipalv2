@@ -82,10 +82,11 @@
                                             <th>Odómetro</th>
                                             <th>Kilometraje</th>
                                             <th>Rendimiento</th>
+                                            <th>Total carga $</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        @foreach($rendimientosVehiculo as $rendimiento)
+                                    @foreach($rendimientosVehiculo as $rendimiento)
                                         <tr>
                                             <td style="display:none;">{{ $rendimiento->id }}</td>
                                             <td>{{ date('d-m-Y', strtotime($rendimiento->fechaCarga)) }}</td>
@@ -95,10 +96,23 @@
                                             <td>{{ $rendimiento->odometro }}</td>
                                             <td>{{ $rendimiento->kilometraje }}</td>
                                             <td>{{ $rendimiento->Rendimiento }}</td>
+                                            <td>{{ $rendimiento->total }}</td>
                                         </tr>
                                     @endforeach
                                     </tbody>
-                                </table>                        
+                                </table>
+                                @php
+                                    $suma=0;
+                                @endphp
+                                    @foreach($rendimientosVehiculo as $rendimiento)
+                                        @php
+                                        $suma+=$rendimiento->total;//sumanos los valores, ahora solo fata mostrar dicho valor
+                                        @endphp             
+                                    @endforeach
+                                    
+                                    <div class="col text-right">
+                                        <label for="">Total Carga : ${{$suma}}</label>    
+                                    <div>                    
                             </div>                        
                         </div>
                     </div>

@@ -52,14 +52,16 @@
                         </div>
                     @endif
                     <div>
-                        <table class="display" id="reservasTable" style="font-size: 0.9em;" width="100%">
+                        <table class="table table-striped" id="reservasTable" style="font-size: 0.8em;" width="100%">
                             <thead>
                                 <tr class="table-active">
                                     <th style="display: none;">ID Reserva</th>
                                     <th>Fecha Reserva</th>
+                                    <th>Fecha Termino</th>
                                     <th>Hora Inicio Cometido</th>
                                     <th>Hora Térmimo Cometido</th>
                                     <th style="display: none;">No.Solicitud</th>
+                                    <th>Dep. Solicitante</th>
                                     <th>Vehículo Reservado</th>
                                     <th>Conductor</th>
                                     <th>Destino</th>
@@ -74,16 +76,22 @@
                                         <tr>
                                             <td style="display: none;">{{ $reserva->id }}</td>
                                             <td>{{ date('d-m-Y', strtotime($reserva->fechaReserva)) }}</td>
+                                            <td>{{ date('d-m-Y', strtotime($reserva->fecha_termino)) }}</td>
                                             <td>{{ $reserva->horaInicio }}</td>
                                             <td>{{ $reserva->horaTermino }}</td>
                                             <td style="display: none;">{{ $reserva->iddocSolicitud }}</td>
+                                            <td>{{ $reserva->dependencia }}</td>
                                             <td>{{ $reserva->Vehiculo }}</td>
                                             <td>{{ $reserva->Conductor }}</td>
                                             <td>{{ $reserva->destino }}</td>
                                             <td style="display: none;">{{ $reserva->materia }}</td>
                                             <td style="display: none;">{{ $reserva->motivoAnulacion }}</td>
                                             <td>
+                                                
                                                 <div class="btn-group" role="group" aria-label="Basic example">
+                                                    <a href="{{ route('reservadoc.pdf', $reserva->id) }}" class="btn btn-outline-success btn-sm" data-toggle="tooltip" data-placement="bottom" title="Imprimir Solicitud">
+                                                        <i class="icofont-printer h5"></i>
+                                                    </a>
                                                     <a href="#" class="btn btn-primary btn-sm edit" data-toggle="tooltip" data-placement="bottom" title="Modificar Reserva del Vehículo">                        
                                                         <i class="icofont-refresh px-1" style=" font-size: 1rem;"></i>
                                                     </a>
@@ -97,9 +105,11 @@
                                         <tr class="table-danger">
                                             <td style="display: none;">{{ $reserva->id }}</td>
                                             <td>{{ date('d-m-Y', strtotime($reserva->fechaReserva)) }}</td>
+                                            <td>{{ date('d-m-Y', strtotime($reserva->fecha_termino)) }}</td>
                                             <td>{{ $reserva->horaInicio }}</td>
                                             <td>{{ $reserva->horaTermino }}</td>
                                             <td style="display: none;">{{ $reserva->iddocSolicitud }}</td>
+                                            <td>{{ $reserva->dependencia }}</td>
                                             <td>{{ $reserva->Vehiculo }}</td>
                                             <td>{{ $reserva->Conductor }}</td>
                                             <td>{{ $reserva->destino }}</td>
@@ -123,7 +133,7 @@
 </div>
 <!-- CREATE Modal Vehículos -->
 <div class="modal fade" id="createModalReserva" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+    <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
         <div class="modal-content">
             <div class="modal-header bg-success text-white">
                 <p class="modal-title" id="exampleModalLabel" style="font-size: 1.2em"><i class="icofont-plus-square px-1"></i>Nueva Reserva de Vehículo</p>
@@ -142,50 +152,23 @@
                                 Por favor ingrese la Fecha del Cometido
                             </div>
                         </div>
+                        <div class="col">                                              
+                            <label for="fechaTermino">Fecha Termino del Cometido</label>
+                            <input type="text" id="fechaTermino" name="fechaTermino" class="form-control" placeholder="Termino del Comentido?" required/>
+                            <div class="invalid-feedback">                                                                                                        
+                                Por favor ingrese la Fecha Termino del Cometido
+                            </div>
+                        </div>
                         <div class="col">                                               
                             <label for="horaInicio">Hora Inicio del Cometido</label>
-                            <select name="horaInicio" id="horaInicio" class="form-control" required title="A qué Hora se desarrollará el Cometido?">
-                                    <option></option>
-                                    <option>08:00</option>
-                                    <option>09:00</option>
-                                    <option>10:00</option>
-                                    <option>11:00</option>
-                                    <option>12:00</option>
-                                    <option>13:00</option>
-                                    <option>14:00</option>
-                                    <option>15:00</option>
-                                    <option>16:00</option>
-                                    <option>17:00</option>
-                                    <option>18:00</option>
-                                    <option>19:00</option>
-                                    <option>20:00</option>
-                                    <option>21:00</option>
-                                    <option>22:00</option>                                    
-                                </select>
+                            <input type="time" id="horaInicio" name="horaInicio" class="form-control" placeholder="A qué Hora se desarrollará el Cometido?" required/>
                                 <div class="invalid-feedback">                                                                                                        
                                     Por favor ingrese la Hora en que se llevará a cabo el Cometido
                                 </div>
                         </div>
                         <div class="col">                                              
                             <label for="horaTermino">Hora Término del Cometido</label>
-                            <select name="horaTermino" id="horaTermino" class="form-control" required title="A qué Hora termina el Cometido?">
-                                    <option></option>
-                                    <option>08:00</option>
-                                    <option>09:00</option>
-                                    <option>10:00</option>
-                                    <option>11:00</option>
-                                    <option>12:00</option>
-                                    <option>13:00</option>
-                                    <option>14:00</option>
-                                    <option>15:00</option>
-                                    <option>16:00</option>
-                                    <option>17:00</option>
-                                    <option>18:00</option>
-                                    <option>19:00</option>
-                                    <option>20:00</option>
-                                    <option>21:00</option>
-                                    <option>22:00</option>                                    
-                                </select>
+                            <input type="time" id="horaTermino" name="horaTermino" class="form-control" placeholder="A qué Hora termina el Cometido?" required/>
                             <div class="invalid-feedback">                                                                       
                                 Por favor ingrese la Hora de Término del Cometido
                             </div>
@@ -198,6 +181,14 @@
                             <div class="invalid-feedback">                                                                                                                        
                                 Por favor ingrese el No. Solicitud del Cometido                
                             </div>                 
+                        </div>
+                        <div class="col">                                           
+                            <label for="dependencia">Depedencia</label>
+                            <select name="dependencia" id="dependencia" class="form-control selectpicker" data-live-search="true" title="Seleccione dependencia" required>
+                                @foreach($dependencias as $dependencia)
+                                    <option value="{{ $dependencia->name }}">{{ $dependencia->name }}</option>                        
+                                @endforeach
+                            </select>
                         </div>
                         <div class="col">                                           
                             <label for="vehiculo_id">Vehiculo a Reservar</label>
@@ -253,7 +244,7 @@
 
 <!-- Update Modal Vehículos -->
 <div class="modal fade" id="updateModalReserva" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+    <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
         <div class="modal-content">
             <div class="modal-header bg-primary text-white">
                 <p class="modal-title" id="exampleModalLabel" style="font-size: 1.2em"><i class="icofont-refresh px-1"></i>Modificar Reserva de Vehículo</p>
@@ -274,50 +265,23 @@
                                 Por favor ingrese la Fecha del Cometido
                             </div>
                         </div>
+                        <div class="col">                                              
+                            <label for="fechaTermino">Fecha Termino del Cometido</label>
+                            <input type="text" id="fechaTerminoUpdate" name="fechaTermino" class="form-control" placeholder="Termino del Comentido?" required/>
+                            <div class="invalid-feedback">                                                                                                        
+                                Por favor ingrese la Fecha Termino del Cometido
+                            </div>
+                        </div>
                         <div class="col">                                               
                             <label for="horaInicio">Hora Inicio del Cometido</label>
-                            <select name="horaInicio" id="horaInicioUpdate" class="form-control" required title="A qué Hora se desarrollará el Cometido?">
-                                    <option></option>
-                                    <option>08:00</option>
-                                    <option>09:00</option>
-                                    <option>10:00</option>
-                                    <option>11:00</option>
-                                    <option>12:00</option>
-                                    <option>13:00</option>
-                                    <option>14:00</option>
-                                    <option>15:00</option>
-                                    <option>16:00</option>
-                                    <option>17:00</option>
-                                    <option>18:00</option>
-                                    <option>19:00</option>
-                                    <option>20:00</option>
-                                    <option>21:00</option>
-                                    <option>22:00</option>                                    
-                                </select>
+                            <input type="time" id="horaInicioUpdate" name="horaInicio" class="form-control" placeholder="A qué Hora se desarrollará el Cometido?" required/>
                                 <div class="invalid-feedback">                                                                                                        
                                     Por favor ingrese la Hora en que se llevará a cabo el Cometido
                                 </div>
                         </div>
                         <div class="col">                                              
                             <label for="horaTermino">Hora Término del Cometido</label>
-                            <select name="horaTermino" id="horaTerminoUpdate" class="form-control" required title="A qué Hora termina el Cometido?">
-                                    <option></option>
-                                    <option>08:00</option>
-                                    <option>09:00</option>
-                                    <option>10:00</option>
-                                    <option>11:00</option>
-                                    <option>12:00</option>
-                                    <option>13:00</option>
-                                    <option>14:00</option>
-                                    <option>15:00</option>
-                                    <option>16:00</option>
-                                    <option>17:00</option>
-                                    <option>18:00</option>
-                                    <option>19:00</option>
-                                    <option>20:00</option>
-                                    <option>21:00</option>
-                                    <option>22:00</option>                                    
-                                </select>
+                            <input type="time" id="horaTerminoUpdate" name="horaTermino" class="form-control" placeholder="A qué Hora termina el Cometido?" required/>
                             <div class="invalid-feedback">                                                                       
                                 Por favor ingrese la Hora de Término del Cometido
                             </div>
@@ -331,6 +295,14 @@
                             <div class="invalid-feedback">                                                                                                                        
                                 Por favor ingrese el No. Solicitud del Cometido                
                             </div>                 
+                        </div>
+                        <div class="col">                                           
+                            <label for="dependencia">Depedencia</label>
+                            <select name="dependencia" id="dependenciaUpdate" class="form-control selectpicker" data-live-search="true" title="Seleccione dependencia" required>
+                                @foreach($dependencias as $dependencia)
+                                    <option value="{{ $dependencia->name }}">{{ $dependencia->name }}</option>                        
+                                @endforeach
+                            </select>
                         </div>
                         <div class="col">                                           
                             <label for="vehiculo_id">Vehiculo a Reservar</label>
@@ -559,9 +531,18 @@
         
         $(document).ready(function () 
         {
+
             $( "#fechaCometido" ).datepicker({
                 dateFormat: "yy-mm-dd",
-                minDate: "+2d",
+                minDate: "+1d",
+                firstDay: 1,
+                dayNamesMin: [ "Dom", "Lun", "Mar", "Mier", "Jue", "Vie", "Sab" ],
+                monthNames: [ "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre" ],
+                numberOfMonths: 2,
+            });
+            $( "#fechaTermino" ).datepicker({
+                dateFormat: "yy-mm-dd",
+                minDate: "+1d",
                 firstDay: 1,
                 dayNamesMin: [ "Dom", "Lun", "Mar", "Mier", "Jue", "Vie", "Sab" ],
                 monthNames: [ "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre" ],
@@ -569,13 +550,22 @@
             });
             $( "#fechaCometidoUpdate" ).datepicker({
                 dateFormat: "yy-mm-dd",
-                minDate: "+2d",
+                minDate: "+1d",
+                firstDay: 1,
+                dayNamesMin: [ "Dom", "Lun", "Mar", "Mier", "Jue", "Vie", "Sab" ],
+                monthNames: [ "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre" ],
+                numberOfMonths: 2,
+            });
+            $( "#fechaTerminoUpdate" ).datepicker({
+                dateFormat: "yy-mm-dd",
+                minDate: "+1d",
                 firstDay: 1,
                 dayNamesMin: [ "Dom", "Lun", "Mar", "Mier", "Jue", "Vie", "Sab" ],
                 monthNames: [ "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre" ],
                 numberOfMonths: 2,
             });
             // Start Configuration DataTable
+          
             var table = $('#reservasTable').DataTable({
 
                 "paginate"  : true,
@@ -623,13 +613,15 @@
                 var data = table.row($tr).data();
                 console.log(data);
                 $('#fechaCometidoUpdate').val(data[1]);
-                $('#horaInicioUpdate').val(data[2]);
-                $('#horaTerminoUpdate').val(data[3]);
-                $('#iddocUpdate').val(data[4]);
-                $('#vehiculo_idUpdate').val(data[5]);
-                $('#conductor_idUpdate').val(data[6]);
-                $('#destinoUpdate').val(data[7]);
-                $('#materiaUpdate').val(data[8]);
+                $('#fechaTerminoUpdate').val(data[2]);
+                $('#horaInicioUpdate').val(data[3]);
+                $('#horaTerminoUpdate').val(data[4]);
+                $('#iddocUpdate').val(data[5]);
+                $('#dependenciaUpdate').val(data[6]);
+                $('#vehiculo_idUpdate').val(data[7]);
+                $('#conductor_idUpdate').val(data[8]);
+                $('#destinoUpdate').val(data[9]);
+                $('#materiaUpdate').val(data[10]);
 
                 $('#updateReservaForm').attr('action', '/sispam/reservas/' + data[0]);
                 $('#updateModalReserva').modal('show');
