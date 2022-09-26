@@ -23,35 +23,34 @@
 	    </a>
 	    @endcan
 		<div class="dropdown-menu bg-warning">
-			@can('sispam.index')
+			
 		    <a class="dropdown-item text-dark " href="{{ action('VehiculosController@index') }}">
 			<i class="icofont-swoosh-up px-1" style=" font-size: 1.3rem;"></i> Ingresar Vehículo
 		    </a>
-		    @endcan
-		    @can('reservar.index')
-		   	<div class="dropdown-divider"></div>
+		    
+		    <div class="dropdown-divider"></div>
 		   	<a class="dropdown-item text-dark" href="{{ action('ReservasVehiculosController@index') }}">
 			   <i class="icofont-clock-time px-1" style=" font-size: 1.3rem;"></i> Reservar Vehículo
 		    </a>
-		    @endcan	
-		    @can('combustible.index')
+		    
+		    
 		   	<div class="dropdown-divider"></div>
 		   	<a class="dropdown-item text-dark" href="{{ action('CombustibleController@index') }}">
 			   <i class="icofont-brand-shell px-1" style=" font-size: 1.3rem;"></i> Cargar Combustible
 		    </a>
-		    @endcan
-			@can('vehiculos.mantenciones')
+		    
+
 		   	<div class="dropdown-divider"></div>
 		   	<a class="dropdown-item text-dark" href="{{ action('MantencionVehiculosController@index') }}" >	
 				<i class="icofont-tools-bag px-1" style=" font-size: 1.4rem;"></i> Mantenciones
 	    	</a>
-		    @endcan
-			@can('vehiculos.darDeBaja')
+		    
+			
 		   	<div class="dropdown-divider"></div>
 		   	<a class="dropdown-item text-dark" href="{{ action('DarDeBajaVehiculosController@index') }}">
 			   <i class="icofont-swoosh-down px-1" style=" font-size: 1.3rem;"></i> Dar de Baja
 		    </a>
-		    @endcan		
+		    		
 		</div>
   	</li>
 	<li class="nav-item">
