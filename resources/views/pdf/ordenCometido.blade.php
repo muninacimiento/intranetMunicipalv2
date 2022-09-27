@@ -98,28 +98,27 @@
 				<td>{{ $solicitud->fecha_termino }}</td>
 				<td width="18%" class="w3-text-gray" >Hora Termino Cometido</td>
 				<td>{{ $solicitud->horaTermino }}</td>
-			</tr>
-
-			<tr>
-				<td width="18%" class="w3-text-gray" >Destino</td>
-				<td>{{ $solicitud->destino }}</td>
-				<td width="18%" class="w3-text-gray" ></td>
-				<td></td>
 			</tr>	
 
 		</table>
 		<table class="w3-table-all w3-small">
 			<tr>
-				<td width="18%" class="w3-text-gray" >Objetivo del Cometido</td>
+				<td width="18%" class="w3-text-gray" bgcolor="white"  >Destino</td>
+				<td bgcolor="white">{{ $solicitud->destino }}</td>
+			</tr>
+		</table>
+		<table class="w3-table-all w3-small">
+			<tr>
+				<td width="18%" class="w3-text-gray"  >Objetivo del Cometido</td>
 				<td>{{ $solicitud->materia }}</td>
 			</tr>
 		</table>
 		<table class="w3-table-all w3-small">
 			<tr>
-				<td width="18%" class="w3-text-gray" >Cantidad Funcionarios</td>
-				<td></td>
-				<td width="18%" class="w3-text-gray" >Cantidad Usuarios Externos</td>
-				<td></td>
+				<td width="18%" class="w3-text-gray"  bgcolor="white">Cantidad Funcionarios</td>
+				<td  bgcolor="white"></td>
+				<td width="18%" class="w3-text-gray"  bgcolor="white" >Cantidad Usuarios Externos</td>
+				<td  bgcolor="white"></td>
 			</tr>
 		</table>
 
