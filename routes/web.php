@@ -125,7 +125,7 @@ Route::middleware(['auth'])->group( function() {
 	Route::get('/sispam/informes/buscarReservas', 'ReservasVehiculosController@buscarReservasPorVehiculo')->name('reservas.buscar')->middleware('can:reservas.buscar');
 
 	//Pdf
-	Route::get('VerSolicitud/{reservadoc}', 'ReservasVehiculosController@exportarPdf')->name('reservadoc.pdf');
+	Route::get('VerSolicitudRe/{reservadoc}', 'ReservasVehiculosController@exportarPdf')->name('reservadoc.pdf');
 
 
 	/**********************************
