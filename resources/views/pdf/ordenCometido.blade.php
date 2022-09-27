@@ -74,50 +74,50 @@
 				<td></td>
 			</tr>
 			<tr>
-				<td width="18%" class="w3-text-gray">Conductor</td>
+				<td width="18%" class="w3-text">Conductor</td>
 				<td>{{ $solicitud->nombre }}</td>
-				<td width="18%" class="w3-text-gray" ></td>
+				<td width="18%" class="w3-text" ></td>
 				<td></td>
 			</tr>
 
 			<tr>
-				<td width="18%" class="w3-text-gray" >Unidad Solicitante</td>
+				<td width="18%" class="w3-text" >Unidad Solicitante</td>
 				<td>{{ $solicitud->dependencia }}</td>
-				<td width="18%" class="w3-text-gray" ></td>
+				<td width="18%" class="w3-text" ></td>
 				<td></td>
 			</tr>
 
 			<tr>
-				<td width="18%" class="w3-text-gray" >Fecha Cometido</td>
+				<td width="18%" class="w3-tex" >Fecha Cometido</td>
 				<td>{{ $solicitud->fechaReserva }}</td>
-				<td width="18%" class="w3-text-gray" >Hora Cometido</td>
+				<td width="18%" class="w3-text" >Hora Cometido</td>
 				<td>{{ $solicitud->horaInicio }}</td>
 			</tr>
 			<tr>
-				<td width="18%" class="w3-text-gray" >Fecha Termino Cometido</td>
+				<td width="18%" class="w3-text" >Fecha Termino Cometido</td>
 				<td>{{ $solicitud->fecha_termino }}</td>
-				<td width="18%" class="w3-text-gray" >Hora Termino Cometido</td>
+				<td width="18%" class="w3-text" >Hora Termino Cometido</td>
 				<td>{{ $solicitud->horaTermino }}</td>
 			</tr>	
 
 		</table>
 		<table class="w3-table-all w3-small">
 			<tr>
-				<td width="18%" class="w3-text-gray" bgcolor="white"  >Destino</td>
+				<td width="18%" class="w3-text" bgcolor="white"  >Destino</td>
 				<td bgcolor="white">{{ $solicitud->destino }}</td>
 			</tr>
 		</table>
 		<table class="w3-table-all w3-small">
 			<tr>
-				<td width="18%" class="w3-text-gray"  >Objetivo del Cometido</td>
+				<td width="18%" class="w3-text"  >Objetivo del Cometido</td>
 				<td>{{ $solicitud->materia }}</td>
 			</tr>
 		</table>
 		<table class="w3-table-all w3-small">
 			<tr>
-				<td width="18%" class="w3-text-gray"  bgcolor="white">Cantidad Funcionarios</td>
+				<td width="18%" class="w3-text"  bgcolor="white">Cantidad Funcionarios</td>
 				<td  bgcolor="white"></td>
-				<td width="18%" class="w3-text-gray"  bgcolor="white" >Cantidad Usuarios Externos</td>
+				<td width="18%" class="w3-text"  bgcolor="white" >Cantidad Usuarios Externos</td>
 				<td  bgcolor="white"></td>
 			</tr>
 		</table>
@@ -142,39 +142,39 @@
 				<td></td>
 			</tr>
 			<tr>
-				<td width="18%" class="w3-text-gray" >Vehiculo</td>
+				<td width="18%" class="w3-text" >Vehiculo</td>
 				<td>{{ $solicitud->patente }} , {{ $solicitud->marca }} , {{ $solicitud->modelo }}</td>
 				<td></td>
 				<td></td>
 			</tr>
 			<tr>
-				<td width="18%" class="w3-text-gray" >Hora Llegada</td>
+				<td width="18%" class="w3-text" >Hora Llegada</td>
 				<td></td>
 				<td></td>
 				<td></td>
 			</tr>
 			<tr>
-				<td width="18%" class="w3-text-gray" >Kilometraje Inicio</td>
+				<td width="18%" class="w3-text" >Kilometraje Inicio</td>
 				<td></td>
-				<td width="18%" class="w3-text-gray" >Kilometraje Llegada</td>
-				<td></td>
-			</tr>
-			<tr>
-				<td width="18%" class="w3-text-gray" >Carga Combustible N° Boleta</td>
-				<td></td>
-				<td width="18%" class="w3-text-gray" >Odometro</td>
+				<td width="18%" class="w3-text" >Kilometraje Llegada</td>
 				<td></td>
 			</tr>
 			<tr>
-				<td width="18%" class="w3-text-gray" >Cantidad Peajes</td>
+				<td width="18%" class="w3-text" >Carga Combustible N° Boleta</td>
 				<td></td>
-				<td width="18%" class="w3-text-gray" >Total $</td>
+				<td width="18%" class="w3-text" >Odometro</td>
 				<td></td>
 			</tr>
 			<tr>
-				<td width="18%" class="w3-text-gray" >Otras Observaciones </td>
+				<td width="18%" class="w3-text" >Cantidad Peajes</td>
 				<td></td>
-				<td width="18%" class="w3-text-gray" ></td>
+				<td width="18%" class="w3-text" >Total $</td>
+				<td></td>
+			</tr>
+			<tr>
+				<td width="18%" class="w3-text" >Otras Observaciones </td>
+				<td></td>
+				<td width="18%" class="w3-text" ></td>
 				<td></td>
 			</tr>
 				
