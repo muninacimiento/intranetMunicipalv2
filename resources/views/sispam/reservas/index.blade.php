@@ -534,23 +534,23 @@
 
             $( "#fechaCometido" ).datepicker({
                 dateFormat: "yy-mm-dd",
-                minDate: "+1d",
-                firstDay: 1,
+                minDate: "+0d",
+                firstDay: 0,
                 dayNamesMin: [ "Dom", "Lun", "Mar", "Mier", "Jue", "Vie", "Sab" ],
                 monthNames: [ "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre" ],
                 numberOfMonths: 2,
             });
             $( "#fechaTermino" ).datepicker({
                 dateFormat: "yy-mm-dd",
-                minDate: "+1d",
-                firstDay: 1,
+                minDate: "+0d",
+                firstDay: 0,
                 dayNamesMin: [ "Dom", "Lun", "Mar", "Mier", "Jue", "Vie", "Sab" ],
                 monthNames: [ "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre" ],
                 numberOfMonths: 2,
             });
             $( "#fechaCometidoUpdate" ).datepicker({
                 dateFormat: "yy-mm-dd",
-                minDate: "+1d",
+                minDate: "+0d",
                 firstDay: 1,
                 dayNamesMin: [ "Dom", "Lun", "Mar", "Mier", "Jue", "Vie", "Sab" ],
                 monthNames: [ "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre" ],
@@ -558,8 +558,8 @@
             });
             $( "#fechaTerminoUpdate" ).datepicker({
                 dateFormat: "yy-mm-dd",
-                minDate: "+1d",
-                firstDay: 1,
+                minDate: "+0d",
+                firstDay: 0,
                 dayNamesMin: [ "Dom", "Lun", "Mar", "Mier", "Jue", "Vie", "Sab" ],
                 monthNames: [ "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre" ],
                 numberOfMonths: 2,
