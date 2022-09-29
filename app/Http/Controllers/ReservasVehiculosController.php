@@ -274,7 +274,12 @@ class ReservasVehiculosController extends Controller
         ->select(DB::raw('CONCAT(vehiculos.id, " ) ", vehiculos.patente) as PlacaPatente'), 'vehiculos.id')
         ->get();
 
-        
+        $reservas = ResevasVehiculos::join('vehiculos', 'resevas_vehiculos.idVehiculo', 'vehiculos.id')
+        ->join('conductors', 'resevas_vehiculos.idConductor', 'conductors.id')
+        ->select('resevas_vehiculos.*', DB::raw('CONCAT(vehiculos.marca, " - ", vehiculos.patente) as Vehiculo'), 'conductors.nombre as Conductor')
+        ->where('resevas_vehiculos.idVehiculo', 'like', $request->vehiculo_id.'%')
+        ->whereBetween('resevas_vehiculos.fechaReserva', [$request->fechaInicio, $request->fechaTermino])
+        ->get();
 
         return view('sispam.informes.buscarReservas', compact('dateCarbon', 'reservas', 'vehiculos'));
     }
@@ -292,7 +297,7 @@ class ReservasVehiculosController extends Controller
             $reservas = ResevasVehiculos::join('vehiculos', 'resevas_vehiculos.idVehiculo', 'vehiculos.id')
             ->join('conductors', 'resevas_vehiculos.idConductor', 'conductors.id')
             ->select('resevas_vehiculos.*', DB::raw('CONCAT(vehiculos.marca, " - ", vehiculos.patente) as Vehiculo'), 'conductors.nombre as Conductor')
-            ->where('resevas_vehiculos.idVehiculo', 'like', $request->vehiculo_id.'%')
+            ->where('resevas_vehiculos.idVehiculo',  $request->vehiculo_id.'%')
             ->whereBetween('resevas_vehiculos.fechaReserva', [$request->fechaInicio, $request->fechaTermino])
             ->get();
 
