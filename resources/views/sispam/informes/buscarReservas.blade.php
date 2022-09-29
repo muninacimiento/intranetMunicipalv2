@@ -43,6 +43,7 @@
                             </button>
                         </div>                   
                     @endif
+                    
                     <form class="form-inline" method="GET" action="{{ route('reservas.buscar') }}">
                         <div class="col"> 
                             <select name="vehiculo_id" id="vehiculo_id" class="form-control selectpicker" data-live-search="true" title="Seleccione el Vehículo" required>
@@ -68,8 +69,22 @@
                         </div>
                     </form>
                     <hr>
-                    <div>
-                        <div class="row">                        
+                    <div>           
+                    
+                        <div class="">
+                                @php
+                                    $datos="";
+                                @endphp
+                                    @foreach($reservas as $reserva)
+                                        @php
+                                        $datos=$reserva->Vehiculo
+                                        @endphp             
+                                    @endforeach
+                            <div class="">
+                                <h4>Vehiculo :</h4><h5><strong>{{$datos}}</strong></h5>  
+                            </div>    
+                        </div>        
+                        <div class="row">                    
                             <div class="col">
                                 <table class="table table-striped">
                                     <thead>
