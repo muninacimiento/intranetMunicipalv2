@@ -208,6 +208,17 @@
                         </div>
                     </div>
                     <div class="form-row mb-3">
+                        <div class="col">                                         
+                            <label for="">Cantidad Funcionarios</label>              
+                            <input type="number" class="form-control" name="cantidad_funcionarios" placeholder="123456" required>               
+                        </div>
+                        <div class="col">                                         
+                            <label for="">Cantidad Usuarios Externos</label>              
+                            <input type="number" class="form-control" name="cantidad_usuarios_externos" placeholder="123456" required>               
+                        </div>          
+                        
+                    </div>
+                    <div class="form-row mb-3">
                         <div class="col">                                           
                             <label for="destino">Destino del Cometido</label>
                             <textarea class="form-control" id="destino" name="destino" rows="3" placeholder="Concepción" required/></textarea>
@@ -320,6 +331,17 @@
                                 @endforeach
                             </select>
                         </div>
+                    </div>
+                    <div class="form-row mb-3">
+                        <div class="col">                                         
+                            <label for="">Cantidad Funcionarios</label>              
+                            <input type="number" class="form-control" name="cantidad_funcionarios" placeholder="123456" required>               
+                        </div>
+                        <div class="col">                                         
+                            <label for="">Cantidad Usuarios Externos</label>              
+                            <input type="number" class="form-control" name="cantidad_usuarios_externos" placeholder="123456" required>               
+                        </div>          
+                        
                     </div>
                     <div class="form-row mb-3">
                         <div class="col">                                           

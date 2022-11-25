@@ -50,6 +50,9 @@
 			<h6  style="text-shadow:1px 1px 0 #444">
 				ORDEN DE COMETIDO CONDUCTOR N° {{ $solicitud->idp }}
 			</h6>
+			<h6  style="text-shadow:1px 1px 0 #444">
+				N° SOLICITUD DE COMETIDO  {{ $solicitud->iddocSolicitud }}
+			</h6>
 		</div>
 			
 			<table class=" w3-small ">
@@ -116,9 +119,9 @@
 		<table class="w3-table-all w3-small">
 			<tr>
 				<td width="18%" class="w3-text"  bgcolor="white">Cantidad Funcionarios</td>
-				<td  bgcolor="white"></td>
+				<td  bgcolor="white"> {{ $solicitud->cant_funcionarios }}</td>
 				<td width="18%" class="w3-text"  bgcolor="white" >Cantidad Usuarios Externos</td>
-				<td  bgcolor="white"></td>
+				<td  bgcolor="white"> {{ $solicitud->cant_usuarios_externos }}</td>
 			</tr>
 		</table>
 

@@ -119,31 +119,35 @@ class ReservasVehiculosController extends Controller
         //Comenzamos a Evaluar si el Vehiculo esta habiliatdo para ser Reservado o no
         if($ultimaCargaCombustible->odometro <= ($menor-1000)){
             $reserva = new ResevasVehiculos;
-            $reserva->fechaReserva      = $request->fechaCometido;
-            $reserva->horaInicio        = $request->horaInicio;
-            $reserva->horaTermino       = $request->horaTermino;
-            $reserva->iddocSolicitud    = $request->iddoc;
-            $reserva->idVehiculo        = $request->vehiculo_id;
-            $reserva->idConductor       = $request->conductor_id;
-            $reserva->destino           = $request->destino;
-            $reserva->materia           = $request->materia;
-            $reserva->fecha_termino     = $request->fechaTermino;
-            $reserva->dependencia       = $request->dependencia;
+            $reserva->fechaReserva                     = $request->fechaCometido;
+            $reserva->horaInicio                       = $request->horaInicio;
+            $reserva->horaTermino                      = $request->horaTermino;
+            $reserva->iddocSolicitud                   = $request->iddoc;
+            $reserva->idVehiculo                       = $request->vehiculo_id;
+            $reserva->idConductor                      = $request->conductor_id;
+            $reserva->destino                          = $request->destino;
+            $reserva->materia                          = $request->materia;
+            $reserva->fecha_termino                    = $request->fechaTermino;
+            $reserva->dependencia                      = $request->dependencia;
+            $reserva->cant_funcionarios                = $request->cantidad_funcionarios;
+            $reserva->cant_usuarios_externos           = $request->cantidad_usuarios_externos;
             $reserva->idUser            = Auth::user()->id;
             $reserva->save();
             return redirect('sispam/reservas')->with('info', 'Reserva de Vehículo Ingresada con Éxito !');
         }elseif(($ultimaCargaCombustible->odometro > ($menor-1000)) && $ultimaCargaCombustible->odometro < $menor){
             $reserva = new ResevasVehiculos;
-            $reserva->fechaReserva      = $request->fechaCometido;
-            $reserva->horaInicio        = $request->horaInicio;
-            $reserva->horaTermino       = $request->horaTermino;
-            $reserva->iddocSolicitud    = $request->iddoc;
-            $reserva->idVehiculo        = $request->vehiculo_id;
-            $reserva->idConductor       = $request->conductor_id;
-            $reserva->destino           = $request->destino;
-            $reserva->materia           = $request->materia;
-            $reserva->fecha_termino     = $request->fechaTermino;
-            $reserva->dependencia       = $request->dependencia;
+            $reserva->fechaReserva                 = $request->fechaCometido;
+            $reserva->horaInicio                   = $request->horaInicio;
+            $reserva->horaTermino                  = $request->horaTermino;
+            $reserva->iddocSolicitud               = $request->iddoc;
+            $reserva->idVehiculo                   = $request->vehiculo_id;
+            $reserva->idConductor                  = $request->conductor_id;
+            $reserva->destino                      = $request->destino;
+            $reserva->materia                      = $request->materia;
+            $reserva->fecha_termino                = $request->fechaTermino;
+            $reserva->dependencia                  = $request->dependencia;
+            $reserva->cant_funcionarios            = $request->cantidad_funcionarios;
+            $reserva->cant_usuarios_externos       = $request->cantidad_usuarios_externos;
             $reserva->idUser            = Auth::user()->id;
             $reserva->save();
             //Enviar MAIL
@@ -236,6 +240,8 @@ class ReservasVehiculosController extends Controller
             $reserva->materia           = $request->materia;
             $reserva->fecha_termino     = $request->fechaTermino;
             $reserva->dependencia       = $request->dependencia;
+            $reserva->cant_funcionarios                = $request->cantidad_funcionarios;
+            $reserva->cant_usuarios_externos           = $request->cantidad_usuarios_externos;
             $reserva->idUser            = Auth::user()->id;
 
             $reserva->save();

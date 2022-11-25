@@ -27,6 +27,8 @@ class CreateResevasVehiculosTable extends Migration
             $table->string('motivoAnulacion');
             $table->date('fecha_termino');
             $table->string('dependencia');
+            $table->int('cant_funcionarios');
+            $table->int('cant_usuarios_externos');
             $table->unsignedBigInteger('idUser');//Usuario que hace la reserva
             $table->timestamps();
 
