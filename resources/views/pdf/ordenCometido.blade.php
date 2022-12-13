@@ -199,7 +199,7 @@
         		<td>_________________________</td>
         	</tr>
         	<tr>
-        		<td>{{ auth()->user()->name }} <br> ENCARGADO DE MOVILIZACION </td>
+        		<td>HERALDO MEDINA OÑATE <br> ENCARGADO DE MOVILIZACION </td>
         		<td></td>
         		<td>{{ $solicitud->nombre }} <br> CONDUCTOR </td>
         	</tr>
