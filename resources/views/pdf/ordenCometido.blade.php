@@ -199,7 +199,7 @@
         		<td>_________________________</td>
         	</tr>
         	<tr>
-        		<td>HERALDO MEDINA OÑATE <br> ENCARGADO DE MOVILIZACION </td>
+        		<td>JAIME VIDAL TOLOZA <br> ENCARGADO DE MOVILIZACION </td>
         		<td></td>
         		<td>{{ $solicitud->nombre }} <br> CONDUCTOR </td>
         	</tr>
